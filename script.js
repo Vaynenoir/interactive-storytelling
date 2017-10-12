@@ -16,7 +16,14 @@
 
      // Custom Easing
 
-
+      $('.slider').slick({
+       "slidesToShow": 1,
+       "slidesToScroll": 1,
+       autoplay: true,
+       autoplaySpeed: 2000,
+       button: false,
+       arrows: true
+      });
 
  });
 
@@ -30,17 +37,47 @@
          var topOffset = $(this).offset().top;
          var dataZoom = $(this).attr("data-zoom");
          var dataPos = $(this).attr("data-pos");
-
-
-
+         var dataPosLarge = $(this).attr('data-pos_large');
+         var dataPosMedium = $(this).attr('data-pos_medium')
+         var dataPosSmall = $(this).attr('data-pos_small');
+         var dataPosExtraSmall = $(this).attr('data-pos_extrasmall');
 
          if (topOffset <= scrollCount) {
 
              $(this).addClass("active");
+             if($(window).width() > 950){
              $('.bg_svg').stop(400).animate({
                  zoom: dataZoom,
                  left: dataPos
              }, 200);
+             }
+             if($(window).width() < 900){
+             $('.bg_svg').stop(400).animate({
+                 zoom: "100%",
+                 left: dataPosLarge
+             }, 200);             	
+             }
+             if($(window).width() < 600){
+             $('.bg_svg').stop(400).animate({
+                 zoom: "100%",
+                 left: dataPosMedium
+             }, 200);             	
+             }
+             if($(window).width() < 500){
+             $('.bg_svg').stop(400).animate({
+                 zoom: "100%",
+                 left: dataPosSmall
+             }, 200);
+
+             $('.st0').css('opacity', '0.4');
+             $('.st2').css('opacity', '0.5');
+             } 
+             if($(window).width() < 400){
+             $('.bg_svg').stop(400).animate({
+                 zoom: "100%",
+                 left: dataPosExtraSmall
+             }, 200);              
+           }
              $('.st2').stop(200).fadeIn(200);
              $('.path_circle_2').stop().fadeIn(400);
              $('.path_circle_3').stop().fadeIn(400);
@@ -54,7 +91,18 @@
                      zoom: "100%",
                      left: '40%'
                  }, 400);
-
+               if($(window).width() < 900){
+                 $('.bg_svg').stop().animate({
+                     zoom: "100%",
+                     left: '10%'
+                 }, 400);               	
+               }
+               if($(window).width() < 600){
+                 $('.bg_svg').stop().animate({
+                     zoom: "100%",
+                     left: '10%'
+                 }, 400);               	
+               }
              }
          }
 
@@ -83,7 +131,8 @@
              $(path1).attr('d', "M" + cx + " " + cy + " L" + (-Coordinates.left) + " " + (Coordinates.top) + " L" + (-Coordinates.left) + " " + (Coordinates.bottom - 30));
              $(path1).css('position', "relative");
              $(path1).attr('fill', '#47DBB4');
-             $(path1).attr('opacity', '.1');             
+             $(path1).attr('opacity', '.1');
+
          }
      });
 
@@ -98,8 +147,10 @@
  $(document).ready(function() {
      var path = document.querySelector('.st0');
      var length = path.getTotalLength();
+     if($(window).width() > 500){
      $('.bg_svg svg').append(path1);
      $('.bg_svg svg').append(path2);
+ 			}
      var $dashOffset = $('.st0').css("stroke-dashoffset");
      var offsetDash = $('.st0').css({
          "stroke-dashoffset": length,

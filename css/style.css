@@ -27,7 +27,96 @@ body {
 		.bg_svg{
 			position: fixed;
 			z-index:-2;
+			height: 0;
+			width: width-value;
+			padding-top: (svg height/ svg width) * width-value;
 		}
+	@media only screen and (max-width: 992px) {
+  		.bg_svg{
+			position: fixed;
+			z-index:-2;
+			height: 0;
+			width: 70%;
+			margin-right: :30%;
+			left: 10%;
+		}
+}
+@media only screen and (max-width: 768px) {
+    		.bg_svg{
+			position: fixed;
+			z-index:-2;
+			height: 0;
+			
+			left: 10%;
+		}
+		.text_wrapper{
+			font-size: 0.7em;
+			letter-spacing: 1px;
+			word-spacing: 1px;
+		}
+
+}
+@media only screen and (max-width: 600px) {
+		.text_wrapper{
+			font-size: 0.8rem;
+			letter-spacing: 1px;
+			word-spacing: 1px;
+		}
+		.text_wrapper section{
+			width: 70%!important;
+		}
+		figure{
+			margin: 0 0 0 40px;
+		}
+
+}
+@media only screen and (max-width: 500px) {
+		.text_wrapper{
+			font-size: 0.9rem;
+			letter-spacing:2px;
+			word-spacing: 2px;
+		}
+
+		figure{
+			margin: 0 0 0 40px;
+		}
+		.js-section{
+			width: 100%;
+		}
+		.text_wrapper section{
+			width: 100%!important;
+			max-width: 100%;
+		}
+
+}
+@media only screen and (max-width: 400px) {
+		.text_wrapper{
+			font-size: 0.8rem;
+			letter-spacing:1px;
+			word-spacing: 1px;
+		}
+		.text_wrapper figure{
+			margin: 0 0 0 40px;
+		}
+		.js-section{
+			width: 100%;
+		}
+		.text_wrapper section{
+			width: 100%!important;
+			max-width: 100%;
+		}
+
+}
+
+
+/*		.bg_svg{
+			 display: inline-block;
+ position: relative;
+ width: 50%;
+ padding-bottom: 60%; 
+ 
+ vertical-align: middle; 
+		}*/
 		.text_wrapper{
 			position: relative;
 			padding: 5em 3em;
@@ -42,9 +131,7 @@ body {
 			height: auto;
 
 		}
-		section img{
-			margin-left: -40px;
-		}
+
 .title-up {
 	font-size: 0.365em;
 	font-weight: bold;
@@ -83,18 +170,16 @@ a:hover,
 a:focus {
 	color: #33b996;
 }
-.text section {
+.text_wrapper section {
 	font-size: 1.25em;
 	line-height: 1.7;
 }
-.text figure {
-	margin: 1em 0 2em;
-}
 
-.text figure img {
+
+.text_wrapper figure img {
 	max-width: 100%;
 }
-.text section p.text-intro {
+.text_wrapper section p.text-intro {
 	font-size: 1.3em;
 	font-style: italic;
 	line-height: 1.5;
@@ -102,20 +187,14 @@ a:focus {
 	text-align: left;
 	color: #9d9c95;
 }
-.text figcaption {
-	font-size: 0.85em;
-	font-style: italic;
-	padding: 1em 1.5em 0;
-	text-align: center;
-	color: #5f646c;
-}
 
-.text section p {
+
+.text_wrapper section p {
 	font-size: 0.95em;
 	margin: 0.5em 0 1.5em;
 }
 
-.text section p.text-intro {
+.text_wrapper section p.text-intro {
 	font-size: 1.3em;
 	font-style: italic;
 	line-height: 1.5;
@@ -124,7 +203,7 @@ a:focus {
 	color: #9d9c95;
 }
 
-.text blockquote {
+.text_wrapper blockquote {
 	font-family: Baskerville, 'Baskerville Old Face', 'Hoefler Text', Garamond, 'Times New Roman', serif;
 	font-size: 2em;
 	line-height: 1.5;
@@ -133,7 +212,7 @@ a:focus {
 	color: #939997;
 }
 
-.text blockquote::before {
+.text_wrapper blockquote::before {
 	content: '\201C';
 	font-size: 2.5em;
 	font-style: italic;
@@ -144,14 +223,15 @@ a:focus {
 	margin: 0 0.075em 0 0;
 	color: #f0f3f3;
 }
-.text figcaption {
+.text_wrapper figcaption {
 	font-size: 0.85em;
 	font-style: italic;
-	padding: 1em 1.5em 0;
+	padding: 0.2em 0.2em 0;
 	text-align: center;
 	color: #5f646c;
+	margin-right: 70px;
 }
-.text blockquote span {
+.text_wrapper blockquote span {
 	font-family: 'Avenir Next', Avenir, 'Helvetica Neue', Helvetica, Arial, sans-serif;
 	font-size: 0.5em;
 	white-space: nowrap;
