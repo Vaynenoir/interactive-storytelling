@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<title>PenTool</title>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js" type="text/javascript"></script>
+	<script type="text/javascript" src="bezier-editor.js"></script>
+	<script type="text/javascript" src="bezier-animation.js"></script>
+
+		<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="css/materialize.min.css">
+			<style type="text/css">
+			.centered{
+				display: flex;
+				justify-content: center;
+			}
+			h1{
+				text-align: center;
+				font-size: 2.5rem;
+				color: #64b5f6;
+			}
+
+		html, body {
+				color: #023300;
+	background: #f3e5f5 ;
+    padding:0;
+    margin:0;
+    width:100%;
+    min-height:100%;
+    height: 100%;
+
+		}
+		#left {
+			float:left;
+			width:50%;
+		}
+		#right {
+			float:left;
+			width:50%;
+			left:50%;
+		}
+		#container {
+			height:400px;
+			width:400px;
+		}
+		#test {
+			background:#FF0000;
+			height:10px;
+			width:10px;
+			margin-top:-5px;
+			margin-left:-5px;
+			border-radius:5px;
+			position:relative;
+		}
+		canvas {
+			margin-top:-5px;
+		}
+		.wrapper{
+		}
+		textarea{
+			    margin: 10px 0px;
+			    font-style: italic;
+			    min-height: 110px;
+		}
+	</style>
+</head>
+<body>
+<div class="wrapper container">
+
+
+	<h1>Draw the bezier curve below like in Photoshop</h1>
+	<div class="centered">
+		<div id="test"></div>
+		<canvas id="bezier-canvas" width="900" height="500"></canvas>
+	</div>
+	<div>
+		<span>Animation time:</span><input type="text" id="time" value="5000"/>
+		<button class="waves-effect waves-light btn" id="execute">Execute</button>
+		<textarea name="" placeholder="result is here" id="result" cols="30" rows="10"></textarea>
+		<button class="waves-effect waves-light btn" id="export">Export</button>
+	</div>
+	<!--Local file system access. REFERENCE:http://www.html5rocks.com/en/tutorials/file/dndfiles/-->
+	<input style="background-color: #64b5f6;  color:#fff;" type="file" id="files" name="files[]" multiple />
+	<output id="list"></output>
+</div>
+
+
+<script type="text/javascript">
+		var editor = new bezierEditor("bezier-canvas");
+		editor.draw();
+		$('#export').bind("click",function() {
+			var time = $('#time').val();
+			if(time)
+				$("#result").val(editor.exportBezier(time));
+			console.log(editor.exportBezier(time).animate);
+		});
+
+		$('#execute').bind('click', function(){
+		var t = new Date();
+			eval("$('#test')" + $("#result").val() + '');
+		
+		});
+	</script>
+<script type="text/javascript">
+	function handleFileSelect(evt) {
+		var files = evt.target.files;
+		var f = files[0];
+		var reader = new FileReader();
+		reader.onload = (function(theFile) {
+			return function(e) {
+				editor.loadImage(e.target.result);
+			};
+		})(f);
+		reader.readAsDataURL(f);
+	}
+	document.getElementById('files').addEventListener('change', handleFileSelect, false);
+</script>
+
+
+	
+</body>
+</html>

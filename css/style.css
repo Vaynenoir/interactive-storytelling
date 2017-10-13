@@ -174,8 +174,24 @@ a:focus {
 	font-size: 1.25em;
 	line-height: 1.7;
 }
-
-
+img:hover{
+	cursor: pointer;
+}
+img:hover::after{
+    content: attr(data-title); /* Выводим текст */
+    position: absolute; /* Абсолютное позиционирование */
+    left: 20%; top: 30%; /* Положение подсказки */
+    z-index: 1; /* Отображаем подсказку поверх других элементов */
+    background: rgba(255,255,230,0.9); /* Полупрозрачный цвет фона */
+    font-family: Arial, sans-serif; /* Гарнитура шрифта */
+    font-size: 11px; /* Размер текста подсказки */
+    padding: 5px 10px; /* Поля */
+    border: 1px solid #333; /* Параметры рамки */
+	
+}
+.text_wrapper figure{
+	margin-left: 0;
+}
 .text_wrapper figure img {
 	max-width: 100%;
 }
@@ -229,7 +245,6 @@ a:focus {
 	padding: 0.2em 0.2em 0;
 	text-align: center;
 	color: #5f646c;
-	margin-right: 70px;
 }
 .text_wrapper blockquote span {
 	font-family: 'Avenir Next', Avenir, 'Helvetica Neue', Helvetica, Arial, sans-serif;

@@ -19,10 +19,10 @@
       $('.slider').slick({
        "slidesToShow": 1,
        "slidesToScroll": 1,
-       autoplay: true,
-       autoplaySpeed: 2000,
-       button: false,
-       arrows: true
+      	autoplay: true,
+      	autoplaySpeed: 2000,
+      	prevArrow: false,
+    		nextArrow: false
       });
 
  });
@@ -109,7 +109,7 @@
      });
 
      var arrImgID = [];
-     $('img').each(function(el) {
+     $('.slick-current').each(function(el) {
 
          arrImgID.push($(this));
 
