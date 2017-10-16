@@ -64,6 +64,9 @@
 			    font-style: italic;
 			    min-height: 110px;
 		}
+		body{
+			overflow: auto;
+		}
 	</style>
 </head>
 <body>
@@ -79,7 +82,9 @@
 		<span>Animation time:</span><input type="text" id="time" value="5000"/>
 		<button class="waves-effect waves-light btn" id="execute">Execute</button>
 		<textarea name="" placeholder="result is here" id="result" cols="30" rows="10"></textarea>
-		<button class="waves-effect waves-light btn" id="export">Export</button>
+		<button class="waves-effect waves-light btn" id="export">Export path</button>
+		<button class="waves-effect waves-light btn" id="clear">clear path</button>
+		<button class="waves-effect waves-light btn" id="screen">full screen</button>
 	</div>
 	<!--Local file system access. REFERENCE:http://www.html5rocks.com/en/tutorials/file/dndfiles/-->
 	<input style="background-color: #64b5f6;  color:#fff;" type="file" id="files" name="files[]" multiple />
@@ -96,14 +101,26 @@
 				$("#result").val(editor.exportBezier(time));
 			console.log(editor.exportBezier(time).animate);
 		});
+		$('#clear').bind("click",function(){
+			if(time)
+				$("#result").val(" ");
+			console.log(editor.clearBezier());
+			editor.draw();
+		});
+
+		$('#screen').bind("click", function(){
+				goFullScreen();
+ 				editor.draw();
+		})
 
 		$('#execute').bind('click', function(){
 		var t = new Date();
 			eval("$('#test')" + $("#result").val() + '');
-		
+		editor.draw();
 		});
 	</script>
 <script type="text/javascript">
+var editor = new bezierEditor("bezier-canvas");
 	function handleFileSelect(evt) {
 		var files = evt.target.files;
 		var f = files[0];
@@ -111,11 +128,14 @@
 		reader.onload = (function(theFile) {
 			return function(e) {
 				editor.loadImage(e.target.result);
+				editor.draw();
 			};
 		})(f);
 		reader.readAsDataURL(f);
 	}
 	document.getElementById('files').addEventListener('change', handleFileSelect, false);
+		
+		editor.draw();
 </script>
 
 

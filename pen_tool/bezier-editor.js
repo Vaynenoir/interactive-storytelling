@@ -1,6 +1,20 @@
 /**
  * @Author Ray Zhang 
  */
+function goFullScreen(){
+    var canvas = document.getElementById("bezier-canvas");
+    if(canvas.requestFullScreen)
+        canvas.requestFullScreen(); 		
+    else if(canvas.webkitRequestFullScreen)
+        canvas.webkitRequestFullScreen();
+    else if(canvas.mozRequestFullScreen){
+        canvas.mozRequestFullScreen();
+        }
+ 				
+			canvas.width = "1200";
+ 			canvas.height = "933";
+}
+
 var createNode = function(x, y, control1, control2) {
 	if(typeof(control1) != 'object')
 		control1 = {
@@ -59,6 +73,10 @@ var bezierEditor = function(id) {
 						break;
 					case 25:	// Ctrl+Y	Redo
 						editor.redo();
+						break;
+					case 86:
+						console.log(1);
+						editor.increaseScreen();
 						break;
 					}
 				}
@@ -143,7 +161,11 @@ var bezierEditor = function(id) {
 		save: function() {
 			history.pushState({nodes:this.nodes,state:this.state}, location.href);
 		},
-		
+
+		increaseScreen: function(){
+			document.getElementById("bezier-canvas").requestFullscreen();
+		},
+
 		undo: function() {
 			history.back();
 		},
@@ -383,7 +405,7 @@ var bezierEditor = function(id) {
 		},
 		exportBezier: function(time) {
 			var exportString = ".stop()";
-			var string = "";
+			var string = "M";
 			var result = this.getLength();
 			for(var i = 0; i < this.nodes.length - 1; ++i) {
 				var n1 = this.nodes[i];
@@ -396,14 +418,29 @@ var bezierEditor = function(id) {
 					'c1:['+p2[0]+', '+p2[1]+'],'+
 					'end: ['+p4[0]+','+p4[1]+'],'+
 					'c2:['+p3[0]+', '+p3[1]+'],})}, ' + result[i] * time + ' ,"linear")';
-					string += 'start: [' + p1[0] + ', ' + p1[1] + ']'  +
-					'c1:['+p2[0]+', '+p2[1]+'],'+
-					'end: ['+p4[0]+','+p4[1]+'],'+
-					'c2:['+p3[0]+', '+p3[1]+']';
-			}
 
+
+
+					string += ' ' + p1[0] + ', ' + p1[1] + ' C'  +
+					' '+p2[0]+', '+p2[1]+', ' +
+					+p3[0]+', '+p3[1]+', '+
+					''+p4[0]+', '+p4[1]+' T';
+
+			}
+			localStorage.setItem('path', JSON.stringify(string));
 			return	string;
 		},
+		clearBezier: function(){
+			var _ctx = this.ctx;
+			editor.nodes = [];
+			_ctx.clearRect(0, 0, editor.width, editor.height)
+			console.log(_ctx);
+			console.log(editor);
+
+			return editor;
+
+
+		}
 	};
 	editor.init(id);
 	return editor;
