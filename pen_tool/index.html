@@ -67,10 +67,47 @@
 		body{
 			overflow: auto;
 		}
+		.map_gallery{
+			width: 100%;
+		}
+		.centered{
+			text-align: center;
+			margin-top:40px;
+			letter-spacing: 1px;
+			color: #001;
+		}
+		.gallery_item:hover{
+			background-color: #ffcf85;
+			border-radius: 12px;
+			transform: scale(1.1,1.1);
+			transform: rotate(360deg);
+			transition: 0.4s;
+-webkit-box-shadow: 0px 0px 74px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px 0px 74px 0px rgba(0,0,0,0.75);
+box-shadow: 0px 0px 74px 0px rgba(0,0,0,0.75);
+		}
+		.active{
+			background-color: #ffcf85;
+			border-radius: 12px;
+			transform: scale(1.1,1.1);
+			transition: 0.6s;
+-webkit-box-shadow: 0px 0px 74px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px 0px 74px 0px rgba(0,0,0,0.75);
+box-shadow: 0px 0px 74px 0px rgba(0,0,0,0.75);
+		}
+.buttons_bar{
+	margin-top: 8px;
+}
+h1{
+	margin-top: 10px;
+	margin-bottom: 0px;
+}
+
+
 	</style>
 </head>
 <body>
-<div class="wrapper container">
+<div class="wrapper container" id="topPoint">
 
 
 	<h1>Draw the bezier curve below like in Photoshop</h1>
@@ -78,17 +115,34 @@
 		<div id="test"></div>
 		<canvas id="bezier-canvas" width="900" height="500"></canvas>
 	</div>
-	<div>
-		<span>Animation time:</span><input type="text" id="time" value="5000"/>
-		<button class="waves-effect waves-light btn" id="execute">Execute</button>
-		<textarea name="" placeholder="result is here" id="result" cols="30" rows="10"></textarea>
-		<button class="waves-effect waves-light btn" id="export">Export path</button>
+	<div class="buttons_bar">
+<!-- 		<span>Animation time:</span><input type="text" id="time" value="5000"/>
+		<button class="waves-effect waves-light btn" id="execute">Execute</button> -->
+		<a href="#result"><button class="waves-effect waves-light btn" id="export">Export path</button></a>
 		<button class="waves-effect waves-light btn" id="clear">clear path</button>
 		<button class="waves-effect waves-light btn" id="screen">full screen</button>
+		<textarea name="" placeholder="result is here" id="result" cols="30" rows="10"></textarea>
+
 	</div>
 	<!--Local file system access. REFERENCE:http://www.html5rocks.com/en/tutorials/file/dndfiles/-->
-	<input style="background-color: #64b5f6;  color:#fff;" type="file" id="files" name="files[]" multiple />
+<!-- 	<input style="background-color: #64b5f6;  color:#fff;" type="file" id="files" name="files[]" multiple /> -->
 	<output id="list"></output>
+	<a href="#gallery" id="openMap"><h2 align="center"> Wanna choose your map? Click here!</h2></a>
+	<div id="gallery" class="map_gallery row" style="display: none;">
+		
+		<div class="gallery_item col s4"><a href="#topPoint"><p class="centered">Australia</p><img class="img_item" src="maps/australiaHigh.svg" width="300px" height="300px" alt=""></a></div>
+		<div class="gallery_item col s4"><a href="#topPoint"><p class="centered">Azerbaijan</p><img class="img_item" src="maps/azerbaijanHigh.svg" width="300px" height="300px" alt=""></a></div>
+		<div class="gallery_item col s4"><a href="#topPoint"><p class="centered">Belarus</p><img class="img_item" src="maps/belarusHigh.svg" width="300px" height="300px" alt=""></a></div>
+		<div class="gallery_item col s4"><a href="#topPoint"><p class="centered">Belgium</p><img class="img_item" src="maps/belgiumHigh.svg" width="300px" height="300px" alt=""></a></div>
+		<div class="gallery_item col s4"><a href="#topPoint"><p class="centered">France</p><img class="img_item" src="maps/franceHigh.svg" width="300px" height="300px" alt=""></a></div>
+		<div class="gallery_item col s4"><a href="#topPoint"><p class="centered">Georgia</p><img class="img_item" src="maps/georgiaHigh.svg" width="300px" height="300px" alt=""></a></div>
+		<div class="gallery_item col s4"><a href="#topPoint"><p class="centered">Ireland</p><img class="img_item" src="maps/irelandHigh.svg" width="300px" height="300px" alt=""></a></div>
+		<div class="gallery_item col s4"><a href="#topPoint"><p class="centered">Sweden</p><img class="img_item" src="maps/swedenHigh.svg" width="300px" height="300px" alt=""></a></div>
+		<div class="gallery_item col s4"><a href="#topPoint"><p class="centered">Turkey</p><img class="img_item" src="maps/turkeyHigh.svg" width="300px" height="300px" alt=""></a></div>
+		<div class="gallery_item col s4"><a href="#topPoint"><p class="centered">United States</p><img class="img_item" src="maps/usaHigh.svg" width="300px" height="300px" alt=""></a></div>
+		<div class="gallery_item col s4"><a href="#topPoint"><p class="centered">Armenia</p><img class="img_item" src="maps/armeniaHigh.svg" width="300px" height="300px" alt=""></a></div>
+		<div class="gallery_item col s4"><a href="topPoint"><p class="centered">Netherlands</p><img class="img_item" src="maps/netherlandsHigh.svg" width="300px" height="300px" alt=""></a></div>
+	</div>
 </div>
 
 
@@ -97,12 +151,12 @@
 		editor.draw();
 		$('#export').bind("click",function() {
 			var time = $('#time').val();
-			if(time)
+			
 				$("#result").val(editor.exportBezier(time));
 			console.log(editor.exportBezier(time).animate);
 		});
 		$('#clear').bind("click",function(){
-			if(time)
+			
 				$("#result").val(" ");
 			console.log(editor.clearBezier());
 			editor.draw();
@@ -133,6 +187,16 @@ var editor = new bezierEditor("bezier-canvas");
 		})(f);
 		reader.readAsDataURL(f);
 	}
+	$('.img_item').bind("click",function(){
+		var src = $(this).attr('src');
+		
+		// $(this).parent().parent().addClass('active');
+		
+		localStorage.setItem('map', JSON.stringify(src));
+		editor.loadImage(src);
+		$('#gallery').fadeOut(2000);
+		$()
+	})
 	document.getElementById('files').addEventListener('change', handleFileSelect, false);
 		
 		editor.draw();

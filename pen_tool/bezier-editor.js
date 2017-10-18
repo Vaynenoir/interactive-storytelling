@@ -1,6 +1,25 @@
 /**
  * @Author Ray Zhang 
  */
+
+$(document).ready(function(){
+	$('#openMap').bind("click",function(){
+		$('#gallery').fadeIn(2000);
+	});
+   $('a[href^="#"]').click(function () { 
+     elementClick = $(this).attr("href");
+     destination = $(elementClick).offset().top;
+     
+       $('body').animate( { scrollTop: destination }, 700 );
+   
+       $('html').animate( { scrollTop: destination }, 700 );
+     
+     return false;
+   });
+});
+
+
+
 function goFullScreen(){
     var canvas = document.getElementById("bezier-canvas");
     if(canvas.requestFullScreen)
