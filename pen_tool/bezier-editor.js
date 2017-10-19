@@ -18,6 +18,68 @@ $(document).ready(function(){
    });
 });
 
+// window.onload = function(){
+// 	var canvas = document.getElementById("bezier-canvas");
+// 	var editor = new bezierEditor("bezier-canvas");
+// 	var translatePos = {
+//                     x: canvas.width / 2,
+//                     y: canvas.height / 2
+//                 };
+
+//                 var scale = 1.0;
+//                 var scaleMultiplier = 0.8;
+//                 var startDragOffset = {};
+//                 var mouseDown = false;
+
+//                 // add button event listeners
+//                 document.getElementById("plus").addEventListener("click", function(){
+//                     scale /= scaleMultiplier;
+//                     console.log(scale, translatePos);
+//                     editor.zoom(scale, translatePos);
+//                     editor.draw();
+//                 }, false);
+
+//                 document.getElementById("minus").addEventListener("click", function(){
+//                     scale *= scaleMultiplier;
+//                     editor.zoom(scale, translatePos);
+//                 }, false);
+
+                // add event listeners to handle screen drag
+                // canvas.addEventListener("mousedown", function(evt){
+                //     mouseDown = true;
+                //     startDragOffset.x = evt.clientX - translatePos.x;
+                //     startDragOffset.y = evt.clientY - translatePos.y;
+                // });
+
+                // canvas.addEventListener("mouseup", function(evt){
+                //     mouseDown = false;
+                // });
+
+                // canvas.addEventListener("mouseover", function(evt){
+                //     mouseDown = false;
+                // });
+
+                // canvas.addEventListener("mouseout", function(evt){
+                //     mouseDown = false;
+                // });
+
+                // canvas.addEventListener("mousemove", function(evt){
+                //     if (mouseDown) {
+                //         translatePos.x = evt.clientX - startDragOffset.x;
+                //         translatePos.y = evt.clientY - startDragOffset.y;
+                //         editor.draw(scale, translatePos);
+                //     }
+                // });
+
+//                 editor.draw();
+            
+
+// }
+
+
+
+
+
 
 
 function goFullScreen(){
@@ -176,7 +238,6 @@ var bezierEditor = function(id) {
 
 			this.draw();
 		},
-		
 		save: function() {
 			history.pushState({nodes:this.nodes,state:this.state}, location.href);
 		},
@@ -192,7 +253,7 @@ var bezierEditor = function(id) {
 		redo: function() {
 			history.forward();
 		},
-		
+
 		addNode :function(e) {
 			var x = e.offsetX;
 			var y = e.offsetY;
@@ -306,7 +367,7 @@ var bezierEditor = function(id) {
 			this.state.selectType = null;
 			return false;
 		},
-		draw : function() {
+		draw : function(scale, translatePos) {
 			var _ctx = this.ctx;
 			_ctx.clearRect(0,0, this.canvas.width, this.canvas.height);
 			if(this.backgroundImage)
@@ -366,6 +427,7 @@ var bezierEditor = function(id) {
 				_ctx.stroke();
 			}
 			_ctx.strokeStyle="#FF0000";
+
 			if(nodes.length > 1)
 				for(var i = 0; i < nodes.length - 1; ++i) {
 					_ctx.beginPath();
@@ -381,6 +443,21 @@ var bezierEditor = function(id) {
 				// _ctx.bezierCurveTo(nodes[_lastIndex].controls[1].x, nodes[_lastIndex].controls[1].y, this.fakeNode.x, this.fakeNode.y, this.fakeNode.x, this.fakeNode.y);
 				// _ctx.stroke();
 			// }
+    	
+			
+   
+		
+			
+
+		},
+		zoom: function(scale, translatePos){
+			this.draw();
+			var _ctx = this.canvas.getContext('2d');
+			_ctx.translate(translatePos.x, translatePos.y);
+			_ctx.scale(scale, scale);
+			_ctx.clearRect(0,0, this.canvas.width, this.canvas.height);
+			this.draw();
+
 		},
 		getLength: function() {
 			var coefficient = function(t) {
@@ -449,6 +526,13 @@ var bezierEditor = function(id) {
 			localStorage.setItem('path', JSON.stringify(string));
 			return	string;
 		},
+		// drawZoom: function(scale, translatePos){
+		// 	var context = this.ctx;
+		// 	context.translate(translatePos.x, translatePos.y);
+		// 	context.scale(scale, scale);
+		// 	context.restore();
+
+		// },
 		clearBezier: function(){
 			var _ctx = this.ctx;
 			editor.nodes = [];
@@ -459,7 +543,10 @@ var bezierEditor = function(id) {
 			return editor;
 
 
-		}
+		},
+		
+
+
 	};
 	editor.init(id);
 	return editor;

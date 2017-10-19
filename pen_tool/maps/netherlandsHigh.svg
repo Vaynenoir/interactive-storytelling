@@ -10,7 +10,7 @@
 		<amcharts:ammap  bottomLatitude="50.750938" rightLongitude="7.227496" topLatitude="53.560406" leftLongitude="3.359403" projection="mercator">
 		</amcharts:ammap>
 </defs>
-<g>
+<g id="mapPaths">
 	<path id="NL-DR" fill="#CCCCCC" stroke="#FFFFFF" stroke-width="0.5" d="M1122.513,282.987l8.515,2.023l3.955-6.69l2.3-0.456
 		l0.727-4.262l4.761-8.119l0.53-2.264l1.927-1.227l2.104-2.238l1.219-0.267l1.396-0.935l0.435-2.556l0.529-0.67l3.047-0.835
 		l4.309-1.859l0.334-0.404l2.203-0.368l2.751-1.694l0.176-1.177l5.274-0.657l5.249-1.101l2.791,0.025l2.616-0.429l8.436,2.365

@@ -10,7 +10,7 @@
 		<amcharts:ammap  projection="mercator" leftLongitude="2.544059" bottomLatitude="49.497586" rightLongitude="6.408459" topLatitude="51.500039">
 		</amcharts:ammap>
 </defs>
-<g>
+<g id="mapPaths">
 	<path id="BE-VAN" fill="#CCCCCC" stroke="#FFFFFF" stroke-width="0.5" d="M784.216,42.418l-4.471,2.11l0.209,7.807l-6.586-2.848
 		l1.072-4.915l2.787,2.937l2.458-3.586l-2.355-1.564L784.216,42.418z M735.887,19.81l16.498,8.825l1.312,10.344l-6.2,5.52
 		l2.116,11.2l4.724-0.369l-3.249,2.612l-17.72-6.892l-0.461,7.762l26.99,2.479l6.2-3.763l9.298,10.876l24.203-23.375l0.953-10.758

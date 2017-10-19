@@ -71,6 +71,7 @@
 			width: 100%;
 		}
 		.centered{
+			position: relative;
 			text-align: center;
 			margin-top:40px;
 			letter-spacing: 1px;
@@ -104,6 +105,21 @@ h1{
 }
 
 
+
+
+            #buttonWrapper {
+                position: absolute;
+                width: 30px;
+                top: 2px;
+                right: 2px;
+            }
+
+            input[type =
+            "button"] {
+                padding: 5px;
+                width: 30px;
+                margin: 0px 0px 2px 0px;
+            }
 	</style>
 </head>
 <body>
@@ -114,6 +130,9 @@ h1{
 	<div class="centered">
 		<div id="test"></div>
 		<canvas id="bezier-canvas" width="900" height="500"></canvas>
+		<div id="buttonWrapper">
+			<input type="button" value="+" id="plus" ><input type="button" value="-" id="minus">
+		</div>
 	</div>
 	<div class="buttons_bar">
 <!-- 		<span>Animation time:</span><input type="text" id="time" value="5000"/>
@@ -172,6 +191,9 @@ h1{
 			eval("$('#test')" + $("#result").val() + '');
 		editor.draw();
 		});
+
+
+
 	</script>
 <script type="text/javascript">
 var editor = new bezierEditor("bezier-canvas");
@@ -183,23 +205,45 @@ var editor = new bezierEditor("bezier-canvas");
 			return function(e) {
 				editor.loadImage(e.target.result);
 				editor.draw();
+
 			};
 		})(f);
 		reader.readAsDataURL(f);
 	}
 	$('.img_item').bind("click",function(){
 		var src = $(this).attr('src');
+
 		
 		// $(this).parent().parent().addClass('active');
-		
+		var MapPath;
+		$('MapPath').load($(src).find('g#mapPaths'));
+		console.log(MapPath);
 		localStorage.setItem('map', JSON.stringify(src));
 		editor.loadImage(src);
-		$('#gallery').fadeOut(2000);
-		$()
-	})
-	document.getElementById('files').addEventListener('change', handleFileSelect, false);
 		
-		editor.draw();
+		$('#gallery').fadeOut(2000);
+
+	});
+	 editor.draw();
+
+
+
+
+
+	// function zoom(zm){
+	// 	var backroundImage = new Image();
+	// 	backroundImage.src = JSON.parse(localStorage.getItem('map'));
+	// 	var wd = backroundImage.width;
+	// 	var ht = backroundImage.height;
+	// 	backroundImage.style.width = (wd*zm) + "px";
+	// 	backroundImage.style.height = (ht*zm) + "px";
+	// 	editor.loadImage(backroundImage);
+	// 	editor.draw();
+	// }		
+
+
+
+
 </script>
 
 

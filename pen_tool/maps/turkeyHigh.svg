@@ -10,7 +10,7 @@
 		<amcharts:ammap  projection="mercator" leftLongitude="25.664066" bottomLatitude="35.806126" rightLongitude="44.819234" topLatitude="42.105360">
 		</amcharts:ammap>
 </defs>
-<g>
+<g id="mapPaths">
 	<path id="TR-01" fill="#CCCCCC" stroke="#FFFFFF" stroke-width="0.5" d="M754.807,540.086l-1.54,2.814l-1.833,11.625l-1.401,4.863
 		l-1.355,3.249l-2.31,2.64l-0.846,1.766l0.308,1.156l3.218,0.698l1.463,1.767l-0.37,2.181l-2.71,3.403l-1.231,3.075l0.4,2.247
 		l2.771,4.994l0.662,4.558l-0.277,3.271l-1.509,4.58l-4.45,6.325l0,0l-2.016,0.654l-6.438,5.474l-3.31,7.024l-1.986,9.007
