@@ -18,6 +18,10 @@ $(document).ready(function(){
    });
 });
 
+
+
+
+
 // window.onload = function(){
 // 	var canvas = document.getElementById("bezier-canvas");
 // 	var editor = new bezierEditor("bezier-canvas");
@@ -165,6 +169,7 @@ var bezierEditor = function(id) {
 			/* Fix the drag cursor bug. When selection start, cursor will be set to "text"*/
 			this.canvas.onselectstart = function () { return false; }
 			this.ctx = this.canvas.getContext("2d");
+			var Transform = require('canvas-get-transform');
 			this.halfPointSize = this.pointSize / 2;
 			this.canvas.onmousedown = function(e) {
 				editor.state.down = true;
@@ -175,6 +180,11 @@ var bezierEditor = function(id) {
 				else {
 					var _nodes = editor.nodes;
 					for(var i = 0; i < _nodes.length; ++i) {
+						var scale = this.ctx.currentTransform;
+						var curX = scale.e;
+						var curY = scale.f;
+						var deltaX = pt.x - dragStart.x;
+						var deltaY = pt.y - dragStart.y;
 						var x = e.offsetX;
 						var y = e.offsetY;
 						if(x > _nodes[i].x - editor.halfPointSize && x < _nodes[i].x + editor.halfPointSize && y > _nodes[i].y - editor.halfPointSize && y < _nodes[i].y + editor.halfPointSize) {
@@ -183,6 +193,9 @@ var bezierEditor = function(id) {
 							return;
 						}
 					}
+					console.log(x,y);
+					console.log(curX,curY);
+					console.log(deltaX,deltaY);
 					editor.addNode(e);	
 				}
 			};
@@ -233,9 +246,16 @@ var bezierEditor = function(id) {
 		},
 		
 		loadImage: function(imageURL) {
+			// var bgImg = new Image();
+			// bgImg.src = imageURL;
+			// bgImg.onload = function(){
+			// 	this.backgroundImage = bgImg;
+			// }
+			localStorage.removeItem('imgSize');
+			var imgSize = [];
 			this.backgroundImage = new Image();
 			this.backgroundImage.src = imageURL;
-
+	
 			this.draw();
 		},
 		save: function() {
@@ -367,11 +387,15 @@ var bezierEditor = function(id) {
 			this.state.selectType = null;
 			return false;
 		},
-		draw : function(scale, translatePos) {
+		draw : function() {
 			var _ctx = this.ctx;
 			_ctx.clearRect(0,0, this.canvas.width, this.canvas.height);
+			_ctx.save();
+			
+			
 			if(this.backgroundImage)
 				_ctx.drawImage(this.backgroundImage, 0, 0);
+			_ctx.save();
 			_ctx.strokeStyle="transparent";
 			_ctx.beginPath();
 			_ctx.moveTo(0,0);
@@ -393,6 +417,7 @@ var bezierEditor = function(id) {
 				_ctx.fillRect(this.state.current.controls[0].x-this.halfPointSize, this.state.current.controls[0].y-this.halfPointSize, this.pointSize, this.pointSize);
 				_ctx.fillRect(this.state.current.controls[1].x-this.halfPointSize, this.state.current.controls[1].y-this.halfPointSize, this.pointSize, this.pointSize);
 			}
+			_ctx.save();
 			
 			// for(var i = 0; i < nodes.length; ++i) {
 				// _ctx.beginPath();
@@ -444,7 +469,7 @@ var bezierEditor = function(id) {
 				// _ctx.stroke();
 			// }
     	
-			
+
    
 		
 			

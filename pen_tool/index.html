@@ -230,6 +230,66 @@ var editor = new bezierEditor("bezier-canvas");
 
 
 
+	var canvas = document.getElementById("bezier-canvas");
+	var context = canvas.getContext("2d");
+	canvas.width = 900;
+	canvas.height = 500;
+
+	var global = {
+	  zoom: {
+	    origin: {
+	      x: null,
+	      y: null,
+	    },
+	    scale: 1,
+	  },
+	};
+
+	function zoomed(number) {
+	  return Math.floor(number * global.zoom.scale);
+	}
+
+
+	editor.draw();
+
+	canvas.addEventListener("wheel", trackWheel);
+	canvas.addEventListener("wheel", trackMouse);
+	canvas.addEventListener("wheel", zoom);
+
+	function zoom() {
+	  context.setTransform(1, 0, 0, 1, 0, 0);
+	  context.clearRect(0, 0, canvas.width, canvas.height);
+
+	  context.translate(global.zoom.origin.x, global.zoom.origin.y);
+	  context.scale(global.zoom.scale, global.zoom.scale);
+	  context.translate(-global.zoom.origin.x, -global.zoom.origin.y);
+
+	  editor.draw();
+	}
+
+	function trackWheel(e) {
+	  if (e.deltaY > 0) {
+	    if (global.zoom.scale > 0.1) {
+	      global.zoom.scale *= 0.9;
+	    }
+	  } else {
+	    if (global.zoom.scale < 5) {
+	      global.zoom.scale *= 1.1;
+	    }
+	  }
+	  global.zoom.scale = parseFloat(global.zoom.scale.toFixed(2));
+	}
+
+	function trackMouse(e) {
+	  global.zoom.origin.x = e.clientX;
+	  global.zoom.origin.y = e.clientY;
+	  console.log(global.zoom.origin.x, global.zoom.origin.y);
+	  console.log(e.clientX, e.clientY);
+	}
+
+trackMouse();
+
+
 	// function zoom(zm){
 	// 	var backroundImage = new Image();
 	// 	backroundImage.src = JSON.parse(localStorage.getItem('map'));
