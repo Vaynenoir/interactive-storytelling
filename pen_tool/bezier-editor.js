@@ -1,6 +1,3 @@
-/**
- * @Author Ray Zhang 
- */
 
 $(document).ready(function(){
 	$('#openMap').bind("click",function(){
@@ -17,70 +14,6 @@ $(document).ready(function(){
      return false;
    });
 });
-
-
-
-
-
-// window.onload = function(){
-// 	var canvas = document.getElementById("bezier-canvas");
-// 	var editor = new bezierEditor("bezier-canvas");
-// 	var translatePos = {
-//                     x: canvas.width / 2,
-//                     y: canvas.height / 2
-//                 };
-
-//                 var scale = 1.0;
-//                 var scaleMultiplier = 0.8;
-//                 var startDragOffset = {};
-//                 var mouseDown = false;
-
-//                 // add button event listeners
-//                 document.getElementById("plus").addEventListener("click", function(){
-//                     scale /= scaleMultiplier;
-//                     console.log(scale, translatePos);
-//                     editor.zoom(scale, translatePos);
-//                     editor.draw();
-//                 }, false);
-
-//                 document.getElementById("minus").addEventListener("click", function(){
-//                     scale *= scaleMultiplier;
-//                     editor.zoom(scale, translatePos);
-//                 }, false);
-
-                // add event listeners to handle screen drag
-                // canvas.addEventListener("mousedown", function(evt){
-                //     mouseDown = true;
-                //     startDragOffset.x = evt.clientX - translatePos.x;
-                //     startDragOffset.y = evt.clientY - translatePos.y;
-                // });
-
-                // canvas.addEventListener("mouseup", function(evt){
-                //     mouseDown = false;
-                // });
-
-                // canvas.addEventListener("mouseover", function(evt){
-                //     mouseDown = false;
-                // });
-
-                // canvas.addEventListener("mouseout", function(evt){
-                //     mouseDown = false;
-                // });
-
-                // canvas.addEventListener("mousemove", function(evt){
-                //     if (mouseDown) {
-                //         translatePos.x = evt.clientX - startDragOffset.x;
-                //         translatePos.y = evt.clientY - startDragOffset.y;
-                //         editor.draw(scale, translatePos);
-                //     }
-                // });
-
-//                 editor.draw();
-            
-
-// }
-
-
 
 
 
@@ -169,7 +102,7 @@ var bezierEditor = function(id) {
 			/* Fix the drag cursor bug. When selection start, cursor will be set to "text"*/
 			this.canvas.onselectstart = function () { return false; }
 			this.ctx = this.canvas.getContext("2d");
-			var Transform = require('canvas-get-transform');
+			// var Transform = require('canvas-get-transform');
 			this.halfPointSize = this.pointSize / 2;
 			this.canvas.onmousedown = function(e) {
 				editor.state.down = true;
@@ -179,29 +112,43 @@ var bezierEditor = function(id) {
 				}
 				else {
 					var _nodes = editor.nodes;
+					
+					
 					for(var i = 0; i < _nodes.length; ++i) {
-						var scale = this.ctx.currentTransform;
-						var curX = scale.e;
-						var curY = scale.f;
-						var deltaX = pt.x - dragStart.x;
-						var deltaY = pt.y - dragStart.y;
+						// var scale = this.ctx.currentTransform;
+						// var curX = scale.e;
+						// var curY = scale.f;
+						// var deltaX = pt.x - dragStart.x;
+						// var deltaY = pt.y - dragStart.y;
+						// var $editorOffset = this.canvas.offset();
 						var x = e.offsetX;
-						var y = e.offsetY;
+						var y =	e.offsetY;
+						// var ZoomedX = e.clientX;
+						// var ZoomedY = e.clientY;
+						// if(global.zoom.scale > 1){
+						// 	x = (x-ZoomedX)/global.zoom.scale;
+						// 	y = (y-ZoomedY)/global.zoom.scale;
+						// }
+						// x= ZoomedX + x;
+						// y = ZoomedY + y;
+						
 						if(x > _nodes[i].x - editor.halfPointSize && x < _nodes[i].x + editor.halfPointSize && y > _nodes[i].y - editor.halfPointSize && y < _nodes[i].y + editor.halfPointSize) {
 							editor.deleteNode(_nodes[i]);
 							editor.draw();
 							return;
 						}
 					}
-					console.log(x,y);
-					console.log(curX,curY);
-					console.log(deltaX,deltaY);
+					// console.log('x: '+ x, 'y: ' + y);
+					// console.log('zoomedX: ' + ZoomedX, 'zoomedY: ' + ZoomedY);
+
 					editor.addNode(e);	
 				}
 			};
+
+
 			this.canvas.onmousemove = function(e) {
-				var x = e.offsetX;
-				var y = e.offsetY;
+						var x = e.offsetX;
+						var y =	e.offsetY;
 				if(editor.state.down == true) {
 					if(editor.selectedNode)
 						editor.cursor("all-scroll");
@@ -391,8 +338,7 @@ var bezierEditor = function(id) {
 			var _ctx = this.ctx;
 			_ctx.clearRect(0,0, this.canvas.width, this.canvas.height);
 			_ctx.save();
-			
-			
+
 			if(this.backgroundImage)
 				_ctx.drawImage(this.backgroundImage, 0, 0);
 			_ctx.save();
@@ -468,22 +414,9 @@ var bezierEditor = function(id) {
 				// _ctx.bezierCurveTo(nodes[_lastIndex].controls[1].x, nodes[_lastIndex].controls[1].y, this.fakeNode.x, this.fakeNode.y, this.fakeNode.x, this.fakeNode.y);
 				// _ctx.stroke();
 			// }
-    	
 
-   
+		},
 		
-			
-
-		},
-		zoom: function(scale, translatePos){
-			this.draw();
-			var _ctx = this.canvas.getContext('2d');
-			_ctx.translate(translatePos.x, translatePos.y);
-			_ctx.scale(scale, scale);
-			_ctx.clearRect(0,0, this.canvas.width, this.canvas.height);
-			this.draw();
-
-		},
 		getLength: function() {
 			var coefficient = function(t) {
 				return {

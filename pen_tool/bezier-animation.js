@@ -1,6 +1,4 @@
-/**
- * @Author Ray Zhang 
- */
+
 (function($){
   $.fx.step.path = function(fx) {
     var css = fx.end.css( 1 - fx.pos );

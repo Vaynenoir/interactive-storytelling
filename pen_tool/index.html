@@ -54,9 +54,6 @@
 			border-radius:5px;
 			position:relative;
 		}
-		canvas {
-			margin-top:-5px;
-		}
 		.wrapper{
 		}
 		textarea{
@@ -72,7 +69,7 @@
 		}
 		.centered{
 			position: relative;
-			text-align: center;
+			/*text-align: center;*/
 			margin-top:40px;
 			letter-spacing: 1px;
 			color: #001;
@@ -127,11 +124,21 @@ h1{
 
 
 	<h1>Draw the bezier curve below like in Photoshop</h1>
+	<div class="debug"></div>
 	<div class="centered">
-		<div id="test"></div>
-		<canvas id="bezier-canvas" width="900" height="500"></canvas>
+		<!-- <div id="test"></div> -->
+		<div class="wrap_map">
+		<div id="map_bg">
+		<object data="" id="dataMap" width="1920px" height="1200px" type=""></object>
+		<canvas id="bezier-canvas" width="1200" height="900"></canvas>
+		</div>
+		</div>
 		<div id="buttonWrapper">
 			<input type="button" value="+" id="plus" ><input type="button" value="-" id="minus">
+			<input type="button" value="Left" id="moveLeft">
+			<input type="button" value="Right" id="moveRight">
+			<input type="button" value="Top" id="moveTop">
+			<input type="button" value="Bottom" id="moveBottom">
 		</div>
 	</div>
 	<div class="buttons_bar">
@@ -146,6 +153,7 @@ h1{
 	<!--Local file system access. REFERENCE:http://www.html5rocks.com/en/tutorials/file/dndfiles/-->
 <!-- 	<input style="background-color: #64b5f6;  color:#fff;" type="file" id="files" name="files[]" multiple /> -->
 	<output id="list"></output>
+
 	<a href="#gallery" id="openMap"><h2 align="center"> Wanna choose your map? Click here!</h2></a>
 	<div id="gallery" class="map_gallery row" style="display: none;">
 		
@@ -160,20 +168,21 @@ h1{
 		<div class="gallery_item col s4"><a href="#topPoint"><p class="centered">Turkey</p><img class="img_item" src="maps/turkeyHigh.svg" width="300px" height="300px" alt=""></a></div>
 		<div class="gallery_item col s4"><a href="#topPoint"><p class="centered">United States</p><img class="img_item" src="maps/usaHigh.svg" width="300px" height="300px" alt=""></a></div>
 		<div class="gallery_item col s4"><a href="#topPoint"><p class="centered">Armenia</p><img class="img_item" src="maps/armeniaHigh.svg" width="300px" height="300px" alt=""></a></div>
-		<div class="gallery_item col s4"><a href="topPoint"><p class="centered">Netherlands</p><img class="img_item" src="maps/netherlandsHigh.svg" width="300px" height="300px" alt=""></a></div>
+		<div class="gallery_item col s4"><a href="#topPoint"><p class="centered">Netherlands</p><img class="img_item" src="maps/netherlandsHigh.svg" width="300px" height="300px" alt=""></a></div>
 	</div>
+
 </div>
 
 
 <script type="text/javascript">
-		var editor = new bezierEditor("bezier-canvas");
+
+
+	</script>
+<script type="text/javascript">
+$(document).ready(function(){
+			var editor = new bezierEditor("bezier-canvas");
 		editor.draw();
-		$('#export').bind("click",function() {
-			var time = $('#time').val();
-			
-				$("#result").val(editor.exportBezier(time));
-			console.log(editor.exportBezier(time).animate);
-		});
+
 		$('#clear').bind("click",function(){
 			
 				$("#result").val(" ");
@@ -193,9 +202,15 @@ h1{
 		});
 
 
+			$('#export').bind("click",function() {
+			var time = $('#time').val();
+			
+				$("#result").val(editor.exportBezier(time));
+			console.log(styleProps);
+			localStorage.setItem("mapStyleProperties", JSON.stringify(styleProps));
+			  
+		});
 
-	</script>
-<script type="text/javascript">
 var editor = new bezierEditor("bezier-canvas");
 	function handleFileSelect(evt) {
 		var files = evt.target.files;
@@ -215,12 +230,19 @@ var editor = new bezierEditor("bezier-canvas");
 
 		
 		// $(this).parent().parent().addClass('active');
-		var MapPath;
-		$('MapPath').load($(src).find('g#mapPaths'));
-		console.log(MapPath);
-		localStorage.setItem('map', JSON.stringify(src));
-		editor.loadImage(src);
 		
+		
+
+		// editor.loadImage(src);
+		// document.getElementById("map_bg").style.backgroundImage = "url('"+src+"')";
+		var svgMap = document.getElementById("dataMap");
+		$("#dataMap").attr("data", src);
+		svgMap.addEventListener("load", function(){
+			
+		var svgDoc = svgMap.contentDocument; //get the inner DOM of alpha.svg
+    var svgRoot  = svgDoc.documentElement;
+		});
+		localStorage.setItem('map', JSON.stringify(src));
 		$('#gallery').fadeOut(2000);
 
 	});
@@ -228,66 +250,140 @@ var editor = new bezierEditor("bezier-canvas");
 
 
 
+	// var canvas = document.getElementById("bezier-canvas");
+	// var context = canvas.getContext("2d");
+	// canvas.width = 900;
+	// canvas.height = 500;
+	// var coords = { 
+	//   zoom: {
+	//     origin: {
+	//       x: 0,
+	//       y: 0,
+	//     },
+	//     scale: 1,
+	//   },
+	// };
+        // var cw = canvas.width;
+        // var ch = canvas.height;
+        // function getMousePos(canvas, evt) {
+        //     var rect = document.querySelector('#bezier-canvas').getBoundingClientRect();
+        //     var x = evt.clientX - rect.left;
+        //     var y = evt.clientY - rect.top;
+        //     var sx = (x-cw/2)/global.zoom.scale;
+        //     var sy = (y-ch/2)/global.zoom.scale;
+        //     return {
+        //         x: x,
+        //         y: y,            
+        //         sx : sx,
+        //         sy:sy
+        //     };
+        // }
 
 
-	var canvas = document.getElementById("bezier-canvas");
-	var context = canvas.getContext("2d");
-	canvas.width = 900;
-	canvas.height = 500;
-
-	var global = {
-	  zoom: {
-	    origin: {
-	      x: null,
-	      y: null,
-	    },
-	    scale: 1,
-	  },
+	var styleProps = {
+		transform: "",
+		top: "",
+		left: "" 
 	};
+	var scaleImg = 1.1;
 
-	function zoomed(number) {
-	  return Math.floor(number * global.zoom.scale);
+$("#plus").bind('click', function(){
+	scaleImg += 0.3;
+	$("#map_bg").css("transform", "scale("+scaleImg+")");
+	styleProps.transform =  "scale("+scaleImg+")";
+	console.log(styleProps);
+	});
+
+$("#minus").bind('click',function(){
+	scaleImg -=0.3;
+	if(scaleImg < 1.1){
+		scaleImg = 1;
 	}
+	$("#map_bg").css("transform", "scale("+scaleImg+")");
+	styleProps.transform =  "scale("+scaleImg+")";
+});
+
+	var moveLeft = 2;
+	var moveTop = 2;
+
+$("#moveLeft").bind("click",function(){
+	moveLeft+=3;
+	$("#map_bg").css("left", ""+moveLeft+"%");
+	styleProps.left =  ""+moveLeft+"%";
+
+});
+$("#moveRight").bind("click", function(){
+	moveLeft-=3;
+	$("#map_bg").css("left", ""+moveLeft+"%");
+	styleProps.left =  ""+moveLeft+"%";
+});
+$("#moveTop").bind("click", function(){
+	moveTop+=3;
+	$("#map_bg").css("top", ""+moveTop+"%");
+	styleProps.top =  ""+moveTop+"%";
+});
+$("#moveBottom").bind("click", function(){
+	moveTop-=3;
+	$("#map_bg").css("top", ""+moveTop+"%");
+	styleProps.top =  ""+moveTop+"%";
+});
+
+});
 
 
-	editor.draw();
+// 	function zoomed(number) {
+// 	  return Math.floor(number * coords.zoom.scale);
+// 	}
 
-	canvas.addEventListener("wheel", trackWheel);
-	canvas.addEventListener("wheel", trackMouse);
-	canvas.addEventListener("wheel", zoom);
 
-	function zoom() {
-	  context.setTransform(1, 0, 0, 1, 0, 0);
-	  context.clearRect(0, 0, canvas.width, canvas.height);
+// 	editor.draw();
 
-	  context.translate(global.zoom.origin.x, global.zoom.origin.y);
-	  context.scale(global.zoom.scale, global.zoom.scale);
-	  context.translate(-global.zoom.origin.x, -global.zoom.origin.y);
+// 	canvas.addEventListener("wheel", trackWheel);
+// 	canvas.addEventListener("wheel", trackMouse);
+// 	canvas.addEventListener("wheel", zoom);
 
-	  editor.draw();
-	}
+// 	function zoom() {
+// 	  context.setTransform(1, 0, 0, 1, 0, 0);
+// 	  context.clearRect(0, 0, canvas.width, canvas.height);
 
-	function trackWheel(e) {
-	  if (e.deltaY > 0) {
-	    if (global.zoom.scale > 0.1) {
-	      global.zoom.scale *= 0.9;
-	    }
-	  } else {
-	    if (global.zoom.scale < 5) {
-	      global.zoom.scale *= 1.1;
-	    }
-	  }
-	  global.zoom.scale = parseFloat(global.zoom.scale.toFixed(2));
-	}
+// 	  context.translate(coords.zoom.origin.x, coords.zoom.origin.y);
+// 	  context.scale(coords.zoom.scale, coords.zoom.scale);
+// 	  context.translate(-coords.zoom.origin.x, -coords.zoom.origin.y);
 
-	function trackMouse(e) {
-	  global.zoom.origin.x = e.clientX;
-	  global.zoom.origin.y = e.clientY;
-	  console.log(global.zoom.origin.x, global.zoom.origin.y);
-	  console.log(e.clientX, e.clientY);
-	}
+// 	  editor.draw();
+// 	}
 
-trackMouse();
+
+
+// 	function trackWheel(e) {
+// 	  if (e.deltaY > 0) {
+// 	    if (coords.zoom.scale > 0.1) {
+// 	      coords.zoom.scale *= 0.9;
+// 	    }
+// 	  } else {
+// 	    if (coords.zoom.scale < 5) {
+// 	      coords.zoom.scale *= 1.1;
+// 	    }
+// 	  }
+// 	  coords.zoom.scale = parseFloat(coords.zoom.scale.toFixed(2));
+// 	}
+
+// 	function trackMouse(e) {
+// 	  coords.zoom.origin.x = e.offsetX;
+// 	  coords.zoom.origin.y = e.offsetY;
+// 	  var a =  coords.zoom.origin.x;
+// 	  var b =  coords.zoom.origin.y;
+	
+// 	  return {a: a, b: b}
+// 	  console.log(e.offsetX,e.offsetY);
+// 	}
+
+// trackMouse();
+
+
+
+
+// console.log(editor.offset());
 
 
 	// function zoom(zm){

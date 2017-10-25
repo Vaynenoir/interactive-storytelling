@@ -2,21 +2,48 @@ body {
   background-color: #eee;
   overflow: hidden;
 }
-
+#bezier-canvas{
+/*  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;*/
+  position: absolute;
+  z-index: 0;
+  background-color: transparent;
+}
+.container{
+  width: 90%!important;
+}
+.wrap_map{
+  width: 1200px;
+  height: 900px;
+  overflow: hidden;
+  border: 1px solid #ccc;
+}
+.wrap_map:hover{
+  border: 1px solid #aaa;
+}
 canvas {
   cursor: crosshair;
   margin: 0 0;
-  border: 1px solid #ccc;
   background-color: #fff;
 }
 canvas.select {
   cursor: default !important;
 }
 
-canvas:hover {
-  border: 1px solid #aaa;
-}
 
+#dataMap{
+  position: absolute;
+}
+#map_bg{
+ 
+ 
+  overflow: hidden;
+  background-repeat: no-repeat;
+  width: 1900px;
+  height: 930px;
+  position: relative;
+}
 
 .vectorlist-wrapper {
   background-color: #aaa;

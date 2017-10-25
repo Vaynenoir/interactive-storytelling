@@ -25,5 +25,9 @@ svgRoot.append(path);
 
 },false);
   
-
+	var WrapperProps = JSON.parse(localStorage.getItem('mapStyleProperties'));
+	console.log(WrapperProps);
+	$.each(WrapperProps, function(prop, value){
+		$(".mapbg").css(prop, value);
+	});
 });
