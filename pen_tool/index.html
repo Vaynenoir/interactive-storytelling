@@ -173,13 +173,9 @@ h1{
 
 </div>
 
-
-<script type="text/javascript">
-
-
-	</script>
 <script type="text/javascript">
 $(document).ready(function(){
+	localStorage.clear();
 			var editor = new bezierEditor("bezier-canvas");
 		editor.draw();
 
@@ -187,6 +183,7 @@ $(document).ready(function(){
 			
 				$("#result").val(" ");
 			console.log(editor.clearBezier());
+			console.log(enabled);
 			editor.draw();
 		});
 
@@ -237,11 +234,7 @@ var editor = new bezierEditor("bezier-canvas");
 		// document.getElementById("map_bg").style.backgroundImage = "url('"+src+"')";
 		var svgMap = document.getElementById("dataMap");
 		$("#dataMap").attr("data", src);
-		svgMap.addEventListener("load", function(){
-			
-		var svgDoc = svgMap.contentDocument; //get the inner DOM of alpha.svg
-    var svgRoot  = svgDoc.documentElement;
-		});
+		loadMap(svgMap);
 		localStorage.setItem('map', JSON.stringify(src));
 		$('#gallery').fadeOut(2000);
 
@@ -249,6 +242,49 @@ var editor = new bezierEditor("bezier-canvas");
 	 editor.draw();
 
 
+
+function loadMap(map_container){
+		map_container.addEventListener("load", function(){
+		var svgDoc = map_container.contentDocument; //get the inner DOM of alpha.svg
+    var svgRoot  = svgDoc.documentElement;
+    console.log(svgRoot);
+		});
+}
+
+// loadMap($("#dataMap")).bind(this, function(){
+// 	    var circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+//     $(circle).attr('r', '5');
+// 		$(circle).attr('fill', "#000");
+// 				$("#dataMap").bind("contextmenu", function(e){
+// 				e.preventDefault();
+
+				
+// 				if(e.altKey && e.shiftKey){
+// 					var x = e.offsetX;
+// 					var y = e.offsetY;
+// 					var radius = 5;
+// 					$(circle).attr('cx', x);
+// 					$(circle).attr("cy", y); 
+// 					$(svgRoot).append(circle);
+// 				}
+// 			}
+// })
+// function bar(){
+// 	console.log('bar');
+// }
+// var drawCircle = loadMap.bind(this, bar );
+// 	$("#map_bg").bind('contextmenu', function(e){
+// 	e.preventDefault();
+// 	if(e.altKey && e.shiftKey){
+// 						console.log('JOPA~');
+// 				var x = e.offsetX;
+// 				var y = e.offsetY;
+// 				$(circle).attr('cx', x);
+// 				$(circle).attr("cy", y);
+// 					svgRoot.append(circle);
+// 				drawCircle();
+// 	}
+// });
 
 	// var canvas = document.getElementById("bezier-canvas");
 	// var context = canvas.getContext("2d");
@@ -292,6 +328,7 @@ $("#plus").bind('click', function(){
 	$("#map_bg").css("transform", "scale("+scaleImg+")");
 	styleProps.transform =  "scale("+scaleImg+")";
 	console.log(styleProps);
+	localStorage.setItem('zoom', JSON.stringify(scaleImg));
 	});
 
 $("#minus").bind('click',function(){
@@ -301,6 +338,7 @@ $("#minus").bind('click',function(){
 	}
 	$("#map_bg").css("transform", "scale("+scaleImg+")");
 	styleProps.transform =  "scale("+scaleImg+")";
+	localStorage.setItem('zoom', JSON.stringify(scaleImg));
 });
 
 	var moveLeft = 2;
@@ -327,6 +365,15 @@ $("#moveBottom").bind("click", function(){
 	$("#map_bg").css("top", ""+moveTop+"%");
 	styleProps.top =  ""+moveTop+"%";
 });
+
+
+
+
+
+
+
+
+
 
 });
 

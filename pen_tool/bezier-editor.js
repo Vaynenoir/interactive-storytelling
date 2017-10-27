@@ -99,16 +99,84 @@ var bezierEditor = function(id) {
 					}
 				}
 			}
+			function getMousePos(svg, evt) {
+  var rect = svg.getBoundingClientRect();
+  return {
+    x: evt.clientX - rect.left,
+    y: evt.clientY - rect.top
+  };
+}
+// function getZoomCompensatedBoundingRect(fabricObject){
+
+//   //fabricObject is the object you want to get the boundingRect from
+//   var canvas = document.getElementById('bezier-canvas');
+//   fabricObject.setCoords();
+//   var boundingRect = fabricObject.getBoundingRect();
+  
+//   var viewportMatrix = canvas.viewportTransform;
+  
+//   //there is a bug in fabric that causes bounding rects to not be transformed by viewport matrix
+//   //this code should compensate for the bug for now
+  
+//   boundingRect.top = (boundingRect.top - viewportMatrix[5]) / zoom;
+//   boundingRect.left = (boundingRect.left - viewportMatrix[4]) / zoom;
+//   boundingRect.width /= zoom;
+//   boundingRect.height /= zoom;
+  
+//   return boundingRect;
+
+// }
+
+
 			/* Fix the drag cursor bug. When selection start, cursor will be set to "text"*/
 			this.canvas.onselectstart = function () { return false; }
 			this.ctx = this.canvas.getContext("2d");
 			// var Transform = require('canvas-get-transform');
 			this.halfPointSize = this.pointSize / 2;
+
+					var circlesArr = [];
 			this.canvas.onmousedown = function(e) {
+																var circles = {
+							cx: 0,
+							cy: 0,
+							r: 5
+					};
 				editor.state.down = true;
 				if(e.ctrlKey == true || e.altKey == true) {
 					editor.state.dragMode = e.ctrlKey * 2 + e.altKey;
 					editor.select(e);
+				}
+
+				else if(e.altKey == true || e.shiftKey == true){
+
+						var zoom = JSON.parse(localStorage.getItem('zoom'));
+					var clickX = 0;
+					var	clickY = 0;
+					var canvas = document.getElementById("bezier-canvas");
+					var svg = document.getElementById("map_bg");
+					console.log(svg);
+					var pos = getMousePos(svg,e);
+					if(zoom){
+					clickX = pos.x/zoom; 
+					clickY = pos.y/zoom;				
+					}
+					else{
+					clickX = pos.x; 
+					clickY = pos.y;
+					}
+					circles.cx = clickX;
+					circles.cy = clickY;
+					circlesArr.push(circles);
+					console.log(circlesArr);
+					localStorage.setItem('circlesCoords', JSON.stringify(circlesArr));
+					console.log(clickX,clickY);
+					var r = 5;
+					var ctx = this.getContext('2d');
+					 ctx.fillStyle = "#2980b9";
+  						ctx.beginPath();
+ 								 ctx.arc(clickX, clickY, 5, 0, 2 * Math.PI);
+ 										 ctx.fill();
+ 										 console.log(ctx);
 				}
 				else {
 					var _nodes = editor.nodes;
@@ -144,7 +212,9 @@ var bezierEditor = function(id) {
 					editor.addNode(e);	
 				}
 			};
-
+		
+		
+		
 
 			this.canvas.onmousemove = function(e) {
 						var x = e.offsetX;
@@ -508,4 +578,5 @@ var bezierEditor = function(id) {
 	};
 	editor.init(id);
 	return editor;
+
 }
