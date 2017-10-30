@@ -139,7 +139,7 @@ var bezierEditor = function(id) {
 																var circles = {
 							cx: 0,
 							cy: 0,
-							r: 5
+							r: 8
 					};
 				editor.state.down = true;
 				if(e.ctrlKey == true || e.altKey == true) {
@@ -170,11 +170,11 @@ var bezierEditor = function(id) {
 					console.log(circlesArr);
 					localStorage.setItem('circlesCoords', JSON.stringify(circlesArr));
 					console.log(clickX,clickY);
-					var r = 5;
+					var r = 8;
 					var ctx = this.getContext('2d');
 					 ctx.fillStyle = "#2980b9";
   						ctx.beginPath();
- 								 ctx.arc(clickX, clickY, 5, 0, 2 * Math.PI);
+ 								 ctx.arc(clickX, clickY, 8, 0, 2 * Math.PI);
  										 ctx.fill();
  										 console.log(ctx);
 				}

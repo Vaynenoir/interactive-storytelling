@@ -4,6 +4,18 @@
 <svg version="1.1" id="Layer_1" xmlns:amcharts="http://amcharts.com/ammap"
 	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1920px" height="1200px"
 	 viewBox="0 0 1920 1200" enable-background="new 0 0 1920 1200" xml:space="preserve">
+	 <defs>
+		<style  type="text/css">
+		g#mapPaths{
+							fill: #e8e3c4;
+				stroke: #5d5c56;
+				opacity: .8;
+		}
+	</style>
+	
+		<amcharts:ammap  projection="mercator" leftLongitude="25.664066" bottomLatitude="35.806126" rightLongitude="44.819234" topLatitude="42.105360">
+		</amcharts:ammap>
+</defs>
 <g id="mapPaths">
 	<path id="US-AK" fill="#CCCCCC" stroke="#FFFFFF" stroke-width="0.5" d="M422.204,572.722l-0.103,5.454l-0.102,5.432l-0.103,5.408
 		l-0.102,5.389l-0.103,5.364l-0.103,5.345l-0.103,5.321l-0.103,5.301l-0.101,5.276l-0.104,5.256l-0.104,5.244l-0.092,5.224

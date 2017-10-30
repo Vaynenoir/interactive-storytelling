@@ -5,12 +5,17 @@
 	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1920px" height="1200px"
 	 viewBox="0 0 1920 1200" enable-background="new 0 0 1920 1200" xml:space="preserve">
 <defs>
-	
-	
+	<style  type="text/css">
+		g#mapPaths{
+							fill: #e8e3c4;
+				stroke: #5d5c56;
+				opacity: .8;
+		}
+	</style>
 		<amcharts:ammap  bottomLatitude="38.832890" rightLongitude="46.630286" topLatitude="41.303028" leftLongitude="43.454090" projection="mercator">
 		</amcharts:ammap>
 </defs>
-<g>
+<g id="mapPaths">
 	<path id="AM-AG" fill="#CCCCCC" stroke="#FFFFFF" stroke-width="0.5" d="M498.396,360.847l4.929-1.428l5.666,0.442l6.61,2.629
 		l11.33,9.679h16.533l2.352-8.353l8.034-0.884h7.089l18.405,7.911l3.777-2.63h4.258l6.146,3.071l3.777,4.399l0.464,8.795
 		l-0.88,4.091l0,0l-0.528,2.494l10.387,9.227l3.297,6.143l14.164,11.856l11.811,2.628l22.663,2.629l-0.944,7.028l-3.297,8.761

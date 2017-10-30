@@ -5,7 +5,13 @@
 	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1920px" height="1200px"
 	 viewBox="0 0 1920 1200" enable-background="new 0 0 1920 1200" xml:space="preserve">
 <defs>
-	
+		<style  type="text/css">
+		g#mapPaths{
+							fill: #e8e3c4;
+				stroke: #5d5c56;
+				opacity: .8;
+		}
+	</style>
 	
 		<amcharts:ammap  projection="mercator" leftLongitude="-10.617532" bottomLatitude="51.419751" rightLongitude="-5.429631" topLatitude="55.384216">
 		</amcharts:ammap>
