@@ -147,8 +147,8 @@ var bezierEditor = function(id) {
 					editor.select(e);
 				}
 
-				else if(e.altKey == true || e.shiftKey == true){
-
+				else if(e.shiftKey == true || e.altKey == true){
+					editor.state.down = false;
 						var zoom = JSON.parse(localStorage.getItem('zoom'));
 					var clickX = 0;
 					var	clickY = 0;
@@ -156,7 +156,7 @@ var bezierEditor = function(id) {
 					var svg = document.getElementById("map_bg");
 					console.log(svg);
 					var pos = getMousePos(svg,e);
-					if(zoom){
+					if(zoom || zoom>0){
 					clickX = pos.x/zoom; 
 					clickY = pos.y/zoom;				
 					}
@@ -172,8 +172,9 @@ var bezierEditor = function(id) {
 					console.log(clickX,clickY);
 					var r = 8;
 					var ctx = this.getContext('2d');
-					 ctx.fillStyle = "#2980b9";
+					 
   						ctx.beginPath();
+  						ctx.fillStyle = "#2980b9";
  								 ctx.arc(clickX, clickY, 8, 0, 2 * Math.PI);
  										 ctx.fill();
  										 console.log(ctx);
@@ -356,6 +357,7 @@ var bezierEditor = function(id) {
 			_node.controls[1].y = y;
 			_node.controls[0].x = 2 * _node.x - x;
 			_node.controls[0].y = 2 * _node.y - y;
+
 			this.draw();
 		},
 		mouseup: function() {

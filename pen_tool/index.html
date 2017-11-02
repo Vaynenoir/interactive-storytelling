@@ -175,13 +175,13 @@ h1{
 
 <script type="text/javascript">
 $(document).ready(function(){
-	// localStorage.clear();
+	localStorage.clear();
 			var editor = new bezierEditor("bezier-canvas");
 		editor.draw();
 
 		$('#clear').bind("click",function(){
 			
-				$("#result").val(" ");
+		$("#result").val(" ");
 			console.log(editor.clearBezier());
 			console.log(enabled);
 			editor.draw();
@@ -193,17 +193,17 @@ $(document).ready(function(){
 		})
 
 		$('#execute').bind('click', function(){
-		var t = new Date();
+			var t = new Date();
 			eval("$('#test')" + $("#result").val() + '');
-		editor.draw();
+			editor.draw();
 		});
 
 
 			$('#export').bind("click",function() {
-			var time = $('#time').val();
+				var time = $('#time').val();
 			
 				$("#result").val(editor.exportBezier(time));
-			console.log(styleProps);
+				console.log(styleProps);
 			localStorage.setItem("mapStyleProperties", JSON.stringify(styleProps));
 			  
 		});
