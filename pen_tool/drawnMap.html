@@ -6,6 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 	<title>Drawn map</title>
 	<link rel="stylesheet" href="css/materialize.min.css">
+	<script src="ckeditor/ckeditor.js"></script>
 		<script type="text/javascript" src="bezier-editor.js"></script>
 	<script type="text/javascript" src="bezier-animation.js"></script>
 	<script src="Snap.svg-0.5.1/dist/snap.svg-min.js"></script>
@@ -14,7 +15,7 @@
 	body{
 		height: 2000px;
 		background: #f9f7ed;
-			color: #5d5c56;
+		color: #5d5c56;
 	}
 
 
@@ -83,7 +84,8 @@
 	height: 300px;
 	width: 96%;
 	max-width: 96%;
-	max-height: 811px;
+	height: 755px;
+	max-height: 755px;
 	margin: 0 2% 0 2%;
 	color: #4db6ac;
 	font-style: italic;
@@ -101,6 +103,24 @@
     .sidenav {padding-top: 15px;}
     .sidenav a {font-size: 18px;}
 }
+#cke_point_textData{
+	width: 94%;
+	/*margin: 0 2% 0 2%;*/
+}
+
+
+.btn_wrapper{
+	margin: 5%;
+}
+#SavePointContent{
+	font-size: 16px;
+	text-transform: uppercase;
+	color: #fff;
+	padding: 0px;
+	border-radius: 6px;
+
+}
+
 	</style>
 </head>
 <body>
@@ -118,13 +138,16 @@
 <div id="mySidenav" class="sidenav">
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
   <p>type your data to the point №<span id="pointIndex"></span></p>
-  <textarea name="description" id="point_textData" cols="30" rows="10"></textarea>
+  <textarea name="text" id="point_textData" cols="30" rows="10"></textarea>
+ 	<div class="btn_wrapper"><a id="SavePointContent" class="waves-effect waves-light btn">Save content</a></div>
 </div>
 
 
 
 <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
+<div id="be"></div>
 <div id="main">
+
 <div class="wrapper">
 <div class="mapbg">
 <object id="map" data="" type="image/svg+xml" width="1920px" height="1200px"></object>
@@ -170,20 +193,36 @@
 	<circle id="Eyjafjallajökull" display="inline" fill="#405b54" cx="1169.476" cy="930.54" r="5.782"/>
 </g>
 </svg> -->
+
 <script>
+
+var editor = CKEDITOR.replace("text");
 	        function openNav(index){
     			document.getElementById("mySidenav").style.width = "300px";
    			 document.getElementById("main").style.marginLeft = "300px";
     		document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
     		document.getElementById("pointIndex").innerHTML = index;
+    		
 				}
+
+// 	editor.on( 'change', function( evt ) {
+//     // getData() returns CKEditor's HTML content.
+//     pointsDataContent.data = evt.editor.getData();
+ 
+// });
 
 function closeNav(){
     document.getElementById("mySidenav").style.width = "0";
     document.getElementById("main").style.marginLeft = "0";
     document.body.style.backgroundColor = "white";
     document.getElementById("pointIndex").innerHTML = 0;
+    editor.setData("");
 }
+
+
+
+
+
 </script>
 	<script src="libs/jquery-1.12.1.min.js"></script>
 	<script src="drawMap.js"></script>

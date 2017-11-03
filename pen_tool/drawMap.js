@@ -89,19 +89,52 @@ var stringArr = '';
 // 		$(el).click(clickFunc);
 // 	});
 		// var circlesOnPage = [];
+		if (localStorage.getItem('PointsContent') != null) {
+		    var pointsDataContentArray = JSON.parse(localStorage.getItem('PointsContent'));
+		} else {
+		    var pointsDataContentArray = [];
+		}
+		for (var i = 0; i < circlesArray.length; i++) {
+		    var paths = svgDoc.getElementById(i);
+		    // paths[i].attr("data","alert(1)");
+		    paths.style.cursor = "pointer";
 
-			for(var i=0;i<circlesArray.length;i++){
-      var paths = svgDoc.getElementById(i);
-      // paths[i].attr("data","alert(1)");
-      paths.style.cursor = "pointer";
+		    paths.addEventListener("click", function() {
 
-      paths.addEventListener("click",function(){
-      	var Npoint = parseInt(this.id) +1;
-      	openNav(Npoint);
-      	console.log(this.id);
+		        var Npoint = parseInt(this.id) + 1;
+		        // if(getPointData[].pointId){
+		        // 	editor.
+		        // }
+		        console.log(Npoint);
+		        if (localStorage.getItem('PointsContent') != null) {
+		            var getPointData = JSON.parse(localStorage.getItem('PointsContent'));
+		          
 
-      });
-			}
+		            for (var j = 0; j < getPointData.length; j++) {
+		            	
+		                var count = getPointData[j].pointId == Npoint;
+		                console.log(count);
+		                if (count) {
+		                    editor.setData(getPointData[j].data);
+		                }
+		          }
+		        }
+		        openNav(Npoint);
+		        document.getElementById("SavePointContent").onclick = function() {
+		            var pointsDataContent = {
+		                pointId: 0,
+		                data: ""
+		            };
+
+		            pointsDataContent.pointId = Npoint;
+		            
+		            pointsDataContent.data = editor.getData();
+		            pointsDataContentArray.push(pointsDataContent);
+		            localStorage.setItem('PointsContent', JSON.stringify(pointsDataContentArray));
+		            console.log(pointsDataContentArray);
+		        };
+		    });
+		}
 			// console.log(circlesOnPage);
 			// $.each(circlesOnPage, function(el){
 			// 	$(this).on("click", function(){
