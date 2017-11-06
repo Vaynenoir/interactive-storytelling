@@ -14,7 +14,7 @@
 	<style>
 	body{
 		height: 2000px;
-		background: #f9f7ed;
+		background: #fffde7;
 		color: #5d5c56;
 	}
 
@@ -44,7 +44,7 @@
     z-index: 5; /* Stay on top */
     top: 0;
     left: 0;
-    background-color: #111; /* Black*/
+    background-color:#424040; 
     overflow-x: hidden; /* Disable horizontal scroll */
     padding-top: 60px; /* Place content 60px from the top */
     transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
@@ -55,7 +55,7 @@
     padding: 8px 8px 8px 32px;
     text-decoration: none;
     font-size: 25px;
-    color: #818181;
+    color: #ffffff;
     display: block;
     transition: 0.3s
 }
@@ -79,6 +79,12 @@
     transition: margin-left .5s;
     padding: 20px;
 }
+.cke_chrome{
+	border: 1px solid #9fcbff!important;
+}
+.cke_inner{
+	background: linear-gradient(to bottom,#fff -15px,#005e6f 40px);
+}
 #point_textData{
 	min-height: 100px;
 	height: 300px;
@@ -86,7 +92,7 @@
 	max-width: 96%;
 	height: 755px;
 	max-height: 755px;
-	margin: 0 2% 0 2%;
+	margin: 0 1% 0 1%;
 	color: #4db6ac;
 	font-style: italic;
 	border: 1px dashed #4db6ac;
@@ -94,7 +100,7 @@
 .sidenav p{
 	text-align: center;
 	text-transform: uppercase;
-	color: #4db6ac;
+	color: #80deea;
 	font-style: italic;
 	font-size: 15px;
 }
@@ -105,7 +111,7 @@
 }
 #cke_point_textData{
 	width: 94%;
-	/*margin: 0 2% 0 2%;*/
+	margin: 0 1% 0 1%;
 }
 
 
@@ -139,13 +145,13 @@
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
   <p>type your data to the point №<span id="pointIndex"></span></p>
   <textarea name="text" id="point_textData" cols="30" rows="10"></textarea>
- 	<div class="btn_wrapper"><a id="SavePointContent" class="waves-effect waves-light btn">Save content</a></div>
+ 	<div class="btn_wrapper"><a id="SavePointContent" class="waves-effect waves-teal btn hoverable">Save content</a></div>
+ 	<p id="userNotification" class="text" style="text-align: center; color: #fff; display: none;">Your data is saved!</p>
 </div>
 
 
 
 <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
-<div id="be"></div>
 <div id="main">
 
 <div class="wrapper">
@@ -155,44 +161,12 @@
 
 </div>
   </div>
-<!-- 		<path fill="transparent" stroke="#000"   style = "stroke-dashoffset: 1000px; stroke-dasharray: 20px;" d="M 1191, 215 C 1130, 224, 945, 224, 854, 224 T 854, 224 C 763, 224, 634, 168, 707, 245 T 707, 245 C 780, 322, 841, 321, 896, 371 T 896, 371 C 951, 421, 892, 504, 835, 514 T 835, 514 C 778, 524, 750, 562, 702, 575 T 702, 575 C 654, 588, 635, 594, 648, 607 T 648, 607 C 661, 620, 674, 620, 672, 630 T 672, 630 C 670, 640, 649, 653, 642, 658 T 642, 658 C 635, 663, 643, 684, 629, 676 T 629, 676 C 615, 668, 608, 657, 599, 657 T 599, 657 C 590, 657, 594, 664, 602, 670 T 602, 670 C 610, 676, 619, 681, 610, 685 T 610, 685 C 601, 689, 596, 693, 593, 692 T 593, 692 C 590, 691, 589, 699, 593, 706 T 593, 706 C 597, 713, 595, 720, 581, 720 T 581, 720 C 567, 720, 568, 717, 550, 725 T 550, 725 C 532, 733, 528, 740, 521, 740 T 521, 740 C 514, 740, 512, 745, 495, 749 T 495, 749 C 478, 753, 463, 753, 455, 758 T 455, 758 C 447, 763, 439, 765, 433, 776 T 433, 776 C 427, 787, 423, 787, 423, 793 T 423, 793 C 423, 799, 421, 810, 424, 812 T 424, 812 C 427, 814, 432, 817, 440, 818 T 440, 818 C 448, 819, 452, 819, 457, 819 T 457, 819 C 462, 819, 462, 823, 472, 817 T 472, 817 C 482, 811, 476, 813, 491, 809 T 491, 809 C 506, 805, 499, 799, 524, 806 T 524, 806 C 549, 813, 552, 816, 560, 816 T 560, 816 C 568, 816, 569, 797, 569, 794 T 569, 794 C 569, 791, 569, 789, 578, 785 T 578, 785 C 587, 781, 587, 776, 590, 775 T 590, 775 C 593, 774, 594, 769, 600, 769 T 600, 769 C 606, 769, 620, 767, 629, 767 T 629, 767 C 638, 767, 659, 774, 663, 782 T 663, 782 C 667, 790, 672, 805, 676, 808 T 676, 808 C 680, 811, 688, 810, 694, 805 T 694, 805 C 700, 800, 699, 799, 705, 793 T 705, 793 C 711, 787, 710, 781, 723, 776 T 723, 776 C 736, 771, 745, 768, 756, 767 T 756, 767 C 767, 766, 770, 762, 780, 765 T 780, 765 C 790, 768, 797, 772, 800, 777 T 800, 777 C 803, 782, 804, 783, 803, 789 T 803, 789 C 802, 795, 786, 800, 806, 804 T 806, 804 C 826, 808, 820, 827, 848, 812 T 848, 812 C 876, 797, 877, 797, 891, 784 T 891, 784 C 905, 771, 906, 732, 929, 761 T 929, 761 C 952, 790, 953, 798, 970, 825 T 970, 825 C 987, 852, 977, 868, 1004, 877 T 1004, 877 C 1031, 886, 1033, 892, 1049, 852 T 1049, 852 C 1065, 812, 1067, 794, 1073, 768 T 1073, 768 C 1079, 742, 1105, 690, 1068, 692 T 1068, 692 C 1031, 694, 959, 747, 964, 704 T 964, 704 C 969, 661, 983, 660, 1020, 645 T 1020, 645 C 1057, 630, 1067, 606, 1059, 588 T 1059, 588 C 1051, 570, 1033, 586, 1024, 556 T 1024, 556 C 1015, 526, 1022, 531, 1065, 512 T 1065, 512 C 1108, 493, 1154, 463, 1154, 413 T 1154, 413 C 1154, 363, 1129, 385, 1176, 314 T 1176, 314 C 1223, 243, 1257, 233, 1231, 194 T 1231, 194 C 1205, 155, 1205, 168, 1168, 150 T 1168, 150 C 1131, 132, 1087, 125, 1017, 104 T 1017, 104 C 947, 83, 1010, 56, 900, 75 T 900, 75 C 790, 94, 846, 85, 776, 124 T 776, 124 C 706, 163, 728, 149, 674, 163 T">
-			
-		</path> -->
-<!-- </g>
-<g>
-	<text transform="matrix(1 0 0 1 593.0767 771.5918)" fill="#939598" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-weight='bold' font-size="5.1197">Kleifarvatn</text>
-	<text transform="matrix(1 0 0 1 506.8916 793.6055)" fill="#939598" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-weight='bold' font-size="5.1197">Seltún Geothermal Area</text>
-	<circle fill="#A8AAAD" cx="588.39" cy="773.176" r="2.979"/>
-	<circle fill="#A8AAAD" cx="571.324" cy="789.997" r="2.978"/>
-</g>
-<g id="trail-path" display="none">
-	<path display="inline" fill="none" stroke="#010101" stroke-width="5" stroke-miterlimit="10" d="M629.401,665.289
-		c-12.551,0.99-12.553,15.608-20.967,24.866c-3.251,0.812-6.501,1.624-9.752,2.438c0,1.951,0,3.9,0,5.851
-		c-7.1,5.672-14.126,9.676-22.303,13.471c-24.045,11.163-50.968,19.764-73.444,33.678c-18.811,11.645-23.344,10.609-45.437,7.297
-		c-8.486-1.273-20.111,13.275-29.129,18.797c-10.455,6.401-11.997,20.409-10.474,32.09c1.853,14.212-1.676,21.172-2.546,34.112
-		c14.554-15.794,29.532,1.427,44.895-9.083c4.449-3.043,17.184-11.589,20.443-9.688c10.108,5.896,16.574-11.011,24.867-11.459
-		c3.35-0.18,14.604,8.289,22.17,8.289c8.202,0,16.438,0.188,24.638,0c14.94-0.339,33.605,3.46,47.91-1.137
-		c15.753-5.063,30.883-13.979,46.538-3.307c21.313,14.53,26.324,13.21,50.931,7.247c21.955-5.323,32.319-7.005,37.834-30.442
-		c2.288-9.728-3.228-13.143,8.556-13.679c6.627-0.301,16.311-14.824,21.096-19.827c14.647-15.313,17.755-21.033,29.469,0.443
-		c2.815,5.16,14.612,2.186,20.479,5.12c7.569,3.784,12.953-18.441,14.14-24.379c3.103-15.52,27.477-22.599,36.812-31.935
-		c10.584-10.583,28.309-25.688,42.177-30.31c17.978-5.993,21.28-25.673,37.057-33.562c13.362-6.681,37.091-16.524,40.487-35.205
-		c2.196-12.076-9.505-29.334,1.445-39.15c16.149-14.475,33.448,10.102,47.242-11.737c0.232-0.367,61,64.801,91.724,150.693
-		c36.354,101.635,43.607,226.666,43.881,226.233"/>
-</g>
-<g id="camera-path" display="none">
-	<path display="inline" fill="none" stroke="#EC2227" stroke-width="3" stroke-miterlimit="10" d="M658.9,630.669
-		c0,0-280.539,125.21-251.399,200.056c15.45,39.688,127.697-8.992,169.484-17.219c53.122-10.456,156.542-46.28,204.369-71.656
-		c69.927-37.102,178.023-209.938,254.278-188.688c95.808,26.697,132.312,375.168,132.312,375.168"/>
-</g>
-<g id="points" display="none">
-	<circle id="Reykjavík" display="inline" fill="#405b54" cx="629.957" cy="663.596" r="5.782"/>
-	<circle id="Reykjanesta" display="inline" fill="#405b54" cx="415.661" cy="839.364" r="5.781"/>
-	<circle id="Krísuvíkurbjarg" display="inline" fill="#405b54" cx="578.029" cy="815.96" r="5.781"/>
-	<circle id="Hveragerði" display="inline" fill="#405b54" cx="781.354" cy="741.851" r="5.782"/>
-	<circle id="Gullfoss" display="inline" fill="#405b54" cx="1035.633" cy="553.162" r="5.782"/>
-	<circle id="Eyjafjallajökull" display="inline" fill="#405b54" cx="1169.476" cy="930.54" r="5.782"/>
-</g>
-</svg> -->
+
+
+
+
+
+
 
 <script>
 
@@ -200,7 +174,7 @@ var editor = CKEDITOR.replace("text");
 	        function openNav(index){
     			document.getElementById("mySidenav").style.width = "300px";
    			 document.getElementById("main").style.marginLeft = "300px";
-    		document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+    		document.body.style.backgroundColor = "rgba(0, 0, 0, 0.4)";
     		document.getElementById("pointIndex").innerHTML = index;
     		
 				}
@@ -214,9 +188,10 @@ var editor = CKEDITOR.replace("text");
 function closeNav(){
     document.getElementById("mySidenav").style.width = "0";
     document.getElementById("main").style.marginLeft = "0";
-    document.body.style.backgroundColor = "white";
+    document.body.style.backgroundColor = "#fffde7";
     document.getElementById("pointIndex").innerHTML = 0;
     editor.setData("");
+    $("#userNotification").fadeOut(200);
 }
 
 

@@ -11,6 +11,10 @@
 				stroke: #5d5c56;
 				opacity: .8;
 		}
+				#mapPaths path{
+		fill: #ffcc80;
+		stroke: #000;
+		}
 	</style>
 	
 		<amcharts:ammap  projection="mercator" leftLongitude="25.664066" bottomLatitude="35.806126" rightLongitude="44.819234" topLatitude="42.105360">

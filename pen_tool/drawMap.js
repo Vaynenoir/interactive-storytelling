@@ -19,6 +19,7 @@ $(document).ready(function() {
             $(path).attr('d', PathDirection);
             $(path).attr('fill', 'transparent');
             $(path).attr('stroke', '#000');
+
             // console.log(path);
         }
 
@@ -40,11 +41,8 @@ $(document).ready(function() {
 
        
         var circlesArray = JSON.parse(localStorage.getItem('circlesCoords'));
-
-        
-
-var pointsArray = [];
-var stringArr = '';
+			  var pointsArray = [];
+				var stringArr = '';
 
 
 //  Set the width of the side navigation to 0 and the left margin of the page content to 0, and the background color of body to white 
@@ -54,30 +52,34 @@ var stringArr = '';
       	var pointsObj = {
         	cx: 0,
         	cy: 0,
-        	r: 2
+        	r: 1
         };    
 
         var circle = s.circlePath(this.cx, this.cy, this.r).attr({
             fill: "#000",
-            stroke: "red",
+            stroke: "#a7470c",
             id: index
             // onclick: "openNav();"
         });
 
         var intersects = Snap.path.intersection(circle, $(path).attr('d'));
-
+        		console.log(intersects);
             pointsObj.cx = intersects[0].x;
             pointsObj.cy = intersects[0].y;
+
             pointsArray.push(pointsObj);
 						// console.log(pointsArray);
 						// circlesOnPage.push(circle);
             intersects.forEach(function(el) {
 
-                s.circle(el.x, el.y, 2);              
+                s.circle(el.x, el.y, 1);       
+                
             });
             // console.log(pointsArray);
 					localStorage.setItem('points', JSON.stringify(pointsArray));
         });	
+
+
 
 // console.log(circlesArray);
 // var clickFunc = function(){
@@ -97,8 +99,22 @@ var stringArr = '';
 		for (var i = 0; i < circlesArray.length; i++) {
 		    var paths = svgDoc.getElementById(i);
 		    // paths[i].attr("data","alert(1)");
+		    
 		    paths.style.cursor = "pointer";
+		    $(paths).mouseenter(function(){
+		    	$(this).css("fill", "#000");
+		    	$(this).css("transition", "0.5s");
+		    	$(this).css("stroke-width", "4px");
+		    	$(this).css("stroke","#000000");
 
+
+		    }).mouseout(function(){
+		    	$(this).css('fill', "#000");
+		    	$(this).css("transition", "0.5s");
+		    	$(this).css("stroke-width", "1px");
+		    	$(this).css("stroke","rgb(167,71,12)");
+		    });
+		  
 		    paths.addEventListener("click", function() {
 
 		        var Npoint = parseInt(this.id) + 1;
@@ -108,16 +124,20 @@ var stringArr = '';
 		        console.log(Npoint);
 		        if (localStorage.getItem('PointsContent') != null) {
 		            var getPointData = JSON.parse(localStorage.getItem('PointsContent'));
-		          
-
+		          	console.log(getPointData);
+		          	var PointLastData;
 		            for (var j = 0; j < getPointData.length; j++) {
 		            	
 		                var count = getPointData[j].pointId == Npoint;
+
 		                console.log(count);
 		                if (count) {
-		                    editor.setData(getPointData[j].data);
+		                    // editor.setData(getPointData[j].data);
+		                    PointLastData = getPointData[j].data;
+		                    console.log(PointLastData);
 		                }
 		          }
+		          editor.setData(PointLastData);
 		        }
 		        openNav(Npoint);
 		        document.getElementById("SavePointContent").onclick = function() {
@@ -127,11 +147,12 @@ var stringArr = '';
 		            };
 
 		            pointsDataContent.pointId = Npoint;
-		            
+
 		            pointsDataContent.data = editor.getData();
 		            pointsDataContentArray.push(pointsDataContent);
 		            localStorage.setItem('PointsContent', JSON.stringify(pointsDataContentArray));
 		            console.log(pointsDataContentArray);
+		            $("#userNotification").fadeIn(200);
 		        };
 		    });
 		}
@@ -162,9 +183,12 @@ var stringArr = '';
         	// var resultY = Math.round(pointY) - Math.round(pointsArray[j].cy);
         	// (Math.ceil(pointX) == Math.ceil(pointsArray[j].cx)  && Math.floor(pointY) == Math.floor(pointsArray[j].cy)) && 
         	  if( Math.round(pointX) == Math.round(pointsArray[j].cx)  && Math.round(pointY) == Math.round(pointsArray[j].cy)){
-        			console.log(pointX,pointY);
+        	  	
+        			console.log('['+Math.round(pointX),Math.round(pointsArray[j].cx)+'], '+'['+Math.round(pointY), Math.round(pointsArray[j].cy)+']');
         			stopsAtLength.push(i);
+        			
         		}
+// 1 погрешность в том, что иногда одна точка может быть записана 2 раза и длина отрезка у 1 точки будет n , а у 2 n+1
         	}
 
 // (2>resultX >-2)  &&  (2>resultY>-2)
@@ -178,7 +202,12 @@ var stringArr = '';
         	// $(circleTest).attr('stroke', "#000");
         	// svgRoot.append(circleTest);
         }
-
+        		if(pointsArray.length !== stopsAtLength.length){
+        			console.log("HERE IS THE DIFFERENCE: 1st array length = " + pointsArray.length + ', 2nd arr length= '+ stopsAtLength.length+""  );
+        		}
+        		else{
+        			console.log('no DIFFERENCE between arr lengths');
+        		}
         console.log(stopsAtLength);
 
 
@@ -190,35 +219,35 @@ var stringArr = '';
 
 
 
-        var result = [];
-        var subPathsCommonLength = 0;
-        var string = '';
-        string += ($(path).attr("d"));
-        var arr = string.split("T");
+        // var result = [];
+        // var subPathsCommonLength = 0;
+        // var string = '';
+        // string += ($(path).attr("d"));
+        // var arr = string.split("T");
 
 
-        console.log(path.getTotalLength());
+        // console.log(path.getTotalLength());
 
-        for (var i = 1; i < arr.length; i++) {
-            arr[i] = "M" + arr[i];
-            arr[i] += "T";
+        // for (var i = 1; i < arr.length; i++) {
+        //     arr[i] = "M" + arr[i];
+        //     arr[i] += "T";
 
-        }
-        arr[0] += "T";
+        // }
+        // arr[0] += "T";
 
-        for (var i = 0; i < arr.length; i++) {
-            var newPath = arr[i];
-            // console.log(newPath);
-            var SeparatePaths = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-            $(SeparatePaths).attr('d', newPath);
-            $(SeparatePaths).attr('fill', "none");
-            $(SeparatePaths).attr('stroke', "#000");
-            pathGroup.append(SeparatePaths);
-            svgRoot.append(pathGroup);
-            result.push(SeparatePaths.getTotalLength());
-            subPathsCommonLength += SeparatePaths.getTotalLength();
+        // for (var i = 0; i < arr.length; i++) {
+        //     var newPath = arr[i];
+        //     // console.log(newPath);
+        //     var SeparatePaths = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        //     $(SeparatePaths).attr('d', newPath);
+        //     $(SeparatePaths).attr('fill', "none");
+        //     $(SeparatePaths).attr('stroke', "#000");
+        //     pathGroup.append(SeparatePaths);
+        //     svgRoot.append(pathGroup);
+        //     result.push(SeparatePaths.getTotalLength());
+        //     subPathsCommonLength += SeparatePaths.getTotalLength();
 
-        }
+        // }
 
 
     }, false);
