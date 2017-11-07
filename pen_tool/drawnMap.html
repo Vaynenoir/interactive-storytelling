@@ -126,6 +126,62 @@
 	border-radius: 6px;
 
 }
+/*.zoom_input{
+	width: 50%!important;
+	color: #fff;
+	margin: 0 auto;
+}*/
+ul input{
+	margin: 0;
+}
+.collapsible{
+	width: 96%;
+	margin: 2% 2% 2% 2%;
+	border-radius: 5px;
+}
+.collapsible-body{
+	padding: 0.1rem;
+	background-color: #9e9e9e  ;
+	border-radius: 2px;
+}
+.collapsible-header{
+	background-color: #e0e0e0;
+	border-bottom: 1px solid #ccc;
+	color: #009688;
+	font-style: italic;
+	text-shadow: -3px -1px 5px rgba(152, 150, 150, 6);
+	padding: 0.7rem;
+
+}
+.valueInput{
+	margin: 0!important;
+	color: #b2ebf2;
+	height: 2.2rem;
+	font-style: italic;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+.sidenav .closebtn{
+	top: -5px;
+	right: 5px;
+}
+.sidenav p{
+	margin-top: 5px;
+	margin-bottom: 10px;
+}
+/*.zoom_wrap{
+	background-color: #fff;
+	width: 30%;
+	border-radius: 10px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}*/
 
 	</style>
 </head>
@@ -145,6 +201,61 @@
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
   <p>type your data to the point №<span id="pointIndex"></span></p>
   <textarea name="text" id="point_textData" cols="30" rows="10"></textarea>
+  <!-- <div class="zoom_wrap"><p>Zoom</p><input type="number" max="10" min="-2" id="zoomValue" class="zoom_input" value="0"></div> -->
+
+
+	<ul class="collapsible collapsible-accordion" data-collapsible="accordion">
+    <li>
+      <div class="collapsible-header">Zoom</div>
+      <div class="collapsible-body">
+      	<input type="number" min="-2" max="4" class="valueInput" id="pointZoom" value="0">
+      </div>
+    </li>
+    <li>
+      <div class="collapsible-header">Displacement</div>
+      	<div class="collapsible-body">
+      		
+      		<ul class="collapsible collapsible-accordion" data-collapsible="accordion">
+      			<li>
+      				<div class="collapsible-header">Top</div>
+      				<div class="collapsible-body">
+      					<input type="number" min="-2" max="4" class="valueInput" id="pointTop" value="0">
+      				</div>
+      			</li>
+      			<li>
+      				<div class="collapsible-header">Bottom</div>
+      				<div class="collapsible-body">
+      					<input type="number" min="-2" max="4" class="valueInput" id="pointBottom" value="0">
+      				</div>
+      			</li>
+      			<li>
+      				<div class="collapsible-header">Left</div>
+      				<div class="collapsible-body">
+      					<input type="number" min="-2" max="4" class="valueInput" id="pointLeft" value="0">
+      				</div>
+      			</li>
+      			<li>
+      				<div class="collapsible-header">Right</div>
+      				<div class="collapsible-body">
+      					<input type="number" min="-2" max="4" class="valueInput" id="pointRight" value="0">
+      				</div>
+      			</li>
+      		</ul>
+      	</div>
+    </li>
+   
+  </ul>
+	
+
+
+
+
+
+
+
+
+
+
  	<div class="btn_wrapper"><a id="SavePointContent" class="waves-effect waves-teal btn hoverable">Save content</a></div>
  	<p id="userNotification" class="text" style="text-align: center; color: #fff; display: none;">Your data is saved!</p>
 </div>
@@ -167,8 +278,10 @@
 
 
 
-
+<script></script>
 <script>
+
+
 
 var editor = CKEDITOR.replace("text");
 	        function openNav(index){
@@ -176,6 +289,7 @@ var editor = CKEDITOR.replace("text");
    			 document.getElementById("main").style.marginLeft = "300px";
     		document.body.style.backgroundColor = "rgba(0, 0, 0, 0.4)";
     		document.getElementById("pointIndex").innerHTML = index;
+
     		
 				}
 
@@ -192,15 +306,21 @@ function closeNav(){
     document.getElementById("pointIndex").innerHTML = 0;
     editor.setData("");
     $("#userNotification").fadeOut(200);
+    document.getElementById("pointZoom").value = "0";
+    document.getElementById("pointTop").value = "0";
+    document.getElementById("pointBottom").value = "0";
+    document.getElementById("pointLeft").value = "0";
+    document.getElementById("pointRight").value = "0";
 }
-
-
 
 
 
 </script>
 	<script src="libs/jquery-1.12.1.min.js"></script>
 	<script src="drawMap.js"></script>
+	<script src="js/materialize.min.js">
+
+	</script>
 
 </body>
 </html>
