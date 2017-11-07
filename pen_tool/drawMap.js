@@ -56,8 +56,9 @@ $(document).ready(function() {
         };    
 
         var circle = s.circlePath(this.cx, this.cy, this.r).attr({
-            fill: "#000",
-            stroke: "#a7470c",
+            fill: "#ff6600",
+            stroke: "#000",
+            "stroke-width": "3px",
             id: index
             // onclick: "openNav();"
         });
@@ -81,16 +82,9 @@ $(document).ready(function() {
 
 
 
-// console.log(circlesArray);
-// var clickFunc = function(){
-// 	alert("YO");
-// };
-// 	console.log();
-// 	$.each(circlesOnPage, function(i,el){
 
-// 		$(el).click(clickFunc);
-// 	});
-		// var circlesOnPage = [];
+
+
 		if (localStorage.getItem('PointsContent') != null) {
 		    var pointsDataContentArray = JSON.parse(localStorage.getItem('PointsContent'));
 		} else {
@@ -99,21 +93,37 @@ $(document).ready(function() {
 		for (var i = 0; i < circlesArray.length; i++) {
 		    var paths = svgDoc.getElementById(i);
 		    // paths[i].attr("data","alert(1)");
-		    
+		    var equalID = i + 1;
+		    // console.log(pointsDataContentArray[i].pointId);
+		    for(var j=0;j<pointsDataContentArray.length;j++){
+
+		    if(pointsDataContentArray[j].pointId == equalID){
+		    	console.log("pointsId: " + pointsDataContentArray[j].pointId+", eq = "+ equalID);
+		    	var checked = pointsDataContentArray[j].pointId-1;
+		    	var FilledContentPaths = svgDoc.getElementById(checked);
+		    	// console.log(FilledContentPaths);
+		    	$(FilledContentPaths).css("fill", "#990033");
+		    }
+
+		    }
 		    paths.style.cursor = "pointer";
 		    $(paths).mouseenter(function(){
-		    	$(this).css("fill", "#000");
 		    	$(this).css("transition", "0.5s");
-		    	$(this).css("stroke-width", "4px");
-		    	$(this).css("stroke","#000000");
+		    	$(this).css("stroke-width", "6px");
+		    	$(this).css("stroke","#000");
 
 
 		    }).mouseout(function(){
-		    	$(this).css('fill', "#000");
 		    	$(this).css("transition", "0.5s");
-		    	$(this).css("stroke-width", "1px");
-		    	$(this).css("stroke","rgb(167,71,12)");
+		    	$(this).css("stroke-width", "3px");
+		    	$(this).css("stroke","#000");
 		    });
+		    // if(pointsDataContentArray[i].pointId === paths.id){
+		    // 	console.log('Here is content at path N ' + paths );
+		    // }
+		    // else{
+		    // 	console.log("no content on paths yet1");
+		    // }
 		  
 		    paths.addEventListener("click", function() {
 
@@ -121,15 +131,25 @@ $(document).ready(function() {
 		        // if(getPointData[].pointId){
 		        // 	editor.
 		        // }
-		        console.log(Npoint);
+		        console.log(this);
+		        var currentPath = this;
 		        if (localStorage.getItem('PointsContent') != null) {
 		            var getPointData = JSON.parse(localStorage.getItem('PointsContent'));
 		          	console.log(getPointData);
 		          	var PointLastData;
-		            for (var j = 0; j < getPointData.length; j++) {
-		            	
-		                var count = getPointData[j].pointId == Npoint;
 
+		          	// console.log(getPointData[Npoint].zoom);
+
+		            for (var j = 0; j < getPointData.length; j++) {
+		            		// document.getElementById("pointZoom").value = getPointData[j].zoom;
+		                var count = getPointData[j].pointId == Npoint;
+		                if(getPointData[j].pointId == Npoint){
+		                	document.getElementById("pointZoom").value = getPointData[j].zoom;
+		                	document.getElementById("pointTop").value = getPointData[j].top;
+		                	document.getElementById("pointBottom").value = getPointData[j].bottom;
+		                	document.getElementById("pointLeft").value = getPointData[j].left;
+		                	document.getElementById("pointRight").value = getPointData[j].right;
+		                }
 		                console.log(count);
 		                if (count) {
 		                    // editor.setData(getPointData[j].data);
@@ -137,22 +157,76 @@ $(document).ready(function() {
 		                    console.log(PointLastData);
 		                }
 		          }
+
 		          editor.setData(PointLastData);
+
 		        }
 		        openNav(Npoint);
+		        console.log(pointsDataContentArray);
+		            // $("#pointZoom").val(parseInt(pointsDataContentArray.zoom));
+		            // $("#pointTop").val(parseInt(pointsDataContentArray.top));
+		            // $("#pointBottom").val(parseInt(pointsDataContentArray.bottom));
+		            // $("#pointLeft").val(parseInt(pointsDataContentArray.left));
+		            // $('#pointRight').val(parseInt(pointsDataContentArray.right));
+
+		            console.log(document.getElementById("pointZoom").value,document.getElementById("pointTop").value,document.getElementById("pointBottom").value,document.getElementById("pointLeft").value,document.getElementById('pointRight').value);
 		        document.getElementById("SavePointContent").onclick = function() {
 		            var pointsDataContent = {
 		                pointId: 0,
+		                zoom: 0,
+		                top: 0,
+		                bottom: 0,
+		                left: 0,
+		                right: 0,
 		                data: ""
 		            };
+		            var InputZoomValue = parseInt(document.getElementById("pointZoom").value);
+		            var InputTopValue = parseInt(document.getElementById("pointTop").value);
+		            var InputBottomValue = parseInt(document.getElementById("pointBottom").value);
+		            var InputLeftValue = parseInt(document.getElementById("pointLeft").value);
+		            var InputRightValue = parseInt(document.getElementById('pointRight').value);
+		            console.log(InputZoomValue,InputTopValue,InputBottomValue,InputLeftValue,InputRightValue);
 
+		            console.log(pointsDataContentArray);
+		            // $(FilledPathContent).css("fill", "red");
 		            pointsDataContent.pointId = Npoint;
 
+		            pointsDataContent.zoom = InputZoomValue;
+		            pointsDataContent.top = InputTopValue;
+		            pointsDataContent.bottom = InputBottomValue;
+		            pointsDataContent.left = InputLeftValue;
+		            pointsDataContent.right = InputRightValue;
+
+
+
+
 		            pointsDataContent.data = editor.getData();
+
+		            for(var j = 0; j < pointsDataContentArray.length;j++){
+		            	
+		            	if(pointsDataContentArray[j].pointId == Npoint){
+		            		pointsDataContentArray.splice(j,1);
+		            		console.log(pointsDataContentArray);
+		            	}
+		            }	
 		            pointsDataContentArray.push(pointsDataContent);
 		            localStorage.setItem('PointsContent', JSON.stringify(pointsDataContentArray));
 		            console.log(pointsDataContentArray);
 		            $("#userNotification").fadeIn(200);
+		            
+
+
+
+
+
+
+
+
+
+
+
+
+		           $(currentPath).css("fill", "#990033");
 		        };
 		    });
 		}
@@ -258,4 +332,5 @@ $(document).ready(function() {
     $.each(WrapperProps, function(prop, value) {
         $(".mapbg").css(prop, value);
     });
+
 });
