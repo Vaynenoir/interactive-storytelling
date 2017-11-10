@@ -13,17 +13,22 @@
 
 	<style>
 	body{
-		height: 2000px;
 		background: #fffde7;
 		color: #5d5c56;
 	}
 
-
+	#title{
+			text-transform: uppercase;
+	letter-spacing: 2px;
+	font-style: bold;
+		color: #64b5f6;
+	text-shadow: 3px 0px 9px rgba(69, 150, 150, 0.43);
+	}
 
 		.wrapper{
 			
   width: 100%;
-  height: 1040px;
+
 
 		}
 
@@ -78,6 +83,8 @@
 #main {
     transition: margin-left .5s;
     padding: 20px;
+
+    position: relative;
 }
 .cke_chrome{
 	border: 1px solid #9fcbff!important;
@@ -173,6 +180,19 @@ input::-webkit-inner-spin-button {
 	margin-top: 5px;
 	margin-bottom: 10px;
 }
+h1{
+	margin: 0;
+	z-index: 100;
+	transition: margin-left .5s;
+	font-size: 2.5rem;
+	text-align: center;
+}
+.next{
+	z-index: 200;
+	position: absolute;
+	left: 84%;
+	top: 832px;
+}
 /*.zoom_wrap{
 	background-color: #fff;
 	width: 30%;
@@ -208,7 +228,7 @@ input::-webkit-inner-spin-button {
     <li>
       <div class="collapsible-header">Zoom</div>
       <div class="collapsible-body">
-      	<input type="number" min="-2" max="4" class="valueInput" id="pointZoom" value="0">
+      	<input type="number" min="-2" max="4" class="valueInput" id="pointZoom" value="100">
       </div>
     </li>
     <li>
@@ -263,14 +283,18 @@ input::-webkit-inner-spin-button {
 
 
 <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
+<div class="head">	
+<h1  id="title"><span style="color: #37474f ;">Step 2.</span>Click points to add your content!</h1>
 <div id="main">
 
+<a href="ready_page/ready_page.html" class="btn next waves-effect waves-light">Go next</a>
 <div class="wrapper">
 <div class="mapbg">
 <object id="map" data="" type="image/svg+xml" width="1920px" height="1200px"></object>
 </div>
 
 </div>
+  </div>
   </div>
 
 
@@ -289,7 +313,7 @@ var editor = CKEDITOR.replace("text");
    			 document.getElementById("main").style.marginLeft = "300px";
     		document.body.style.backgroundColor = "rgba(0, 0, 0, 0.4)";
     		document.getElementById("pointIndex").innerHTML = index;
-
+    		document.getElementById('title').style.marginLeft="300px";
     		
 				}
 
@@ -302,15 +326,17 @@ var editor = CKEDITOR.replace("text");
 function closeNav(){
     document.getElementById("mySidenav").style.width = "0";
     document.getElementById("main").style.marginLeft = "0";
+    document.getElementById('title').style.marginLeft="0";
     document.body.style.backgroundColor = "#fffde7";
     document.getElementById("pointIndex").innerHTML = 0;
     editor.setData("");
     $("#userNotification").fadeOut(200);
-    document.getElementById("pointZoom").value = "0";
+    document.getElementById("pointZoom").value = "100";
     document.getElementById("pointTop").value = "0";
     document.getElementById("pointBottom").value = "0";
     document.getElementById("pointLeft").value = "0";
     document.getElementById("pointRight").value = "0";
+    $('#title').fadeIn(300);
 }
 
 

@@ -151,7 +151,7 @@ h1{
 	<div class="buttons_bar">
 <!-- 		<span>Animation time:</span><input type="text" id="time" value="5000"/>
 		<button class="waves-effect waves-light btn" id="execute">Execute</button> -->
-		<a href="http://127.0.0.1:8080/drawnMap.html"><button class="waves-effect waves-light btn" id="export">Export path and go next</button></a>
+		<a href="drawnMap.html"><button class="waves-effect waves-light btn" id="export">Export path and go next</button></a>
 		<button class="waves-effect waves-light btn" id="clear">clear path</button>
 		<button class="waves-effect waves-light btn" id="screen">full screen</button>
 		<textarea name="" placeholder="result is here" id="result" cols="30" rows="10"></textarea>
@@ -283,11 +283,17 @@ $("#minus").bind('click',function(){
 
 	var moveLeft = 2;
 	var moveTop = 2;
-
+	var moveLeftDefault = 0;
+	var moveTopDefault = 0;
+	$("map_bg").css("left", "" + moveLeftDefault + "%");
+	$("map_bg").css("top", "" + moveTopDefault + "%");
+	styleProps.left =  ""+moveLeftDefault+"%";
+	styleProps.top =  ""+moveTopDefault+"%";
 $("#moveLeft").bind("click",function(){
 	moveLeft+=3;
 	$("#map_bg").css("left", ""+moveLeft+"%");
 	styleProps.left =  ""+moveLeft+"%";
+	
 
 });
 $("#moveRight").bind("click", function(){
