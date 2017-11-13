@@ -36,7 +36,8 @@ $(document).ready(function(){
      				"data-pos-top": dataContent[i].top  + "%",
      				"data-pos-bottom": dataContent[i].bottom  + "%",
      				"data-pos-left": dataContent[i].left  + "%",
-     				"data-pos-right": dataContent[i].bottom  + "%"
+     				"data-pos-right": dataContent[i].bottom  + "%",
+     				"id": "section_" + i
      		});
 
 
@@ -92,10 +93,12 @@ $('mapbg').css("bottom", "0");
           var path1 = document.createElementNS('http://www.w3.org/2000/svg', 'path');
  					$(path1).css('display', 'none');
 
-
+ 
 function sectionCounter() {
-     $('.js-section').each(function() {
-
+     $('.js-section').each(function(i) {
+     	   // var sectionId = "section_" + i;
+     	   // console.log(i);
+     	   // $(this).attr('id', sectionId);
          var scrollCount = $(window).scrollTop();
          var topOffset = $(this).offset().top;
          var dataZoom = $(this).attr("data-zoom");
@@ -107,7 +110,7 @@ function sectionCounter() {
 
 
          // console.log(dataPosLeft);
-         if (topOffset <= scrollCount) {
+         if (topOffset <= scrollCount && inWindow($(this))) {
 
              $(this).addClass("active");
              
@@ -148,10 +151,10 @@ function sectionCounter() {
      			'data-pos-x': CirclePathCoords[i].cx,
      			'data-pos-y': CirclePathCoords[i].cy
      });
-     		console.log(el);
+     		// console.log(el);
      	}); 
      // var vis_count = 0;
-     console.log(arrImgID);
+     // console.log(arrImgID);
 
 
      var vis_count = 0;
@@ -315,13 +318,31 @@ var  counter = 0;
 
 
 
+function checkContentInWindow(i){
+
+$.each($('.js-section'), function(){
+if($(this).hasClass('active')){
+	var id = $(this).attr("id");
+		
+		id = id[8];
+
+		
+		return parseInt(id);
+}
+});
+
+}
+
+
+
+
+
 
 
 
 
 
 function scrolled(e) {
-
 
 	   var $percentageComplete = (($(window).scrollTop() / ($("html").height() - $(window).height())) * 100);
 
@@ -331,34 +352,85 @@ function scrolled(e) {
 	   
 
     var $newUnit = length; //parseInt($dashOffset, 10);
-    var $offsetUnit = $percentageComplete * ($newUnit / 500);
+    var $offsetUnit = $percentageComplete * ($newUnit / 1000);
     var offsetCounter = $newUnit - ($offsetUnit);
     // console.log(Math.round($offsetUnit));
     // console.log(path.pathLength);
  
-$(path).css("stroke-dashoffset", ($newUnit - ($offsetUnit)));
+
     // console.log(Math.floor($offsetUnit));
     
     if(20>($newUnit - ($offsetUnit)) >0){
     	$(path).css("stroke-dashoffset", "0px");
     }
 
+
+
+
+
+
+
+
 	sectionCounter();
 
+
+
+
+
+
+
+
+
+
+
+
 	for(var i=0; i< StopPoints.length;i++){
-		   
+		   	checkContentInWindow(i);
 				var faultLess = StopPoints[i] - 6;
 				var faultMore = StopPoints[i] + 20;
 				var pathCurrentLength = Math.floor($offsetUnit);
 				// console.log(faultMore,faultLess);
-     		if( pathCurrentLength < faultMore && pathCurrentLength > faultLess){
-     		// $(path).css("stroke-dashoffset", "" +($newUnit - StopPoints[i]) + "px");
-     		// $(window).off("scroll", scrolled);
+				// console.log(inWindow($('#section_' + i)));
+				// enableScroll(i);
+
+				// console.log($('.active'));
+				// checkContentInWindow(i);
+				// console.log(pathCurrentLength);
+
+
+				// if( pathCurrentLength < faultMore && pathCurrentLength > faultLess ){
+     						
+
+     						console.log(checkContentInWindow(i));
+     				if(checkContentInWindow(i) === i){
+     						console.log('KEK');
+     						$(path).css("stroke-dashoffset", "" + ($newUnit -  StopPoints[checkContentInWindow(i)]) + "px");
+     				}
+     		// console.log(($newUnit - pathCurrentLength));
+     		
+     		// $(path).css("stroke-dashoffset", StopPoints[i] + "px");
+     		// $(window).unbind("scroll", scrolled);
+
+     			
+				// $(window).on("scroll resize");
+				
+     	// }
+
+
+				$(path).css("stroke-dashoffset", "" + ($newUnit - pathCurrentLength) + "px");
+
+				// if( pathCurrentLength > faultMore && pathCurrentLength < faultLess && checkContentInWindow(i) == i){
+     		
+    //  		$(path).css("stroke-dashoffset", "" + ($newUnit - pathCurrentLength) + "px");
+
+    //  			// $(window).bind("scroll", scrolled);
+     		
+    //  	  }
+				
+
+
      		
 
-
-				// $(window).on("scroll resize");
-     	}
      	// else if(pathCurrentLength > faultMore && pathCurrentLength < faultLess ){
      	// 	$(window).on("scroll");
      	// 	$(path).css("stroke-dashoffset", ($newUnit - ($offsetUnit)));
@@ -374,6 +446,9 @@ $(path).css("stroke-dashoffset", ($newUnit - ($offsetUnit)));
      	// }
      	}	
 }
+
+
+
 
 
 
