@@ -40,14 +40,15 @@ $(document).ready(function(){
      				"id": "section_" + i
      		});
 
-
+  
      			section.insertAdjacentHTML('beforeend', dataContent[i].data);
      			$(section).find('img').addClass('js-image');
      			$(section).find('.js-image').attr('data-pos-x', 0);
      			$(section).find('.js-image').attr('data-pos-y', 0);
 
 
-     			text_cont.append(section);	
+     			text_cont.append(section);
+
      	}
 
 
@@ -79,6 +80,8 @@ $('mapbg').css("bottom", "0");
             $(path).attr('d', PathDirection);
             $(path).attr('fill', 'transparent');
             $(path).attr('stroke', '#000');
+            $(path).attr('stroke-width', "3px");
+            $(path).attr("opacity", '1');
 
             // console.log(path);
         }
@@ -147,10 +150,17 @@ function sectionCounter() {
 
     var CirclePathCoords = JSON.parse(localStorage.getItem('circlesCoords'));
     $(arrImgID).each(function(i,el){
-     		$(this).attr({
-     			'data-pos-x': CirclePathCoords[i].cx,
-     			'data-pos-y': CirclePathCoords[i].cy
-     });
+    		var imgParentID = $(this).closest('section')[0].id;
+
+    			imgParentID = imgParentID[8];
+    			// console.log(imgParentID)
+    			if(imgParentID == CirclePathCoords[i].id-1){
+    		// console.log($(this).closest('section')[0].id);
+     					$(this).attr({
+     						'data-pos-x': CirclePathCoords[imgParentID].cx,
+     						'data-pos-y': CirclePathCoords[imgParentID].cy
+    					});
+     			}
      		// console.log(el);
      	}); 
      // var vis_count = 0;
@@ -277,11 +287,6 @@ svgRoot.append(path1);
 
 
 
-
-
-
-
-
      	var length = path.getTotalLength();
 
 
@@ -291,181 +296,106 @@ svgRoot.append(path1);
      });
      
      var StopPoints = JSON.parse(localStorage.getItem('stopsAtLength'));
-     // for(var i=0;i<StopPoints.length;i++){
-     // 	var stopPoint = StopPoints[i];
-     // 	console.log(stopPoint);
-     // }
-     var stops = (function(pathLength){
-     	for(var i=0; i< StopPoints.length;i++){
-     		var stopPoint = StopPoints[i];
-     		// console.log(pathLength);
-     		if((stopPoint - 8)<= pathLength <=(stopPoint)){
-     			// console.log(pathLength);
-     		}
-     	}
-     });
-     
-
-var  counter = 0;
-// console.log(length);
 
 
 
-
-
-
-
-
-
-
-function checkContentInWindow(i){
-
-$.each($('.js-section'), function(){
-if($(this).hasClass('active')){
-	var id = $(this).attr("id");
-		
-		id = id[8];
-
-		
-		return parseInt(id);
-}
-});
-
-}
-
-
-
-
-
-
-
-
-
-
-function scrolled(e) {
-
-	   var $percentageComplete = (($(window).scrollTop() / ($("html").height() - $(window).height())) * 100);
-
-
-	   // console.log(pathBegin);
-	   	// console.log($(path).css("stroke-dashoffset"));
-	   
-
+function drawPath(){
+	  var $percentageComplete = (($(window).scrollTop() / ($("html").height() - $(window).height())) * 100);
     var $newUnit = length; //parseInt($dashOffset, 10);
     var $offsetUnit = $percentageComplete * ($newUnit / 1000);
     var offsetCounter = $newUnit - ($offsetUnit);
-    // console.log(Math.round($offsetUnit));
-    // console.log(path.pathLength);
- 
+    var pathCurrentLength = Math.floor($offsetUnit);
 
-    // console.log(Math.floor($offsetUnit));
-    
-    if(20>($newUnit - ($offsetUnit)) >0){
+
+     if(20>($newUnit - ($offsetUnit)) >0){
     	$(path).css("stroke-dashoffset", "0px");
     }
-
-
-
-
-
-
-
-
-	sectionCounter();
-
-
-
-
-
-
-
-
-
-
-
+    // console.log($newUnit);
 
 	for(var i=0; i< StopPoints.length;i++){
-		   	checkContentInWindow(i);
-				var faultLess = StopPoints[i] - 6;
-				var faultMore = StopPoints[i] + 20;
-				var pathCurrentLength = Math.floor($offsetUnit);
-				// console.log(faultMore,faultLess);
-				// console.log(inWindow($('#section_' + i)));
-				// enableScroll(i);
 
-				// console.log($('.active'));
-				// checkContentInWindow(i);
-				// console.log(pathCurrentLength);
+					
 
+     						$.each($('.js-section'), function(i,el){
 
-				// if( pathCurrentLength < faultMore && pathCurrentLength > faultLess ){
-     						
+     							
+									if($(this).hasClass('active') ){
+										
+										var currentSectionID = $(this).attr("id");
+										currentSectionID = currentSectionID[8];
+										
+										// console.log(currentSectionID);
+										// console.log(pathCurrentLength);
+										// console.log(currentSectionID);
+										// console.log(pathCurrentLength);
+										if(pathCurrentLength < StopPoints[currentSectionID]){
+											console.log(pathCurrentLength);
+											// console.log(pathCurrentLength +"<" + StopPoints[currentSectionID]);
+											console.log("if");
+											// console.log("if");
 
-     						console.log(checkContentInWindow(i));
-     				if(checkContentInWindow(i) === i){
-     						console.log('KEK');
-     						$(path).css("stroke-dashoffset", "" + ($newUnit -  StopPoints[checkContentInWindow(i)]) + "px");
-     				}
-     		// console.log(($newUnit - pathCurrentLength));
-     		
-     		// $(path).css("stroke-dashoffset", StopPoints[i] + "px");
-     		// $(window).unbind("scroll", scrolled);
-
-     			
-				// $(window).on("scroll resize");
-				
-     	// }
-
-
-				$(path).css("stroke-dashoffset", "" + ($newUnit - pathCurrentLength) + "px");
-
-				// if( pathCurrentLength > faultMore && pathCurrentLength < faultLess && checkContentInWindow(i) == i){
-     		
-    //  		$(path).css("stroke-dashoffset", "" + ($newUnit - pathCurrentLength) + "px");
-
-    //  			// $(window).bind("scroll", scrolled);
-     		
-    //  	  }
-				
+										if(currentSectionID > 0 && pathCurrentLength> StopPoints[currentSectionID-1]){ //////!!!!!!!!!!!!!!!!!!!!
+											// console.log($newUnit, pathCurrentLength);
+											// console.log($newUnit - StopPoints[currentSectionID-1]);
+											// console.log("pathCurrentLength == " + pathCurrentLength);
+											// var f = $newUnit - pathCurrentLength;
+											// console.log("f == " +f);
+											
+											// pathCurrentLength -= pathCurrentLength - StopPoints[currentSectionID-1];
+											console.log($newUnit - pathCurrentLength);
+											// console.log("f+=g", f-=g);
+											console.log("if if");
+											//  var StartFromPreviousStopPoint = f-g;
+											// console.log("substrasction == "+ StartFromPreviousStopPoint - pathCurrentLength);
+											// StartFromPreviousStopPoint += (pathCurrentLength-StopPoints[currentSectionID-1]);
+											// console.log(StartFromPreviousStopPoint);
 
 
-     		
 
-     	// else if(pathCurrentLength > faultMore && pathCurrentLength < faultLess ){
-     	// 	$(window).on("scroll");
-     	// 	$(path).css("stroke-dashoffset", ($newUnit - ($offsetUnit)));
-     	// }
-     	
-     	// else{
-     	// 	$(window).bind("scroll", function(){
-      //       scroll();
-      //   });
-     	// 	}
-     	// else if(pathCurrentLength > faultMore && pathCurrentLength < faultLess ){
-     	// 	$(path).css("stroke-dashoffset", ($newUnit - ($offsetUnit)));
-     	// }
+
+											$(path).css("stroke-dashoffset", ""+ $newUnit - pathCurrentLength  +"");
+										}
+
+										if(currentSectionID == 0 && pathCurrentLength < StopPoints[currentSectionID]){
+											// console.log("fucking else if");
+											$(path).css("stroke-dashoffset", "" + ($newUnit -  pathCurrentLength)  + "px");
+											console.log("first if");
+										}
+
+										}
+
+
+
+										else if(pathCurrentLength > StopPoints[currentSectionID]){
+											console.log('else if');
+											
+											$(path).css("stroke-dashoffset", "" + ($newUnit -  StopPoints[currentSectionID]) + "px");
+											// console.log("else");
+											
+										}
+
+										// console.log(pathCurrentLength);
+									}
+
+								});
      	}	
 }
 
 
 
 
+function scrolled(e) {
 
+
+
+	drawPath();
+	sectionCounter();
+
+
+
+}
 
 $(window).on("scroll", scrolled);
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

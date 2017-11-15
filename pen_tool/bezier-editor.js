@@ -135,11 +135,13 @@ var bezierEditor = function(id) {
 			this.halfPointSize = this.pointSize / 2;
 
 					var circlesArr = [];
+					var counter = 0;
 			this.canvas.onmousedown = function(e) {
 																var circles = {
 							cx: 0,
 							cy: 0,
-							r: 8
+							r: 8,
+							id: 0
 					};
 				editor.state.down = true;
 				if(e.ctrlKey == true || e.altKey == true) {
@@ -164,8 +166,10 @@ var bezierEditor = function(id) {
 					clickX = pos.x; 
 					clickY = pos.y;
 					}
+					counter++;
 					circles.cx = clickX;
 					circles.cy = clickY;
+					circles.id = counter;
 					circlesArr.push(circles);
 					console.log(circlesArr);
 					localStorage.setItem('circlesCoords', JSON.stringify(circlesArr));
