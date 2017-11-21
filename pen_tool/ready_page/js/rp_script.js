@@ -189,10 +189,12 @@ function sectionCounter() {
              // console.log("Top:"+Coordinates.top+", Left:"+Coordinates.left+", Right:"+Coordinates.right+", Bottom:"+Coordinates.bottom);
              var bottomOffsetImg = Coordinates.top + $(this).height();
              // console.log(Coordinates);
-             $(path1).attr('d', "M" + cx + " " + cy + " L" + (-Coordinates.left) + " " + (Coordinates.top-120) + " L" + (Coordinates.left) + " " + (Coordinates.bottom-200));
+             // $(path1).attr('d', "M" + cx + " " + cy + " L" + (-Coordinates.left) + " " + (Coordinates.top-120) + " L" + (Coordinates.left) + " " + (Coordinates.bottom-200));
+           		$(path1).attr('d', "M" + cx + " " + cy + " L" + (-Coordinates.left) + " " + (Coordinates.top-110) + " L" + (-Coordinates.left) + " " + (Coordinates.bottom-160));
              $(path1).css('position', "relative");
              $(path1).attr('fill', '#47DBB4');
-             $(path1).attr('opacity', '.2');
+             $(path1).attr('opacity', '.3');
+
 
          }
      });
@@ -300,20 +302,21 @@ svgRoot.append(path1);
 
 
 function drawPath(){
-	  var $percentageComplete = (($(window).scrollTop() / ($("html").height() - $(window).height())) * 100);
-    var $newUnit = length; //parseInt($dashOffset, 10);
-    var $offsetUnit = $percentageComplete * ($newUnit / 1000);
-    var offsetCounter = $newUnit - ($offsetUnit);
-    var pathCurrentLength = Math.floor($offsetUnit);
+	  
+    //  if(20>($newUnit - ($offsetUnit)) >0){
+    // 	$(path).css("stroke-dashoffset", "0px");
+    // }
 
-
-     if(20>($newUnit - ($offsetUnit)) >0){
-    	$(path).css("stroke-dashoffset", "0px");
-    }
     // console.log($newUnit);
 
 	for(var i=0; i< StopPoints.length;i++){
 
+						// var $percentageComplete = ((($(window)).scrollTop() / (($('html')).height() - $(window).height())) * 100);
+						// console.log($percentageComplete);
+						// var $newUnit = path.getTotalLength(); //parseInt($dashOffset, 10);
+    		// 		var $offsetUnit = $percentageComplete * ($newUnit / 1000);
+    		// 		var offsetCounter = $newUnit - ($offsetUnit);
+    		// 		var pathCurrentLength = Math.floor($offsetUnit);
 					
 
      						$.each($('.js-section'), function(i,el){
@@ -321,60 +324,65 @@ function drawPath(){
      							
 									if($(this).hasClass('active') ){
 										
+										var $percentageComplete = (($(window).scrollTop() - $(this).offset().top)/$(this).height()) * 100;
+										// console.log($percentageComplete , $(window).scrollTop(), $(this).offset().top, $(this).height());
+										
+										
 										var currentSectionID = $(this).attr("id");
 										currentSectionID = currentSectionID[8];
+										var $offsetUnit = $percentageComplete * (StopPoints[currentSectionID]/100);
+										var CurrentPathCurrentLength;
+										CurrentPathCurrentLength = Math.floor($offsetUnit);
+
 										
-										// console.log(currentSectionID);
-										// console.log(pathCurrentLength);
-										// console.log(currentSectionID);
-										// console.log(pathCurrentLength);
-										if(pathCurrentLength < StopPoints[currentSectionID]){
-											console.log(pathCurrentLength);
-											// console.log(pathCurrentLength +"<" + StopPoints[currentSectionID]);
-											console.log("if");
-											// console.log("if");
+										
 
-										if(currentSectionID > 0 && pathCurrentLength> StopPoints[currentSectionID-1]){ //////!!!!!!!!!!!!!!!!!!!!
-											// console.log($newUnit, pathCurrentLength);
-											// console.log($newUnit - StopPoints[currentSectionID-1]);
-											// console.log("pathCurrentLength == " + pathCurrentLength);
-											// var f = $newUnit - pathCurrentLength;
-											// console.log("f == " +f);
+
+
+
+										if(CurrentPathCurrentLength < StopPoints[currentSectionID]){
+										
 											
-											// pathCurrentLength -= pathCurrentLength - StopPoints[currentSectionID-1];
-											console.log($newUnit - pathCurrentLength);
-											// console.log("f+=g", f-=g);
-											console.log("if if");
-											//  var StartFromPreviousStopPoint = f-g;
-											// console.log("substrasction == "+ StartFromPreviousStopPoint - pathCurrentLength);
-											// StartFromPreviousStopPoint += (pathCurrentLength-StopPoints[currentSectionID-1]);
-											// console.log(StartFromPreviousStopPoint);
+										if(currentSectionID == 0 && CurrentPathCurrentLength < StopPoints[currentSectionID]){
+											$(path).css("stroke-dashoffset", "" + (length -  CurrentPathCurrentLength)  + "px");
 
-
-
-
-											$(path).css("stroke-dashoffset", ""+ $newUnit - pathCurrentLength  +"");
-										}
-
-										if(currentSectionID == 0 && pathCurrentLength < StopPoints[currentSectionID]){
-											// console.log("fucking else if");
-											$(path).css("stroke-dashoffset", "" + ($newUnit -  pathCurrentLength)  + "px");
-											console.log("first if");
-										}
 
 										}
 
 
 
-										else if(pathCurrentLength > StopPoints[currentSectionID]){
-											console.log('else if');
+
+
+
+
+										if(currentSectionID > 0 && CurrentPathCurrentLength < StopPoints[currentSectionID]){ //////!!!!!!!!!!!!!!!!!!!!
+
+											$(path).css("stroke-dashoffset", ""+ (length -  (StopPoints[currentSectionID-1] + CurrentPathCurrentLength))  +"");
+
+										}
+
+
+										// if(currentSectionID > 0 && CurrentPathCurrentLength < StopPoints[currentSectionID]){
+										// 	$(path).css("stroke-dashoffset", ""+ (length -  CurrentPathCurrentLength+StopPoints[currentSectionID])  +"");
+										// 	console.log("3rd condition!!!!!!!!!!33333333333")
+										// }
+
+
+										}
+
+										if( StopPoints[currentSectionID-1] + CurrentPathCurrentLength > StopPoints[currentSectionID] ){
 											
-											$(path).css("stroke-dashoffset", "" + ($newUnit -  StopPoints[currentSectionID]) + "px");
-											// console.log("else");
-											
+												$(path).css("stroke-dashoffset", "" + (length - StopPoints[currentSectionID]) + "px");
 										}
 
-										// console.log(pathCurrentLength);
+										// else if(CurrentPathCurrentLength > StopPoints[currentSectionID]){
+
+										
+	
+											
+										// }
+
+						
 									}
 
 								});
