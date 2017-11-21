@@ -2,6 +2,26 @@ $(document).ready(function() {
 /* Set the width of the side navigation to 250px and the left margin of the page content to 250px and add a black background color to body */
 
 
+// (function() {
+//     $('#draggableHelper').draggable();
+//   $("#mySidenav").resizable({
+    
+//     handles: "w"
+
+     
+// });
+//   });
+
+
+
+
+
+
+
+
+		
+
+
     var a = document.getElementById('map');
     var map_url = JSON.parse(localStorage.getItem('map'));
     $('#map').attr('data', map_url);
@@ -11,7 +31,12 @@ $(document).ready(function() {
         var PathDirection = JSON.parse(localStorage.getItem('path'));
 
 
-        console.log(svgRoot);
+     function compareCoords(objA, objB) {
+ 			 return objB.cx- objA.cx && objA.cy - objB.cy;
+			}
+
+
+        // console.log(svgRoot);
 
         if (PathDirection) {
             var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
@@ -45,26 +70,37 @@ $(document).ready(function() {
 				var stringArr = '';
 
 
+
+
+
+
+
 //  Set the width of the side navigation to 0 and the left margin of the page content to 0, and the background color of body to white 
 
 
       $.each(circlesArray, function(index, el) {
+      	// console.log(index);
       	var pointsObj = {
         	cx: 0,
         	cy: 0,
         	r: 1
         };    
-
+       
         var circle = s.circlePath(this.cx, this.cy, this.r).attr({
             fill: "#ff6600",
             stroke: "#000",
             "stroke-width": "3px",
             id: index
+         		
             // onclick: "openNav();"
         });
+        el.id = index;
+
+
+
 
         var intersects = Snap.path.intersection(circle, $(path).attr('d'));
-        		console.log(intersects);
+        		// console.log(intersects);
             pointsObj.cx = intersects[0].x;
             pointsObj.cy = intersects[0].y;
 
@@ -79,7 +115,8 @@ $(document).ready(function() {
             // console.log(pointsArray);
 					localStorage.setItem('points', JSON.stringify(pointsArray));
         });	
-
+      // console.log(circlesArray);
+ 				localStorage.setItem('circlesCoords',JSON.stringify(circlesArray));
 
 
 
@@ -98,7 +135,7 @@ $(document).ready(function() {
 		    for(var j=0;j<pointsDataContentArray.length;j++){
 
 		    if(pointsDataContentArray[j].pointId == equalID){
-		    	console.log("pointsId: " + pointsDataContentArray[j].pointId+", eq = "+ equalID);
+		    	// console.log("pointsId: " + pointsDataContentArray[j].pointId+", eq = "+ equalID);
 		    	var checked = pointsDataContentArray[j].pointId-1;
 		    	var FilledContentPaths = svgDoc.getElementById(checked);
 		    	// console.log(FilledContentPaths);
@@ -131,11 +168,12 @@ $(document).ready(function() {
 		        // if(getPointData[].pointId){
 		        // 	editor.
 		        // }
-		        console.log(this);
+		        // console.log(this);
 		        var currentPath = this;
+		        var currentPathID = this.id;
 		        if (localStorage.getItem('PointsContent') != null) {
 		            var getPointData = JSON.parse(localStorage.getItem('PointsContent'));
-		          	console.log(getPointData);
+		          	// console.log(getPointData);
 		          	var PointLastData;
 
 		          	// console.log(getPointData[Npoint].zoom);
@@ -154,7 +192,7 @@ $(document).ready(function() {
 		                if (count) {
 		                    // editor.setData(getPointData[j].data);
 		                    PointLastData = getPointData[j].data;
-		                    console.log(PointLastData);
+		                    // console.log(PointLastData);
 		                }
 		          }
 
@@ -162,14 +200,11 @@ $(document).ready(function() {
 
 		        }
 		        openNav(Npoint);
-		        console.log(pointsDataContentArray);
-		            // $("#pointZoom").val(parseInt(pointsDataContentArray.zoom));
-		            // $("#pointTop").val(parseInt(pointsDataContentArray.top));
-		            // $("#pointBottom").val(parseInt(pointsDataContentArray.bottom));
-		            // $("#pointLeft").val(parseInt(pointsDataContentArray.left));
-		            // $('#pointRight').val(parseInt(pointsDataContentArray.right));
+		       
 
-		            console.log(document.getElementById("pointZoom").value,document.getElementById("pointTop").value,document.getElementById("pointBottom").value,document.getElementById("pointLeft").value,document.getElementById('pointRight').value);
+
+
+
 		        document.getElementById("SavePointContent").onclick = function() {
 		            var pointsDataContent = {
 		                pointId: 0,
@@ -185,10 +220,24 @@ $(document).ready(function() {
 		            var InputBottomValue = parseInt(document.getElementById("pointBottom").value);
 		            var InputLeftValue = parseInt(document.getElementById("pointLeft").value);
 		            var InputRightValue = parseInt(document.getElementById('pointRight').value);
-		            console.log(InputZoomValue,InputTopValue,InputBottomValue,InputLeftValue,InputRightValue);
 
-		            console.log(pointsDataContentArray);
+
+		            var ChoosedOption = $('select option:selected').val();
+		            // console.log(ChoosedOption);
+
+
+
+
+
+
+
+
+		            // console.log(InputZoomValue,InputTopValue,InputBottomValue,InputLeftValue,InputRightValue);
+
+		            // console.log(pointsDataContentArray);
+
 		            // $(FilledPathContent).css("fill", "red");
+
 		            pointsDataContent.pointId = Npoint;
 
 		            pointsDataContent.zoom = InputZoomValue;
@@ -206,12 +255,13 @@ $(document).ready(function() {
 		            	
 		            	if(pointsDataContentArray[j].pointId == Npoint){
 		            		pointsDataContentArray.splice(j,1);
-		            		console.log(pointsDataContentArray);
+		            		// console.log(pointsDataContentArray);
 		            	}
+
 		            }	
 		            pointsDataContentArray.push(pointsDataContent);
 		            localStorage.setItem('PointsContent', JSON.stringify(pointsDataContentArray));
-		            console.log(pointsDataContentArray);
+		            // console.log(pointsDataContentArray);
 		            $("#userNotification").fadeIn(200);
 		            
 
@@ -241,7 +291,7 @@ $(document).ready(function() {
 
 
 
- 			var pathLength = path.getTotalLength();
+ 		var pathLength = path.getTotalLength();
         console.log(pathLength);
         var stopsAtLength = [];
 
@@ -258,31 +308,70 @@ $(document).ready(function() {
         	// (Math.ceil(pointX) == Math.ceil(pointsArray[j].cx)  && Math.floor(pointY) == Math.floor(pointsArray[j].cy)) && 
         	  if( Math.round(pointX) == Math.round(pointsArray[j].cx)  && Math.round(pointY) == Math.round(pointsArray[j].cy)){
         	  	
-        			console.log('['+Math.round(pointX),Math.round(pointsArray[j].cx)+'], '+'['+Math.round(pointY), Math.round(pointsArray[j].cy)+']');
+        			// console.log('['+Math.round(pointX),Math.round(pointsArray[j].cx)+'], '+'['+Math.round(pointY), Math.round(pointsArray[j].cy)+']');
         			stopsAtLength.push(i);
-        			
+
         		}
-// 1 погрешность в том, что иногда одна точка может быть записана 2 раза и длина отрезка у 1 точки будет n , а у 2 n+1
         	}
-
-// (2>resultX >-2)  &&  (2>resultY>-2)
-
 					localStorage.setItem("stopsAtLength", JSON.stringify(stopsAtLength));
-					
-        	// $(circleTest).attr("cx",path.getPointAtLength(i).x);
-        	// $(circleTest).attr("cy", path.getPointAtLength(i).y);
-        	// $(circleTest).attr('r', "1");
-        	// $(circleTest).attr("fill", "green");
-        	// $(circleTest).attr('stroke', "#000");
-        	// svgRoot.append(circleTest);
         }
+
+
         		if(pointsArray.length !== stopsAtLength.length){
         			console.log("HERE IS THE DIFFERENCE: 1st array length = " + pointsArray.length + ', 2nd arr length= '+ stopsAtLength.length+""  );
         		}
         		else{
         			console.log('no DIFFERENCE between arr lengths');
         		}
-        console.log(stopsAtLength);
+
+
+
+
+//Points id numeration
+
+        for(var i=0;i<pathLength;i++){
+        	var pathLengthAtPoint = path.getPointAtLength(i);
+        	// console.log(pathLengthAtPoint);
+        	var pointX = pathLengthAtPoint.x;
+        	var pointY = pathLengthAtPoint.y;
+
+
+        	for(var j=0;j<circlesArray.length;j++){
+        	var resultX = Math.round(pointX) - Math.round(circlesArray[j].cx );
+        	var resultY = Math.round(pointY) - Math.round(circlesArray[j].cy );
+        	// (Math.ceil(pointX) == Math.ceil(pointsArray[j].cx)  && Math.floor(pointY) == Math.floor(pointsArray[j].cy)) && 
+        		
+        		if((resultX == 1  && resultY == 1)){
+        			console.log(i);
+
+        			
+        		}
+        		else{
+        			console.log('no coincidence');
+        		}
+
+// , Math.round(pointY), Math.round(circlesArray[j].cy)
+// && 0 <=  Math.round(pointY) - Math.round(circlesArray[j].cy) <=2
+
+// 1 погрешность в том, что иногда одна точка может быть записана 2 раза и длина отрезка у 1 точки будет n , а у 2 n+1
+        	}
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+        // console.log(stopsAtLength);
 
 
 
@@ -328,7 +417,7 @@ $(document).ready(function() {
 
 
     var WrapperProps = JSON.parse(localStorage.getItem('mapStyleProperties'));
-    console.log(WrapperProps);
+    // console.log(WrapperProps);
     $.each(WrapperProps, function(prop, value) {
         $(".mapbg").css(prop, value);
     });

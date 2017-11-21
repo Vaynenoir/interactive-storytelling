@@ -5,7 +5,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 	<title>PenTool</title>
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js" type="text/javascript"></script>
+		<script src="libs/jquery-1.12.1.min.js"></script>
 	<script type="text/javascript" src="bezier-editor.js"></script>
 	<script type="text/javascript" src="bezier-animation.js"></script>
 
@@ -70,7 +70,7 @@
 		.centered{
 			position: relative;
 			/*text-align: center;*/
-			margin-top:40px;
+			margin-top:20px;
 			letter-spacing: 1px;
 			color: #001;
 		}
@@ -78,7 +78,6 @@
 			background-color: #ffcf85;
 			border-radius: 12px;
 			transform: scale(1.1,1.1);
-			transform: rotate(360deg);
 			transition: 0.4s;
 -webkit-box-shadow: 0px 0px 74px 0px rgba(0,0,0,0.75);
 -moz-box-shadow: 0px 0px 74px 0px rgba(0,0,0,0.75);
@@ -99,6 +98,11 @@ box-shadow: 0px 0px 74px 0px rgba(0,0,0,0.75);
 h1{
 	margin-top: 10px;
 	margin-bottom: 0px;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	font-style: bold;
+
+	text-shadow: 3px 0px 9px rgba(69, 150, 150, 0.43);
 }
 
 
@@ -121,10 +125,17 @@ h1{
 	</style>
 </head>
 <body>
+
+
+
+
+
+
+
 <div class="wrapper container" id="topPoint">
 
 
-	<h1>Draw the bezier curve below like in Photoshop</h1>
+	<h1><span style="color: #37474f ;">step 1.</span>draw your route on the map</h1>
 	<div class="debug"></div>
 	<div class="centered">
 		<!-- <div id="test"></div> -->
@@ -136,27 +147,27 @@ h1{
 		</div>
 		<div id="buttonWrapper">
 			<input type="button" value="+" id="plus" ><input type="button" value="-" id="minus">
-			<input type="button" value="Left" id="moveLeft">
-			<input type="button" value="Right" id="moveRight">
-			<input type="button" value="Top" id="moveTop">
-			<input type="button" value="Bottom" id="moveBottom">
+			<input type="button" value="&#8592;" id="moveLeft">
+			<input type="button" value="&#8594;" id="moveRight">
+			<input type="button" value="&#8593;" id="moveTop">
+			<input type="button" value="&#8595;" id="moveBottom">
 
 		</div>
 	</div>
 	<div class="buttons_bar">
 <!-- 		<span>Animation time:</span><input type="text" id="time" value="5000"/>
 		<button class="waves-effect waves-light btn" id="execute">Execute</button> -->
-		<a href="#result"><button class="waves-effect waves-light btn" id="export">Export path</button></a>
+		<a href="drawnMap.html"><button class="waves-effect waves-light btn" id="export">Export path and go next</button></a>
 		<button class="waves-effect waves-light btn" id="clear">clear path</button>
 		<button class="waves-effect waves-light btn" id="screen">full screen</button>
 		<textarea name="" placeholder="result is here" id="result" cols="30" rows="10"></textarea>
 
 	</div>
-	<!--Local file system access. REFERENCE:http://www.html5rocks.com/en/tutorials/file/dndfiles/-->
-<!-- 	<input style="background-color: #64b5f6;  color:#fff;" type="file" id="files" name="files[]" multiple /> -->
+	
+
 	<output id="list"></output>
 
-	<a href="#gallery" id="openMap"><h2 align="center"> Wanna choose your map? Click here!</h2></a>
+	<a href="#gallery" id="openMap"><h2 align="center" style="text-shadow: 3px 0px 9px rgba(69, 150, 150, 0.43);"> Wanna choose your map? Click here!</h2></a>
 	<div id="gallery" class="map_gallery row" style="display: none;">
 		
 		<div class="gallery_item col s4"><a href="#topPoint"><p class="centered">Australia</p><img class="img_item" src="maps/australiaHigh.svg" width="300px" height="300px" alt=""></a></div>
@@ -177,12 +188,13 @@ h1{
 
 <script type="text/javascript">
 $(document).ready(function(){
+	
 	localStorage.clear();
 			var editor = new bezierEditor("bezier-canvas");
 		editor.draw();
 
 		$('#clear').bind("click",function(){
-			
+	
 		$("#result").val(" ");
 			console.log(editor.clearBezier());
 			console.log(enabled);
@@ -228,12 +240,7 @@ var editor = new bezierEditor("bezier-canvas");
 		var src = $(this).attr('src');
 
 		
-		// $(this).parent().parent().addClass('active');
-		
-		
-
-		// editor.loadImage(src);
-		// document.getElementById("map_bg").style.backgroundImage = "url('"+src+"')";
+	
 		var svgMap = document.getElementById("dataMap");
 		$("#dataMap").attr("data", src);
 		loadMap(svgMap);
@@ -253,69 +260,7 @@ function loadMap(map_container){
 		});
 }
 
-// loadMap($("#dataMap")).bind(this, function(){
-// 	    var circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-//     $(circle).attr('r', '5');
-// 		$(circle).attr('fill', "#000");
-// 				$("#dataMap").bind("contextmenu", function(e){
-// 				e.preventDefault();
 
-				
-// 				if(e.altKey && e.shiftKey){
-// 					var x = e.offsetX;
-// 					var y = e.offsetY;
-// 					var radius = 5;
-// 					$(circle).attr('cx', x);
-// 					$(circle).attr("cy", y); 
-// 					$(svgRoot).append(circle);
-// 				}
-// 			}
-// })
-// function bar(){
-// 	console.log('bar');
-// }
-// var drawCircle = loadMap.bind(this, bar );
-// 	$("#map_bg").bind('contextmenu', function(e){
-// 	e.preventDefault();
-// 	if(e.altKey && e.shiftKey){
-// 						console.log('JOPA~');
-// 				var x = e.offsetX;
-// 				var y = e.offsetY;
-// 				$(circle).attr('cx', x);
-// 				$(circle).attr("cy", y);
-// 					svgRoot.append(circle);
-// 				drawCircle();
-// 	}
-// });
-
-	// var canvas = document.getElementById("bezier-canvas");
-	// var context = canvas.getContext("2d");
-	// canvas.width = 900;
-	// canvas.height = 500;
-	// var coords = { 
-	//   zoom: {
-	//     origin: {
-	//       x: 0,
-	//       y: 0,
-	//     },
-	//     scale: 1,
-	//   },
-	// };
-        // var cw = canvas.width;
-        // var ch = canvas.height;
-        // function getMousePos(canvas, evt) {
-        //     var rect = document.querySelector('#bezier-canvas').getBoundingClientRect();
-        //     var x = evt.clientX - rect.left;
-        //     var y = evt.clientY - rect.top;
-        //     var sx = (x-cw/2)/global.zoom.scale;
-        //     var sy = (y-ch/2)/global.zoom.scale;
-        //     return {
-        //         x: x,
-        //         y: y,            
-        //         sx : sx,
-        //         sy:sy
-        //     };
-        // }
 
 
 	var styleProps = {
@@ -345,11 +290,17 @@ $("#minus").bind('click',function(){
 
 	var moveLeft = 2;
 	var moveTop = 2;
-
+	var moveLeftDefault = 0;
+	var moveTopDefault = 0;
+	$("map_bg").css("left", "" + moveLeftDefault + "%");
+	$("map_bg").css("top", "" + moveTopDefault + "%");
+	styleProps.left =  ""+moveLeftDefault+"%";
+	styleProps.top =  ""+moveTopDefault+"%";
 $("#moveLeft").bind("click",function(){
 	moveLeft+=3;
 	$("#map_bg").css("left", ""+moveLeft+"%");
 	styleProps.left =  ""+moveLeft+"%";
+	
 
 });
 $("#moveRight").bind("click", function(){
@@ -380,76 +331,14 @@ $("#moveBottom").bind("click", function(){
 });
 
 
-// 	function zoomed(number) {
-// 	  return Math.floor(number * coords.zoom.scale);
-// 	}
-
-
-// 	editor.draw();
-
-// 	canvas.addEventListener("wheel", trackWheel);
-// 	canvas.addEventListener("wheel", trackMouse);
-// 	canvas.addEventListener("wheel", zoom);
-
-// 	function zoom() {
-// 	  context.setTransform(1, 0, 0, 1, 0, 0);
-// 	  context.clearRect(0, 0, canvas.width, canvas.height);
-
-// 	  context.translate(coords.zoom.origin.x, coords.zoom.origin.y);
-// 	  context.scale(coords.zoom.scale, coords.zoom.scale);
-// 	  context.translate(-coords.zoom.origin.x, -coords.zoom.origin.y);
-
-// 	  editor.draw();
-// 	}
-
-
-
-// 	function trackWheel(e) {
-// 	  if (e.deltaY > 0) {
-// 	    if (coords.zoom.scale > 0.1) {
-// 	      coords.zoom.scale *= 0.9;
-// 	    }
-// 	  } else {
-// 	    if (coords.zoom.scale < 5) {
-// 	      coords.zoom.scale *= 1.1;
-// 	    }
-// 	  }
-// 	  coords.zoom.scale = parseFloat(coords.zoom.scale.toFixed(2));
-// 	}
-
-// 	function trackMouse(e) {
-// 	  coords.zoom.origin.x = e.offsetX;
-// 	  coords.zoom.origin.y = e.offsetY;
-// 	  var a =  coords.zoom.origin.x;
-// 	  var b =  coords.zoom.origin.y;
-	
-// 	  return {a: a, b: b}
-// 	  console.log(e.offsetX,e.offsetY);
-// 	}
-
-// trackMouse();
-
-
-
-
-// console.log(editor.offset());
-
-
-	// function zoom(zm){
-	// 	var backroundImage = new Image();
-	// 	backroundImage.src = JSON.parse(localStorage.getItem('map'));
-	// 	var wd = backroundImage.width;
-	// 	var ht = backroundImage.height;
-	// 	backroundImage.style.width = (wd*zm) + "px";
-	// 	backroundImage.style.height = (ht*zm) + "px";
-	// 	editor.loadImage(backroundImage);
-	// 	editor.draw();
-	// }		
-
 
 
 
 </script>
+
+
+
+
 
 
 	

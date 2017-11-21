@@ -15,8 +15,7 @@ $(document).ready(function(){
    });
 });
 
-
-
+		
 
 
 function goFullScreen(){
@@ -106,26 +105,7 @@ var bezierEditor = function(id) {
     y: evt.clientY - rect.top
   };
 }
-// function getZoomCompensatedBoundingRect(fabricObject){
 
-//   //fabricObject is the object you want to get the boundingRect from
-//   var canvas = document.getElementById('bezier-canvas');
-//   fabricObject.setCoords();
-//   var boundingRect = fabricObject.getBoundingRect();
-  
-//   var viewportMatrix = canvas.viewportTransform;
-  
-//   //there is a bug in fabric that causes bounding rects to not be transformed by viewport matrix
-//   //this code should compensate for the bug for now
-  
-//   boundingRect.top = (boundingRect.top - viewportMatrix[5]) / zoom;
-//   boundingRect.left = (boundingRect.left - viewportMatrix[4]) / zoom;
-//   boundingRect.width /= zoom;
-//   boundingRect.height /= zoom;
-  
-//   return boundingRect;
-
-// }
 
 
 			/* Fix the drag cursor bug. When selection start, cursor will be set to "text"*/
@@ -133,13 +113,15 @@ var bezierEditor = function(id) {
 			this.ctx = this.canvas.getContext("2d");
 			// var Transform = require('canvas-get-transform');
 			this.halfPointSize = this.pointSize / 2;
-
+					var ArrID = [];
 					var circlesArr = [];
+					var counter = 0;
 			this.canvas.onmousedown = function(e) {
 																var circles = {
 							cx: 0,
 							cy: 0,
 							r: 8
+							// id: 0
 					};
 				editor.state.down = true;
 				if(e.ctrlKey == true || e.altKey == true) {
@@ -156,6 +138,7 @@ var bezierEditor = function(id) {
 					var svg = document.getElementById("map_bg");
 					console.log(svg);
 					var pos = getMousePos(svg,e);
+					console.log(pos);
 					if(zoom || zoom>0){
 					clickX = pos.x/zoom; 
 					clickY = pos.y/zoom;				
@@ -164,10 +147,16 @@ var bezierEditor = function(id) {
 					clickX = pos.x; 
 					clickY = pos.y;
 					}
+
+					// counter++;
 					circles.cx = clickX;
 					circles.cy = clickY;
+					// circles.id = counter;
 					circlesArr.push(circles);
 					console.log(circlesArr);
+					// for(var i=0;i<circlesArr.length;i++){
+					// 	circlesArr[i].id = i;
+					// }
 					localStorage.setItem('circlesCoords', JSON.stringify(circlesArr));
 					console.log(clickX,clickY);
 					var r = 8;

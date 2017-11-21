@@ -5,7 +5,9 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 	<title>Drawn map</title>
+
 	<link rel="stylesheet" href="css/materialize.min.css">
+   <link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css"/>
 	<script src="ckeditor/ckeditor.js"></script>
 		<script type="text/javascript" src="bezier-editor.js"></script>
 	<script type="text/javascript" src="bezier-animation.js"></script>
@@ -13,41 +15,53 @@
 
 	<style>
 	body{
-		height: 2000px;
 		background: #fffde7;
 		color: #5d5c56;
+		overflow-x: hidden;
 	}
 
 
 
+	#title{
+			text-transform: uppercase;
+	letter-spacing: 2px;
+	font-style: bold;
+		color: #64b5f6;
+	text-shadow: 3px 0px 9px rgba(69, 150, 150, 0.43);
+	}
+
 		.wrapper{
+  		width: 100%;
+			height: 930px;
 			
-  width: 100%;
-  height: 1040px;
-
 		}
 
-		.mapbg{
-			  
-  background-repeat: no-repeat;
-  width: 1900px;
-  height: 930px;
-  position: fixed;
-  z-index: 3;
-  opacity: 0.7;
-		}
+
+
+	.mapbg{		  
+		    padding-top: 10%;
+  	background-repeat: no-repeat;
+  	width: 1900px;
+  	height: 930px;
+  	position: fixed;
+  	z-index: 3;
+  	opacity: 0.7;
+	}
 		/* The side navigation menu */
+
 .sidenav {
-    height: 100%; /* 100% Full-height */
-    width: 0; /* 0 width - change this with JavaScript */
-    position: fixed; /* Stay in place */
-    z-index: 5; /* Stay on top */
+    height: 100%; 
+    width: 0; 
+    position: fixed;
+    z-index: 5; 
     top: 0;
     left: 0;
+/*    cursor :e-resize;
+    resize: horizontal;*/
     background-color:#424040; 
-    overflow-x: hidden; /* Disable horizontal scroll */
-    padding-top: 60px; /* Place content 60px from the top */
-    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+    overflow-x: hidden; 
+    padding-top: 60px; 
+    transition: 0.5s;  
 }
 
 /* The navigation menu links */
@@ -77,7 +91,10 @@
 /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
 #main {
     transition: margin-left .5s;
-    padding: 20px;
+    /*padding: 20px;*/
+    position: relative;
+    height: 100%;
+    width: 100%;
 }
 .cke_chrome{
 	border: 1px solid #9fcbff!important;
@@ -97,7 +114,7 @@
 	font-style: italic;
 	border: 1px dashed #4db6ac;
 }
-.sidenav p{
+.sidenav .subnav_title{
 	text-align: center;
 	text-transform: uppercase;
 	color: #80deea;
@@ -111,7 +128,7 @@
 }
 #cke_point_textData{
 	width: 94%;
-	margin: 0 1% 0 1%;
+	margin: 0 2% 0 2%;
 }
 
 
@@ -173,42 +190,81 @@ input::-webkit-inner-spin-button {
 	margin-top: 5px;
 	margin-bottom: 10px;
 }
-/*.zoom_wrap{
+
+
+#dragbar{
+	background-color: #000;
+  height: 100%;
+  width: 3px;
+  cursor: col-resize;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 5;
+}
+
+/*#dragbar {
+	height: 100%;
+	width: 3px;
 	background-color: #fff;
-	width: 30%;
-	border-radius: 10px;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
+	float: right;
+	
 }*/
+
+
+
+
+
+h1{
+	margin: 0;
+	z-index: 100;
+	transition: margin-left .5s;
+	font-size: 2.5rem;
+	text-align: center;
+}
+.next{
+	z-index: 200;
+	position: absolute;
+	left: 84%;
+	top: 832px;
+}
+#mainContainer{
+	width: 100%;
+	height: 100%;
+}
+
 
 	</style>
 </head>
 <body>
-<!-- <svg version="1.1" id="CurrentMap" xmlns:amcharts="http://amcharts.com/ammap"
-	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1920px" height="1200px"
-	 viewBox="0 0 1920 1200" enable-background="new 0 0 1920 1200" xml:space="preserve">
 
-	<g></g>
-</svg> -->
-<!-- <div id="CurrentMap">
+
+
+
+<div id="mainContainer">
+<div id="mySidenav" class="sidenav">
+
+ <div id="myDragSideNav">
+	<span id="position"></span>	
+
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+
 	
 
-</div> -->
 
-<div id="mySidenav" class="sidenav">
-  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-  <p>type your data to the point №<span id="pointIndex"></span></p>
+
+
+
+  <p class ="subnav_title">type your data to the point №<span id="pointIndex"></span></p>
   <textarea name="text" id="point_textData" cols="30" rows="10"></textarea>
-  <!-- <div class="zoom_wrap"><p>Zoom</p><input type="number" max="10" min="-2" id="zoomValue" class="zoom_input" value="0"></div> -->
+ 
 
 
 	<ul class="collapsible collapsible-accordion" data-collapsible="accordion">
     <li>
       <div class="collapsible-header">Zoom</div>
       <div class="collapsible-body">
-      	<input type="number" min="-2" max="4" class="valueInput" id="pointZoom" value="0">
+      	<input type="number" min="-2" max="4" class="valueInput" id="pointZoom" value="100">
       </div>
     </li>
     <li>
@@ -246,34 +302,49 @@ input::-webkit-inner-spin-button {
    
   </ul>
 	
+ <!--  <div class="input-field col s12">
+    <select id="pointIDselection">
+      <option value="" disabled selected>Choose your option</option>
 
+    </select>
 
-
-
-
-
-
-
-
+  </div> -->
 
  	<div class="btn_wrapper"><a id="SavePointContent" class="waves-effect waves-teal btn hoverable">Save content</a></div>
  	<p id="userNotification" class="text" style="text-align: center; color: #fff; display: none;">Your data is saved!</p>
+
 </div>
+
+</div>
+
+
 
 
 
 <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
+
+
 <div id="main">
-
-<div class="wrapper">
-<div class="mapbg">
-<object id="map" data="" type="image/svg+xml" width="1920px" height="1200px"></object>
-</div>
-
-</div>
+<div class="head">	
+<h1  id="title"><span style="color: #37474f ;">Step 2.</span>Click points to add your content!</h1>
   </div>
 
 
+
+<a href="ready_page/ready_page.html" class="btn next waves-effect waves-light">Go next</a>
+<div class="wrapper">
+<div class="mapbg">
+<object id="map" data="" type="image/svg+xml" width="1920px" height="1200px"></object>
+
+
+</div>
+
+</div>
+<div id="dragbar"></div> 
+  </div>
+
+
+</div>
 
 
 
@@ -284,14 +355,125 @@ input::-webkit-inner-spin-button {
 
 
 var editor = CKEDITOR.replace("text");
+
+
+
+
+
+
+
+
+
+
+
+
 	        function openNav(index){
-    			document.getElementById("mySidenav").style.width = "300px";
-   			 document.getElementById("main").style.marginLeft = "300px";
+
+    			// document.getElementById("mySidenav").style.width = "300px";
+    			// document.getElementById("mySidenav").style.maxWidth = "400px";
+   			 // document.getElementById("main").style.marginLeft = "300px";
+   			 $("#mySidenav").css("width", "300px");
+   			 $("#mySidenav").css("max-width", "700px");
+   			 // $("#mySidenav").css("min-width", "700px");
+   			 $("#main").css("margin-left", "300px");
+
     		document.body.style.backgroundColor = "rgba(0, 0, 0, 0.4)";
     		document.getElementById("pointIndex").innerHTML = index;
+    		document.getElementById('title').style.marginLeft="300px";
 
     		
+
+
+
+
+    		// var AllPoints = JSON.parse(localStorage.getItem('circlesCoords'));
+    		// console.log(AllPoints);
+    		// for(var i=0; i<AllPoints.length;i++){
+    		// 	var option = document.createElement("option");
+    		// 	option.value = i+1;
+    		// 	option.innerHTML = "option " + option.value;
+    		// 	console.log(option);
+    		// 	$("#pointIDselection").append(option);
+    		// }
+
+      //         	$('select').material_select();
+
+
+
+
+
+
+
+
+
+
+
+
+var isResizing = false,
+    lastDownX = 0;
+
+$(function () {
+    var container = $('#mainContainer'),
+        left = $('#mySidenav'),
+        right = $('#main'),
+        handle = $('#dragbar');
+
+    handle.on('mousedown', function (e) {
+        isResizing = true;
+        lastDownX = e.clientX;
+    });
+
+    $(document).on('mousemove', function (e) {
+        // we don't want to do anything if we aren't resizing.
+        if (!isResizing) 
+            return;
+        
+        var offsetRight = container.width() - (e.clientX - (-container.offset().left));
+        console.log(offsetRight);
+        var offsetTest = e.clientX;
+        left.css('width', offsetTest);
+        // right.css('margin-left', offsetRight);
+        
+        
+        // right.css('left', offsetRight);
+    }).on('mouseup', function (e) {
+        // stop resizing
+        isResizing = false;
+    });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 				}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // 	editor.on( 'change', function( evt ) {
 //     // getData() returns CKEditor's HTML content.
@@ -299,24 +481,52 @@ var editor = CKEDITOR.replace("text");
  
 // });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function closeNav(){
     document.getElementById("mySidenav").style.width = "0";
     document.getElementById("main").style.marginLeft = "0";
+    document.getElementById('title').style.marginLeft="0";
     document.body.style.backgroundColor = "#fffde7";
     document.getElementById("pointIndex").innerHTML = 0;
     editor.setData("");
     $("#userNotification").fadeOut(200);
-    document.getElementById("pointZoom").value = "0";
+    document.getElementById("pointZoom").value = "100";
     document.getElementById("pointTop").value = "0";
     document.getElementById("pointBottom").value = "0";
     document.getElementById("pointLeft").value = "0";
     document.getElementById("pointRight").value = "0";
+    $('#title').fadeIn(300);
+
+  //   var select = document.getElementById("pointIDselection");
+		// var length = select.options.length;
+		// console.log(length);
+		// for (i = 1; i < length; i++) {
+  // 		select.options[i] = null;
+		// }
+
 }
 
 
 
 </script>
+  <script src="libs/jquery-ui.min.js"></script>
 	<script src="libs/jquery-1.12.1.min.js"></script>
+
 	<script src="drawMap.js"></script>
 	<script src="js/materialize.min.js">
 
