@@ -6,6 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 	<title>Drawn map</title>
 	<link rel="stylesheet" href="css/materialize.min.css">
+  <link rel="stylesheet" href="libs/jquery-ui/jquery-ui.css">
 	<script src="ckeditor/ckeditor.js"></script>
 		<script type="text/javascript" src="bezier-editor.js"></script>
 	<script type="text/javascript" src="bezier-animation.js"></script>
@@ -32,6 +33,15 @@
 
 		}
 
+.ui-resizable-e {
+    width: 12px;
+    background-color: #fff ;
+}
+
+
+
+
+
 		.mapbg{
 			  
   background-repeat: no-repeat;
@@ -45,14 +55,17 @@
 .sidenav {
     height: 100%; /* 100% Full-height */
     width: 0; /* 0 width - change this with JavaScript */
-    position: fixed; /* Stay in place */
+    position: absolute; /* Stay in place */
     z-index: 5; /* Stay on top */
     top: 0;
+    box-sizing: content-box;
     left: 0;
+/*     outline: 3px dashed #ccc;*/
     background-color:#424040; 
     overflow-x: hidden; /* Disable horizontal scroll */
     padding-top: 60px; /* Place content 60px from the top */
     transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+/*      overflow-y: hidden;*/
 }
 
 /* The navigation menu links */
@@ -80,10 +93,15 @@
 }
 
 /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+#head{
+  position: relative;
+  width: 100%;
+  height: 900px;
+}
 #main {
     transition: margin-left .5s;
     padding: 20px;
-
+    height: 900px;
     position: relative;
 }
 .cke_chrome{
@@ -104,7 +122,7 @@
 	font-style: italic;
 	border: 1px dashed #4db6ac;
 }
-.sidenav p{
+.sidenav .sidenav__title{
 	text-align: center;
 	text-transform: uppercase;
 	color: #80deea;
@@ -202,6 +220,27 @@ h1{
 	justify-content: center;
 	align-items: center;
 }*/
+/*#split-bar{
+  width: 10px;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  top: 0;
+  background-color: red;
+  cursor: e-resize;
+}*/
+
+/*#ghostbar{
+  width:3px;
+  background-color:#000;
+  opacity:0.5;
+  position:absolute;
+  cursor: col-resize;
+  z-index:999
+}*/
+
+
+
 
 	</style>
 </head>
@@ -217,73 +256,85 @@ h1{
 
 </div> -->
 
-<div id="mySidenav" class="sidenav">
-  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-  <p>type your data to the point №<span id="pointIndex"></span></p>
-  <textarea name="text" id="point_textData" cols="30" rows="10"></textarea>
-  <!-- <div class="zoom_wrap"><p>Zoom</p><input type="number" max="10" min="-2" id="zoomValue" class="zoom_input" value="0"></div> -->
 
-
-	<ul class="collapsible collapsible-accordion" data-collapsible="accordion">
-    <li>
-      <div class="collapsible-header">Zoom</div>
-      <div class="collapsible-body">
-      	<input type="number" min="-2" max="4" class="valueInput" id="pointZoom" value="100">
-      </div>
-    </li>
-    <li>
-      <div class="collapsible-header">Displacement</div>
-      	<div class="collapsible-body">
-      		
-      		<ul class="collapsible collapsible-accordion" data-collapsible="accordion">
-      			<li>
-      				<div class="collapsible-header">Top</div>
-      				<div class="collapsible-body">
-      					<input type="number" min="-2" max="4" class="valueInput" id="pointTop" value="0">
-      				</div>
-      			</li>
-      			<li>
-      				<div class="collapsible-header">Bottom</div>
-      				<div class="collapsible-body">
-      					<input type="number" min="-2" max="4" class="valueInput" id="pointBottom" value="0">
-      				</div>
-      			</li>
-      			<li>
-      				<div class="collapsible-header">Left</div>
-      				<div class="collapsible-body">
-      					<input type="number" min="-2" max="4" class="valueInput" id="pointLeft" value="0">
-      				</div>
-      			</li>
-      			<li>
-      				<div class="collapsible-header">Right</div>
-      				<div class="collapsible-body">
-      					<input type="number" min="-2" max="4" class="valueInput" id="pointRight" value="0">
-      				</div>
-      			</li>
-      		</ul>
-      	</div>
-    </li>
-   
-  </ul>
-	
-
-
-
-
-
-
-
-
-
-
- 	<div class="btn_wrapper"><a id="SavePointContent" class="waves-effect waves-teal btn hoverable">Save content</a></div>
- 	<p id="userNotification" class="text" style="text-align: center; color: #fff; display: none;">Your data is saved!</p>
-</div>
 
 
 
 <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
+
+
+
 <div class="head">	
+
+<div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <p class="sidenav__title">type your data to the point №<span id="pointIndex"></span></p>
+  <textarea name="text" id="point_textData" cols="30" rows="10"></textarea>
+  <!-- <div class="zoom_wrap"><p>Zoom</p><input type="number" max="10" min="-2" id="zoomValue" class="zoom_input" value="0"></div> -->
+
+
+  <ul class="collapsible collapsible-accordion" data-collapsible="accordion">
+    <li>
+      <div class="collapsible-header">Zoom</div>
+      <div class="collapsible-body">
+        <input type="number" min="-2" max="4" class="valueInput" id="pointZoom" value="100">
+      </div>
+    </li>
+    <li>
+      <div class="collapsible-header">Displacement</div>
+        <div class="collapsible-body">
+          
+          <ul class="collapsible collapsible-accordion" data-collapsible="accordion">
+            <li>
+              <div class="collapsible-header">Top</div>
+              <div class="collapsible-body">
+                <input type="number" min="-2" max="4" class="valueInput" id="pointTop" value="0">
+              </div>
+            </li>
+            <li>
+              <div class="collapsible-header">Bottom</div>
+              <div class="collapsible-body">
+                <input type="number" min="-2" max="4" class="valueInput" id="pointBottom" value="0">
+              </div>
+            </li>
+            <li>
+              <div class="collapsible-header">Left</div>
+              <div class="collapsible-body">
+                <input type="number" min="-2" max="4" class="valueInput" id="pointLeft" value="0">
+              </div>
+            </li>
+            <li>
+              <div class="collapsible-header">Right</div>
+              <div class="collapsible-body">
+                <input type="number" min="-2" max="4" class="valueInput" id="pointRight" value="0">
+              </div>
+            </li>
+          </ul>
+        </div>
+    </li>
+   
+  </ul>
+  
+
+
+
+
+
+
+
+
+
+
+  <div class="btn_wrapper"><a id="SavePointContent" class="waves-effect waves-teal btn hoverable">Save content</a></div>
+  <p id="userNotification" class="text" style="text-align: center; color: #fff; display: none;">Your data is saved!</p>
+<!--   <div id="split-bar"></div> -->
+</div>
+
+
+
+
+
+
 <h1  id="title"><span style="color: #37474f ;">Step 2.</span>Click points to add your content!</h1>
 <div id="main">
 
@@ -355,6 +406,7 @@ function closeNav(){
 
 </script>
 	<script src="libs/jquery-1.12.1.min.js"></script>
+  <script src="libs/jquery-ui/jquery-ui.js"></script>
 	<script src="drawMap.js"></script>
 	<script src="js/materialize.min.js">
 

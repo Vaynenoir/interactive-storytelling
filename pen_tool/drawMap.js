@@ -2,6 +2,43 @@ $(document).ready(function() {
 /* Set the width of the side navigation to 250px and the left margin of the page content to 250px and add a black background color to body */
 
 
+// $("#mySidenav").on({
+
+//     mouseenter: function() {
+
+//         $(this).resizable({
+//         handles: 'e',
+//         ghost: true
+//         });
+
+//     },
+//     mouseleave : function(){
+//         $(this).resizable({
+//         handles: 'e',
+//         ghost: true            
+//     });
+//     }
+
+// });
+
+
+    $("#mySidenav").resizable({
+        handles: 'e',
+        ghost: true,
+        containment: '#head'
+    });
+
+
+
+
+
+
+
+
+
+
+
+
     var a = document.getElementById('map');
     var map_url = JSON.parse(localStorage.getItem('map'));
     $('#map').attr('data', map_url);
@@ -258,23 +295,18 @@ $(document).ready(function() {
         	// (Math.ceil(pointX) == Math.ceil(pointsArray[j].cx)  && Math.floor(pointY) == Math.floor(pointsArray[j].cy)) && 
         	  if( Math.round(pointX) == Math.round(pointsArray[j].cx)  && Math.round(pointY) == Math.round(pointsArray[j].cy)){
         	  	
-        			console.log('['+Math.round(pointX),Math.round(pointsArray[j].cx)+'], '+'['+Math.round(pointY), Math.round(pointsArray[j].cy)+']');
+        			// console.log('['+Math.round(pointX),Math.round(pointsArray[j].cx)+'], '+'['+Math.round(pointY), Math.round(pointsArray[j].cy)+']');
         			stopsAtLength.push(i);
         			
         		}
-// 1 погрешность в том, что иногда одна точка может быть записана 2 раза и длина отрезка у 1 точки будет n , а у 2 n+1
+
         	}
 
-// (2>resultX >-2)  &&  (2>resultY>-2)
+
 
 					localStorage.setItem("stopsAtLength", JSON.stringify(stopsAtLength));
 					
-        	// $(circleTest).attr("cx",path.getPointAtLength(i).x);
-        	// $(circleTest).attr("cy", path.getPointAtLength(i).y);
-        	// $(circleTest).attr('r', "1");
-        	// $(circleTest).attr("fill", "green");
-        	// $(circleTest).attr('stroke', "#000");
-        	// svgRoot.append(circleTest);
+
         }
         		if(pointsArray.length !== stopsAtLength.length){
         			console.log("HERE IS THE DIFFERENCE: 1st array length = " + pointsArray.length + ', 2nd arr length= '+ stopsAtLength.length+""  );
@@ -282,7 +314,47 @@ $(document).ready(function() {
         		else{
         			console.log('no DIFFERENCE between arr lengths');
         		}
-        console.log(stopsAtLength);
+        // console.log(stopsAtLength);
+
+
+
+
+
+var CirclesArrayClone = [];
+  for(var k=0;k<circlesArray.length;k++){
+    CirclesArrayClone[k] = circlesArray[k]; 
+  }
+  console.log(CirclesArrayClone);
+
+
+        for(var i=0;i<pathLength;i++){
+            var pathLengthAtPoint = path.getPointAtLength(i);
+            // console.log(pathLengthAtPoint);
+            var pointX = pathLengthAtPoint.x;
+            var pointY = pathLengthAtPoint.y;
+
+
+            for(var j=0;j<CirclesArrayClone.length;j++){
+
+              if( Math.abs(Math.round(pointX - CirclesArrayClone[j].cx)) <=8  && Math.abs(Math.round(pointY - CirclesArrayClone[j].cy)) <= 8){
+                
+                    console.log('['+Math.round(pointX),Math.round(CirclesArrayClone[j].cx)+'], '+'['+Math.round(pointY), Math.round(CirclesArrayClone[j].cy)+']');
+                    CirclesArrayClone.splice(j,1);
+                    // console.log(CirclesArrayClone);
+                    circlesArray[j].id = j+1;
+                }
+
+
+        }
+
+    }
+    console.log(circlesArray);
+
+
+
+
+
+
 
 
 
