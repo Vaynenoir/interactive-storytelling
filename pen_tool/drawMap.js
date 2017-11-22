@@ -121,7 +121,6 @@ $(document).ready(function() {
 
 
 
-
 		if (localStorage.getItem('PointsContent') != null) {
 		    var pointsDataContentArray = JSON.parse(localStorage.getItem('PointsContent'));
 		} else {
@@ -321,11 +320,14 @@ $(document).ready(function() {
 
 
 var CirclesArrayClone = [];
+var CirclesArrayCloneRenumbered = [];
+
+
   for(var k=0;k<circlesArray.length;k++){
     CirclesArrayClone[k] = circlesArray[k]; 
   }
-  console.log(CirclesArrayClone);
-
+  // console.log(CirclesArrayClone);
+var circlesCounter = 0;
 
         for(var i=0;i<pathLength;i++){
             var pathLengthAtPoint = path.getPointAtLength(i);
@@ -336,23 +338,49 @@ var CirclesArrayClone = [];
 
             for(var j=0;j<CirclesArrayClone.length;j++){
 
-              if( Math.abs(Math.round(pointX - CirclesArrayClone[j].cx)) <=8  && Math.abs(Math.round(pointY - CirclesArrayClone[j].cy)) <= 8){
+              if( Math.abs(Math.round(pointX - CirclesArrayClone[j].cx)) <=2  && Math.abs(Math.round(pointY - CirclesArrayClone[j].cy)) <= 2){
                 
                     console.log('['+Math.round(pointX),Math.round(CirclesArrayClone[j].cx)+'], '+'['+Math.round(pointY), Math.round(CirclesArrayClone[j].cy)+']');
+                   
+                    circlesCounter++;
+                    // console.log(circlesCounter);
+                    console.log(CirclesArrayClone);
+                     // for(var l=0; l<circlesArray.length; l++){
+                     //   if(circlesArray[l].cx == CirclesArrayClone[j].cx && circlesArray[l].cy == CirclesArrayClone[j].cy){
+                     //    circlesArray[l].id = circlesCounter;
+                     //    }
+                     // }
+
+                    
+
+
+
+                     CirclesArrayCloneRenumbered.push(CirclesArrayClone[j]);
                     CirclesArrayClone.splice(j,1);
-                    // console.log(CirclesArrayClone);
-                    circlesArray[j].id = j+1;
+
+
+
+
                 }
 
 
         }
 
     }
-    console.log(circlesArray);
+    // console.log(circlesArray);
 
 
 
 
+
+
+
+    console.log(CirclesArrayCloneRenumbered);
+
+    for(var i=0;i<CirclesArrayCloneRenumbered.length;i++){
+        CirclesArrayCloneRenumbered[i].id = i+1;
+    }
+    console.log(CirclesArrayCloneRenumbered);
 
 
 
