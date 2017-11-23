@@ -1,72 +1,66 @@
-$(document).ready(function(){
+$(document).ready(function() {
 
-	   var dataContent = JSON.parse(localStorage.getItem('PointsContent'));
-     console.log(dataContent);
+    var dataContent = JSON.parse(localStorage.getItem('PointsContent'));
+    console.log(dataContent);
 
-     function inWindow(s) {
-     		if (!$(s).length) return false; // element not found
+    function inWindow(s) {
+        if (!$(s).length) return false; // element not found
 
-    		 var img_top_offset = $(s).offset().top;
-    		 var img_bottom = $(s).offset().top + $(s).outerHeight();
-    		 var bottomOfScreen = $(window).scrollTop() + $(window).height();
-    		 var topOfScreen = $(window).scrollTop();
+        var img_top_offset = $(s).offset().top;
+        var img_bottom = $(s).offset().top + $(s).outerHeight();
+        var bottomOfScreen = $(window).scrollTop() + $(window).height();
+        var topOfScreen = $(window).scrollTop();
 
-    		 return (bottomOfScreen > img_top_offset) && (topOfScreen < img_bottom);
- 		}
+        return (bottomOfScreen > img_top_offset) && (topOfScreen < img_bottom);
+    }
 
-
-
-
-     
-
-
-     function compareId(objA, objB) {
- 			 return objA.pointId - objB.pointId;
-			}
+    function compareId(objA, objB) {
+        return objA.pointId - objB.pointId;
+    }
 
 
-     dataContent.sort(compareId);
-     var text_cont = document.getElementById("boom");
+    dataContent.sort(compareId);
+    var text_cont = document.getElementById("boom");
 
-     		for(var i=0;i<dataContent.length;i++){
-     			var section = document.createElement('section');
-     			$(section).addClass('js-section');
-     			$(section).attr({
-     				"data-zoom": dataContent[i].zoom + "%",
-     				"data-pos-top": dataContent[i].top  + "%",
-     				"data-pos-bottom": dataContent[i].bottom  + "%",
-     				"data-pos-left": dataContent[i].left  + "%",
-     				"data-pos-right": dataContent[i].bottom  + "%",
-     				"id": "section_" + i
-     		});
-
-  
-     			section.insertAdjacentHTML('beforeend', dataContent[i].data);
-     			$(section).find('img').addClass('js-image');
-     			$(section).find('.js-image').attr('data-pos-x', 0);
-     			$(section).find('.js-image').attr('data-pos-y', 0);
+    for (var i = 0; i < dataContent.length; i++) {
+        var section = document.createElement('section');
+        $(section).addClass('js-section');
+        $(section).attr({
+            "data-zoom": dataContent[i].zoom + "%",
+            "data-pos-top": dataContent[i].top + "%",
+            "data-pos-bottom": dataContent[i].bottom + "%",
+            "data-pos-left": dataContent[i].left + "%",
+            "data-pos-right": dataContent[i].bottom + "%",
+            "id": "section_" + i
+        });
 
 
-     			text_cont.append(section);
+        section.insertAdjacentHTML('beforeend', dataContent[i].data);
+        $(section).find('img').addClass('js-image');
+        $(section).find('.js-image').attr('data-pos-x', 0);
+        $(section).find('.js-image').attr('data-pos-y', 0);
 
-     	}
+
+        text_cont.append(section);
+
+    }
 
 
 
-     // $('#textWrap p').addClass('kek');
-$('.mapbg').css("zoom", "0%");
-$('.mapbg').css("right", "0");
-$('mapbg').css("bottom", "0");
- var a = document.getElementById('map');
+    // $('#textWrap p').addClass('kek');
+    $('.mapbg').css("zoom", "0%");
+    $('.mapbg').css("right", "0");
+    $('mapbg').css("bottom", "0");
+    var a = document.getElementById('map');
 
     var map_url = JSON.parse(localStorage.getItem('map'));
-    var map_url_true = "../"+map_url;
+    var map_url_true = "../" + map_url;
     console.log(map_url_true);
-    // $('#map').attr('data', map_url);
+
     $('#map').attr('data', map_url_true);
     a.addEventListener("load", function() {
-    	
-    	console.log($("#map").attr('data'));
+
+        console.log($("#map").attr('data'));
         var svgDoc = a.contentDocument;
         var svgRoot = svgDoc.documentElement;
         var PathDirection = JSON.parse(localStorage.getItem('path'));
@@ -79,172 +73,114 @@ $('mapbg').css("bottom", "0");
 
             $(path).attr('d', PathDirection);
             $(path).attr('fill', 'transparent');
-            $(path).attr('stroke', '#000');
+            $(path).attr('stroke', '#009688');
             $(path).attr('stroke-width', "3px");
-            $(path).attr("opacity", '1');
+            $(path).attr("opacity", '0.8');
 
-            // console.log(path);
         }
 
 
 
 
+        var currentDisplacementTop = parseInt($("#IDmapbg")[0].style.top);
+        var currentDisplacementLeft = parseInt($('#IDmapbg')[0].style.left);
+        var path1 = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        $(path1).css('display', 'none');
 
-     	   var currentDisplacementTop = parseInt($("#IDmapbg")[0].style.top);
-     	   var currentDisplacementLeft = parseInt($('#IDmapbg')[0].style.left);
-         // console.log(currentDisplacementLeft);
-          var path1 = document.createElementNS('http://www.w3.org/2000/svg', 'path');
- 					$(path1).css('display', 'none');
-
- 
-function sectionCounter() {
-     $('.js-section').each(function(i) {
-     	   // var sectionId = "section_" + i;
-     	   // console.log(i);
-     	   // $(this).attr('id', sectionId);
-         var scrollCount = $(window).scrollTop();
-         var topOffset = $(this).offset().top;
-         var dataZoom = $(this).attr("data-zoom");
-         // console.log(dataZoom);
-         var dataPosTop = parseInt($(this).attr("data-pos-top")) + currentDisplacementTop + "%" ;
-         var dataPosBottom = $(this).attr('data-pos-bottom');
-         var dataPosLeft = parseInt($(this).attr("data-pos-left")) + currentDisplacementLeft + "%";
-         var dataPosRight = $(this).attr("data-pos-right");
 
+        function sectionCounter() {
+            $('.js-section').each(function(i) {
 
-         // console.log(dataPosLeft);
-         if (topOffset <= scrollCount && inWindow($(this))) {
+                var scrollCount = $(window).scrollTop();
+                var topOffset = $(this).offset().top;
+                var dataZoom = $(this).attr("data-zoom");
+                var dataPosTop = parseInt($(this).attr("data-pos-top")) + currentDisplacementTop + "%";
+                var dataPosBottom = $(this).attr('data-pos-bottom');
+                var dataPosLeft = parseInt($(this).attr("data-pos-left")) + currentDisplacementLeft + "%";
+                var dataPosRight = $(this).attr("data-pos-right");
 
-             $(this).addClass("active");
-             
-             $('.mapbg').stop(400).animate({
-                 zoom: dataZoom,
-                 left: dataPosLeft ,
-                 right: dataPosRight,
-                 top: dataPosTop,
-                 bottom: dataPosBottom
-             }, 400);
-   
 
 
-         } else {
-             $(this).removeClass("active");
-             if (!$('.js-section').hasClass("active")) {
-                 $('.mapbg').stop().animate({
-                     left: currentDisplacementLeft + "%",
-                     top: currentDisplacementTop + "%",
-                     zoom: "100%"
-                 }, 400);
+                if (topOffset <= scrollCount && inWindow($(this))) {
 
-             }
-         }
+                    $(this).addClass("active");
 
-     });
+                    $('.mapbg').stop(400).animate({
+                        zoom: dataZoom,
+                        left: dataPosLeft,
+                        right: dataPosRight,
+                        top: dataPosTop,
+                        bottom: dataPosBottom
+                    }, 400);
 
-     var arrImgID = [];
-     $('.js-image').each(function(el) {
 
-         arrImgID.push($(this));
-     });
 
+                } else {
+                    $(this).removeClass("active");
+                    if (!$('.js-section').hasClass("active")) {
+                        $('.mapbg').stop().animate({
+                            left: currentDisplacementLeft + "%",
+                            top: currentDisplacementTop + "%",
+                            zoom: "100%"
+                        }, 400);
 
-    var CirclePathCoords = JSON.parse(localStorage.getItem('circlesCoords'));
-    $(arrImgID).each(function(i,el){
-    		var imgParentID = $(this).closest('section')[0].id;
+                    }
+                }
 
-    			imgParentID = imgParentID[8];
-    			// console.log(imgParentID)
-    			if(imgParentID == CirclePathCoords[i].id-1){
-    		// console.log($(this).closest('section')[0].id);
-     					$(this).attr({
-     						'data-pos-x': CirclePathCoords[imgParentID].cx,
-     						'data-pos-y': CirclePathCoords[imgParentID].cy
-    					});
-     			}
-     		// console.log(el);
-     	}); 
-     // var vis_count = 0;
-     // console.log(arrImgID);
+            });
 
+            var arrImgID = [];
+            $('.js-image').each(function(el) {
 
-     var vis_count = 0;
+                arrImgID.push($(this));
+            });
 
 
+            var CirclePathCoords = JSON.parse(localStorage.getItem('circlesCoords'));
 
+            $(arrImgID).each(function(i, el) {
 
+                var imgParentID = $(this).closest('section')[0].id;
 
-     $(arrImgID).each(function() {
-         if (inWindow($(this))) {
-             vis_count++;
-        //      	console.log($(this));
- 							// console.log($(this));
-             	 	var cx = $(this).attr('data-pos-x');
-             		var cy = $(this).attr('data-pos-y');
-             		// console.log(circle);
-             		
+                imgParentID = imgParentID[8];
+                if (imgParentID == CirclePathCoords[i].id) {
+                    $(this).attr({
+                        'data-pos-x': CirclePathCoords[imgParentID].cx,
+                        'data-pos-y': CirclePathCoords[imgParentID].cy
+                    });
+                }
+            });
 
 
-             var Coordinates = $(this)[0].getBoundingClientRect();
+            var vis_count = 0;
 
-             // console.log("Top:"+Coordinates.top+", Left:"+Coordinates.left+", Right:"+Coordinates.right+", Bottom:"+Coordinates.bottom);
-             var bottomOffsetImg = Coordinates.top + $(this).height();
-             // console.log(Coordinates);
-             // $(path1).attr('d', "M" + cx + " " + cy + " L" + (-Coordinates.left) + " " + (Coordinates.top-120) + " L" + (Coordinates.left) + " " + (Coordinates.bottom-200));
-           		$(path1).attr('d', "M" + cx + " " + cy + " L" + (-Coordinates.left) + " " + (Coordinates.top-110) + " L" + (-Coordinates.left) + " " + (Coordinates.bottom-160));
-             $(path1).css('position', "relative");
-             $(path1).attr('fill', '#47DBB4');
-             $(path1).attr('opacity', '.3');
+            $(arrImgID).each(function() {
+                if (inWindow($(this))) {
+                    vis_count++;
+                    //          console.log($(this));
+                    // console.log($(this));
+                    var cx = $(this).attr('data-pos-x');
+                    var cy = $(this).attr('data-pos-y');
 
+                    var Coordinates = $(this)[0].getBoundingClientRect();
+                    var bottomOffsetImg = Coordinates.top + $(this).height();
+                    $(path1).attr('d', "M" + cx + " " + cy + " L" + (-Coordinates.left) + " " + (Coordinates.top - 110) + " L" + (-Coordinates.left) + " " + (Coordinates.bottom - 160));
+                    $(path1).css('position', "relative");
+                    $(path1).attr('fill', '#47DBB4');
+                    $(path1).attr('opacity', '.2');
+                }
+            });
 
-         }
-     });
 
+            svgRoot.append(path1);
+            if (vis_count > 0) {
+                $(path1).fadeIn(900);
+            } else {
+                $(path1).fadeOut(900);
+            }
+        }
 
-svgRoot.append(path1);
-     if (vis_count > 0) {
-         $(path1).fadeIn(900);
-     } else {
-         $(path1).fadeOut(900);
-     }
- }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                 Snap.plugin(function(Snap, Element, Paper, global) {
+        Snap.plugin(function(Snap, Element, Paper, global) {
             Paper.prototype.circlePath = function(cx, cy, r) {
                 var p = "M" + cx + "," + cy;
                 p += "m" + -r + ",0";
@@ -264,155 +200,111 @@ svgRoot.append(path1);
         var circlesArray = JSON.parse(localStorage.getItem('circlesCoords'));
 
 
-     $.each(circlesArray, function(index, el) {
+        $.each(circlesArray, function(index, el) {
 
-        var circle = s.circlePath(this.cx, this.cy, this.r).attr({
-            fill: "#ff6600",
-            stroke: "#000",
-            "stroke-width": "3px",
-            id: index
-            // onclick: "openNav();"
-        });
+            var circle = s.circlePath(this.cx, this.cy, this.r).attr({
+                fill: "#ff6600",
+                stroke: "#000",
+                "stroke-width": "3px",
+                id: index
+                // style: "display: none"
 
-        var intersects = Snap.path.intersection(circle, $(path).attr('d'));
+            });
+
+            var intersects = Snap.path.intersection(circle, $(path).attr('d'));
 
             intersects.forEach(function(el) {
 
-                s.circle(el.x, el.y, 1);       
-                
+                s.circle(el.x, el.y, 1);
+
             });
 
-        });	
+        });
 
-     	text_cont.style.display = "block";
+        // svgDoc.getElementsByTagName('circle').style.opacity = "0";
 
+        text_cont.style.display = "block";
 
+        var length = path.getTotalLength();
 
+        var offsetDash = $(path).css({
+            "stroke-dashoffset": length,
+            "stroke-dasharray": length + " " + length
+        });
 
-     	var length = path.getTotalLength();
-
-
-     var offsetDash = $(path).css({
-         "stroke-dashoffset": length,
-         "stroke-dasharray": length + " " + length
-     });
-     
-     var StopPoints = JSON.parse(localStorage.getItem('stopsAtLength'));
+        var StopPoints = JSON.parse(localStorage.getItem('stopsAtLength'));
 
 
 
-function drawPath(){
-	  
-    //  if(20>($newUnit - ($offsetUnit)) >0){
-    // 	$(path).css("stroke-dashoffset", "0px");
-    // }
+        function drawPath() {
 
-    // console.log($newUnit);
+            for (var i = 0; i < StopPoints.length; i++) {
 
-	for(var i=0; i< StopPoints.length;i++){
+                $.each($('.js-section'), function(i, el) {
 
-						// var $percentageComplete = ((($(window)).scrollTop() / (($('html')).height() - $(window).height())) * 100);
-						// console.log($percentageComplete);
-						// var $newUnit = path.getTotalLength(); //parseInt($dashOffset, 10);
-    		// 		var $offsetUnit = $percentageComplete * ($newUnit / 1000);
-    		// 		var offsetCounter = $newUnit - ($offsetUnit);
-    		// 		var pathCurrentLength = Math.floor($offsetUnit);
-					
 
-     						$.each($('.js-section'), function(i,el){
+                    if ($(this).hasClass('active')) {
 
-     							
-									if($(this).hasClass('active') ){
-										
-										var $percentageComplete = (($(window).scrollTop() - $(this).offset().top)/$(this).height()) * 100;
-										// console.log($percentageComplete , $(window).scrollTop(), $(this).offset().top, $(this).height());
-										
-										
-										var currentSectionID = $(this).attr("id");
-										currentSectionID = currentSectionID[8];
-										var $offsetUnit = $percentageComplete * (StopPoints[currentSectionID]/100);
-										var CurrentPathCurrentLength;
-										CurrentPathCurrentLength = Math.floor($offsetUnit);
+                        var $percentageComplete = (($(window).scrollTop() - $(this).offset().top) / $(this).height()) * 100;
+                        var currentSectionID = $(this).attr("id");
+                        currentSectionID = currentSectionID[8];
+                        var $offsetUnit = $percentageComplete * (StopPoints[currentSectionID] / 100);
+                        var CurrentPathCurrentLength;
+                        CurrentPathCurrentLength = Math.floor($offsetUnit);
 
-										
-										
+                        var currentCircle = svgDoc.getElementById(currentSectionID);
+                        console.log(currentCircle);
 
 
 
+                        // console.log(currentSectionID);
 
-										if(CurrentPathCurrentLength < StopPoints[currentSectionID]){
-										
-											
-										if(currentSectionID == 0 && CurrentPathCurrentLength < StopPoints[currentSectionID]){
-											$(path).css("stroke-dashoffset", "" + (length -  CurrentPathCurrentLength)  + "px");
+                        if (CurrentPathCurrentLength < StopPoints[currentSectionID]) {
 
 
-										}
+                            if (currentSectionID == 0 && CurrentPathCurrentLength < StopPoints[currentSectionID]) { // path drawing to first point
+                                $(path).css("stroke-dashoffset", "" + (length - CurrentPathCurrentLength) + "px");
+                                // svgDoc.getElementById(currentSectionID).attr('opacity', '1');
+                                // currentCircle.fadeIn(200);
+                            }
 
 
+                            if (currentSectionID > 0 && CurrentPathCurrentLength < StopPoints[currentSectionID]) { // path drawing to next point
 
+                                $(path).css("stroke-dashoffset", "" + (length - (StopPoints[currentSectionID - 1] + CurrentPathCurrentLength)) + "");
 
+                            }
 
+                        }
 
+                        if (StopPoints[currentSectionID - 1] + CurrentPathCurrentLength > StopPoints[currentSectionID]) { //Stop path drawing while section inWindow
 
-										if(currentSectionID > 0 && CurrentPathCurrentLength < StopPoints[currentSectionID]){ //////!!!!!!!!!!!!!!!!!!!!
+                            $(path).css("stroke-dashoffset", "" + (length - StopPoints[currentSectionID]) + "px");
 
-											$(path).css("stroke-dashoffset", ""+ (length -  (StopPoints[currentSectionID-1] + CurrentPathCurrentLength))  +"");
+                        }
 
-										}
+                    }
 
-
-										// if(currentSectionID > 0 && CurrentPathCurrentLength < StopPoints[currentSectionID]){
-										// 	$(path).css("stroke-dashoffset", ""+ (length -  CurrentPathCurrentLength+StopPoints[currentSectionID])  +"");
-										// 	console.log("3rd condition!!!!!!!!!!33333333333")
-										// }
-
-
-										}
-
-										if( StopPoints[currentSectionID-1] + CurrentPathCurrentLength > StopPoints[currentSectionID] ){
-											
-												$(path).css("stroke-dashoffset", "" + (length - StopPoints[currentSectionID]) + "px");
-										}
-
-										// else if(CurrentPathCurrentLength > StopPoints[currentSectionID]){
-
-										
-	
-											
-										// }
-
-						
-									}
-
-								});
-     	}	
-}
+                });
+            }
+        }
 
 
 
 
-function scrolled(e) {
+        function scrolled(e) {
+            drawPath();
+            sectionCounter();
+        }
 
 
+        $(window).on("scroll", scrolled);
 
-	drawPath();
-	sectionCounter();
+    }, false);
 
-
-
-}
-
-$(window).on("scroll", scrolled);
-
-
-
-
-
-      }, false);
-
-     var WrapperProps = JSON.parse(localStorage.getItem('mapStyleProperties'));
+    var WrapperProps = JSON.parse(localStorage.getItem('mapStyleProperties'));
     console.log(WrapperProps);
+
     $.each(WrapperProps, function(prop, value) {
         $("#IDmapbg").css(prop, value);
     });
