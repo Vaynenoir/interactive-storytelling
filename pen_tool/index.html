@@ -78,7 +78,6 @@
 			background-color: #ffcf85;
 			border-radius: 12px;
 			transform: scale(1.1,1.1);
-			transform: rotate(360deg);
 			transition: 0.4s;
 -webkit-box-shadow: 0px 0px 74px 0px rgba(0,0,0,0.75);
 -moz-box-shadow: 0px 0px 74px 0px rgba(0,0,0,0.75);
@@ -151,8 +150,9 @@ h1{
 	<div class="buttons_bar">
 <!-- 		<span>Animation time:</span><input type="text" id="time" value="5000"/>
 		<button class="waves-effect waves-light btn" id="execute">Execute</button> -->
-		<a href="drawnMap.html"><button class="waves-effect waves-light btn" id="export">Export path and go next</button></a>
-		<button class="waves-effect waves-light btn" id="clear">clear path</button>
+		<a href="drawnMap.html" ><button class="waves-effect waves-light btn" id="export">Export path and go next</button></a> <!-- -->
+		<button class="waves-effect waves-light btn" id="saveCurrentPath">Save path</button>
+		<button class="waves-effect waves-light btn" id="clear">clear all</button>
 		<button class="waves-effect waves-light btn" id="screen">full screen</button>
 		<textarea name="" placeholder="result is here" id="result" cols="30" rows="10"></textarea>
 
@@ -182,22 +182,33 @@ h1{
 
 <script type="text/javascript">
 $(document).ready(function(){
-	localStorage.clear();
+	// localStorage.clear();
 			var editor = new bezierEditor("bezier-canvas");
 		editor.draw();
+			
+			$('#saveCurrentPath').on("click",function(){
+			
+			// console.log(1);
+			var PathCurves = editor.ReturnSavedPath();
+			console.log(editor);
+			localStorage.setItem('SavedCurves', JSON.stringify(PathCurves));
+		});
+
 
 		$('#clear').bind("click",function(){
 			
 		$("#result").val(" ");
 			console.log(editor.clearBezier());
-			console.log(enabled);
+			$("#dataMap").attr("data", "");
+			localStorage.clear();
 			editor.draw();
 		});
+		
 
 		$('#screen').bind("click", function(){
 				goFullScreen();
  				editor.draw();
-		})
+		});
 
 		$('#execute').bind('click', function(){
 			var t = new Date();
@@ -207,10 +218,35 @@ $(document).ready(function(){
 
 
 			$('#export').bind("click",function() {
-				var time = $('#time').val();
-			
-				$("#result").val(editor.exportBezier(time));
+				var FirstRoute = JSON.parse(localStorage.getItem('path'));
+
+
+
+
+
+
+				if(FirstRoute){
+						var newRoute = editor.exportBezier();
+						newRoute = newRoute.slice(1);
+						FirstRoute += newRoute;
+						localStorage.setItem('path', JSON.stringify(FirstRoute));
+						console.log(newRoute);
+						console.log(FirstRoute);
+					}
+				else{
+					var DrawnPath = editor.exportBezier();
+					$("#result").val(DrawnPath);
+					localStorage.setItem('path', JSON.stringify(DrawnPath));
+				}
+
+				
+
+
+
+
+
 				console.log(styleProps);
+				
 			localStorage.setItem("mapStyleProperties", JSON.stringify(styleProps));
 			  
 		});
@@ -252,6 +288,20 @@ function loadMap(map_container){
     console.log(svgRoot);
 		});
 }
+
+
+			var savedMap = JSON.parse(localStorage.getItem('map')) || []; // get map from ls if it exists
+
+			if(savedMap){
+						var svgMap = document.getElementById("dataMap");
+						$("#dataMap").attr("data", savedMap);
+						loadMap(svgMap);		
+				}
+
+
+
+
+
 
 
 

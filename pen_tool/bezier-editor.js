@@ -134,7 +134,7 @@ var bezierEditor = function(id) {
 			// var Transform = require('canvas-get-transform');
 			this.halfPointSize = this.pointSize / 2;
 
-					var circlesArr = [];
+					var circlesArr = JSON.parse(localStorage.getItem('circlesCoords')) || [];
 					var counter = 0;
 			this.canvas.onmousedown = function(e) {
 																var circles = {
@@ -169,7 +169,7 @@ var bezierEditor = function(id) {
 					counter++;
 					circles.cx = clickX;
 					circles.cy = clickY;
-					circles.id = counter;
+					// circles.id = counter;
 					circlesArr.push(circles);
 					console.log(circlesArr);
 					localStorage.setItem('circlesCoords', JSON.stringify(circlesArr));
@@ -483,13 +483,46 @@ var bezierEditor = function(id) {
 					_ctx.stroke();
 				}
 			_ctx.strokeStyle="#00FF00";
-			// if(this.fakeNode && this.state.down == false) {
-				// var _lastIndex = nodes.length - 1;
-				// _ctx.beginPath();
-				// _ctx.moveTo(nodes[_lastIndex].x, nodes[_lastIndex].y);
-				// _ctx.bezierCurveTo(nodes[_lastIndex].controls[1].x, nodes[_lastIndex].controls[1].y, this.fakeNode.x, this.fakeNode.y, this.fakeNode.x, this.fakeNode.y);
-				// _ctx.stroke();
-			// }
+				// 		for(var i = 0; i < this.nodes.length - 1; ++i) {
+				// var n1 = this.nodes[i];
+				// var n2 = this.nodes[i + 1];
+				// var p1 = [n1.x, n1.y];
+				// var p2 = [n1.controls[1].x, n1.controls[1].y];
+				// var p3 = [n2.controls[0].x, n2.controls[0].y];
+				// var p4 = [n2.x, n2.y];
+				var SavedMapLines = JSON.parse(localStorage.getItem('SavedCurves'));
+				if(SavedMapLines){
+
+				for(var i = 0; i < SavedMapLines.length; ++i) {
+					_ctx.beginPath();
+					_ctx.moveTo(SavedMapLines[i].p1[0], SavedMapLines[i].p1[1]);
+					_ctx.bezierCurveTo(SavedMapLines[i].p2[0], SavedMapLines[i].p2[1], SavedMapLines[i].p3[0], SavedMapLines[i].p3[1], SavedMapLines[i].p4[0], SavedMapLines[i].p4[1]);
+					_ctx.stroke();
+				}
+					_ctx.strokeStyle="#00FF00";
+
+
+				}else{
+					return 0;
+				}
+
+
+
+			var savedMapCoords = JSON.parse(localStorage.getItem('circlesCoords')) || [];
+
+
+
+			for(var i=0;i<savedMapCoords.length;i++){
+			if(savedMapCoords){
+  						_ctx.beginPath();
+  						_ctx.fillStyle = "#2980b9";
+ 								 _ctx.arc(savedMapCoords[i].cx, savedMapCoords[i].cy, 8, 0, 2 * Math.PI);
+ 										 _ctx.fill();
+			}
+			}
+
+
+
 
 		},
 		
@@ -533,9 +566,11 @@ var bezierEditor = function(id) {
 			}
 			return result;
 		},
-		exportBezier: function(time) {
-			var exportString = ".stop()";
+		exportBezier: function() {
+			var ArrLines = [];
+			
 			var string = "M";
+			var SavedLines = '';
 			var result = this.getLength();
 			for(var i = 0; i < this.nodes.length - 1; ++i) {
 				var n1 = this.nodes[i];
@@ -544,11 +579,14 @@ var bezierEditor = function(id) {
 				var p2 = [n1.controls[1].x, n1.controls[1].y];
 				var p3 = [n2.controls[0].x, n2.controls[0].y];
 				var p4 = [n2.x, n2.y];
-				exportString += '.animate({path:new bezier({start: [' + p1[0] + ', ' + p1[1] + '],' +
-					'c1:['+p2[0]+', '+p2[1]+'],'+
-					'end: ['+p4[0]+','+p4[1]+'],'+
-					'c2:['+p3[0]+', '+p3[1]+'],})}, ' + result[i] * time + ' ,"linear")';
 
+				var LineObj = {};
+
+						LineObj.p1 = p1;
+						LineObj.p2 = p2;
+						LineObj.p3 = p3;
+						LineObj.p4 = p4;
+						ArrLines.push(LineObj);
 
 
 					string += ' ' + p1[0] + ', ' + p1[1] + ' C'  +
@@ -557,8 +595,35 @@ var bezierEditor = function(id) {
 					''+p4[0]+', '+p4[1]+' T';
 
 			}
-			localStorage.setItem('path', JSON.stringify(string));
+			
 			return	string;
+		},
+		ReturnSavedPath: function(){
+			var ArrLines = JSON.parse(localStorage.getItem('SavedCurves')) || [];
+			var SavedLines = "";
+			var result = this.getLength();
+			for(var i = 0; i < this.nodes.length - 1; ++i) {
+				var n1 = this.nodes[i];
+				var n2 = this.nodes[i + 1];
+				var p1 = [n1.x, n1.y];
+				var p2 = [n1.controls[1].x, n1.controls[1].y];
+				var p3 = [n2.controls[0].x, n2.controls[0].y];
+				var p4 = [n2.x, n2.y];
+
+						var LineObj = {};
+						LineObj.p1 = p1;
+						LineObj.p2 = p2;
+						LineObj.p3 = p3;
+						LineObj.p4 = p4;
+						ArrLines.push(LineObj);
+						SavedLines += ' ' + p1[0] + ', ' + p1[1] + ' C'  +
+					' '+p2[0]+', '+p2[1]+', ' +
+					+p3[0]+', '+p3[1]+', '+
+					''+p4[0]+', '+p4[1]+' T';
+			}
+				localStorage.setItem('SavedSvgPath', JSON.stringify(SavedLines));
+
+			return	ArrLines;
 		},
 		// drawZoom: function(scale, translatePos){
 		// 	var context = this.ctx;

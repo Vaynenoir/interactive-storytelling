@@ -97,20 +97,26 @@ $(document).ready(function() {
 
             for (var j = 0; j < CirclesArrayClone.length; j++) {
 
-                if (Math.abs(Math.round(pointX - CirclesArrayClone[j].cx)) <= 2 && Math.abs(Math.round(pointY - CirclesArrayClone[j].cy)) <= 2) {
+                if (Math.abs(Math.round(pointX - CirclesArrayClone[j].cx)) <= 8 && Math.abs(Math.round(pointY - CirclesArrayClone[j].cy)) <= 8) {
 
                     for (var l = 0; l < circlesArray.length; l++) {
-
-                        if (circlesArray[l].cx == CirclesArrayClone[j].cx && circlesArray[l].cy == CirclesArrayClone[j].cy) {
+                             
+                        if (Math.abs(Math.round(circlesArray[l].cx - CirclesArrayClone[j].cx)) <=4 && Math.abs(Math.round(circlesArray[l].cy - CirclesArrayClone[j].cy)) <=4) {
+                                
+                                 
 
                             circlesArray[l].id = circlesCounter++;
 
+                             
+
                         }
 
-                    }
 
-                    CirclesArrayClone.splice(j, 1);
+                    }
+CirclesArrayClone.splice(j, 1);
+                   
                 }
+
             }
         }
 
@@ -142,12 +148,20 @@ $(document).ready(function() {
             });
 
             var intersects = Snap.path.intersection(circle, $(path).attr('d'));
-
+            
+            if(intersects.length == 0){
+                alert("Please, return to the previous step and draw points right on the route line");
+                document.location.replace("http://127.0.0.1:8080/");
+            }
+            else{
             pointsObj.cx = intersects[0].x;
             pointsObj.cy = intersects[0].y;
+            }
+
 
             pointsArray.push(pointsObj);
 
+                console.log(pointsArray);
             intersects.forEach(function(el) {
 
                 s.circle(el.x, el.y, 1);
@@ -157,6 +171,9 @@ $(document).ready(function() {
             localStorage.setItem('points', JSON.stringify(pointsArray));
         });
 
+            
+                
+            
 
 
 
@@ -292,6 +309,7 @@ $(document).ready(function() {
 
             for (var j = 0; j < pointsArray.length; j++) {
 
+
                 if (Math.abs(Math.round(pointX - pointsArray[j].cx)) <= 0 && Math.abs(Math.round(pointY - pointsArray[j].cy)) <= 0) {
 
                     stopsAtLength.push(i);
@@ -302,10 +320,18 @@ $(document).ready(function() {
 
 
 
-            localStorage.setItem("stopsAtLength", JSON.stringify(stopsAtLength));
+
+            
 
 
         }
+        if(stopsAtLength.length != pointsArray.length){
+            for(var i=0; i< stopsAtLength.length; i++){
+                    if(stopsAtLength[i+1] - stopsAtLength[i] == 1 ) stopsAtLength.splice(i,1);
+            }
+        }
+        console.log(stopsAtLength);
+        localStorage.setItem("stopsAtLength", JSON.stringify(stopsAtLength));
 
         if (pointsArray.length !== stopsAtLength.length) {
             console.log("HERE IS THE DIFFERENCE: 1st array length = " + pointsArray.length + ', 2nd arr length= ' + stopsAtLength.length + "");
