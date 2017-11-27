@@ -1,5 +1,6 @@
 
 $(document).ready(function(){
+
 	$('#openMap').bind("click",function(){
 		$('#gallery').fadeIn(2000);
 	});
@@ -20,17 +21,24 @@ $(document).ready(function(){
 
 
 function goFullScreen(){
+
+    var canvasWrapper = document.getElementById("full_screen");
     var canvas = document.getElementById("bezier-canvas");
-    if(canvas.requestFullScreen)
-        canvas.requestFullScreen(); 		
-    else if(canvas.webkitRequestFullScreen)
-        canvas.webkitRequestFullScreen();
-    else if(canvas.mozRequestFullScreen){
-        canvas.mozRequestFullScreen();
+    if(canvasWrapper.requestFullScreen){
+        canvasWrapper.requestFullScreen();
+
+      } 		
+    else if(canvasWrapper.webkitRequestFullScreen)
+        canvasWrapper.webkitRequestFullScreen();
+    else if(canvasWrapper.mozRequestFullScreen){
+        canvasWrapper.mozRequestFullScreen();
         }
- 				
-			canvas.width = "1200";
- 			canvas.height = "933";
+			canvasWrapper.width = "1200";
+ 			canvasWrapper.height = "933";
+
+ 			// canvas.style.backgroundColor = "#fff";
+ 		
+
 }
 
 var createNode = function(x, y, control1, control2) {
@@ -133,16 +141,25 @@ var bezierEditor = function(id) {
 			this.ctx = this.canvas.getContext("2d");
 			// var Transform = require('canvas-get-transform');
 			this.halfPointSize = this.pointSize / 2;
+					try{
+						var circlesArr = JSON.parse(localStorage.getItem('circlesCoords')) || [];
+					}catch(err){
 
-					var circlesArr = JSON.parse(localStorage.getItem('circlesCoords')) || [];
+					};
 					var counter = 0;
 			this.canvas.onmousedown = function(e) {
-																var circles = {
+					// if(!circlesArr){
+					// 	circlesArr = [];
+					// 	counter = 0;	
+					// }
+					var circles = {
 							cx: 0,
 							cy: 0,
 							r: 8,
 							id: 0
 					};
+
+   		 
 				editor.state.down = true;
 				if(e.ctrlKey == true || e.altKey == true) {
 					editor.state.dragMode = e.ctrlKey * 2 + e.altKey;
@@ -151,12 +168,13 @@ var bezierEditor = function(id) {
 
 				else if(e.shiftKey == true || e.altKey == true){
 					editor.state.down = false;
-						var zoom = JSON.parse(localStorage.getItem('zoom'));
+					var zoom = JSON.parse(localStorage.getItem('zoom'));
 					var clickX = 0;
 					var	clickY = 0;
 					var canvas = document.getElementById("bezier-canvas");
 					var svg = document.getElementById("map_bg");
 					console.log(svg);
+
 					var pos = getMousePos(svg,e);
 					if(zoom || zoom>0){
 					clickX = pos.x/zoom; 
@@ -166,9 +184,13 @@ var bezierEditor = function(id) {
 					clickX = pos.x; 
 					clickY = pos.y;
 					}
-					counter++;
+
+			
+						counter++;
+					
 					circles.cx = clickX;
 					circles.cy = clickY;
+					console.log(counter);
 					// circles.id = counter;
 					circlesArr.push(circles);
 					console.log(circlesArr);
@@ -183,6 +205,13 @@ var bezierEditor = function(id) {
  										 ctx.fill();
  										 console.log(ctx);
 				}
+
+				// if(e.keyCode == 13){
+				// 	console.log('keks');
+				// 	e.preventDefault();
+				// 	console.log('keks');
+				// }
+
 				else {
 					var _nodes = editor.nodes;
 					
@@ -217,9 +246,65 @@ var bezierEditor = function(id) {
 					editor.addNode(e);	
 				}
 			};
+			
+var circlesArrRemove = [];
+
+
+
+			this.canvas.oncontextmenu = function(e){
+				editor.state.down = false;
+									var circlesToDelete = {
+							cx: 0,
+							cy: 0,
+							r: 8,
+							id: 0
+					};
+				e.preventDefault();
+				
+				
+					var zoom = JSON.parse(localStorage.getItem('zoom'));
+					var clickX = 0;
+					var	clickY = 0;
+					var canvas = document.getElementById("bezier-canvas");
+					var svg = document.getElementById("map_bg");
+					console.log(svg);
+
+					var pos = getMousePos(svg,e);
+					if(zoom || zoom>0){
+					clickX = pos.x/zoom; 
+					clickY = pos.y/zoom;				
+					}
+					else{
+					clickX = pos.x; 
+					clickY = pos.y;
+					}
+
+			
+						counter++;
+					
+					circlesToDelete.cx = clickX;
+					circlesToDelete.cy = clickY;
+					console.log(counter);
+					// circles.id = counter;
+					circlesArrRemove.push(circlesToDelete);
+					console.log(circlesArrRemove);
+					// localStorage.setItem('circlesCoords', JSON.stringify(circlesArrRemove));
+					console.log(clickX,clickY);
+					var r = 8;
+					var ctx = this.getContext('2d');
+					 
+  						ctx.beginPath();
+  						ctx.fillStyle = "red";
+ 								 ctx.arc(clickX, clickY, 8, 0, 2 * Math.PI);
+ 										 ctx.fill();
+ 										 console.log(ctx);
+				
+				
+			}
 		
 		
-		
+
+
 
 			this.canvas.onmousemove = function(e) {
 						var x = e.offsetX;

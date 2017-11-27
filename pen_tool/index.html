@@ -72,10 +72,11 @@
 			/*text-align: center;*/
 			margin-top:20px;
 			letter-spacing: 1px;
-			color: #001;
+			color: #100;
 		}
 		.gallery_item:hover{
-			background-color: #ffcf85;
+
+			background-color: #F3D6E4;
 			border-radius: 12px;
 			transform: scale(1.1,1.1);
 			transition: 0.4s;
@@ -130,7 +131,7 @@ h1{
 
 	<h1><span style="color: #37474f ;">step 1.</span>draw your route on the map</h1>
 	<div class="debug"></div>
-	<div class="centered">
+	<div class="centered" id="full_screen">
 		<!-- <div id="test"></div> -->
 		<div class="wrap_map">
 		<div id="map_bg">
@@ -190,11 +191,10 @@ $(document).ready(function(){
 			
 			// console.log(1);
 			var PathCurves = editor.ReturnSavedPath();
-			console.log(editor);
 			localStorage.setItem('SavedCurves', JSON.stringify(PathCurves));
 		});
 
-
+ 
 		$('#clear').bind("click",function(){
 			
 		$("#result").val(" ");
@@ -202,6 +202,7 @@ $(document).ready(function(){
 			$("#dataMap").attr("data", "");
 			localStorage.clear();
 			editor.draw();
+			window.location.reload();
 		});
 		
 
@@ -367,7 +368,8 @@ $("#moveBottom").bind("click", function(){
 
 
 
-
+ // $('.tap-target').tapTarget('open');
+ //  $('.tap-target').tapTarget('close');
 
 
 

@@ -24,12 +24,14 @@ $(document).ready(function() {
 
     $("#mySidenav").resizable({
         resize: function(event,ui){
-            ui.size.width += ui.size.width - ui.originalSize.width;
             if(ui.size.width > 900){
                 ui.size.width == 900;
+            }else{
+                ui.size.width +=  ui.originalSize.width;
             }
         },
-        handles: 'e'
+        handles: 'e',
+        maxWidth: 900
 
     });
 
