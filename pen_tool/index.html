@@ -11,6 +11,8 @@
 
 		<link rel="stylesheet" href="css/style.css">
 		<link rel="stylesheet" href="css/materialize.min.css">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
 			<style type="text/css">
 			.centered{
 				display: flex;
@@ -84,7 +86,7 @@
 -moz-box-shadow: 0px 0px 74px 0px rgba(0,0,0,0.75);
 box-shadow: 0px 0px 74px 0px rgba(0,0,0,0.75);
 		}
-		.active{
+		.active_block{
 			background-color: #ffcf85;
 			border-radius: 12px;
 			transform: scale(1.1,1.1);
@@ -105,9 +107,18 @@ h1{
 
 	text-shadow: 3px 0px 9px rgba(69, 150, 150, 0.43);
 }
+nav{
+	background-color: #4db6ac;
+}
 
+.tap-target-wrapper.open .tap-target{
+	transform: scale(3.2);
+	opacity: 0.75;
+}
 
-
+.tabs{
+	width: 70%;
+}
 
             #buttonWrapper {
                 position: absolute;
@@ -116,20 +127,64 @@ h1{
                 right: 2px;
             }
 
-            input[type =
-            "button"] {
-                padding: 5px;
+            .editor_button{
+            	
+                padding: 8px 6px 0px 2px;
                 width: 30px;
                 margin: 0px 0px 2px 0px;
+                outline: none;
+
+            }
+
+            button:focus{
+								
+								border: #000;
+            }
+
+            .material-icons{
+            	color: #00796b  ;
+            }
+            nav i.material-icons{
+            	line-height: 41px;
+            	font-size: 30px;
             }
 
 	</style>
 </head>
 <body>
+<div class="navbar-fixed">
+  <nav class="nav-extended">
+   
+      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+      <ul id="nav-mobile" class="left hide-on-med-and-down tabs tabs-transparent">
+        <li class="tab"><a href="">Step 1.draw your route on the map</a></li>
+        <li class="tab"><a target="_self"  href="drawnMap.html">Step 2.fill points with content</a></li>
+        <li class="tab"><a   href="">Result</a></li>
+
+
+
+
+		
+      </ul>
+
+      	
+			
+    <a id="menu" onclick="$('.tap-target').tapTarget('open')" class="right waves-effect waves-light btn btn-floating " ><i class="material-icons">&#xE88E;</i></a>  			 
+	 <div class="tap-target" data-activates="menu">
+    <div class="tap-target-content">
+      <h5>Tutorial</h5>
+      <p>A bunch of text</p>
+    </div>
+  </div>
+		
+      
+  </nav>
+</div>
+
 <div class="wrapper container" id="topPoint">
 
 
-	<h1><span style="color: #37474f ;">step 1.</span>draw your route on the map</h1>
+<!-- 	<h1><span id="test1" style="color: #37474f ;">step 1.</span>draw your route on the map</h1> -->
 	<div class="debug"></div>
 	<div class="centered" id="full_screen">
 		<!-- <div id="test"></div> -->
@@ -140,25 +195,28 @@ h1{
 		</div>
 		</div>
 		<div id="buttonWrapper">
-			<input type="button" value="+" id="plus" ><input type="button" value="-" id="minus">
-			<input type="button" value="&#8592;" id="moveLeft">
-			<input type="button" value="&#8594;" id="moveRight">
-			<input type="button" value="&#8593;" id="moveTop">
-			<input type="button" value="&#8595;" id="moveBottom">
+
+			<button class="editor_button waves-effect" id="plus" ><i class="material-icons">zoom_in</i></button>
+			<button class="editor_button" id="minus"><i class="material-icons">zoom_out</i></button>
+			<button class="editor_button" id="moveLeft"><i class="material-icons">keyboard_arrow_left</i></button> 
+			<button class="editor_button" id="moveRight"><i class="material-icons">keyboard_arrow_right</i></button>
+			<button class="editor_button" id="moveTop"><i class="material-icons">keyboard_arrow_up</i></button>
+			<button class="editor_button" id="moveBottom"><i class="material-icons">keyboard_arrow_down</i></button>
 
 		</div>
 	</div>
 	<div class="buttons_bar">
 <!-- 		<span>Animation time:</span><input type="text" id="time" value="5000"/>
 		<button class="waves-effect waves-light btn" id="execute">Execute</button> -->
-		<a href="drawnMap.html" ><button class="waves-effect waves-light btn" id="export">Export path and go next</button></a> <!-- -->
-		<button class="waves-effect waves-light btn" id="saveCurrentPath">Save path</button>
+		<a href="drawnMap.html" ><button class="waves-effect waves-light btn" id="export">Save data and go next</button></a> <!-- -->
+	<!-- 	<button class="waves-effect waves-light btn" id="saveCurrentPath">Save path</button> -->
+		<button class="waves-effect waves-light btn" id="redraw">redraw editor</button>
 		<button class="waves-effect waves-light btn" id="clear">clear all</button>
 		<button class="waves-effect waves-light btn" id="screen">full screen</button>
 		<textarea name="" placeholder="result is here" id="result" cols="30" rows="10"></textarea>
 
 	</div>
-	
+
 
 	<output id="list"></output>
 
@@ -187,12 +245,11 @@ $(document).ready(function(){
 			var editor = new bezierEditor("bezier-canvas");
 		editor.draw();
 			
-			$('#saveCurrentPath').on("click",function(){
-			
-			// console.log(1);
-			var PathCurves = editor.ReturnSavedPath();
-			localStorage.setItem('SavedCurves', JSON.stringify(PathCurves));
-		});
+		// 	$('#saveCurrentPath').on("click",function(){
+
+		// 	var PathCurves = editor.ReturnSavedPath();
+		// 	localStorage.setItem('SavedCurves', JSON.stringify(PathCurves));
+		// });
 
  
 		$('#clear').bind("click",function(){
@@ -203,8 +260,15 @@ $(document).ready(function(){
 			localStorage.clear();
 			editor.draw();
 			window.location.reload();
+			
 		});
 		
+		$('#redraw').bind("click", function(){
+
+			editor.draw();
+			Materialize.toast('Editor redrawn!', 2000);
+
+		})
 
 		$('#screen').bind("click", function(){
 				goFullScreen();
@@ -219,6 +283,10 @@ $(document).ready(function(){
 
 
 			$('#export').bind("click",function() {
+				editor.draw();
+
+			var PathCurves = editor.ReturnSavedPath();
+			localStorage.setItem('SavedCurves', JSON.stringify(PathCurves));
 				var FirstRoute = JSON.parse(localStorage.getItem('path'));
 
 
@@ -249,7 +317,7 @@ $(document).ready(function(){
 				console.log(styleProps);
 				
 			localStorage.setItem("mapStyleProperties", JSON.stringify(styleProps));
-			  
+			
 		});
 
 var editor = new bezierEditor("bezier-canvas");
@@ -376,11 +444,30 @@ $("#moveBottom").bind("click", function(){
 });
 
 
+ $(document).ready(function(){
+    $('ul.tabs').tabs();
+
+
+ 
+
+
+
+  $("#menu").on("click", function(){
+  	if(!$(this).hasClass('.active')){
+  		$(this).addClass("active");
+  		 $('.tap-target').tapTarget('open');
+  	}
+  	else{
+  		$(this).removeClass("active");
+  		 $('.tap-target').tapTarget('close');
+  	}
+  })
+  });
 
 
 
 </script>
-
+<script src="js/materialize.min.js"></script>
 
 	
 </body>
