@@ -89,9 +89,22 @@ var bezierEditor = function(id) {
 				}
 			}
 			this.canvas = document.getElementById(id);
+
+
+
+
+
+
+
+
+
 			//hook Ctrl+Z and Ctrl+Y of the canvas
 			window.onkeypress = function(e) {
+				if(e.altKey == true){
+					console.log('lol');
+				}
 				if(e.ctrlKey == true) {
+					console.log("ctrl");
 					switch(e.keyCode) {
 					case 26:	// Ctrl+Z	Undo
 						editor.undo();
@@ -133,6 +146,18 @@ var bezierEditor = function(id) {
 //   return boundingRect;
 
 // }
+
+// $(document).on('keydown', function (event) {
+//     if (event.altKey) {
+//         editor.cursor('wait');
+//         console.log(1);
+//     }
+// });
+
+
+
+
+
 
 
 			/* Fix the drag cursor bug. When selection start, cursor will be set to "text"*/
@@ -214,7 +239,7 @@ var bezierEditor = function(id) {
 
 
 				else if (e.altKey == true) {
-					// editor.cursor("url(css/circle.png), auto");
+					
 					
 					try{
 					var circlesArrRemove = JSON.parse(localStorage.getItem('deleteCircles')) || [];
@@ -373,6 +398,7 @@ var bezierEditor = function(id) {
 			this.canvas.onmousemove = function(e) {
 						var x = e.offsetX;
 						var y =	e.offsetY;
+
 				if(editor.state.down == true) {
 					if(editor.selectedNode)
 						editor.cursor("all-scroll");
@@ -390,6 +416,7 @@ var bezierEditor = function(id) {
 							editor.createControlPoint(x, y);
 					}
 				}
+
 				else {
 					var _nodes = editor.nodes;
 					for(var i = 0; i < _nodes.length; ++i) {
@@ -406,6 +433,17 @@ var bezierEditor = function(id) {
 					}
 					editor.cursor("default");
 				}
+
+				if(e.shiftKey == true){
+					editor.cursor("url(https://cdn0.iconfinder.com/data/icons/feather/96/circle-add-20.png) 10 10, auto ");
+				}
+				
+				if(e.altKey == true){
+					editor.cursor("url(https://cdn0.iconfinder.com/data/icons/feather/96/circle-cross-20.png) 10 10, auto");
+				}
+
+
+
 			};
 			this.canvas.onmouseup = function(e) {
 				editor.mouseup(e);

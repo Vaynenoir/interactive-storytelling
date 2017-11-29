@@ -13,6 +13,8 @@
 		<link rel="stylesheet" href="css/materialize.min.css">
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
+      <link rel="stylesheet" media="screen" type="text/css" href="js/colorpicker/spectrum.css" />
+
 			<style type="text/css">
 			.centered{
 				display: flex;
@@ -148,6 +150,26 @@ nav{
             	line-height: 41px;
             	font-size: 30px;
             }
+            #menu{
+            	margin-right: 10px;
+            	margin-top: 3px;
+            }
+
+
+
+
+.result {
+  width: 5em;
+  height: 5em;
+  border-radius: 30%;
+  box-shadow: 0 2px 6px #000;
+  background: #95C066;
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 2em;
+}
+
+
 
 	</style>
 </head>
@@ -194,6 +216,18 @@ nav{
 		<canvas id="bezier-canvas" width="1200" height="900"></canvas>
 		</div>
 		</div>
+		  <!-- Modal Structure -->
+  	<div id="modal1" class="modal modal-fixed-footer">
+    	<div class="modal-content">
+
+			<input type='text' id="flat" />
+
+
+    	</div>
+    	<div class="modal-footer">
+      	<a  class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>
+    	</div>
+  	</div>
 		<div id="buttonWrapper">
 
 			<button class="editor_button waves-effect" id="plus" ><i class="material-icons">zoom_in</i></button>
@@ -202,7 +236,7 @@ nav{
 			<button class="editor_button" id="moveRight"><i class="material-icons">keyboard_arrow_right</i></button>
 			<button class="editor_button" id="moveTop"><i class="material-icons">keyboard_arrow_up</i></button>
 			<button class="editor_button" id="moveBottom"><i class="material-icons">keyboard_arrow_down</i></button>
-
+			<button class="editor_button modal-trigger" data-target="modal1" id="changeColor"><i class="material-icons">colorize</i></button>
 		</div>
 	</div>
 	<div class="buttons_bar">
@@ -213,6 +247,7 @@ nav{
 		<button class="waves-effect waves-light btn" id="redraw">redraw editor</button>
 		<button class="waves-effect waves-light btn" id="clear">clear all</button>
 		<button class="waves-effect waves-light btn" id="screen">full screen</button>
+
 		<textarea name="" placeholder="result is here" id="result" cols="30" rows="10"></textarea>
 
 	</div>
@@ -355,6 +390,20 @@ function loadMap(map_container){
 		var svgDoc = map_container.contentDocument; //get the inner DOM of alpha.svg
     var svgRoot  = svgDoc.documentElement;
     console.log(svgRoot);
+
+
+
+
+$("#flat").spectrum({
+    flat: true,
+    showInput: true,
+    submit: true
+
+});
+
+
+
+
 		});
 }
 
@@ -448,6 +497,7 @@ $("#moveBottom").bind("click", function(){
     $('ul.tabs').tabs();
 
 
+     $('.modal').modal();
  
 
 
@@ -462,12 +512,53 @@ $("#moveBottom").bind("click", function(){
   		 $('.tap-target').tapTarget('close');
   	}
   })
-  });
+
+// function startup() {
+//   colorWell = document.querySelector("#colorWell");
+//   colorWell.value = defaultColor;
+//   colorWell.addEventListener("input", updateFirst, false);
+//   colorWell.addEventListener("change", updateAll, false);
+//   colorWell.select();
+// }
+
+// var colorWell;
+// var defaultColor = "#0000ff";
+
+// window.addEventListener("load", startup, false);
 
 
+// (function () {
+//   var app = {
+//     start: function() {
+//       this.output = $('#output');
+//       this.result = $('#result');
+//       var self    = this,
+//         initialColor = this.result.css('background');
+//       var colorPicker = $('#color-picker').spectrum({
+//         chooseText: 'ok',
+//         color:      initialColor,
+//         move:       function(col) { self.onMove(col.toHexString()); },
+//         change:     function(col) { self.onChange(col.toHexString()); },
+//         hide:       function(col) { self.onHide(col.toHexString()); }
+//       });
+//       this.broadcast(colorPicker.spectrum('get').toHexString());
+//     }
+//   };
+
+//   $(function () {
+//     app.start();
+//   });
+// });
+
+
+
+
+});
 
 </script>
+
 <script src="js/materialize.min.js"></script>
+<script src="js/colorpicker/spectrum.js"></script>
 
 	
 </body>
