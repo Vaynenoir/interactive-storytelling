@@ -23,13 +23,13 @@ $(document).ready(function() {
 
 
     $("#mySidenav").resizable({
-        resize: function(event,ui){
-            if(ui.size.width > 900){
-                ui.size.width == 900;
-            }else{
-                ui.size.width +=  ui.originalSize.width;
-            }
-        },
+        // resize: function(event,ui){
+        //     if(ui.size.width > 900){
+        //         ui.size.width == 900;
+        //     }else{
+        //         ui.size.width +=  ui.originalSize.width;
+        //     }
+        // },
         handles: 'e',
         maxWidth: 900
 
@@ -50,6 +50,24 @@ $(document).ready(function() {
     a.addEventListener("load", function() {
         var svgDoc = a.contentDocument;
         var svgRoot = svgDoc.documentElement;
+        var MapPathsGroup = svgRoot.getElementById("mapPaths");
+        var PathsArray = MapPathsGroup.getElementsByTagName('path');
+
+        try{
+            var ColorMapData = JSON.parse(localStorage.getItem('SavedMapColors')) || [];
+        }catch(err){};
+        console.log(ColorMapData);
+
+        if(ColorMapData || ColorMapData.length > 0){
+
+        for(var i = 0; i < PathsArray.length; i++){
+            PathsArray[i].style.fill = ColorMapData.mapBackground;
+            PathsArray[i].style.stroke = ColorMapData.mapStroke;
+        }
+        }
+
+
+
         var PathDirection = JSON.parse(localStorage.getItem('path'));
 
         if (PathDirection) {
@@ -81,6 +99,9 @@ $(document).ready(function() {
         var pathLength = path.getTotalLength();
         console.log(circlesArray);
         var CirclesArrayClone = [];
+        var pointsDataContentNew  = [];
+        var contentOfPoints = JSON.parse(localStorage.getItem('PointsContent')) || [];
+
 
 
 
@@ -89,7 +110,7 @@ $(document).ready(function() {
         }
 
 
-        var circlesCounter = 0;
+        var circlesCounter = 1;
         console.log(circlesArray);
         for (var i = 0; i < pathLength; i++) {
             var pathLengthAtPoint = path.getPointAtLength(i);
@@ -106,11 +127,35 @@ $(document).ready(function() {
                         if (Math.abs(Math.round(circlesArray[l].cx - CirclesArrayClone[j].cx)) <=4 && Math.abs(Math.round(circlesArray[l].cy - CirclesArrayClone[j].cy)) <=4) {
                                 
                                  
+                            // circlesArray[l].ex_id = circlesArray[l].id;
 
                             circlesArray[l].id = circlesCounter++;
 
-                             
+                            // if(circlesArray[l].ex_id - circlesArray[l].id == 0){
+                                
+                            // // }
+                            //  if(circlesArray[l].ex_id == circlesArray[l].id){
+                            // //     delete circlesArray[0].ex_id;
+                            //     pointsDataContentNew = contentOfPoints;
+                            // //     console.log("if");
+                            // }
 
+
+                            //     if(contentOfPoints.length > 0 && circlesArray[l].ex_id != circlesArray[l].id){
+
+                            //      for (var cl = 0; cl < contentOfPoints.length; cl++) {
+
+                            //         if (contentOfPoints[cl].pointId == circlesArray[l].ex_id + 1) {
+                            //             contentOfPoints[cl].pointId = circlesArray[l].id+1;
+                            //             pointsDataContentNew.push(contentOfPoints[cl]);
+                            //             contentOfPoints.splice(cl, 1);
+                            //         }
+                            //         console.log(contentOfPoints);
+                            //         console.log("else if");
+                            //     }
+                            // }
+
+                            
                         }
 
 
@@ -125,8 +170,13 @@ CirclesArrayClone.splice(j, 1);
         circlesArray.sort(compareId);
         console.log(circlesArray);
 
-        localStorage.setItem('circlesCoords', JSON.stringify(circlesArray));
 
+
+
+
+
+        localStorage.setItem('circlesCoords', JSON.stringify(circlesArray));
+        // localStorage.setItem('PointsContent', JSON.stringify(pointsDataContentNew));
 
 
 
@@ -163,7 +213,7 @@ CirclesArrayClone.splice(j, 1);
 
             pointsArray.push(pointsObj);
 
-                console.log(pointsArray);
+                // console.log(pointsArray);
             intersects.forEach(function(el) {
 
                 s.circle(el.x, el.y, 1);
@@ -174,7 +224,7 @@ CirclesArrayClone.splice(j, 1);
         });
 
             
-                
+                console.log(circlesArray);
             
 
 
@@ -185,15 +235,15 @@ CirclesArrayClone.splice(j, 1);
             var pointsDataContentArray = [];
         }
         for (var i = 0; i < circlesArray.length; i++) {
-            var paths = svgDoc.getElementById(i);
+            var paths = svgDoc.getElementById(circlesArray[i].id);
 
-            var equalID = i + 1;
-
+            var equalID = circlesArray[i].id;
+            console.log(equalID);
             for (var j = 0; j < pointsDataContentArray.length; j++) {
 
                 if (pointsDataContentArray[j].pointId == equalID) {
                     console.log("pointsId: " + pointsDataContentArray[j].pointId + ", eq = " + equalID);
-                    var checked = pointsDataContentArray[j].pointId - 1;
+                    var checked = pointsDataContentArray[j].pointId;
                     var FilledContentPaths = svgDoc.getElementById(checked);
                     $(FilledContentPaths).css("fill", "#990033");
                 }
@@ -214,7 +264,7 @@ CirclesArrayClone.splice(j, 1);
 
             paths.addEventListener("click", function() {
 
-                var Npoint = parseInt(this.id) + 1;
+                var Npoint = parseInt(this.id);
                 var currentPath = this;
                 if (localStorage.getItem('PointsContent') != null) {
                     var getPointData = JSON.parse(localStorage.getItem('PointsContent'));
@@ -332,7 +382,7 @@ CirclesArrayClone.splice(j, 1);
                     if(stopsAtLength[i+1] - stopsAtLength[i] == 1 ) stopsAtLength.splice(i,1);
             }
         }
-        console.log(stopsAtLength);
+        // console.log(stopsAtLength);
         localStorage.setItem("stopsAtLength", JSON.stringify(stopsAtLength));
 
         if (pointsArray.length !== stopsAtLength.length) {

@@ -13,7 +13,7 @@
 		<link rel="stylesheet" href="css/materialize.min.css">
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
-      <link rel="stylesheet" media="screen" type="text/css" href="js/colorpicker/spectrum.css" />
+<!--       <link rel="stylesheet" media="screen" type="text/css" href="js/colorpicker/spectrum.css" /> -->
 
 			<style type="text/css">
 			.centered{
@@ -216,11 +216,53 @@ nav{
 		<canvas id="bezier-canvas" width="1200" height="900"></canvas>
 		</div>
 		</div>
+
+
+
+
+
+
+		<ul id="slide-out" class="side-nav">
+    <li><div class="user-view">
+      <div class="background">
+
+      </div>
+
+      	<div id="gallery" class="map_gallery row" style="">
+		
+		<div class="gallery_item col s3"><a href="#topPoint"><p class="centered">Australia</p><img class="img_item" src="maps/australiaHigh.svg" width="300px" height="300px" alt=""></a></div>
+		<div class="gallery_item col s3"><a href="#topPoint"><p class="centered">Azerbaijan</p><img class="img_item" src="maps/azerbaijanHigh.svg" width="300px" height="300px" alt=""></a></div>
+		<div class="gallery_item col s3"><a href="#topPoint"><p class="centered">Belarus</p><img class="img_item" src="maps/belarusHigh.svg" width="300px" height="300px" alt=""></a></div>
+		<div class="gallery_item col s3"><a href="#topPoint"><p class="centered">Belgium</p><img class="img_item" src="maps/belgiumHigh.svg" width="300px" height="300px" alt=""></a></div>
+		<div class="gallery_item col s3"><a href="#topPoint"><p class="centered">France</p><img class="img_item" src="maps/franceHigh.svg" width="300px" height="300px" alt=""></a></div>
+		<div class="gallery_item col s3"><a href="#topPoint"><p class="centered">Georgia</p><img class="img_item" src="maps/georgiaHigh.svg" width="300px" height="300px" alt=""></a></div>
+		<div class="gallery_item col s3"><a href="#topPoint"><p class="centered">Ireland</p><img class="img_item" src="maps/irelandHigh.svg" width="300px" height="300px" alt=""></a></div>
+		<div class="gallery_item col s3"><a href="#topPoint"><p class="centered">Sweden</p><img class="img_item" src="maps/swedenHigh.svg" width="300px" height="300px" alt=""></a></div>
+		<div class="gallery_item col s3"><a href="#topPoint"><p class="centered">Turkey</p><img class="img_item" src="maps/turkeyHigh.svg" width="300px" height="300px" alt=""></a></div>
+		<div class="gallery_item col s3"><a href="#topPoint"><p class="centered">United States</p><img class="img_item" src="maps/usaHigh.svg" width="300px" height="300px" alt=""></a></div>
+		<div class="gallery_item col s3"><a href="#topPoint"><p class="centered">Armenia</p><img class="img_item" src="maps/armeniaHigh.svg" width="300px" height="300px" alt=""></a></div>
+		<div class="gallery_item col s3"><a href="#topPoint"><p class="centered">Netherlands</p><img class="img_item" src="maps/netherlandsHigh.svg" width="300px" height="300px" alt=""></a></div>
+	</div>
+    </div></li>
+
+  </ul>
+ <!--  <a href="#" ><i class="material-icons">menu</i></a> -->
+
+
+
+
+
+
+
+
 		  <!-- Modal Structure -->
   	<div id="modal1" class="modal modal-fixed-footer">
     	<div class="modal-content">
 
-			<input type='text' id="flat" />
+			<!-- <input type='text' id="flat" /> -->
+			<h2 style="text-align: center;">Change Map background and stroke color:</h2>
+			<p>Map color: <input type="color" value="#2e2e2e" class="colorPicker"  id="mapColorPicker" style="display: none;"></p>
+			<p>Map stroke color: <input type="color" value="#000000" class="strokeColorPicker"  id="mapStrokeColorPicker" style="display: none;"></p>
 
 
     	</div>
@@ -247,30 +289,17 @@ nav{
 		<button class="waves-effect waves-light btn" id="redraw">redraw editor</button>
 		<button class="waves-effect waves-light btn" id="clear">clear all</button>
 		<button class="waves-effect waves-light btn" id="screen">full screen</button>
+		<button class="waves-effect waves-light btn right button-collapse" data-activates="slide-out"  id="chooseMap">choose map</button>
 
 		<textarea name="" placeholder="result is here" id="result" cols="30" rows="10"></textarea>
 
 	</div>
 
 
-	<output id="list"></output>
+<!-- 	<output id="list"></output> -->
 
-	<a href="#gallery" id="openMap"><h2 align="center" style="text-shadow: 3px 0px 9px rgba(69, 150, 150, 0.43);"> Wanna choose your map? Click here!</h2></a>
-	<div id="gallery" class="map_gallery row" style="display: none;">
-		
-		<div class="gallery_item col s4"><a href="#topPoint"><p class="centered">Australia</p><img class="img_item" src="maps/australiaHigh.svg" width="300px" height="300px" alt=""></a></div>
-		<div class="gallery_item col s4"><a href="#topPoint"><p class="centered">Azerbaijan</p><img class="img_item" src="maps/azerbaijanHigh.svg" width="300px" height="300px" alt=""></a></div>
-		<div class="gallery_item col s4"><a href="#topPoint"><p class="centered">Belarus</p><img class="img_item" src="maps/belarusHigh.svg" width="300px" height="300px" alt=""></a></div>
-		<div class="gallery_item col s4"><a href="#topPoint"><p class="centered">Belgium</p><img class="img_item" src="maps/belgiumHigh.svg" width="300px" height="300px" alt=""></a></div>
-		<div class="gallery_item col s4"><a href="#topPoint"><p class="centered">France</p><img class="img_item" src="maps/franceHigh.svg" width="300px" height="300px" alt=""></a></div>
-		<div class="gallery_item col s4"><a href="#topPoint"><p class="centered">Georgia</p><img class="img_item" src="maps/georgiaHigh.svg" width="300px" height="300px" alt=""></a></div>
-		<div class="gallery_item col s4"><a href="#topPoint"><p class="centered">Ireland</p><img class="img_item" src="maps/irelandHigh.svg" width="300px" height="300px" alt=""></a></div>
-		<div class="gallery_item col s4"><a href="#topPoint"><p class="centered">Sweden</p><img class="img_item" src="maps/swedenHigh.svg" width="300px" height="300px" alt=""></a></div>
-		<div class="gallery_item col s4"><a href="#topPoint"><p class="centered">Turkey</p><img class="img_item" src="maps/turkeyHigh.svg" width="300px" height="300px" alt=""></a></div>
-		<div class="gallery_item col s4"><a href="#topPoint"><p class="centered">United States</p><img class="img_item" src="maps/usaHigh.svg" width="300px" height="300px" alt=""></a></div>
-		<div class="gallery_item col s4"><a href="#topPoint"><p class="centered">Armenia</p><img class="img_item" src="maps/armeniaHigh.svg" width="300px" height="300px" alt=""></a></div>
-		<div class="gallery_item col s4"><a href="#topPoint"><p class="centered">Netherlands</p><img class="img_item" src="maps/netherlandsHigh.svg" width="300px" height="300px" alt=""></a></div>
-	</div>
+<!-- 	<a href="#gallery" id="openMap"><h2 align="center" style="text-shadow: 3px 0px 9px rgba(69, 150, 150, 0.43);"> Wanna choose your map? Click here!</h2></a> -->
+
 
 </div>
 
@@ -280,13 +309,6 @@ $(document).ready(function(){
 			var editor = new bezierEditor("bezier-canvas");
 		editor.draw();
 			
-		// 	$('#saveCurrentPath').on("click",function(){
-
-		// 	var PathCurves = editor.ReturnSavedPath();
-		// 	localStorage.setItem('SavedCurves', JSON.stringify(PathCurves));
-		// });
-
- 
 		$('#clear').bind("click",function(){
 			
 		$("#result").val(" ");
@@ -325,10 +347,6 @@ $(document).ready(function(){
 				var FirstRoute = JSON.parse(localStorage.getItem('path'));
 
 
-
-
-
-
 				if(FirstRoute){
 						var newRoute = editor.exportBezier();
 						newRoute = newRoute.slice(1);
@@ -342,12 +360,6 @@ $(document).ready(function(){
 					$("#result").val(DrawnPath);
 					localStorage.setItem('path', JSON.stringify(DrawnPath));
 				}
-
-				
-
-
-
-
 
 				console.log(styleProps);
 				
@@ -378,7 +390,12 @@ var editor = new bezierEditor("bezier-canvas");
 		$("#dataMap").attr("data", src);
 		loadMap(svgMap);
 		localStorage.setItem('map', JSON.stringify(src));
-		$('#gallery').fadeOut(2000);
+
+
+		Materialize.toast('Map is selected!', 2000);
+
+
+		 $('.button-collapse').sideNav('hide');
 
 	});
 	 editor.draw();
@@ -389,22 +406,54 @@ function loadMap(map_container){
 		map_container.addEventListener("load", function(){
 		var svgDoc = map_container.contentDocument; //get the inner DOM of alpha.svg
     var svgRoot  = svgDoc.documentElement;
-    console.log(svgRoot);
+    var MapPathsGroup = svgRoot.getElementById("mapPaths");
+    var PathsArray = MapPathsGroup.getElementsByTagName('path');
+
+   	var MapColor = document.getElementById("mapColorPicker");
+   	var MapStrokeColor = document.getElementById("mapStrokeColorPicker");
+   	MapColor.style.display = "block";
+   	MapStrokeColor.style.display = "block";
+   	try{
+   		var ColorMapData = JSON.parse(localStorage.getItem('SavedMapColors')) || [];
+   	}catch(err){};
+   	console.log(ColorMapData);
+
+   	if(ColorMapData || ColorMapData.length > 0){
+   		MapColor.value = ColorMapData.mapBackground;
+   		MapStrokeColor.value = ColorMapData.mapStroke;
+
+   		for(var i = 0; i < PathsArray.length; i++){
+   			PathsArray[i].style.fill = ColorMapData.mapBackground;
+   			PathsArray[i].style.stroke = ColorMapData.mapStroke;
+   		}
+   	}
+
+   	var SavedMapColors = {};
 
 
+   	$(MapColor).change(function(){
+   		var optionSelected = $("option:selected", this);
+			var valueSelected = this.value;
+			SavedMapColors.mapBackground = valueSelected;
+   		for(var i=0;i<PathsArray.length; i++){
+   			PathsArray[i].style.fill = valueSelected;			
+   		}
+   		console.log(SavedMapColors);
+   		localStorage.setItem('SavedMapColors', JSON.stringify(SavedMapColors));
+   	});
+   	$(MapStrokeColor).change(function(){
+   		var optionSelected = $("option:selected", this);
+			var valueSelected = this.value;
+			SavedMapColors.mapStroke = valueSelected;
+   		for(var i=0;i<PathsArray.length; i++){
+   			PathsArray[i].style.stroke = valueSelected;			
+   		}
 
 
-$("#flat").spectrum({
-    flat: true,
-    showInput: true,
-    submit: true
-
-});
-
-
-
-
-		});
+   		localStorage.setItem('SavedMapColors', JSON.stringify(SavedMapColors));
+   		console.log(SavedMapColors);
+   	});
+	});
 }
 
 
@@ -413,14 +462,20 @@ $("#flat").spectrum({
 			if(savedMap){
 						var svgMap = document.getElementById("dataMap");
 						$("#dataMap").attr("data", savedMap);
-						loadMap(svgMap);		
-				}
+						loadMap(svgMap);	
 
+						   	var WrapperProps = JSON.parse(localStorage.getItem('mapStyleProperties')) || [];
+						   	var mapBg = document.getElementById("mapbg");
+   					
 
+   					if(WrapperProps){
 
+    					$.each(WrapperProps, function(prop, value) {
+    				    $("#map_bg").css(prop,value);
+    					});
 
-
-
+    				}
+			}
 
 
 
@@ -481,26 +536,19 @@ $("#moveBottom").bind("click", function(){
 });
 
 
-
-
-
-
- // $('.tap-target').tapTarget('open');
- //  $('.tap-target').tapTarget('close');
-
-
-
 });
 
 
- $(document).ready(function(){
+ $(document).ready(function(){     //Materialize.css plugins
     $('ul.tabs').tabs();
-
-
-     $('.modal').modal();
+    $('.modal').modal();
  
-
-
+      $('.button-collapse').sideNav({
+      menuWidth: 1200,
+      edge: 'left', 
+      closeOnClick: true, 
+      draggable: true 
+    });
 
   $("#menu").on("click", function(){
   	if(!$(this).hasClass('.active')){
@@ -513,52 +561,13 @@ $("#moveBottom").bind("click", function(){
   	}
   })
 
-// function startup() {
-//   colorWell = document.querySelector("#colorWell");
-//   colorWell.value = defaultColor;
-//   colorWell.addEventListener("input", updateFirst, false);
-//   colorWell.addEventListener("change", updateAll, false);
-//   colorWell.select();
-// }
-
-// var colorWell;
-// var defaultColor = "#0000ff";
-
-// window.addEventListener("load", startup, false);
-
-
-// (function () {
-//   var app = {
-//     start: function() {
-//       this.output = $('#output');
-//       this.result = $('#result');
-//       var self    = this,
-//         initialColor = this.result.css('background');
-//       var colorPicker = $('#color-picker').spectrum({
-//         chooseText: 'ok',
-//         color:      initialColor,
-//         move:       function(col) { self.onMove(col.toHexString()); },
-//         change:     function(col) { self.onChange(col.toHexString()); },
-//         hide:       function(col) { self.onHide(col.toHexString()); }
-//       });
-//       this.broadcast(colorPicker.spectrum('get').toHexString());
-//     }
-//   };
-
-//   $(function () {
-//     app.start();
-//   });
-// });
-
-
-
 
 });
 
 </script>
 
 <script src="js/materialize.min.js"></script>
-<script src="js/colorpicker/spectrum.js"></script>
+<!-- <script src="js/colorpicker/spectrum.js"></script> -->
 
 	
 </body>

@@ -25,15 +25,16 @@ $(document).ready(function() {
     for (var i = 0; i < dataContent.length; i++) {
         var section = document.createElement('section');
         $(section).addClass('js-section');
+
         $(section).attr({
             "data-zoom": dataContent[i].zoom + "%",
             "data-pos-top": dataContent[i].top + "%",
             "data-pos-bottom": dataContent[i].bottom + "%",
             "data-pos-left": dataContent[i].left + "%",
             "data-pos-right": dataContent[i].bottom + "%",
-            "id": "section_" + i
+            "id": "section_" + (i+1)
         });
-
+        
 
         section.insertAdjacentHTML('beforeend', dataContent[i].data);
         $(section).find('img').addClass('js-image');
@@ -63,6 +64,24 @@ $(document).ready(function() {
         console.log($("#map").attr('data'));
         var svgDoc = a.contentDocument;
         var svgRoot = svgDoc.documentElement;
+
+        var MapPathsGroup = svgRoot.getElementById("mapPaths");
+        var PathsArray = MapPathsGroup.getElementsByTagName('path');
+
+        try{
+            var ColorMapData = JSON.parse(localStorage.getItem('SavedMapColors')) || [];
+        }catch(err){};
+        console.log(ColorMapData);
+
+        if(ColorMapData || ColorMapData.length > 0){
+
+        for(var i = 0; i < PathsArray.length; i++){
+            PathsArray[i].style.fill = ColorMapData.mapBackground;
+            PathsArray[i].style.stroke = ColorMapData.mapStroke;
+        }
+        }
+
+
         var PathDirection = JSON.parse(localStorage.getItem('path'));
 
         console.log(svgRoot);
@@ -142,8 +161,8 @@ $(document).ready(function() {
 
                 var imgParentID = $(this).closest('section')[0].id;
 
-                imgParentID = imgParentID[8];
-                if (imgParentID == CirclePathCoords[i].id) {
+                imgParentID = parseInt(imgParentID[8]) - 1;
+                if (imgParentID == CirclePathCoords[i].id-1) {
                     $(this).attr({
                         'data-pos-x': CirclePathCoords[imgParentID].cx,
                         'data-pos-y': CirclePathCoords[imgParentID].cy
@@ -206,7 +225,7 @@ $(document).ready(function() {
                 fill: "#ff6600",
                 stroke: "#000",
                 "stroke-width": "3px",
-                id: index
+                id: index+1
                 // style: "display: none"
 
             });
@@ -247,7 +266,7 @@ $(document).ready(function() {
 
                         var $percentageComplete = (($(window).scrollTop() - $(this).offset().top) / $(this).height()) * 100;
                         var currentSectionID = $(this).attr("id");
-                        currentSectionID = currentSectionID[8];
+                        currentSectionID = parseInt(currentSectionID[8]) - 1;
                         var $offsetUnit = $percentageComplete * (StopPoints[currentSectionID] / 100);
                         var CurrentPathCurrentLength;
                         CurrentPathCurrentLength = Math.floor($offsetUnit);
@@ -257,7 +276,8 @@ $(document).ready(function() {
 
 
 
-                        // console.log(currentSectionID);
+
+                        console.log(currentSectionID);
 
                         if (CurrentPathCurrentLength < StopPoints[currentSectionID]) {
 
@@ -266,13 +286,14 @@ $(document).ready(function() {
                                 $(path).css("stroke-dashoffset", "" + (length - CurrentPathCurrentLength) + "px");
                                 // svgDoc.getElementById(currentSectionID).attr('opacity', '1');
                                 // currentCircle.fadeIn(200);
+                                console.log("first if");
                             }
 
 
                             if (currentSectionID > 0 && CurrentPathCurrentLength < StopPoints[currentSectionID]) { // path drawing to next point
 
                                 $(path).css("stroke-dashoffset", "" + (length - (StopPoints[currentSectionID - 1] + CurrentPathCurrentLength)) + "");
-
+                                console.log("second if");
                             }
 
                         }
@@ -280,7 +301,7 @@ $(document).ready(function() {
                         if (StopPoints[currentSectionID - 1] + CurrentPathCurrentLength > StopPoints[currentSectionID]) { //Stop path drawing while section inWindow
 
                             $(path).css("stroke-dashoffset", "" + (length - StopPoints[currentSectionID]) + "px");
-
+                            console.log("third if");
                         }
 
                     }
