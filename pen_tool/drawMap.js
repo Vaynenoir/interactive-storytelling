@@ -42,7 +42,7 @@ $(document).ready(function() {
     $('.button-collapse').sideNav({
       menuWidth: 300,
       edge: 'left', 
-      closeOnClick: true, 
+      closeOnClick: false, 
       draggable: true,
       onClose: function(){
         
@@ -72,7 +72,7 @@ $(document).ready(function() {
         try{
             var ColorMapData = JSON.parse(localStorage.getItem('SavedMapColors')) || [];
         }catch(err){};
-        console.log(ColorMapData);
+        // console.log(ColorMapData);
 
         if(ColorMapData || ColorMapData.length > 0){
 
@@ -113,9 +113,9 @@ $(document).ready(function() {
 
         var circlesArray = JSON.parse(localStorage.getItem('circlesCoords'));
         var pathLength = path.getTotalLength();
-        console.log(circlesArray);
+        // console.log(circlesArray);
         var CirclesArrayClone = [];
-        var pointsDataContentNew  = [];
+        // var pointsDataContentNew  = [];
         var contentOfPoints = JSON.parse(localStorage.getItem('PointsContent')) || [];
 
 
@@ -127,7 +127,7 @@ $(document).ready(function() {
 
 
         var circlesCounter = 1;
-        console.log(circlesArray);
+        // console.log(circlesArray);
         for (var i = 0; i < pathLength; i++) {
             var pathLengthAtPoint = path.getPointAtLength(i);
             var pointX = pathLengthAtPoint.x;
@@ -143,41 +143,41 @@ $(document).ready(function() {
                         if (Math.abs(Math.round(circlesArray[l].cx - CirclesArrayClone[j].cx)) <=4 && Math.abs(Math.round(circlesArray[l].cy - CirclesArrayClone[j].cy)) <=4) {
                                 
                                  
-                            circlesArray[l].ex_id = circlesArray[l].id;
+                            // circlesArray[l].ex_id = circlesArray[l].id;
 
                             circlesArray[l].id = circlesCounter++;
 
                             // if(circlesArray[l].ex_id - circlesArray[l].id == 0){
                                 
                             // }
-                             if(circlesArray[l].ex_id == circlesArray[l].id){
-                            //     delete circlesArray[0].ex_id;
-                                pointsDataContentNew = contentOfPoints;
+                            //  if(circlesArray[l].ex_id == circlesArray[l].id){
+                            // //     delete circlesArray[0].ex_id;
+                            //     pointsDataContentNew = contentOfPoints;
 
-                                // pointsDataContentNew.push(contentOfPoints[l].id);
-                                
-
-
-                            //     console.log("if");
-                            }
+                            //     // pointsDataContentNew.push(contentOfPoints[l].id);
 
 
-                                if(contentOfPoints.length > 0 && circlesArray[l].ex_id != circlesArray[l].id){
 
-                                 for (var cl = 0; cl < contentOfPoints.length; cl++) {
+                            // //     console.log("if");
+                            // }
 
-                                    if (contentOfPoints[cl].pointId == circlesArray[l].ex_id + 1) {
-                                        contentOfPoints[cl].pointId = circlesArray[l].id+1;
-                                        pointsDataContentNew.push(contentOfPoints[cl]);
-                                        contentOfPoints.splice(cl, 1);
-                                    }
-                                    console.log(contentOfPoints);
-                                    console.log("else if");
-                                }
-                            }
-                            if(circlesArray[l].id - circlesArray[l].ex_id == circlesArray[l].id){
 
-                            }
+                            //     if(contentOfPoints.length > 0 && circlesArray[l].ex_id != circlesArray[l].id){
+
+                            //      for (var cl = 0; cl < contentOfPoints.length; cl++) {
+
+                            //         if (contentOfPoints[cl].pointId == circlesArray[l].ex_id + 1) {
+                            //             contentOfPoints[cl].pointId = circlesArray[l].id+1;
+                            //             pointsDataContentNew.push(contentOfPoints[cl]);
+                            //             contentOfPoints.splice(cl, 1);
+                            //         }
+                            //         console.log(contentOfPoints);
+                            //         console.log("else if");
+                            //     }
+                            // }
+                            // if(circlesArray[l].id - circlesArray[l].ex_id == circlesArray[l].id){
+
+                            // }
 
 
 
@@ -199,7 +199,7 @@ CirclesArrayClone.splice(j, 1);
         }
 
         circlesArray.sort(compareId);
-        console.log(circlesArray);
+        // console.log(circlesArray);
 
 
 
@@ -207,7 +207,7 @@ CirclesArrayClone.splice(j, 1);
 
 
         localStorage.setItem('circlesCoords', JSON.stringify(circlesArray));
-        localStorage.setItem('PointsContent', JSON.stringify(pointsDataContentNew));
+        // localStorage.setItem('PointsContent', JSON.stringify(pointsDataContentNew));
 
 
 
@@ -227,7 +227,8 @@ CirclesArrayClone.splice(j, 1);
                 fill: "#ff6600",
                 stroke: "#000",
                 "stroke-width": "3px",
-                id: el.id
+                id: el.id,
+                "data-time": el.time
             });
 
             var intersects = Snap.path.intersection(circle, $(path).attr('d'));
@@ -255,7 +256,7 @@ CirclesArrayClone.splice(j, 1);
         });
 
             
-                console.log(circlesArray);
+                // console.log(circlesArray);
             
 
 
@@ -268,15 +269,23 @@ CirclesArrayClone.splice(j, 1);
         for (var i = 0; i < circlesArray.length; i++) {
             var paths = svgDoc.getElementById(circlesArray[i].id);
 
-            var equalID = circlesArray[i].id;
-            console.log(equalID);
+            var equalTimeAttr = circlesArray[i].time;
+            // console.log(equalTimeAttr);
             for (var j = 0; j < pointsDataContentArray.length; j++) {
+                var pointText  = pointsDataContentArray[j].data;
+                // console.log();
 
-                if (pointsDataContentArray[j].pointId == equalID) {
-                    console.log("pointsId: " + pointsDataContentArray[j].pointId + ", eq = " + equalID);
+
+                if (pointsDataContentArray[j].pointId == equalTimeAttr) {
+                    // console.log("pointsId: " + pointsDataContentArray[j].pointId + ", eq = " + equalTimeAttr);
                     var checked = pointsDataContentArray[j].pointId;
-                    var FilledContentPaths = svgDoc.getElementById(checked);
-                    $(FilledContentPaths).css("fill", "#990033");
+                    // console.log(checked);
+
+                    if(pointText.length != 0 ){
+                        console.log(pointText);
+                        var FilledContentPaths = svgDoc.getElementById(circlesArray[i].id);
+                        $(FilledContentPaths).css("fill", "#990033");
+                    }
                 }
 
             }
@@ -299,8 +308,10 @@ CirclesArrayClone.splice(j, 1);
             paths.addEventListener("click", function() {
                 $('.button-collapse').sideNav('show');
                 var Npoint = parseInt(this.id);
+                var dataTime = $(this).attr('data-time');
                 document.getElementById("pointIndex").innerHTML = Npoint;
                 var currentPath = this;
+                var pointDataTime = $(this).attr('data-time');
                 if (localStorage.getItem('PointsContent') != null) {
                     var getPointData = JSON.parse(localStorage.getItem('PointsContent'));
                     var PointLastData;
@@ -309,13 +320,19 @@ CirclesArrayClone.splice(j, 1);
 
                     for (var j = 0; j < getPointData.length; j++) {
 
-                        var count = getPointData[j].pointId == Npoint;
-                        if (getPointData[j].pointId == Npoint) {
+                        var count = getPointData[j].pointId == dataTime;
+                        if (getPointData[j].pointId == dataTime) {
                             document.getElementById("pointZoom").value = getPointData[j].zoom;
                             document.getElementById("pointTop").value = getPointData[j].top;
                             document.getElementById("pointBottom").value = getPointData[j].bottom;
                             document.getElementById("pointLeft").value = getPointData[j].left;
                             document.getElementById("pointRight").value = getPointData[j].right;
+                        }else{
+                            document.getElementById("pointZoom").value = "100";
+                            document.getElementById("pointTop").value = "0";
+                            document.getElementById("pointBottom").value = "0";
+                            document.getElementById("pointLeft").value = "0";
+                            document.getElementById("pointRight").value = "0";
                         }
 
                         if (count) {
@@ -337,6 +354,7 @@ CirclesArrayClone.splice(j, 1);
                 // });
 
                 document.getElementById("SavePointContent").onclick = function() {
+
                     var pointsDataContent = {
                         pointId: 0,
                         zoom: 0,
@@ -353,7 +371,7 @@ CirclesArrayClone.splice(j, 1);
                     var InputRightValue = parseInt(document.getElementById('pointRight').value);
 
 
-                    pointsDataContent.pointId = Npoint;
+                    pointsDataContent.pointId = pointDataTime;
 
                     pointsDataContent.zoom = InputZoomValue;
                     pointsDataContent.top = InputTopValue;
@@ -368,7 +386,7 @@ CirclesArrayClone.splice(j, 1);
 
                     for (var j = 0; j < pointsDataContentArray.length; j++) {
 
-                        if (pointsDataContentArray[j].pointId == Npoint) {
+                        if (pointsDataContentArray[j].pointId == pointDataTime) {
                             pointsDataContentArray.splice(j, 1);
 
                         }
@@ -384,8 +402,13 @@ CirclesArrayClone.splice(j, 1);
 
 
 
-
+                    if(pointsDataContent.data.length > 0){
                     $(currentPath).css("fill", "#990033");
+                    }
+                    else if(pointsDataContent.data.length == 0){
+                        $(currentPath).css("fill", "#ff6600");
+                    }
+                     $('.button-collapse').sideNav('hide');
                 };
             });
         }

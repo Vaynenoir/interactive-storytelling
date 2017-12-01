@@ -9,169 +9,12 @@
 	<script type="text/javascript" src="bezier-editor.js"></script>
 	<script type="text/javascript" src="bezier-animation.js"></script>
 
-		<link rel="stylesheet" href="css/style.css">
+	
 		<link rel="stylesheet" href="css/materialize.min.css">
+			<link rel="stylesheet" href="css/style.css">
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
-<!--       <link rel="stylesheet" media="screen" type="text/css" href="js/colorpicker/spectrum.css" /> -->
 
-			<style type="text/css">
-			.centered{
-				display: flex;
-				justify-content: center;
-			}
-			h1{
-				text-align: center;
-				font-size: 2.5rem;
-				color: #64b5f6;
-			}
-
-		html, body {
-				color: #023300;
-	background: #f3e5f5 ;
-    padding:0;
-    margin:0;
-    width:100%;
-    min-height:100%;
-    height: 100%;
-
-		}
-		#left {
-			float:left;
-			width:50%;
-		}
-		#right {
-			float:left;
-			width:50%;
-			left:50%;
-		}
-		#container {
-			height:400px;
-			width:400px;
-		}
-		#test {
-			background:#FF0000;
-			height:10px;
-			width:10px;
-			margin-top:-5px;
-			margin-left:-5px;
-			border-radius:5px;
-			position:relative;
-		}
-		.wrapper{
-		}
-		textarea{
-			    margin: 10px 0px;
-			    font-style: italic;
-			    min-height: 110px;
-		}
-		body{
-			overflow: auto;
-		}
-		.map_gallery{
-			width: 100%;
-		}
-		.centered{
-			position: relative;
-			/*text-align: center;*/
-			margin-top:20px;
-			letter-spacing: 1px;
-			color: #100;
-		}
-		.gallery_item:hover{
-
-			background-color: #F3D6E4;
-			border-radius: 12px;
-			transform: scale(1.1,1.1);
-			transition: 0.4s;
--webkit-box-shadow: 0px 0px 74px 0px rgba(0,0,0,0.75);
--moz-box-shadow: 0px 0px 74px 0px rgba(0,0,0,0.75);
-box-shadow: 0px 0px 74px 0px rgba(0,0,0,0.75);
-		}
-		.active_block{
-			background-color: #ffcf85;
-			border-radius: 12px;
-			transform: scale(1.1,1.1);
-			transition: 0.6s;
--webkit-box-shadow: 0px 0px 74px 0px rgba(0,0,0,0.75);
--moz-box-shadow: 0px 0px 74px 0px rgba(0,0,0,0.75);
-box-shadow: 0px 0px 74px 0px rgba(0,0,0,0.75);
-		}
-.buttons_bar{
-	margin-top: 8px;
-}
-h1{
-	margin-top: 10px;
-	margin-bottom: 0px;
-	text-transform: uppercase;
-	letter-spacing: 2px;
-	font-style: bold;
-
-	text-shadow: 3px 0px 9px rgba(69, 150, 150, 0.43);
-}
-nav{
-	background-color: #4db6ac;
-}
-
-.tap-target-wrapper.open .tap-target{
-	transform: scale(3.2);
-	opacity: 0.75;
-}
-
-.tabs{
-	width: 70%;
-}
-
-            #buttonWrapper {
-                position: absolute;
-                width: 30px;
-                top: 2px;
-                right: 2px;
-            }
-
-            .editor_button{
-            	
-                padding: 8px 6px 0px 2px;
-                width: 30px;
-                margin: 0px 0px 2px 0px;
-                outline: none;
-
-            }
-
-            button:focus{
-								
-								border: #000;
-            }
-
-            .material-icons{
-            	color: #00796b  ;
-            }
-            nav i.material-icons{
-            	line-height: 41px;
-            	font-size: 30px;
-            }
-            #menu{
-            	margin-right: 10px;
-            	margin-top: 3px;
-            }
-
-
-
-
-.result {
-  width: 5em;
-  height: 5em;
-  border-radius: 30%;
-  box-shadow: 0 2px 6px #000;
-  background: #95C066;
-  display: inline-block;
-  vertical-align: middle;
-  margin-left: 2em;
-}
-
-
-
-	</style>
 </head>
 <body>
 <div class="navbar-fixed">
@@ -195,7 +38,10 @@ nav{
 	 <div class="tap-target" data-activates="menu">
     <div class="tap-target-content">
       <h5>Tutorial</h5>
-      <p>A bunch of text</p>
+      <p>Shift + click to add point</p>
+      <p>Alt + click to delete point</p>
+      <p>Ctrl + mouse hold to drag subpath control point</p>
+
     </div>
   </div>
 		
@@ -205,11 +51,8 @@ nav{
 
 <div class="wrapper container" id="topPoint">
 
-
-<!-- 	<h1><span id="test1" style="color: #37474f ;">step 1.</span>draw your route on the map</h1> -->
 	<div class="debug"></div>
 	<div class="centered" id="full_screen">
-		<!-- <div id="test"></div> -->
 		<div class="wrap_map">
 		<div id="map_bg">
 		<object data="" id="dataMap" width="1920px" height="1200px" type=""></object>
@@ -246,10 +89,6 @@ nav{
     </div></li>
 
   </ul>
- <!--  <a href="#" ><i class="material-icons">menu</i></a> -->
-
-
-
 
 
 

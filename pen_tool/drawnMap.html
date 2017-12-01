@@ -272,9 +272,19 @@ nav{
             }
 
 
+  .indicator{
+    display: none;
+  }
 
-
-
+  .tap-target-wrapper.open .tap-target{
+    transform: scale(3.2);
+    opacity: 0.75;
+  }
+  .tap-target-content{
+    line-height: 20px;
+    font-size: 0.7em;
+    padding: 0 110px!important;
+  }
 /*.zoom_wrap{
 	background-color: #fff;
 	width: 30%;
@@ -330,7 +340,10 @@ nav{
    <div class="tap-target" data-activates="menu">
     <div class="tap-target-content">
       <h5>Tutorial</h5>
-      <p>A bunch of text</p>
+      <p>Shift + click to add point</p>
+      <p>Alt + click to delete point</p>
+      <p>Ctrl + mouse hold to drag subpath control point</p>
+
     </div>
   </div>
     
