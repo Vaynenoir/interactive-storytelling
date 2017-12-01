@@ -11,12 +11,24 @@
 		<script type="text/javascript" src="bezier-editor.js"></script>
 	<script type="text/javascript" src="bezier-animation.js"></script>
 	<script src="Snap.svg-0.5.1/dist/snap.svg-min.js"></script>
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
 
 	<style>
 	body{
 		background: #fffde7;
 		color: #5d5c56;
+    overflow-x: hidden;
 	}
+
+
+
+  .sidenav__title{
+    color: #2bbbad;
+    text-align: center;
+    text-transform: uppercase;
+    font-style: italic;
+  }
 
 	#title{
 			text-transform: uppercase;
@@ -29,12 +41,13 @@
 		.wrapper{
 			
   width: 100%;
-
+  height: 100%;
+  position: relative;
 
 		}
 
 .ui-resizable-e {
-    width: 12px;
+    width: 8px;
     background-color: #fff ;
 }
 
@@ -56,7 +69,7 @@
   background-repeat: no-repeat;
   width: 1900px;
   height: 930px;
-  position: fixed;
+  position: absolute;
   z-index: 3;
   opacity: 0.7;
 		}
@@ -108,12 +121,12 @@
   width: 100%;
   height: 900px;
 }
-#main {
+/*#main {
     transition: margin-left .5s;
     padding: 20px;
     height: 900px;
     position: relative;
-}
+}*/
 .cke_chrome{
 	border: 1px solid #9fcbff!important;
 }
@@ -152,8 +165,11 @@
 
 .btn_wrapper{
 	margin: 5%;
+  display: flex;
+  justify-content: center;
 }
 #SavePointContent{
+  width: 60%;
 	font-size: 16px;
 	text-transform: uppercase;
 	color: #fff;
@@ -221,6 +237,44 @@ h1{
 	left: 84%;
 	top: 832px;
 }
+.ui-resizable{
+  position: fixed;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.tabs{
+  width: 70%;
+}
+.tap-target-wrapper.open .tap-target{
+  transform: scale(3.2);
+  opacity: 0.75;
+}
+nav{
+  background-color: #4db6ac;
+}
+            nav i.material-icons{
+              line-height: 41px;
+              font-size: 30px;
+            }
+            #menu{
+              margin-right: 10px;
+              margin-top: 3px;
+            }
+
+
+
+
+
 /*.zoom_wrap{
 	background-color: #fff;
 	width: 30%;
@@ -255,10 +309,37 @@ h1{
 	</style>
 </head>
 <body>
+<div class="navbar-fixed">
+  <nav class="nav-extended">
+   
+      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+      <ul id="nav-mobile" class="left hide-on-med-and-down tabs tabs-transparent">
+        <li class="tab"><a  href="index.html" target="_self">Step 1.draw your route on the map</a></li>
+        <li class="tab"><a href="drawnMap.html" target="_self">Step 2.fill points with content</a></li>
+        <li class="tab"><a href="ready_page/ready_page.html" target="_self">Result</a></li>
 
 
 
-<div class="head">	
+
+    
+      </ul>
+
+        
+      
+    <a id="menu" onclick="$('.tap-target').tapTarget('open')" class="right waves-effect waves-light btn btn-floating " ><i class="material-icons">&#xE88E;</i></a>         
+   <div class="tap-target" data-activates="menu">
+    <div class="tap-target-content">
+      <h5>Tutorial</h5>
+      <p>A bunch of text</p>
+    </div>
+  </div>
+    
+      
+  </nav>
+</div>
+
+
+<!-- <div class="head">	
 
 <div id="mySidenav" class="sidenav">
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
@@ -321,29 +402,105 @@ h1{
 
   <div class="btn_wrapper"><a id="SavePointContent" class="waves-effect waves-teal btn hoverable">Save content</a></div>
   <p id="userNotification" class="text" style="text-align: center; color: #fff; display: none;">Your data is saved!</p>
-<!--   <div id="split-bar"></div> -->
-</div>
+</div> -->
+<!-- <div id="main"> -->
+ <ul id="slide-out" class="side-nav">
+    <li><div class="user-view">
+          <div class="background"></div>
+        </div>
+    </li>
+  
+      <!-- <a href="javascript:void(0)" class="closebtn" onclick="">&times;</a> -->
+  <p class="sidenav__title">type your data to the point №<span id="pointIndex"></span></p>
+  <textarea name="text" id="point_textData" cols="30" rows="10"></textarea>
+
+
+
+  <ul class="collapsible collapsible-accordion" data-collapsible="accordion">
+    <li>
+      <div class="collapsible-header">Zoom</div>
+      <div class="collapsible-body">
+        <input type="number" min="-2" max="4" class="valueInput" id="pointZoom" value="100">
+      </div>
+    </li>
+    <li>
+      <div class="collapsible-header">Displacement</div>
+        <div class="collapsible-body">
+          
+          <ul class="collapsible collapsible-accordion" data-collapsible="accordion">
+            <li>
+              <div class="collapsible-header">Top</div>
+              <div class="collapsible-body">
+                <input type="number" min="-2" max="4" class="valueInput" id="pointTop" value="0">
+              </div>
+            </li>
+            <li>
+              <div class="collapsible-header">Bottom</div>
+              <div class="collapsible-body">
+                <input type="number" min="-2" max="4" class="valueInput" id="pointBottom" value="0">
+              </div>
+            </li>
+            <li>
+              <div class="collapsible-header">Left</div>
+              <div class="collapsible-body">
+                <input type="number" min="-2" max="4" class="valueInput" id="pointLeft" value="0">
+              </div>
+            </li>
+            <li>
+              <div class="collapsible-header">Right</div>
+              <div class="collapsible-body">
+                <input type="number" min="-2" max="4" class="valueInput" id="pointRight" value="0">
+              </div>
+            </li>
+          </ul>
+        </div>
+    </li>
+   
+  </ul>
+  
 
 
 
 
 
 
-<h1  id="title"><span style="color: #37474f ;">Step 2.</span>Click points to add your content!</h1>
-<div id="main">
+  <div class="btn_wrapper"><a id="SavePointContent" class="waves-effect waves-teal btn hoverable center-align">Save content</a></div>
+  <p id="userNotification" class="text" style="text-align: center; color: #fff; display: none;">Your data is saved!</p>
 
-<a href="ready_page/ready_page.html" class="btn next waves-effect waves-light">Go next</a>
+
+  </ul>
+  <a href="#" data-activates="slide-out" class="button-collapse"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <h1  id="title"><span style="color: #37474f ;">Step 2.</span>Click points to add your content!</h1> -->
+
+  </div>
+
+
+
+
+<!-- <a href="ready_page/ready_page.html" class="btn next waves-effect waves-light">Go next</a> -->
 <div class="wrapper">
 <div class="mapbg">
 <object id="map" data="" type="image/svg+xml" width="1920px" height="1200px"></object>
 </div>
 
 </div>
-  </div>
-  </div>
-
-
-
+<!--   </div> -->
 
 
 
@@ -365,14 +522,14 @@ var editor = CKEDITOR.replace("text");
 
 
 
-	        function openNav(index){
-    			document.getElementById("mySidenav").style.width = "300px";
-   			 document.getElementById("main").style.marginLeft = "300px";
-    		document.body.style.backgroundColor = "rgba(0, 0, 0, 0.4)";
-    		document.getElementById("pointIndex").innerHTML = index;
-    		document.getElementById('title').style.marginLeft="300px";
+	   //      function openNav(index){
+    // 			document.getElementById("mySidenav").style.width = "300px";
+   	// 		 document.getElementById("main").style.marginLeft = "300px";
+    // 		document.body.style.backgroundColor = "rgba(0, 0, 0, 0.4)";
+    // 		document.getElementById("pointIndex").innerHTML = index;
+    // 		document.getElementById('title').style.marginLeft="300px";
     		
-				}
+				// }
 
 // 	editor.on( 'change', function( evt ) {
 //     // getData() returns CKEditor's HTML content.
@@ -380,21 +537,21 @@ var editor = CKEDITOR.replace("text");
  
 // });
 
-function closeNav(){
-    document.getElementById("mySidenav").style.width = "0";
-    document.getElementById("main").style.marginLeft = "0";
-    document.getElementById('title').style.marginLeft="0";
-    document.body.style.backgroundColor = "#fffde7";
-    document.getElementById("pointIndex").innerHTML = 0;
-    editor.setData("");
-    $("#userNotification").fadeOut(200);
-    document.getElementById("pointZoom").value = "100";
-    document.getElementById("pointTop").value = "0";
-    document.getElementById("pointBottom").value = "0";
-    document.getElementById("pointLeft").value = "0";
-    document.getElementById("pointRight").value = "0";
-    $('#title').fadeIn(300);
-}
+// function closeNav(){
+//     document.getElementById("mySidenav").style.width = "0";
+//     document.getElementById("main").style.marginLeft = "0";
+//     document.getElementById('title').style.marginLeft="0";
+//     document.body.style.backgroundColor = "#fffde7";
+//     document.getElementById("pointIndex").innerHTML = 0;
+//     editor.setData("");
+//     $("#userNotification").fadeOut(200);
+//     document.getElementById("pointZoom").value = "100";
+//     document.getElementById("pointTop").value = "0";
+//     document.getElementById("pointBottom").value = "0";
+//     document.getElementById("pointLeft").value = "0";
+//     document.getElementById("pointRight").value = "0";
+//     $('#title').fadeIn(300);
+// }
 
 
 
@@ -402,7 +559,7 @@ function closeNav(){
 	<script src="libs/jquery-1.12.1.min.js"></script>
   <script src="libs/jquery-ui/jquery-ui.js"></script>
 	<script src="drawMap.js"></script>
-	<script src="js/materialize.min.js">
+	<script src="js/materialize.js">
 
 	</script>
 

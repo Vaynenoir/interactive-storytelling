@@ -221,8 +221,10 @@ var bezierEditor = function(id) {
 					
 					circles.cx = clickX;
 					circles.cy = clickY;
+					var pointDate = new Date();
+					circles.time = pointDate.getTime();
 					console.log(counter);
-					// circles.id = counter;
+					// circles.ex_id = counter;
 					circlesArr.push(circles);
 					console.log(circlesArr);
 					localStorage.setItem('circlesCoords', JSON.stringify(circlesArr));

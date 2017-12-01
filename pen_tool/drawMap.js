@@ -22,19 +22,35 @@ $(document).ready(function() {
     // });
 
 
-    $("#mySidenav").resizable({
-        // resize: function(event,ui){
-        //     if(ui.size.width > 900){
-        //         ui.size.width == 900;
-        //     }else{
-        //         ui.size.width +=  ui.originalSize.width;
-        //     }
-        // },
+    $(".side-nav").resizable({
         handles: 'e',
-        maxWidth: 900
+        maxWidth: 1200,
+        minWidth: 300
+    });
+      $('ul.tabs').tabs('select_tab', 'tab_2');
+        $("#menu").on("click", function(){
+    if(!$(this).hasClass('.active')){
+        $(this).addClass("active");
+         $('.tap-target').tapTarget('open');
+    }
+    else{
+        $(this).removeClass("active");
+         $('.tap-target').tapTarget('close');
+    }
+  })
+
+    $('.button-collapse').sideNav({
+      menuWidth: 300,
+      edge: 'left', 
+      closeOnClick: true, 
+      draggable: true,
+      onClose: function(){
+        
+        $("div").remove("#sidenav-overlay");
+        
+      }
 
     });
-
 
 
     function compareId(objA, objB) {
@@ -127,33 +143,48 @@ $(document).ready(function() {
                         if (Math.abs(Math.round(circlesArray[l].cx - CirclesArrayClone[j].cx)) <=4 && Math.abs(Math.round(circlesArray[l].cy - CirclesArrayClone[j].cy)) <=4) {
                                 
                                  
-                            // circlesArray[l].ex_id = circlesArray[l].id;
+                            circlesArray[l].ex_id = circlesArray[l].id;
 
                             circlesArray[l].id = circlesCounter++;
 
                             // if(circlesArray[l].ex_id - circlesArray[l].id == 0){
                                 
-                            // // }
-                            //  if(circlesArray[l].ex_id == circlesArray[l].id){
-                            // //     delete circlesArray[0].ex_id;
-                            //     pointsDataContentNew = contentOfPoints;
-                            // //     console.log("if");
                             // }
+                             if(circlesArray[l].ex_id == circlesArray[l].id){
+                            //     delete circlesArray[0].ex_id;
+                                pointsDataContentNew = contentOfPoints;
+
+                                // pointsDataContentNew.push(contentOfPoints[l].id);
+                                
 
 
-                            //     if(contentOfPoints.length > 0 && circlesArray[l].ex_id != circlesArray[l].id){
+                            //     console.log("if");
+                            }
 
-                            //      for (var cl = 0; cl < contentOfPoints.length; cl++) {
 
-                            //         if (contentOfPoints[cl].pointId == circlesArray[l].ex_id + 1) {
-                            //             contentOfPoints[cl].pointId = circlesArray[l].id+1;
-                            //             pointsDataContentNew.push(contentOfPoints[cl]);
-                            //             contentOfPoints.splice(cl, 1);
-                            //         }
-                            //         console.log(contentOfPoints);
-                            //         console.log("else if");
-                            //     }
-                            // }
+                                if(contentOfPoints.length > 0 && circlesArray[l].ex_id != circlesArray[l].id){
+
+                                 for (var cl = 0; cl < contentOfPoints.length; cl++) {
+
+                                    if (contentOfPoints[cl].pointId == circlesArray[l].ex_id + 1) {
+                                        contentOfPoints[cl].pointId = circlesArray[l].id+1;
+                                        pointsDataContentNew.push(contentOfPoints[cl]);
+                                        contentOfPoints.splice(cl, 1);
+                                    }
+                                    console.log(contentOfPoints);
+                                    console.log("else if");
+                                }
+                            }
+                            if(circlesArray[l].id - circlesArray[l].ex_id == circlesArray[l].id){
+
+                            }
+
+
+
+
+
+
+
 
                             
                         }
@@ -176,7 +207,7 @@ CirclesArrayClone.splice(j, 1);
 
 
         localStorage.setItem('circlesCoords', JSON.stringify(circlesArray));
-        // localStorage.setItem('PointsContent', JSON.stringify(pointsDataContentNew));
+        localStorage.setItem('PointsContent', JSON.stringify(pointsDataContentNew));
 
 
 
@@ -249,6 +280,9 @@ CirclesArrayClone.splice(j, 1);
                 }
 
             }
+            $(paths).addClass('button-collapse');
+            $(paths).attr('data-activates', "slide-out");
+            $(paths).attr('href', "#");
             paths.style.cursor = "pointer";
             $(paths).mouseenter(function() {
                 $(this).css("transition", "0.5s");
@@ -263,8 +297,9 @@ CirclesArrayClone.splice(j, 1);
             });
 
             paths.addEventListener("click", function() {
-
+                $('.button-collapse').sideNav('show');
                 var Npoint = parseInt(this.id);
+                document.getElementById("pointIndex").innerHTML = Npoint;
                 var currentPath = this;
                 if (localStorage.getItem('PointsContent') != null) {
                     var getPointData = JSON.parse(localStorage.getItem('PointsContent'));
@@ -294,7 +329,12 @@ CirclesArrayClone.splice(j, 1);
 
                 }
 
-                openNav(Npoint);
+                // openNav(Npoint);
+                // $('.button-collapse').sideNav({
+                //     onOpen: function(Npoint){
+                //         document.getElementById("pointIndex").innerHTML = Npoint;
+                //     }
+                // });
 
                 document.getElementById("SavePointContent").onclick = function() {
                     var pointsDataContent = {
@@ -336,7 +376,11 @@ CirclesArrayClone.splice(j, 1);
                     pointsDataContentArray.push(pointsDataContent);
                     localStorage.setItem('PointsContent', JSON.stringify(pointsDataContentArray));
                     // console.log(pointsDataContentArray);
-                    $("#userNotification").fadeIn(200);
+                    // $("#userNotification").fadeIn(200);
+                    var overlay = $('#sidenav-overlay');
+                    $(overlay).css("background-color","none");
+                    $(overlay).remove();
+                    Materialize.toast('Your data is saved!', 2000);
 
 
 
