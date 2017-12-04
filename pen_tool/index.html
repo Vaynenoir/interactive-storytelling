@@ -21,10 +21,10 @@
   <nav class="nav-extended">
    
       <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-      <ul id="nav-mobile" class="left hide-on-med-and-down tabs tabs-transparent">
-        <li class="tab"><a href="index.html" target="_self">Step 1.draw your route on the map</a></li>
-        <li class="tab"><a href="drawnMap.html" target="_self">Step 2.fill points with content</a></li>
-        <li class="tab"><a href="ready_page/ready_page.html" target="_self">Result</a></li>
+      <ul id="nav-mobile" class="left hide-on-med-and-down">
+        <li><a href="index.html" target="_self">Step 1.draw your route on the map</a></li>
+        <li><a href="drawnMap.html" target="_self">Step 2.fill points with content</a></li>
+        <li><a href="ready_page/ready_page.html" target="_self">Result</a></li>
 
 
 
@@ -96,12 +96,43 @@
 
 		  <!-- Modal Structure -->
   	<div id="modal1" class="modal modal-fixed-footer">
-    	<div class="modal-content">
+    	<div class="modal-content" id="color_change">
 
 			<!-- <input type='text' id="flat" /> -->
 			<h2 style="text-align: center;">Change Map background and stroke color:</h2>
-			<p>Map color: <input type="color" value="#2e2e2e" class="colorPicker"  id="mapColorPicker" style="display: none;"></p>
-			<p>Map stroke color: <input type="color" value="#000000" class="strokeColorPicker"  id="mapStrokeColorPicker" style="display: none;"></p>
+			<p>Map color: <input type="color" name="mapColor" value="#2e2e2e" class="colorPicker"  id="mapColorPicker" style="display: none;"></p>
+
+
+			<p>Map stroke color: <input type="color" name="mapStrokeColor" value="#000000" class="colorPicker"  id="mapStrokeColorPicker" style="display: none;"></p>
+
+
+			<p>Points Color: <input type="color" value="#ffff00" name="mapPointsColor" class="colorPicker"  id="mapPointsColorPicker" style="display: none;"></p>
+
+
+			<p>Points border color <input type="color" value="#ffffff" name="mapPointsBorderColor" class="colorPicker"  id="mapPointsBorderColorPicker" style="display: none;"></p>
+
+			<p>Route border width: 
+				 <form action="#">
+    				<p class="range-field">
+      				<input type="range" name="routeBorderWidth" id="test5" min="4" max="14" />
+    				</p>
+			  </form>
+			</p>
+
+
+			<p>Route color: <input type="color" value="#ffffff" class="colorPicker" name="mapRouteColor" id="mapRouteColorPicker" style="display: none;"></p>
+			
+
+			<p>Points radius:
+				<form action="#">
+    				<p class="range-field">
+      				<input type="range" name="pointsRadius" id="test6" min="4" max="14" />
+    				</p>
+			  </form>
+			 </p>
+
+
+			<p>Background-color: <input type="color" value="#ffffff" class="colorPicker" name="bodyBackgroundColor"  id="bodyColorPicker" style="display: none;"></p>
 
 
     	</div>
@@ -130,7 +161,7 @@
 		<button class="waves-effect waves-light btn" id="screen">full screen</button>
 		<button class="waves-effect waves-light btn right button-collapse" data-activates="slide-out"  id="chooseMap">choose map</button>
 
-		<textarea name="" placeholder="result is here" id="result" cols="30" rows="10"></textarea>
+	
 
 	</div>
 
@@ -142,6 +173,21 @@
 
 </div>
 
+
+
+
+<footer class="page-footer">
+          <div class="footer-copyright">
+            <div class="container">
+            © 2014 Copyright Text
+            <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+            </div>
+          </div>
+</footer>
+
+
+
+
 <script type="text/javascript">
 $(document).ready(function(){
 	// localStorage.clear();
@@ -150,7 +196,6 @@ $(document).ready(function(){
 			
 		$('#clear').bind("click",function(){
 			
-		$("#result").val(" ");
 			console.log(editor.clearBezier());
 			$("#dataMap").attr("data", "");
 			localStorage.clear();
@@ -171,11 +216,6 @@ $(document).ready(function(){
  				editor.draw();
 		});
 
-		$('#execute').bind('click', function(){
-			var t = new Date();
-			eval("$('#test')" + $("#result").val() + '');
-			editor.draw();
-		});
 
 
 			$('#export').bind("click",function() {
@@ -196,7 +236,7 @@ $(document).ready(function(){
 					}
 				else{
 					var DrawnPath = editor.exportBezier();
-					$("#result").val(DrawnPath);
+					
 					localStorage.setItem('path', JSON.stringify(DrawnPath));
 				}
 
@@ -247,51 +287,195 @@ function loadMap(map_container){
     var svgRoot  = svgDoc.documentElement;
     var MapPathsGroup = svgRoot.getElementById("mapPaths");
     var PathsArray = MapPathsGroup.getElementsByTagName('path');
+    console.log(PathsArray);
+
+   	try{
+   		var SavedMapColors = JSON.parse(localStorage.getItem('SavedMapColors')) || {};
+   	}catch(err){};
+   	console.log(SavedMapColors);
+
+
 
    	var MapColor = document.getElementById("mapColorPicker");
    	var MapStrokeColor = document.getElementById("mapStrokeColorPicker");
+   	var MapPointsColor = document.getElementById("mapPointsColorPicker");
+   	var MapPointsBorderColor = document.getElementById("mapPointsBorderColorPicker");
+   	var MapRouteColor = document.getElementById("mapRouteColorPicker");
+   	var PageBodyColor = document.getElementById("bodyColorPicker");
+
+   	var ColorCollection = $(".colorPicker");
+
+   	var color_change = $("#color_change");
+
+
+
+
+
    	MapColor.style.display = "block";
    	MapStrokeColor.style.display = "block";
-   	try{
-   		var ColorMapData = JSON.parse(localStorage.getItem('SavedMapColors')) || [];
-   	}catch(err){};
-   	console.log(ColorMapData);
+   	MapPointsColor.style.display = "block";
+   	MapPointsBorderColor.style.display = "block";
+   	MapRouteColor.style.display = "block";
+   	PageBodyColor.style.display = "block";
 
-   	if(ColorMapData || ColorMapData.length > 0){
-   		MapColor.value = ColorMapData.mapBackground;
-   		MapStrokeColor.value = ColorMapData.mapStroke;
+
+
+
+   	if(SavedMapColors || SavedMapColors.length > 0){
+   		MapColor.value = SavedMapColors.mapColor;
+   		MapStrokeColor.value = SavedMapColors.mapStrokeColor;
+   		MapPointsColor.value = SavedMapColors.mapPointsColor;
+   		MapPointsBorderColor.value = SavedMapColors.mapPointsBorderColor;
+   		MapRouteColor.value = SavedMapColors.mapRouteColor;
+   		PageBodyColor.value = SavedMapColors.bodyBackgroundColor;
+
+
 
    		for(var i = 0; i < PathsArray.length; i++){
-   			PathsArray[i].style.fill = ColorMapData.mapBackground;
-   			PathsArray[i].style.stroke = ColorMapData.mapStroke;
+   			console.log(PathsArray[i]);
+   			PathsArray[i].style.fill = SavedMapColors.mapColor;
+   			PathsArray[i].style.stroke = SavedMapColors.mapStrokeColor;
    		}
+
+
    	}
+   	console.log(SavedMapColors);
 
-   	var SavedMapColors = {};
 
 
-   	$(MapColor).change(function(){
-   		var optionSelected = $("option:selected", this);
-			var valueSelected = this.value;
-			SavedMapColors.mapBackground = valueSelected;
-   		for(var i=0;i<PathsArray.length; i++){
-   			PathsArray[i].style.fill = valueSelected;			
-   		}
+
+
+
+ var RangeInputs = $("input[type=range]");
+ console.log(RangeInputs);
+
+
+
+   	   	$(RangeInputs).change(function(el){
+   	  var optionSelected = $("option:selected", this);
+   		var valueSelected = this.value;
+   		var name = this.name; 
+   		SavedMapColors[name] = valueSelected;
    		console.log(SavedMapColors);
    		localStorage.setItem('SavedMapColors', JSON.stringify(SavedMapColors));
    	});
-   	$(MapStrokeColor).change(function(){
+
+
+   	$(ColorCollection).change(function(el){
    		var optionSelected = $("option:selected", this);
 			var valueSelected = this.value;
-			SavedMapColors.mapStroke = valueSelected;
-   		for(var i=0;i<PathsArray.length; i++){
-   			PathsArray[i].style.stroke = valueSelected;			
+			console.log(optionSelected);
+
+			var name = this.name;
+			console.log(optionSelected);
+			console.log(valueSelected);
+			SavedMapColors[name] = valueSelected;
+
+			console.log(SavedMapColors);
+
+		if(SavedMapColors.mapColor){
+		 for(var i=0;i<PathsArray.length; i++){
+   			PathsArray[i].style.fill = SavedMapColors.mapColor;			
    		}
+		}
+
+		if(SavedMapColors.mapStrokeColor){
+		 for(var i=0;i<PathsArray.length; i++){
+   			PathsArray[i].style.stroke = SavedMapColors.mapStrokeColor;			
+   		}			
+		}
+ 		if(SavedMapColors.bodyBackgroundColor){
+ 			$(".wrap_map").css("background-color", SavedMapColors.bodyBackgroundColor);
+ 		}
+
+		
 
 
-   		localStorage.setItem('SavedMapColors', JSON.stringify(SavedMapColors));
-   		console.log(SavedMapColors);
+
+			localStorage.setItem('SavedMapColors', JSON.stringify(SavedMapColors));
+
    	});
+
+
+
+
+
+   // 	$(MapColor).change(function(){
+   // 		var optionSelected = $("option:selected", this);
+			// var valueSelected = this.value;
+			// SavedMapColors.mapBackground = valueSelected;
+   // 		for(var i=0;i<PathsArray.length; i++){
+   // 			PathsArray[i].style.fill = valueSelected;			
+   // 		}
+   // 		console.log(SavedMapColors);
+   // 		localStorage.setItem('SavedMapColors', JSON.stringify(SavedMapColors));
+   // 	});
+
+   // 	$(MapStrokeColor).change(function(){
+   // 		var optionSelected = $("option:selected", this);
+			// var valueSelected = this.value;
+			// SavedMapColors.mapStroke = valueSelected;
+   // 		for(var i=0;i<PathsArray.length; i++){
+   // 			PathsArray[i].style.stroke = valueSelected;			
+   // 		}
+
+
+   // 		localStorage.setItem('SavedMapColors', JSON.stringify(SavedMapColors));
+   // 		console.log(SavedMapColors);
+   // 	});
+
+
+
+
+
+
+
+   // 	$(MapPointsColor).change(function(){
+   // 		var optionSelected = $("option:selected", this);
+			// var valueSelected = this.value;
+			// SavedMapColors.mapPointsColor = valueSelected;
+
+
+   // 		localStorage.setItem('SavedMapColors', JSON.stringify(SavedMapColors));
+   // 		console.log(SavedMapColors);
+   // 	});
+
+   // 	$(MapPointsBorderColor).change(function(){
+   // 		var optionSelected = $("option:selected", this);
+			// var valueSelected = this.value;
+			// SavedMapColors.MapPointsBorderColor = valueSelected;
+
+
+
+   // 		localStorage.setItem('SavedMapColors', JSON.stringify(SavedMapColors));
+   // 		console.log(SavedMapColors);
+   // 	});
+
+   // 	$(MapRouteColor).change(function(){
+   // 		var optionSelected = $("option:selected", this);
+			// var valueSelected = this.value;
+			// SavedMapColors.MapRouteColor = valueSelected;
+
+
+
+   // 		localStorage.setItem('SavedMapColors', JSON.stringify(SavedMapColors));
+   // 		console.log(SavedMapColors);
+   // 	});
+
+   // 	$(PageBodyColor).change(function(){
+   // 		var optionSelected = $("option:selected", this);
+			// var valueSelected = this.value;
+			// SavedMapColors.MapRouteColor = valueSelected;
+
+
+   // 		localStorage.setItem('SavedMapColors', JSON.stringify(SavedMapColors));
+   // 		console.log(SavedMapColors);
+   // 	});
+
+
+
+
+
 	});
 }
 
@@ -382,12 +566,7 @@ $("#moveBottom").bind("click", function(){
     // $('ul.tabs').tabs();
 
 
-    var checkTabs = function(){
-        $('ul.tabs').tabs();
-        var active = $('ul.tabs .active').attr('href');
-        $('.tabs-content ' + active).show();
-        console.log(active);
-    }
+
 
     $('.modal').modal();
  

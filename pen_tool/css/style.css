@@ -287,9 +287,16 @@ canvas.select {
     padding: 0 110px!important;
   }
 
-  .tabs{
-   width: 70%;
-  }
+
+.navbar-fixed, nav.nav-extended{
+  height: 48px;
+  line-height: 48px;
+}
+.page-footer{
+  padding-top: 0;
+  margin-top: 3%;
+  background-color: #4db6ac;
+}
 
   #buttonWrapper {
     position: absolute;
@@ -334,3 +341,6 @@ canvas.select {
   }
 
 
+input[type=range]{
+  width: 10%;
+}

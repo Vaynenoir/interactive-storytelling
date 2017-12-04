@@ -225,8 +225,8 @@ $(document).ready(function() {
                 fill: "#ff6600",
                 stroke: "#000",
                 "stroke-width": "3px",
-                id: index+1
-                // style: "display: none"
+                id: index+1,
+                opacity: 0
 
             });
 
@@ -255,6 +255,17 @@ $(document).ready(function() {
 
 
 
+function fadeIn(el) {
+
+    el.style.opacity = +el.style.opacity + 0.01;
+    // if (+el.style.opacity < 1) {
+    //   (window.requestAnimationFrame && requestAnimationFrame(tick)) || setTimeout(tick, 16)
+    // }
+}
+
+
+
+
         function drawPath() {
 
             for (var i = 0; i < StopPoints.length; i++) {
@@ -271,13 +282,13 @@ $(document).ready(function() {
                         var CurrentPathCurrentLength;
                         CurrentPathCurrentLength = Math.floor($offsetUnit);
 
-                        var currentCircle = svgDoc.getElementById(currentSectionID);
+                        
                         console.log(currentCircle);
 
-
-
+                        var currentCircle = svgDoc.getElementById(currentSectionID+1);
 
                         console.log(currentSectionID);
+                        fadeIn(currentCircle);
 
                         if (CurrentPathCurrentLength < StopPoints[currentSectionID]) {
 

@@ -22,11 +22,8 @@ $(document).ready(function() {
     // });
 
 
-    $(".side-nav").resizable({
-        handles: 'e',
-        maxWidth: 1200,
-        minWidth: 300
-    });
+
+
       $('ul.tabs').tabs('select_tab', 'tab_2');
         $("#menu").on("click", function(){
     if(!$(this).hasClass('.active')){
@@ -44,15 +41,26 @@ $(document).ready(function() {
       edge: 'left', 
       closeOnClick: false, 
       draggable: true,
+      onOpen: function(){
+
+
+      },
       onClose: function(){
-        
+        $("#slide-out").css("transform", "translateX(-100%)");
         $("div").remove("#sidenav-overlay");
-        
+        $('.button-collapse').sideNav('hide');
+        $("#slide-out").css("transform", "translateX(-100%)");
+        console.log("kek");
       }
 
     });
+        $('.collapsible').collapsible();
 
-
+     $(".side-nav").resizable({
+        handles: 'e',
+        maxWidth: 1200,
+        minWidth: 300
+    });       
     function compareId(objA, objB) {
         return objA.id - objB.id;
     }
@@ -77,8 +85,8 @@ $(document).ready(function() {
         if(ColorMapData || ColorMapData.length > 0){
 
         for(var i = 0; i < PathsArray.length; i++){
-            PathsArray[i].style.fill = ColorMapData.mapBackground;
-            PathsArray[i].style.stroke = ColorMapData.mapStroke;
+            PathsArray[i].style.fill = ColorMapData.mapColor;
+            PathsArray[i].style.stroke = ColorMapData.mapStrokeColor;
         }
         }
 
@@ -307,6 +315,8 @@ CirclesArrayClone.splice(j, 1);
 
             paths.addEventListener("click", function() {
                 $('.button-collapse').sideNav('show');
+                $(".button-collapse").off('click').sideNav();
+                // $("#slide-out").css("transform", "translateX(0%)");
                 var Npoint = parseInt(this.id);
                 var dataTime = $(this).attr('data-time');
                 document.getElementById("pointIndex").innerHTML = Npoint;
@@ -391,14 +401,19 @@ CirclesArrayClone.splice(j, 1);
 
                         }
                     }
+                    if(pointsDataContent.data.length == 0){
+                        Materialize.toast('No data in point!', 2000);
+                    }else{
                     pointsDataContentArray.push(pointsDataContent);
+                    Materialize.toast('Your data is saved!', 2000);
+                    }
                     localStorage.setItem('PointsContent', JSON.stringify(pointsDataContentArray));
                     // console.log(pointsDataContentArray);
                     // $("#userNotification").fadeIn(200);
                     var overlay = $('#sidenav-overlay');
                     $(overlay).css("background-color","none");
                     $(overlay).remove();
-                    Materialize.toast('Your data is saved!', 2000);
+                    
 
 
 
@@ -408,7 +423,9 @@ CirclesArrayClone.splice(j, 1);
                     else if(pointsDataContent.data.length == 0){
                         $(currentPath).css("fill", "#ff6600");
                     }
+                    
                      $('.button-collapse').sideNav('hide');
+                     
                 };
             });
         }

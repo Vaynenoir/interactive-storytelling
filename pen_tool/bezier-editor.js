@@ -35,7 +35,6 @@ function goFullScreen(){
 			canvasWrapper.width = "1200";
  			canvasWrapper.height = "933";
 
- 			// canvas.style.backgroundColor = "#fff";
  		
 
 }

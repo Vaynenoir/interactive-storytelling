@@ -19,6 +19,9 @@
 		background: #fffde7;
 		color: #5d5c56;
     overflow-x: hidden;
+        display: flex;
+    min-height: 100%;
+    flex-direction: column;
 	}
 
 
@@ -133,6 +136,9 @@
 .cke_inner{
 	background: linear-gradient(to bottom,#fff -15px,#005e6f 40px);
 }
+.cke_dialog_background_cover{
+  overflow: auto!important;
+}
 #point_textData{
 	min-height: 100px;
 	height: 300px;
@@ -241,20 +247,12 @@ h1{
   position: fixed;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-.tabs{
-  width: 70%;
+.navbar-fixed, nav.nav-extended{
+  height: 48px;
+  line-height: 48px;
 }
+
+
 .tap-target-wrapper.open .tap-target{
   transform: scale(3.2);
   opacity: 0.75;
@@ -272,9 +270,7 @@ nav{
             }
 
 
-  .indicator{
-    display: none;
-  }
+
 
   .tap-target-wrapper.open .tap-target{
     transform: scale(3.2);
@@ -285,6 +281,13 @@ nav{
     font-size: 0.7em;
     padding: 0 110px!important;
   }
+
+
+/*object#map{
+  flex: 1 0 auto;
+}*/
+
+
 /*.zoom_wrap{
 	background-color: #fff;
 	width: 30%;
@@ -323,10 +326,10 @@ nav{
   <nav class="nav-extended">
    
       <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-      <ul id="nav-mobile" class="left hide-on-med-and-down tabs tabs-transparent">
-        <li class="tab"><a  href="index.html" target="_self">Step 1.draw your route on the map</a></li>
-        <li class="tab"><a href="drawnMap.html" target="_self">Step 2.fill points with content</a></li>
-        <li class="tab"><a href="ready_page/ready_page.html" target="_self">Result</a></li>
+      <ul id="nav-mobile" class="left hide-on-med-and-down ">
+        <li><a  href="index.html" target="_self">Step 1.draw your route on the map</a></li>
+        <li><a href="drawnMap.html" target="_self">Step 2.fill points with content</a></li>
+        <li><a href="ready_page/ready_page.html" target="_self">Result</a></li>
 
 
 
@@ -352,78 +355,15 @@ nav{
 </div>
 
 
-<!-- <div class="head">	
-
-<div id="mySidenav" class="sidenav">
-  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-  <p class="sidenav__title">type your data to the point №<span id="pointIndex"></span></p>
-  <textarea name="text" id="point_textData" cols="30" rows="10"></textarea>
 
 
-
-  <ul class="collapsible collapsible-accordion" data-collapsible="accordion">
-    <li>
-      <div class="collapsible-header">Zoom</div>
-      <div class="collapsible-body">
-        <input type="number" min="-2" max="4" class="valueInput" id="pointZoom" value="100">
-      </div>
-    </li>
-    <li>
-      <div class="collapsible-header">Displacement</div>
-        <div class="collapsible-body">
-          
-          <ul class="collapsible collapsible-accordion" data-collapsible="accordion">
-            <li>
-              <div class="collapsible-header">Top</div>
-              <div class="collapsible-body">
-                <input type="number" min="-2" max="4" class="valueInput" id="pointTop" value="0">
-              </div>
-            </li>
-            <li>
-              <div class="collapsible-header">Bottom</div>
-              <div class="collapsible-body">
-                <input type="number" min="-2" max="4" class="valueInput" id="pointBottom" value="0">
-              </div>
-            </li>
-            <li>
-              <div class="collapsible-header">Left</div>
-              <div class="collapsible-body">
-                <input type="number" min="-2" max="4" class="valueInput" id="pointLeft" value="0">
-              </div>
-            </li>
-            <li>
-              <div class="collapsible-header">Right</div>
-              <div class="collapsible-body">
-                <input type="number" min="-2" max="4" class="valueInput" id="pointRight" value="0">
-              </div>
-            </li>
-          </ul>
-        </div>
-    </li>
-   
-  </ul>
-  
-
-
-
-
-
-
-
-
-
-
-  <div class="btn_wrapper"><a id="SavePointContent" class="waves-effect waves-teal btn hoverable">Save content</a></div>
-  <p id="userNotification" class="text" style="text-align: center; color: #fff; display: none;">Your data is saved!</p>
-</div> -->
-<!-- <div id="main"> -->
  <ul id="slide-out" class="side-nav">
     <li><div class="user-view">
           <div class="background"></div>
         </div>
     </li>
   
-      <!-- <a href="javascript:void(0)" class="closebtn" onclick="">&times;</a> -->
+
   <p class="sidenav__title">type your data to the point №<span id="pointIndex"></span></p>
   <textarea name="text" id="point_textData" cols="30" rows="10"></textarea>
 
@@ -487,33 +427,18 @@ nav{
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- <h1  id="title"><span style="color: #37474f ;">Step 2.</span>Click points to add your content!</h1> -->
-
   </div>
 
 
 
 
-<!-- <a href="ready_page/ready_page.html" class="btn next waves-effect waves-light">Go next</a> -->
 <div class="wrapper">
 <div class="mapbg">
 <object id="map" data="" type="image/svg+xml" width="1920px" height="1200px"></object>
 </div>
 
 </div>
-<!--   </div> -->
+
 
 
 
@@ -522,14 +447,39 @@ nav{
 
 
 
-var editor = CKEDITOR.replace("text");
 
 
+CKEDITOR.on( 'dialogDefinition', function( ev ) {
+
+  // Take the dialog name and its definition 
+  // from the event data.
+
+  var dialogName = ev.data.name;
+  var dialogDefinition = ev.data.definition;
+
+  // Check if the definition is from the 
+  // dialog window you are interested in.
+
+  if ( dialogName == 'image' ) {
+    var infoTab = dialogDefinition.getContents( 'info' );
+     infoTab.remove( 'txtHSpace' ); //Remove Element Horizontal Space From Tab Info
+        infoTab.remove( 'txtVSpace' ); //Remove Element Vertical Space From Tab Info
+         infoTab.remove( 'Alignment' ); //Remove Element Vertical Space From Tab Info
+     console.log(ev.data.definition.dialog.getSize());
+    // CKEDITOR.DIALOG_RESIZE_BOTH;
+    // ev.data.definition.resizable = CKEDITOR.DIALOG_RESIZE_NONE;
+    //   ev.data.definition.minHeight = 260;
+    //   ev.data.definition.dialog.width = "360px";
+    //   ev.data.definition.dialog.height = "360px";
+    //   console.log(ev.data.definition.minHeight);
+    //   console.log(ev.data.definition.minWidth);
 
 
+  }
 
+});
 
-
+var editor = CKEDITOR.replace("text" );
 
 
 
