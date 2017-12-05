@@ -1,6 +1,7 @@
 $(document).ready(function() {
 
     var dataContent = JSON.parse(localStorage.getItem('PointsContent'));
+    var circleColor = JSON.parse(localStorage.getItem("SavedMapColors")) || {};
     console.log(dataContent);
 
     function inWindow(s) {
@@ -73,16 +74,31 @@ $(document).ready(function() {
         }catch(err){};
         console.log(ColorMapData);
 
-        if(ColorMapData || ColorMapData.length > 0){
+        if(ColorMapData|| ColorMapData.length > 0){
 
         for(var i = 0; i < PathsArray.length; i++){
-            PathsArray[i].style.fill = ColorMapData.mapBackground;
-            PathsArray[i].style.stroke = ColorMapData.mapStroke;
+            PathsArray[i].style.fill = ColorMapData.mapColor;
+            PathsArray[i].style.stroke = ColorMapData.mapStrokeColor;
         }
         }
 
-
+        var RouteWidth;
         var PathDirection = JSON.parse(localStorage.getItem('path'));
+
+        if(ColorMapData.mapRouteColor){
+            pathColor = ColorMapData.mapRouteColor;
+        }
+        else{
+            pathColor = "#000000";
+        }    
+
+
+        if(ColorMapData.routeBorderWidth){
+            RouteWidth = ColorMapData.routeBorderWidth;
+        }else{
+            RouteWidth = 3;
+        }
+
 
         console.log(svgRoot);
         $(svgRoot).addClass("my-svg");
@@ -92,9 +108,11 @@ $(document).ready(function() {
 
             $(path).attr('d', PathDirection);
             $(path).attr('fill', 'transparent');
-            $(path).attr('stroke', '#009688');
-            $(path).attr('stroke-width', "3px");
+            $(path).attr('stroke', pathColor);
             $(path).attr("opacity", '0.8');
+            $(path).attr('stroke-width', RouteWidth);
+            $(path).attr("stroke-linecap","round")
+            $(path).attr("id", "routePath");
 
         }
 
@@ -215,20 +233,37 @@ $(document).ready(function() {
         pathGroup.append(path);
         svgRoot.append(pathGroup);
         var s = Snap(pathGroup);
+        var currentCircleColor;
+        var currentCircleBorderColor;        
 
         var circlesArray = JSON.parse(localStorage.getItem('circlesCoords'));
 
+        if(circleColor.mapPointsColor){
+            currentCircleColor = circleColor.mapPointsColor;
+        }else{
+            currentCircleColor = "#2980b9";
+        }
+
+
+
+        if(circleColor.mapPointsBorderColor){
+            currentCircleBorderColor = circleColor.mapPointsBorderColor;
+        }else{
+            currentCircleBorderColor = "#000";
+        }    
 
         $.each(circlesArray, function(index, el) {
 
             var circle = s.circlePath(this.cx, this.cy, this.r).attr({
-                fill: "#ff6600",
-                stroke: "#000",
+                fill: currentCircleColor,
+                stroke: currentCircleBorderColor,
                 "stroke-width": "3px",
                 id: index+1,
-                opacity: 0
+                class: "circleElement",
+                style: "display:none"
 
             });
+            
 
             var intersects = Snap.path.intersection(circle, $(path).attr('d'));
 
@@ -240,12 +275,19 @@ $(document).ready(function() {
 
         });
 
+
+        var intersectionCircles = svgDoc.getElementsByTagName("circle");
+        for(var i=0;i<intersectionCircles.length;i++){
+            intersectionCircles[i].style.fill = "transparent";
+        }            
+
+
         // svgDoc.getElementsByTagName('circle').style.opacity = "0";
 
         text_cont.style.display = "block";
 
         var length = path.getTotalLength();
-
+        console.log(length);
         var offsetDash = $(path).css({
             "stroke-dashoffset": length,
             "stroke-dasharray": length + " " + length
@@ -267,12 +309,13 @@ function fadeIn(el) {
 
 
         function drawPath() {
-
+            var circleElements = svgDoc.querySelectorAll('.circleElement');
+            console.log(circleElements);
             for (var i = 0; i < StopPoints.length; i++) {
 
                 $.each($('.js-section'), function(i, el) {
 
-
+                    console.log($(path));
                     if ($(this).hasClass('active')) {
 
                         var $percentageComplete = (($(window).scrollTop() - $(this).offset().top) / $(this).height()) * 100;
@@ -282,13 +325,31 @@ function fadeIn(el) {
                         var CurrentPathCurrentLength;
                         CurrentPathCurrentLength = Math.floor($offsetUnit);
 
+                        console.log(CurrentPathCurrentLength);
                         
-                        console.log(currentCircle);
 
                         var currentCircle = svgDoc.getElementById(currentSectionID+1);
+                        var curDashOffset = parseFloat($(path).css("stroke-dashoffset"));
+                        for(var j = 0; j < circleElements.length; j++){
+                           
+                            console.log("curDashOffset: ", curDashOffset);
+                            console.log("length: ", length);
 
-                        console.log(currentSectionID);
-                        fadeIn(currentCircle);
+                            if(curDashOffset >= length - 20){
+                                $(circleElements[j]).fadeOut(900);
+                            }
+                            else {
+                                 if(circleElements[j].id <= currentSectionID+1){
+                                    $(circleElements[j]).fadeIn(900);
+                                }
+                                else if(circleElements[j].id > currentSectionID+1 ){
+                                    $(circleElements[j]).fadeOut(900);
+                                }
+                            }
+                        }
+                        // $(currentCircle).fadeIn(1000);
+                        // console.log(currentSectionID);
+                        // fadeIn(currentCircle);
 
                         if (CurrentPathCurrentLength < StopPoints[currentSectionID]) {
 
@@ -298,6 +359,7 @@ function fadeIn(el) {
                                 // svgDoc.getElementById(currentSectionID).attr('opacity', '1');
                                 // currentCircle.fadeIn(200);
                                 console.log("first if");
+                                
                             }
 
 
@@ -305,6 +367,7 @@ function fadeIn(el) {
 
                                 $(path).css("stroke-dashoffset", "" + (length - (StopPoints[currentSectionID - 1] + CurrentPathCurrentLength)) + "");
                                 console.log("second if");
+                                
                             }
 
                         }
@@ -313,6 +376,7 @@ function fadeIn(el) {
 
                             $(path).css("stroke-dashoffset", "" + (length - StopPoints[currentSectionID]) + "px");
                             console.log("third if");
+
                         }
 
                     }
@@ -336,6 +400,13 @@ function fadeIn(el) {
 
     var WrapperProps = JSON.parse(localStorage.getItem('mapStyleProperties'));
     console.log(WrapperProps);
+    var SavedMapColors = JSON.parse(localStorage.getItem("SavedMapColors")) || {};
+    
+    if(SavedMapColors.bodyBackgroundColor){
+        $("#IDmapbg").css("background-color", SavedMapColors.bodyBackgroundColor );
+    }
+
+
 
     $.each(WrapperProps, function(prop, value) {
         $("#IDmapbg").css(prop, value);

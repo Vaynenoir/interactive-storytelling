@@ -89,6 +89,22 @@ $(document).ready(function() {
             PathsArray[i].style.stroke = ColorMapData.mapStrokeColor;
         }
         }
+            var RouteWidth;
+            var pathColor;
+            var circleColor = JSON.parse(localStorage.getItem("SavedMapColors")) || {};
+
+            if(circleColor.mapRouteColor){
+                pathColor = circleColor.mapRouteColor;
+            }
+            else{
+                pathColor = "#000000";
+            }
+
+            if(circleColor.routeBorderWidth){
+                RouteWidth = circleColor.routeBorderWidth;
+            }else{
+            RouteWidth = 3;
+            }
 
 
 
@@ -99,8 +115,9 @@ $(document).ready(function() {
 
             $(path).attr('d', PathDirection);
             $(path).attr('fill', 'transparent');
-            $(path).attr('stroke', '#000');
-
+            $(path).attr('stroke', pathColor);
+            $(path).attr('stroke-width', RouteWidth);
+            $(path).attr("stroke-linecap","round")
         }
 
         Snap.plugin(function(Snap, Element, Paper, global) {
@@ -222,6 +239,23 @@ CirclesArrayClone.splice(j, 1);
         var circlesArray = JSON.parse(localStorage.getItem('circlesCoords'));
         var pointsArray = [];
         var stringArr = '';
+        var currentCircleColor;
+        var currentCircleBorderColor;
+
+        var SavedCircleColor = JSON.parse(localStorage.getItem("SavedMapColors")) || {};
+        if(SavedCircleColor.mapPointsColor){
+            currentCircleColor = SavedCircleColor.mapPointsColor;
+        }else{
+            currentCircleColor = "#2980b9";
+        }
+
+
+
+        if(SavedCircleColor.mapPointsBorderColor){
+            currentCircleBorderColor = SavedCircleColor.mapPointsBorderColor;
+        }else{
+            currentCircleBorderColor = "#000";
+        }
 
 
         $.each(circlesArray, function(index, el) {
@@ -231,9 +265,10 @@ CirclesArrayClone.splice(j, 1);
                 r: 1
             };
 
+
             var circle = s.circlePath(this.cx, this.cy, this.r).attr({
-                fill: "#ff6600",
-                stroke: "#000",
+                fill: currentCircleColor,
+                stroke: currentCircleBorderColor,
                 "stroke-width": "3px",
                 id: el.id,
                 "data-time": el.time
@@ -246,8 +281,8 @@ CirclesArrayClone.splice(j, 1);
                 document.location.replace("http://127.0.0.1:8080/");
             }
             else{
-            pointsObj.cx = intersects[0].x;
-            pointsObj.cy = intersects[0].y;
+                pointsObj.cx = intersects[0].x;
+                pointsObj.cy = intersects[0].y;
             }
 
 
@@ -257,14 +292,17 @@ CirclesArrayClone.splice(j, 1);
             intersects.forEach(function(el) {
 
                 s.circle(el.x, el.y, 1);
-
             });
 
             localStorage.setItem('points', JSON.stringify(pointsArray));
         });
 
             
-                // console.log(circlesArray);
+
+            var intersectionCircles = svgDoc.getElementsByTagName("circle");
+            for(var i=0;i<intersectionCircles.length;i++){
+                intersectionCircles[i].style.fill = "transparent";
+            }
             
 
 
@@ -304,13 +342,13 @@ CirclesArrayClone.splice(j, 1);
             $(paths).mouseenter(function() {
                 $(this).css("transition", "0.5s");
                 $(this).css("stroke-width", "6px");
-                $(this).css("stroke", "#000");
+                $(this).css("stroke", currentCircleBorderColor);
 
 
             }).mouseout(function() {
                 $(this).css("transition", "0.5s");
                 $(this).css("stroke-width", "3px");
-                $(this).css("stroke", "#000");
+                $(this).css("stroke", currentCircleBorderColor);
             });
 
             paths.addEventListener("click", function() {
@@ -420,8 +458,8 @@ CirclesArrayClone.splice(j, 1);
                     if(pointsDataContent.data.length > 0){
                     $(currentPath).css("fill", "#990033");
                     }
-                    else if(pointsDataContent.data.length == 0){
-                        $(currentPath).css("fill", "#ff6600");
+                    else if(pointsDataContent.data.length == 0 || currentCircleColor ){
+                        $(currentPath).css("fill", currentCircleColor);
                     }
                     
                      $('.button-collapse').sideNav('hide');
@@ -483,6 +521,11 @@ CirclesArrayClone.splice(j, 1);
 
 
     var WrapperProps = JSON.parse(localStorage.getItem('mapStyleProperties'));
+    var SavedMapColors = JSON.parse(localStorage.getItem("SavedMapColors")) || {};
+    if(SavedMapColors.bodyBackgroundColor){
+        $(".mapbg").css("background-color", SavedMapColors.bodyBackgroundColor );
+    }
+
     $.each(WrapperProps, function(prop, value) {
         $(".mapbg").css(prop, value);
     });

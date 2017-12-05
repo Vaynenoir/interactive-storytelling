@@ -1,6 +1,26 @@
 
 $(document).ready(function(){
 
+	function getSettingFromStorage(setting){
+		var SettingsObject = JSON.parse(localStorage.getItem("Settings")) || {
+    	mapColor: "#ffcc80",
+    	mapStrokeColor: "#000000",
+    	mapPointsColor: "#0000ff",
+    	mapPointsBorderColor: "#000000",
+    	mapRouteColor: "#000000",
+    	bodyBackgroundColor: "#f3e5f5",
+    	routeBorderWidth: "4",
+    	pointsRadius: "8"
+    };
+		if(SettingsObject[setting]){
+			return SettingsObject[setting];
+		}
+	}
+
+ 			$(".wrap_map").css("background-color", getSettingFromStorage("bodyBackgroundColor"));
+
+
+
 	$('#openMap').bind("click",function(){
 		$('#gallery').fadeIn(2000);
 	});
@@ -125,44 +145,12 @@ var bezierEditor = function(id) {
     y: evt.clientY - rect.top
   };
 }
-// function getZoomCompensatedBoundingRect(fabricObject){
-
-//   //fabricObject is the object you want to get the boundingRect from
-//   var canvas = document.getElementById('bezier-canvas');
-//   fabricObject.setCoords();
-//   var boundingRect = fabricObject.getBoundingRect();
-  
-//   var viewportMatrix = canvas.viewportTransform;
-  
-//   //there is a bug in fabric that causes bounding rects to not be transformed by viewport matrix
-//   //this code should compensate for the bug for now
-  
-//   boundingRect.top = (boundingRect.top - viewportMatrix[5]) / zoom;
-//   boundingRect.left = (boundingRect.left - viewportMatrix[4]) / zoom;
-//   boundingRect.width /= zoom;
-//   boundingRect.height /= zoom;
-  
-//   return boundingRect;
-
-// }
-
-// $(document).on('keydown', function (event) {
-//     if (event.altKey) {
-//         editor.cursor('wait');
-//         console.log(1);
-//     }
-// });
 
 
 
-
-
-
-
-			/* Fix the drag cursor bug. When selection start, cursor will be set to "text"*/
 			this.canvas.onselectstart = function () { return false; }
 			this.ctx = this.canvas.getContext("2d");
-			// var Transform = require('canvas-get-transform');
+
 			this.halfPointSize = this.pointSize / 2;
 
 					var counter = 0;
@@ -171,16 +159,21 @@ var bezierEditor = function(id) {
 
 
 			this.canvas.onmousedown = function(e) {
+				var SettingsObj = JSON.parse(localStorage.getItem('Settings'))  || {
+		    	mapColor: "#ffcc80",
+		    	mapStrokeColor: "#000000",
+		    	mapPointsColor: "#0000ff",
+		    	mapPointsBorderColor: "#000000",
+		    	mapRouteColor: "#000000",
+		    	bodyBackgroundColor: "#f3e5f5",
+		    	routeBorderWidth: "4",
+		    	pointsRadius: "8"
+		    };
 
-
-					// if(!circlesArr){
-					// 	circlesArr = [];
-					// 	counter = 0;	
-					// }
 					var circles = {
 							cx: 0,
 							cy: 0,
-							r: 8,
+							r: SettingsObj.pointsRadius,
 							id: 0
 					};
 
@@ -197,6 +190,7 @@ var bezierEditor = function(id) {
 					}catch(err){
 
 					};
+					
 					editor.state.down = false;
 					var zoom = JSON.parse(localStorage.getItem('zoom'));
 					var clickX = 0;
@@ -228,14 +222,22 @@ var bezierEditor = function(id) {
 					console.log(circlesArr);
 					localStorage.setItem('circlesCoords', JSON.stringify(circlesArr));
 					console.log(clickX,clickY);
-					var r = 8;
+
+					var r = SettingsObj.pointsRadius;
 					var ctx = this.getContext('2d');
 					 
+
   						ctx.beginPath();
-  						ctx.fillStyle = "#2980b9";
- 								 ctx.arc(clickX, clickY, 8, 0, 2 * Math.PI);
- 										 ctx.fill();
- 										 console.log(ctx);
+
+  							ctx.fillStyle = SettingsObj.mapPointsColor;
+
+
+ 								 ctx.arc(clickX, clickY, r, 0, 2 * Math.PI);
+ 								 ctx.lineWidth = 2;
+ 								 ctx.strokeStyle = SettingsObj.mapPointsBorderColor;
+ 								 ctx.stroke();
+ 								 ctx.fill();
+ 								 console.log(ctx);
 				}
 
 
@@ -304,95 +306,21 @@ var bezierEditor = function(id) {
 					
 					
 					for(var i = 0; i < _nodes.length; ++i) {
-						// var scale = this.ctx.currentTransform;
-						// var curX = scale.e;
-						// var curY = scale.f;
-						// var deltaX = pt.x - dragStart.x;
-						// var deltaY = pt.y - dragStart.y;
-						// var $editorOffset = this.canvas.offset();
 						var x = e.offsetX;
 						var y =	e.offsetY;
-						// var ZoomedX = e.clientX;
-						// var ZoomedY = e.clientY;
-						// if(global.zoom.scale > 1){
-						// 	x = (x-ZoomedX)/global.zoom.scale;
-						// 	y = (y-ZoomedY)/global.zoom.scale;
-						// }
-						// x= ZoomedX + x;
-						// y = ZoomedY + y;
-						
+
 						if(x > _nodes[i].x - editor.halfPointSize && x < _nodes[i].x + editor.halfPointSize && y > _nodes[i].y - editor.halfPointSize && y < _nodes[i].y + editor.halfPointSize) {
 							editor.deleteNode(_nodes[i]);
 							editor.draw();
 							return;
 						}
 					}
-					// console.log('x: '+ x, 'y: ' + y);
-					// console.log('zoomedX: ' + ZoomedX, 'zoomedY: ' + ZoomedY);
 
 					editor.addNode(e);	
 				}
 			};
 			
 
-
-
-
-			// this.canvas.oncontextmenu = function(e){
-
-			// 	e.preventDefault();
-			// 	editor.state.down = false;
-			// 	console.log(editor.state.down);
-			// 						var circlesToDelete = {
-			// 				cx: 0,
-			// 				cy: 0,
-			// 				r: 8,
-			// 				id: 0
-			// 		};
-				
-				
-				
-			// 		var zoom = JSON.parse(localStorage.getItem('zoom'));
-			// 		var clickX = 0;
-			// 		var	clickY = 0;
-			// 		var canvas = document.getElementById("bezier-canvas");
-			// 		var svg = document.getElementById("map_bg");
-			// 		console.log(svg);
-
-			// 		var pos = getMousePos(svg,e);
-			// 		if(zoom || zoom>0){
-			// 		clickX = pos.x/zoom; 
-			// 		clickY = pos.y/zoom;				
-			// 		}
-			// 		else{
-			// 		clickX = pos.x; 
-			// 		clickY = pos.y;
-			// 		}
-
-			
-			// 			counter++;
-					
-			// 		circlesToDelete.cx = clickX;
-			// 		circlesToDelete.cy = clickY;
-			// 		console.log(counter);
-			// 		// circles.id = counter;
-			// 		circlesArrRemove.push(circlesToDelete);
-			// 		console.log(circlesArrRemove);
-			// 		// localStorage.setItem('circlesCoords', JSON.stringify(circlesArrRemove));
-			// 		console.log(clickX,clickY);
-			// 		var r = 8;
-			// 		var ctx = this.getContext('2d');
-					 
-  	// 					ctx.beginPath();
-  	// 					ctx.fillStyle = "red";
- 		// 						 ctx.arc(clickX, clickY, 8, 0, 2 * Math.PI);
- 		// 								 ctx.fill();
- 		// 								 console.log(ctx);
-				
-				
-			// }
-		
-		
 
 
 
@@ -599,9 +527,20 @@ var bezierEditor = function(id) {
 			return false;
 		},
 		draw : function() {
+			var SettingsObj = JSON.parse(localStorage.getItem('Settings'))  || {
+    	mapColor: "#ffcc80",
+    	mapStrokeColor: "#000000",
+    	mapPointsColor: "#0000ff",
+    	mapPointsBorderColor: "#000000",
+    	mapRouteColor: "#000000",
+    	bodyBackgroundColor: "#f3e5f5",
+    	routeBorderWidth: "4",
+    	pointsRadius: "8"
+    };
 			var _ctx = this.ctx;
 			_ctx.clearRect(0,0, this.canvas.width, this.canvas.height);
 			_ctx.save();
+
 
 			if(this.backgroundImage)
 				_ctx.drawImage(this.backgroundImage, 0, 0);
@@ -629,19 +568,11 @@ var bezierEditor = function(id) {
 			}
 			_ctx.save();
 			
-			// for(var i = 0; i < nodes.length; ++i) {
-				// _ctx.beginPath();
-				// _ctx.moveTo(nodes[i].x, nodes[i].y);
-				// _ctx.lineTo(nodes[i].controls[0].x, nodes[i].controls[0].y);
-				// _ctx.moveTo(nodes[i].x, nodes[i].y);
-				// _ctx.lineTo(nodes[i].controls[1].x, nodes[i].controls[1].y);
-				// _ctx.stroke();
-			// }
+
 			_ctx.fillStyle="#FFFF00";
 			for(var i = 0; i < nodes.length; ++i) {
 				_ctx.fillRect(nodes[i].x-this.halfPointSize, nodes[i].y-this.halfPointSize, this.pointSize, this.pointSize);
-				//_ctx.fillRect(nodes[i].controls[0].x-this.halfPointSize, nodes[i].controls[0].y-this.halfPointSize, this.pointSize, this.pointSize);
-				//_ctx.fillRect(nodes[i].controls[1].x-this.halfPointSize, nodes[i].controls[1].y-this.halfPointSize, this.pointSize, this.pointSize);
+			
 			}
 			if(this.state.selectedNode != null) {
 				_ctx.fillStyle="#000";
@@ -661,7 +592,7 @@ var bezierEditor = function(id) {
 				_ctx.lineTo(this.state.selectedNode.controls[1].x, this.state.selectedNode.controls[1].y);
 				_ctx.stroke();
 			}
-			_ctx.strokeStyle="#FF0000";
+			_ctx.strokeStyle=SettingsObj.mapRouteColor;
 
 			if(nodes.length > 1)
 				for(var i = 0; i < nodes.length - 1; ++i) {
@@ -670,7 +601,7 @@ var bezierEditor = function(id) {
 					_ctx.bezierCurveTo(nodes[i].controls[1].x, nodes[i].controls[1].y, nodes[i + 1].controls[0].x, nodes[i + 1].controls[0].y, nodes[i + 1].x, nodes[i + 1].y);
 					_ctx.stroke();
 				}
-			_ctx.strokeStyle="#00FF00";
+			_ctx.strokeStyle= SettingsObj.mapRouteColor;
 				// 		for(var i = 0; i < this.nodes.length - 1; ++i) {
 				// var n1 = this.nodes[i];
 				// var n2 = this.nodes[i + 1];
@@ -687,7 +618,7 @@ var bezierEditor = function(id) {
 					_ctx.bezierCurveTo(SavedMapLines[i].p2[0], SavedMapLines[i].p2[1], SavedMapLines[i].p3[0], SavedMapLines[i].p3[1], SavedMapLines[i].p4[0], SavedMapLines[i].p4[1]);
 					_ctx.stroke();
 				}
-					_ctx.strokeStyle="#00FF00";
+					_ctx.strokeStyle = SettingsObj.mapRouteColor;
 
 
 				}
@@ -718,13 +649,20 @@ var bezierEditor = function(id) {
 
 
 
-
 			for(var i=0;i<savedMapCoords.length;i++){
 			if(savedMapCoords){
   						_ctx.beginPath();
-  						_ctx.fillStyle = "#2980b9";
- 								 _ctx.arc(savedMapCoords[i].cx, savedMapCoords[i].cy, 8, 0, 2 * Math.PI);
- 										 _ctx.fill();
+  						_ctx.fillStyle = SettingsObj.mapPointsColor;
+
+ 								_ctx.arc(savedMapCoords[i].cx, savedMapCoords[i].cy, SettingsObj.pointsRadius, 0, 2 * Math.PI);
+
+ 								 _ctx.fill();
+ 								 _ctx.strokeStyle =  SettingsObj.mapPointsBorderColor;
+ 								 _ctx.stroke();
+
+
+
+ 										 
 			}
 			}
 
@@ -832,13 +770,8 @@ var bezierEditor = function(id) {
 
 			return	ArrLines;
 		},
-		// drawZoom: function(scale, translatePos){
-		// 	var context = this.ctx;
-		// 	context.translate(translatePos.x, translatePos.y);
-		// 	context.scale(scale, scale);
-		// 	context.restore();
 
-		// },
+
 		clearBezier: function(){
 			var _ctx = this.ctx;
 			editor.nodes = [];

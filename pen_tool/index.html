@@ -190,6 +190,25 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
+
+
+	function getSettingFromStorage(setting){
+		var SettingsObject = JSON.parse(localStorage.getItem("Settings")) || {
+    	mapColor: "#ffcc80",
+    	mapStrokeColor: "#000000",
+    	mapPointsColor: "#0000ff",
+    	mapPointsBorderColor: "#000000",
+    	mapRouteColor: "#000000",
+    	bodyBackgroundColor: "#f3e5f5",
+    	routeBorderWidth: "4",
+    	pointsRadius: "8"
+    };
+		if(SettingsObject[setting]){
+			return SettingsObject[setting];
+		}
+	}
+
+console.log(getSettingFromStorage("mapColor"));
 	// localStorage.clear();
 			var editor = new bezierEditor("bezier-canvas");
 		editor.draw();
@@ -289,12 +308,16 @@ function loadMap(map_container){
     var PathsArray = MapPathsGroup.getElementsByTagName('path');
     console.log(PathsArray);
 
-   	try{
-   		var SavedMapColors = JSON.parse(localStorage.getItem('SavedMapColors')) || {};
-   	}catch(err){};
-   	console.log(SavedMapColors);
-
-
+    var SettingsObj = JSON.parse(localStorage.getItem("Settings")) || {
+    	mapColor: "#ffcc80",
+    	mapStrokeColor: "#000000",
+    	mapPointsColor: "#00ffff",
+    	mapPointsBorderColor: "#000000",
+    	mapRouteColor: "#000000",
+    	bodyBackgroundColor: "#f3e5f5",
+    	routeBorderWidth: "4",
+    	pointsRadius: "8"
+    };
 
    	var MapColor = document.getElementById("mapColorPicker");
    	var MapStrokeColor = document.getElementById("mapStrokeColorPicker");
@@ -321,25 +344,25 @@ function loadMap(map_container){
 
 
 
-   	if(SavedMapColors || SavedMapColors.length > 0){
-   		MapColor.value = SavedMapColors.mapColor;
-   		MapStrokeColor.value = SavedMapColors.mapStrokeColor;
-   		MapPointsColor.value = SavedMapColors.mapPointsColor;
-   		MapPointsBorderColor.value = SavedMapColors.mapPointsBorderColor;
-   		MapRouteColor.value = SavedMapColors.mapRouteColor;
-   		PageBodyColor.value = SavedMapColors.bodyBackgroundColor;
+   
+   		MapColor.value = getSettingFromStorage("mapColor");
+   		MapStrokeColor.value = getSettingFromStorage("mapStrokeColor");
+   		MapPointsColor.value = getSettingFromStorage("mapPointsColor");
+   		MapPointsBorderColor.value = getSettingFromStorage("mapPointsBorderColor");
+   		MapRouteColor.value = getSettingFromStorage("mapRouteColor");
+   		PageBodyColor.value = getSettingFromStorage("bodyBackgroundColor");
 
 
 
    		for(var i = 0; i < PathsArray.length; i++){
    			console.log(PathsArray[i]);
-   			PathsArray[i].style.fill = SavedMapColors.mapColor;
-   			PathsArray[i].style.stroke = SavedMapColors.mapStrokeColor;
+   			PathsArray[i].style.fill = getSettingFromStorage("mapColor");
+   			PathsArray[i].style.stroke = getSettingFromStorage("mapStrokeColor");
    		}
 
 
-   	}
-   	console.log(SavedMapColors);
+   	
+   
 
 
 
@@ -355,9 +378,16 @@ function loadMap(map_container){
    	  var optionSelected = $("option:selected", this);
    		var valueSelected = this.value;
    		var name = this.name; 
-   		SavedMapColors[name] = valueSelected;
-   		console.log(SavedMapColors);
-   		localStorage.setItem('SavedMapColors', JSON.stringify(SavedMapColors));
+   		SettingsObj[name] = valueSelected;
+
+   		var circlesArray = JSON.parse(localStorage.getItem('circlesCoords'));
+   		
+   			for(var i=0;i<circlesArray.length;i++){
+   				circlesArray[i].r = SettingsObj.pointsRadius;
+   			}	
+   	
+   		localStorage.setItem('circlesCoords', JSON.stringify(circlesArray));
+   		localStorage.setItem('Settings', JSON.stringify(SettingsObj));
    	});
 
 
@@ -369,112 +399,21 @@ function loadMap(map_container){
 			var name = this.name;
 			console.log(optionSelected);
 			console.log(valueSelected);
-			SavedMapColors[name] = valueSelected;
+			SettingsObj[name] = valueSelected;
 
-			console.log(SavedMapColors);
+			console.log(SettingsObj);
 
-		if(SavedMapColors.mapColor){
+
 		 for(var i=0;i<PathsArray.length; i++){
-   			PathsArray[i].style.fill = SavedMapColors.mapColor;			
+   			PathsArray[i].style.fill = SettingsObj.mapColor;	
+   			PathsArray[i].style.stroke = SettingsObj.mapStrokeColor;				
    		}
-		}
 
-		if(SavedMapColors.mapStrokeColor){
-		 for(var i=0;i<PathsArray.length; i++){
-   			PathsArray[i].style.stroke = SavedMapColors.mapStrokeColor;			
-   		}			
-		}
- 		if(SavedMapColors.bodyBackgroundColor){
- 			$(".wrap_map").css("background-color", SavedMapColors.bodyBackgroundColor);
- 		}
-
-		
-
-
-
-			localStorage.setItem('SavedMapColors', JSON.stringify(SavedMapColors));
+ 			$(".wrap_map").css("background-color", SettingsObj.bodyBackgroundColor);
+ 		
+			localStorage.setItem('Settings', JSON.stringify(SettingsObj));
 
    	});
-
-
-
-
-
-   // 	$(MapColor).change(function(){
-   // 		var optionSelected = $("option:selected", this);
-			// var valueSelected = this.value;
-			// SavedMapColors.mapBackground = valueSelected;
-   // 		for(var i=0;i<PathsArray.length; i++){
-   // 			PathsArray[i].style.fill = valueSelected;			
-   // 		}
-   // 		console.log(SavedMapColors);
-   // 		localStorage.setItem('SavedMapColors', JSON.stringify(SavedMapColors));
-   // 	});
-
-   // 	$(MapStrokeColor).change(function(){
-   // 		var optionSelected = $("option:selected", this);
-			// var valueSelected = this.value;
-			// SavedMapColors.mapStroke = valueSelected;
-   // 		for(var i=0;i<PathsArray.length; i++){
-   // 			PathsArray[i].style.stroke = valueSelected;			
-   // 		}
-
-
-   // 		localStorage.setItem('SavedMapColors', JSON.stringify(SavedMapColors));
-   // 		console.log(SavedMapColors);
-   // 	});
-
-
-
-
-
-
-
-   // 	$(MapPointsColor).change(function(){
-   // 		var optionSelected = $("option:selected", this);
-			// var valueSelected = this.value;
-			// SavedMapColors.mapPointsColor = valueSelected;
-
-
-   // 		localStorage.setItem('SavedMapColors', JSON.stringify(SavedMapColors));
-   // 		console.log(SavedMapColors);
-   // 	});
-
-   // 	$(MapPointsBorderColor).change(function(){
-   // 		var optionSelected = $("option:selected", this);
-			// var valueSelected = this.value;
-			// SavedMapColors.MapPointsBorderColor = valueSelected;
-
-
-
-   // 		localStorage.setItem('SavedMapColors', JSON.stringify(SavedMapColors));
-   // 		console.log(SavedMapColors);
-   // 	});
-
-   // 	$(MapRouteColor).change(function(){
-   // 		var optionSelected = $("option:selected", this);
-			// var valueSelected = this.value;
-			// SavedMapColors.MapRouteColor = valueSelected;
-
-
-
-   // 		localStorage.setItem('SavedMapColors', JSON.stringify(SavedMapColors));
-   // 		console.log(SavedMapColors);
-   // 	});
-
-   // 	$(PageBodyColor).change(function(){
-   // 		var optionSelected = $("option:selected", this);
-			// var valueSelected = this.value;
-			// SavedMapColors.MapRouteColor = valueSelected;
-
-
-   // 		localStorage.setItem('SavedMapColors', JSON.stringify(SavedMapColors));
-   // 		console.log(SavedMapColors);
-   // 	});
-
-
-
-
 
 	});
 }
@@ -562,11 +501,7 @@ $("#moveBottom").bind("click", function(){
 });
 
 
- $(document).ready(function(){     //Materialize.css plugins
-    // $('ul.tabs').tabs();
-
-
-
+ $(document).ready(function(){     //Materialize.js plugins
 
     $('.modal').modal();
  
@@ -594,7 +529,6 @@ $("#moveBottom").bind("click", function(){
 </script>
 
 <script src="js/materialize.js"></script>
-<!-- <script src="js/colorpicker/spectrum.js"></script> -->
 
 	
 </body>
