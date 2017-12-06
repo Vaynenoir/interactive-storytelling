@@ -99,40 +99,101 @@
     	<div class="modal-content" id="color_change">
 
 			<!-- <input type='text' id="flat" /> -->
-			<h2 style="text-align: center;">Change Map background and stroke color:</h2>
-			<p>Map color: <input type="color" name="mapColor" value="#2e2e2e" class="colorPicker"  id="mapColorPicker" style="display: none;"></p>
 
+			<h2 style="text-align: center; font-size: 23px;text-transform: uppercase;">Change Map background and stroke color:</h2>
 
-			<p>Map stroke color: <input type="color" name="mapStrokeColor" value="#000000" class="colorPicker"  id="mapStrokeColorPicker" style="display: none;"></p>
+		<table class="centered" style="width:100%">
+  <tr>
+    <th>Settings</th>
+    <th>Result</th>
+  </tr>
+  
+  <tr>
+    <td><p>Map color:<input type="color" name="mapColor" class="colorPicker color"  id="mapColorPicker" style="display: none;"></p>
+				<p>Map stroke color: <input type="color" name="mapStrokeColor" class="colorPicker color"  id="mapStrokeColorPicker" style="display: none;"></p>
+				<p>Background-color: <input type="color" class="colorPicker color" name="bodyBackgroundColor"  id="bodyColorPicker" style="display: none;"></p>
 
+    </td>
+    <td><div class="map_settings_block">
+    	<object data="" id="mapSettings" width="500px" height="350px" type=""></object>
+    </div></td>
+  </tr>
 
-			<p>Points Color: <input type="color" value="#ffff00" name="mapPointsColor" class="colorPicker"  id="mapPointsColorPicker" style="display: none;"></p>
-
-
-			<p>Points border color <input type="color" value="#ffffff" name="mapPointsBorderColor" class="colorPicker"  id="mapPointsBorderColorPicker" style="display: none;"></p>
-
+  
+  
+  <tr>
+    <td >
+    <div class="flex_center">			
+    	<p>Points Color: <input type="color" name="mapPointsColor" class="colorPicker color"  id="mapPointsColorPicker" style="display: none;"></p>
+			<p>Points border color <input type="color" name="mapPointsBorderColor" class="colorPicker color"  id="mapPointsBorderColorPicker" style="display: none;"></p>
+			
+			<p>Points radius:
+				<form class="rangePicker" action="#">
+		 				<p class="range-field">
+			      	<input type="range" name="pointsRadius" id="test6" min="4" max="12" />
+			    	</p>
+				</form>
+			</p>
+			<p>Points border width:
+				<form class="rangePicker" action="#">
+		 				<p class="range-field">
+			      	<input type="range" name="pointsBorderWidth" id="test7" min="1" max="6" />
+			    	</p>
+				</form>
+			</p>
+			</div>
+    </td>
+    <td>
+    	<div id="circle_example"></div>
+    </td>
+  </tr>
+  
+  <tr>
+    <td>
+    <div class="flex_center">			
 			<p>Route border width: 
-				 <form action="#">
+				 <form  class="rangePicker" action="#">
     				<p class="range-field">
-      				<input type="range" name="routeBorderWidth" id="test5" min="4" max="14" />
+      				<input type="range" name="routeBorderWidth"  id="test5" min="2" max="10" />
     				</p>
 			  </form>
 			</p>
+			<p>Route color: <input type="color" class="colorPicker color" name="mapRouteColor" id="mapRouteColorPicker" style="display: none;"></p>
+		</div>
+    </td>
+    <td>
+    	<div class="flex_center">	
+					<div class="routeExample"></div>
+
+    	</div>
+    </td>
+
+  </tr>
+</table>
 
 
-			<p>Route color: <input type="color" value="#ffffff" class="colorPicker" name="mapRouteColor" id="mapRouteColorPicker" style="display: none;"></p>
+
+			<!-- <p>Map color: <input type="color" name="mapColor" value="#2e2e2e" class="colorPicker"  id="mapColorPicker" style="display: none;"></p> -->
+
+
 			
 
-			<p>Points radius:
-				<form action="#">
-    				<p class="range-field">
-      				<input type="range" name="pointsRadius" id="test6" min="4" max="14" />
-    				</p>
-			  </form>
-			 </p>
 
 
-			<p>Background-color: <input type="color" value="#ffffff" class="colorPicker" name="bodyBackgroundColor"  id="bodyColorPicker" style="display: none;"></p>
+
+
+			
+
+
+
+
+
+			
+
+
+
+
+			
 
 
     	</div>
@@ -184,10 +245,6 @@
             </div>
           </div>
 </footer>
-
-
-
-
 <script type="text/javascript">
 $(document).ready(function(){
 
@@ -201,8 +258,14 @@ $(document).ready(function(){
     	mapRouteColor: "#000000",
     	bodyBackgroundColor: "#f3e5f5",
     	routeBorderWidth: "4",
-    	pointsRadius: "8"
+    	pointsRadius: "8",
+    	pointsBorderWidth: "1"
     };
+
+
+
+
+
 		if(SettingsObject[setting]){
 			return SettingsObject[setting];
 		}
@@ -306,17 +369,18 @@ function loadMap(map_container){
     var svgRoot  = svgDoc.documentElement;
     var MapPathsGroup = svgRoot.getElementById("mapPaths");
     var PathsArray = MapPathsGroup.getElementsByTagName('path');
-    console.log(PathsArray);
+    // console.log(PathsArray);
 
     var SettingsObj = JSON.parse(localStorage.getItem("Settings")) || {
-    	mapColor: "#ffcc80",
+    	mapColor: "#ffcc80", // rgba(0, 0, 0, 0.5)
     	mapStrokeColor: "#000000",
     	mapPointsColor: "#00ffff",
     	mapPointsBorderColor: "#000000",
     	mapRouteColor: "#000000",
     	bodyBackgroundColor: "#f3e5f5",
     	routeBorderWidth: "4",
-    	pointsRadius: "8"
+    	pointsRadius: "8",
+    	pointsBorderWidth: "1"
     };
 
    	var MapColor = document.getElementById("mapColorPicker");
@@ -352,16 +416,24 @@ function loadMap(map_container){
    		MapRouteColor.value = getSettingFromStorage("mapRouteColor");
    		PageBodyColor.value = getSettingFromStorage("bodyBackgroundColor");
 
+   		$('#test6').value = getSettingFromStorage("pointsRadius")*2;
 
 
    		for(var i = 0; i < PathsArray.length; i++){
-   			console.log(PathsArray[i]);
+   			// console.log(PathsArray[i]);
    			PathsArray[i].style.fill = getSettingFromStorage("mapColor");
    			PathsArray[i].style.stroke = getSettingFromStorage("mapStrokeColor");
    		}
 
+   		  $('#circle_example').css({width: getSettingFromStorage("pointsRadius")*2,
+   				height: getSettingFromStorage("pointsRadius")*2,
+   				"background-color": getSettingFromStorage("mapPointsColor"),
+					border: getSettingFromStorage("pointsBorderWidth")+"solid" + getSettingFromStorage("mapPointsBorderColor")
+   			});
+   		$(".routeExample").css({height: getSettingFromStorage("routeBorderWidth"),
+   			"background-color": getSettingFromStorage("mapRouteColor")
+   		});
 
-   	
    
 
 
@@ -370,11 +442,31 @@ function loadMap(map_container){
 
 
  var RangeInputs = $("input[type=range]");
- console.log(RangeInputs);
+ // console.log(RangeInputs);
 
 
+var mapForSettings = document.getElementById("mapSettings");
+var currentMap = JSON.parse(localStorage.getItem("map"));
+$("#mapSettings").attr("data", currentMap);
 
-   	   	$(RangeInputs).change(function(el){
+
+mapForSettings.addEventListener("load", function(){
+		var svgDoc = mapForSettings.contentDocument; //get the inner DOM of alpha.svg
+    var svgRoot  = svgDoc.documentElement;
+    var changedMap = svgRoot.getElementsByTagName('path');;
+    // var SettingMapPathsArray = MapPathsGroup.getElementsByTagName('path');
+    // console.log(changedMap);
+
+    	$(".map_settings_block").css("background-color", getSettingFromStorage("bodyBackgroundColor"));
+
+   		for(var i = 0; i < changedMap.length; i++){
+   			// console.log(PathsArray[i]);
+   			changedMap[i].style.fill = getSettingFromStorage("mapColor");
+   			changedMap[i].style.stroke = getSettingFromStorage("mapStrokeColor");
+   		}
+
+
+   	 $(RangeInputs).change(function(el){
    	  var optionSelected = $("option:selected", this);
    		var valueSelected = this.value;
    		var name = this.name; 
@@ -385,6 +477,15 @@ function loadMap(map_container){
    			for(var i=0;i<circlesArray.length;i++){
    				circlesArray[i].r = SettingsObj.pointsRadius;
    			}	
+   			
+   			$('#circle_example').css({width: SettingsObj.pointsRadius*2,
+   				height: SettingsObj.pointsRadius*2,
+   				border: SettingsObj.pointsBorderWidth+"px solid " + SettingsObj.mapPointsBorderColor,
+
+   			});
+   			
+   			$(".routeExample").css("height", SettingsObj.routeBorderWidth);
+
    	
    		localStorage.setItem('circlesCoords', JSON.stringify(circlesArray));
    		localStorage.setItem('Settings', JSON.stringify(SettingsObj));
@@ -394,27 +495,37 @@ function loadMap(map_container){
    	$(ColorCollection).change(function(el){
    		var optionSelected = $("option:selected", this);
 			var valueSelected = this.value;
-			console.log(optionSelected);
+			// console.log(optionSelected);
 
 			var name = this.name;
-			console.log(optionSelected);
-			console.log(valueSelected);
+			// console.log(optionSelected);
+			// console.log(valueSelected);
 			SettingsObj[name] = valueSelected;
 
-			console.log(SettingsObj);
+			// console.log(SettingsObj);
 
 
 		 for(var i=0;i<PathsArray.length; i++){
    			PathsArray[i].style.fill = SettingsObj.mapColor;	
    			PathsArray[i].style.stroke = SettingsObj.mapStrokeColor;				
    		}
+   		for(var j=0;j<changedMap.length;j++){
+   			changedMap[j].style.fill = SettingsObj.mapColor;	
+   			changedMap[j].style.stroke = SettingsObj.mapStrokeColor;			
+   		}
+   		$(".map_settings_block").css("background-color", SettingsObj.bodyBackgroundColor);
 
+   		$('#circle_example').css({border: "" + SettingsObj.pointsBorderWidth+"px solid " + SettingsObj.mapPointsBorderColor,
+   			"background-color": SettingsObj.mapPointsColor
+   	});
+   		$(".routeExample").css("background-color", SettingsObj.mapRouteColor);
  			$(".wrap_map").css("background-color", SettingsObj.bodyBackgroundColor);
- 		
+
+ 			
 			localStorage.setItem('Settings', JSON.stringify(SettingsObj));
 
    	});
-
+});
 	});
 }
 
@@ -441,18 +552,19 @@ function loadMap(map_container){
 
 
 
-	var styleProps = {
+	var styleProps = JSON.parse(localStorage.getItem("mapStyleProperties")) || {
 		transform: "",
 		top: "",
 		left: "" 
 	};
+	console.log(styleProps);
 	var scaleImg = 1.1;
 
 $("#plus").bind('click', function(){
 	scaleImg += 0.3;
 	$("#map_bg").css("transform", "scale("+scaleImg+")");
 	styleProps.transform =  "scale("+scaleImg+")";
-	console.log(styleProps);
+	// console.log(styleProps);
 	localStorage.setItem('zoom', JSON.stringify(scaleImg));
 	});
 
@@ -502,7 +614,6 @@ $("#moveBottom").bind("click", function(){
 
 
  $(document).ready(function(){     //Materialize.js plugins
-
     $('.modal').modal();
  
       $('.button-collapse').sideNav({

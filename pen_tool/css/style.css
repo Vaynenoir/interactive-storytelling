@@ -340,7 +340,53 @@ canvas.select {
     display: none;
   }
 
+.colorPicker{
+  margin: 0 auto;
+}
+.flex_center{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.rangePicker {
 
+  /*text-align: center;*/
+}
 input[type=range]{
-  width: 10%;
+  margin: 0 auto;
+}
+table tr, th,td{
+  border: 1px solid #ccc;
+  position: relative;
+}
+td{
+ /* padding: 10px 0 ;*/
+  width: 80%;
+}
+th{
+  text-align: center;
+}
+table p{
+  font-style: italic;
+}
+.map_settings_block{
+  width: 400px;
+  height: 200px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+#circle_example{
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #000;
+  border: 2px solid #000;
+  margin: 0 auto;
+}
+.routeExample{
+  width: 60%;
+  height: 2px;
+  background-color: #000;
+  border-radius: 10px;
 }

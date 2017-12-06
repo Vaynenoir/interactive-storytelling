@@ -1,27 +1,22 @@
 $(document).ready(function() {
-    /* Set the width of the side navigation to 250px and the left margin of the page content to 250px and add a black background color to body */
 
 
-    // $("#mySidenav").on({
-
-    //     mouseenter: function() {
-
-    //         $(this).resizable({
-    //         handles: 'e',
-    //         ghost: true
-    //         });
-
-    //     },
-    //     mouseleave : function(){
-    //         $(this).resizable({
-    //         handles: 'e',
-    //         ghost: true            
-    //     });
-    //     }
-
-    // });
-
-
+    function getSettingFromStorage(setting){
+        var SettingsObject = JSON.parse(localStorage.getItem("Settings")) || {
+        mapColor: "#ffcc80",
+        mapStrokeColor: "#000000",
+        mapPointsColor: "#0000ff",
+        mapPointsBorderColor: "#000000",
+        mapRouteColor: "#000000",
+        bodyBackgroundColor: "#f3e5f5",
+        routeBorderWidth: "4",
+        pointsRadius: "8",
+        pointsBorderWidth: "1"
+    };
+        if(SettingsObject[setting]){
+            return SettingsObject[setting];
+        }
+    }
 
 
       $('ul.tabs').tabs('select_tab', 'tab_2');
@@ -41,10 +36,7 @@ $(document).ready(function() {
       edge: 'left', 
       closeOnClick: false, 
       draggable: true,
-      onOpen: function(){
-
-
-      },
+      onOpen: function(){},
       onClose: function(){
         $("#slide-out").css("transform", "translateX(-100%)");
         $("div").remove("#sidenav-overlay");
@@ -77,34 +69,31 @@ $(document).ready(function() {
         var MapPathsGroup = svgRoot.getElementById("mapPaths");
         var PathsArray = MapPathsGroup.getElementsByTagName('path');
 
-        try{
-            var ColorMapData = JSON.parse(localStorage.getItem('SavedMapColors')) || [];
-        }catch(err){};
-        // console.log(ColorMapData);
 
-        if(ColorMapData || ColorMapData.length > 0){
+            var ColorMapData = JSON.parse(localStorage.getItem('SavedMapColors')) || [];
+
 
         for(var i = 0; i < PathsArray.length; i++){
-            PathsArray[i].style.fill = ColorMapData.mapColor;
-            PathsArray[i].style.stroke = ColorMapData.mapStrokeColor;
+            PathsArray[i].style.fill = getSettingFromStorage("mapColor");
+            PathsArray[i].style.stroke = getSettingFromStorage("mapStrokeColor");
         }
-        }
-            var RouteWidth;
-            var pathColor;
-            var circleColor = JSON.parse(localStorage.getItem("SavedMapColors")) || {};
 
-            if(circleColor.mapRouteColor){
-                pathColor = circleColor.mapRouteColor;
-            }
-            else{
-                pathColor = "#000000";
-            }
+            // var RouteWidth;
+            // var pathColor;
+            // var circleColor = JSON.parse(localStorage.getItem("SavedMapColors")) || {};
 
-            if(circleColor.routeBorderWidth){
-                RouteWidth = circleColor.routeBorderWidth;
-            }else{
-            RouteWidth = 3;
-            }
+            // if(circleColor.mapRouteColor){
+            //     pathColor = circleColor.mapRouteColor;
+            // }
+            // else{
+            //     pathColor = "#000000";
+            // }
+
+            // if(circleColor.routeBorderWidth){
+            //     RouteWidth = circleColor.routeBorderWidth;
+            // }else{
+            // RouteWidth = 3;
+            // }
 
 
 
@@ -115,8 +104,8 @@ $(document).ready(function() {
 
             $(path).attr('d', PathDirection);
             $(path).attr('fill', 'transparent');
-            $(path).attr('stroke', pathColor);
-            $(path).attr('stroke-width', RouteWidth);
+            $(path).attr('stroke', getSettingFromStorage("mapRouteColor"));
+            $(path).attr('stroke-width', getSettingFromStorage("routeBorderWidth"));
             $(path).attr("stroke-linecap","round")
         }
 
@@ -167,51 +156,9 @@ $(document).ready(function() {
                              
                         if (Math.abs(Math.round(circlesArray[l].cx - CirclesArrayClone[j].cx)) <=4 && Math.abs(Math.round(circlesArray[l].cy - CirclesArrayClone[j].cy)) <=4) {
                                 
-                                 
-                            // circlesArray[l].ex_id = circlesArray[l].id;
 
                             circlesArray[l].id = circlesCounter++;
-
-                            // if(circlesArray[l].ex_id - circlesArray[l].id == 0){
-                                
-                            // }
-                            //  if(circlesArray[l].ex_id == circlesArray[l].id){
-                            // //     delete circlesArray[0].ex_id;
-                            //     pointsDataContentNew = contentOfPoints;
-
-                            //     // pointsDataContentNew.push(contentOfPoints[l].id);
-
-
-
-                            // //     console.log("if");
-                            // }
-
-
-                            //     if(contentOfPoints.length > 0 && circlesArray[l].ex_id != circlesArray[l].id){
-
-                            //      for (var cl = 0; cl < contentOfPoints.length; cl++) {
-
-                            //         if (contentOfPoints[cl].pointId == circlesArray[l].ex_id + 1) {
-                            //             contentOfPoints[cl].pointId = circlesArray[l].id+1;
-                            //             pointsDataContentNew.push(contentOfPoints[cl]);
-                            //             contentOfPoints.splice(cl, 1);
-                            //         }
-                            //         console.log(contentOfPoints);
-                            //         console.log("else if");
-                            //     }
-                            // }
-                            // if(circlesArray[l].id - circlesArray[l].ex_id == circlesArray[l].id){
-
-                            // }
-
-
-
-
-
-
-
-
-                            
+  
                         }
 
 
@@ -224,7 +171,6 @@ CirclesArrayClone.splice(j, 1);
         }
 
         circlesArray.sort(compareId);
-        // console.log(circlesArray);
 
 
 
@@ -232,30 +178,15 @@ CirclesArrayClone.splice(j, 1);
 
 
         localStorage.setItem('circlesCoords', JSON.stringify(circlesArray));
-        // localStorage.setItem('PointsContent', JSON.stringify(pointsDataContentNew));
 
 
 
         var circlesArray = JSON.parse(localStorage.getItem('circlesCoords'));
         var pointsArray = [];
         var stringArr = '';
-        var currentCircleColor;
-        var currentCircleBorderColor;
-
-        var SavedCircleColor = JSON.parse(localStorage.getItem("SavedMapColors")) || {};
-        if(SavedCircleColor.mapPointsColor){
-            currentCircleColor = SavedCircleColor.mapPointsColor;
-        }else{
-            currentCircleColor = "#2980b9";
-        }
 
 
 
-        if(SavedCircleColor.mapPointsBorderColor){
-            currentCircleBorderColor = SavedCircleColor.mapPointsBorderColor;
-        }else{
-            currentCircleBorderColor = "#000";
-        }
 
 
         $.each(circlesArray, function(index, el) {
@@ -267,9 +198,9 @@ CirclesArrayClone.splice(j, 1);
 
 
             var circle = s.circlePath(this.cx, this.cy, this.r).attr({
-                fill: currentCircleColor,
-                stroke: currentCircleBorderColor,
-                "stroke-width": "3px",
+                fill: getSettingFromStorage("mapPointsColor"),
+                stroke: getSettingFromStorage("mapPointsBorderColor"),
+                "stroke-width": getSettingFromStorage("pointsBorderWidth"),
                 id: el.id,
                 "data-time": el.time
             });
@@ -342,13 +273,13 @@ CirclesArrayClone.splice(j, 1);
             $(paths).mouseenter(function() {
                 $(this).css("transition", "0.5s");
                 $(this).css("stroke-width", "6px");
-                $(this).css("stroke", currentCircleBorderColor);
+                $(this).css("stroke", getSettingFromStorage("mapPointsBorderColor"));
 
 
             }).mouseout(function() {
                 $(this).css("transition", "0.5s");
                 $(this).css("stroke-width", "3px");
-                $(this).css("stroke", currentCircleBorderColor);
+                $(this).css("stroke", getSettingFromStorage("mapPointsBorderColor"));
             });
 
             paths.addEventListener("click", function() {
@@ -458,8 +389,8 @@ CirclesArrayClone.splice(j, 1);
                     if(pointsDataContent.data.length > 0){
                     $(currentPath).css("fill", "#990033");
                     }
-                    else if(pointsDataContent.data.length == 0 || currentCircleColor ){
-                        $(currentPath).css("fill", currentCircleColor);
+                    else if(pointsDataContent.data.length == 0){
+                        $(currentPath).css("fill", getSettingFromStorage("mapPointsColor"));
                     }
                     
                      $('.button-collapse').sideNav('hide');
@@ -521,10 +452,10 @@ CirclesArrayClone.splice(j, 1);
 
 
     var WrapperProps = JSON.parse(localStorage.getItem('mapStyleProperties'));
-    var SavedMapColors = JSON.parse(localStorage.getItem("SavedMapColors")) || {};
-    if(SavedMapColors.bodyBackgroundColor){
-        $(".mapbg").css("background-color", SavedMapColors.bodyBackgroundColor );
-    }
+  
+   
+        $(".mapbg").css("background-color", getSettingFromStorage("bodyBackgroundColor"));
+    
 
     $.each(WrapperProps, function(prop, value) {
         $(".mapbg").css(prop, value);
