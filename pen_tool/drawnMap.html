@@ -45,7 +45,7 @@
 			
   width: 100%;
   height: 100%;
-  position: relative;
+/*  position: relative;*/
 
 		}
 
@@ -73,7 +73,6 @@
   width: 1900px;
   position: absolute;
   z-index: 3;
-  opacity: 0.7;
 		}
 		/* The side navigation menu */
 .sidenav {
@@ -281,7 +280,12 @@ nav{
     padding: 0 110px!important;
   }
 
+.btn_wrap{
+width: 100%;
+display: flex;
+justify-content: space-around;
 
+}
 /*object#map{
   flex: 1 0 auto;
 }*/
@@ -411,10 +415,14 @@ nav{
   </ul>
   
 
-
-
-
-
+<div class="btn_wrap">
+      <a href="#" class="editor_button waves-effect" id="plus" ><i class="material-icons">zoom_in</i></a>
+      <a href="#" class="editor_button waves-effect" id="minus"><i class="material-icons">zoom_out</i></a>
+      <a href="#" class="editor_button waves-effect" id="moveLeft"><i class="material-icons">keyboard_arrow_left</i></a> 
+      <a href="#" class="editor_button waves-effect" id="moveRight"><i class="material-icons">keyboard_arrow_right</i></a>
+      <a href="#" class="editor_button waves-effect" id="moveTop"><i class="material-icons">keyboard_arrow_up</i></a>
+      <a href="#" class="editor_button waves-effect" id="moveBottom"><i class="material-icons">keyboard_arrow_down</i></a>
+</div>
 
   <div class="btn_wrapper"><a id="SavePointContent" class="waves-effect waves-teal btn hoverable center-align">Save content</a></div>
   <p id="userNotification" class="text" style="text-align: center; color: #fff; display: none;">Your data is saved!</p>

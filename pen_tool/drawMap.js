@@ -1,14 +1,73 @@
 $(document).ready(function() {
 
 
+    var savedDisplacement = JSON.parse(localStorage.getItem("mapStyleProperties")) || {};
+    console.log(savedDisplacement);
+    var savedZoom = JSON.parse(localStorage.getItem('zoom')) || 1;
+savedDisplacement.top = parseInt(savedDisplacement.top);
+savedDisplacement.left = parseInt(savedDisplacement.left);
+console.log(savedDisplacement.top, savedDisplacement.left);
+
+$("#plus").bind('click', function(){
+    savedZoom += 0.1;
+    $(".mapbg").css("zoom", savedZoom);
+    });
+
+$("#minus").bind('click',function(){
+    savedZoom -=0.1;
+    if(savedZoom< 1){
+        savedZoom= 1;
+    }
+    $(".mapbg").css("zoom", savedZoom);
+
+});
+
+
+
+$("#moveLeft").bind("click",function(){
+
+        savedDisplacement.left+=2;
+    
+    $(".mapbg").css("left", ""+savedDisplacement.left+"%");
+});
+$("#moveRight").bind("click", function(){
+    savedDisplacement.left-=2;
+    $(".mapbg").css("left", ""+savedDisplacement.left+"%");
+});
+$("#moveTop").bind("click", function(){
+    savedDisplacement.top+=2;
+    $(".mapbg").css("top", ""+savedDisplacement.top+"%");
+});
+$("#moveBottom").bind("click", function(){
+    savedDisplacement.top-=2;
+    $(".mapbg").css("top", ""+savedDisplacement.top+"%");
+});
+
+
+// $("#minus").bind('click',function(){
+//     scaleImg -=0.3;
+//     if(scaleImg < 1.1){
+//         scaleImg = 1;
+//     }
+//     $("#map_bg").css("transform", "scale("+scaleImg+")");
+//     styleProps.transform =  "scale("+scaleImg+")";
+//     localStorage.setItem('zoom', JSON.stringify(scaleImg));
+// });
+
+
+
+
+
+
+
     function getSettingFromStorage(setting){
         var SettingsObject = JSON.parse(localStorage.getItem("Settings")) || {
-        mapColor: "#ffcc80",
-        mapStrokeColor: "#000000",
-        mapPointsColor: "#0000ff",
-        mapPointsBorderColor: "#000000",
-        mapRouteColor: "#000000",
-        bodyBackgroundColor: "#f3e5f5",
+        mapColor: "rgba(255, 204, 128, 1)",
+        mapStrokeColor: "rgba(0, 0, 0, 1)",
+        mapPointsColor: "rgba(0, 0, 255, 1)",
+        mapPointsBorderColor: "rgba(0, 0, 0, 1)",
+        mapRouteColor: "rgba(0, 0, 0, 1)",
+        bodyBackgroundColor: "rgba(243, 229, 245, 1)",
         routeBorderWidth: "4",
         pointsRadius: "8",
         pointsBorderWidth: "1"
@@ -455,6 +514,7 @@ CirclesArrayClone.splice(j, 1);
   
    
         $(".mapbg").css("background-color", getSettingFromStorage("bodyBackgroundColor"));
+        $("body").css("background-color", getSettingFromStorage("bodyBackgroundColor"));
     
 
     $.each(WrapperProps, function(prop, value) {

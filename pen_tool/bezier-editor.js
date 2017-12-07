@@ -3,14 +3,15 @@ $(document).ready(function(){
 
 	function getSettingFromStorage(setting){
 		var SettingsObject = JSON.parse(localStorage.getItem("Settings")) || {
-    	mapColor: "#ffcc80",
-    	mapStrokeColor: "#000000",
-    	mapPointsColor: "#0000ff",
-    	mapPointsBorderColor: "#000000",
-    	mapRouteColor: "#000000",
-    	bodyBackgroundColor: "#f3e5f5",
+    	mapColor: "rgba(255, 204, 128, 1)",
+    	mapStrokeColor: "rgba(0, 0, 0, 1)",
+    	mapPointsColor: "rgba(0, 0, 255, 1)",
+    	mapPointsBorderColor: "rgba(0, 0, 0, 1)",
+    	mapRouteColor: "rgba(0, 0, 0, 1)",
+    	bodyBackgroundColor: "rgba(243, 229, 245, 1)",
     	routeBorderWidth: "4",
-    	pointsRadius: "8"
+    	pointsRadius: "8",
+    	pointsBorderWidth: "1"
     };
 		if(SettingsObject[setting]){
 			return SettingsObject[setting];
@@ -160,14 +161,15 @@ var bezierEditor = function(id) {
 
 			this.canvas.onmousedown = function(e) {
 				var SettingsObj = JSON.parse(localStorage.getItem('Settings'))  || {
-		    	mapColor: "#ffcc80",
-		    	mapStrokeColor: "#000000",
-		    	mapPointsColor: "#0000ff",
-		    	mapPointsBorderColor: "#000000",
-		    	mapRouteColor: "#000000",
-		    	bodyBackgroundColor: "#f3e5f5",
-		    	routeBorderWidth: "4",
-		    	pointsRadius: "8"
+    	mapColor: "rgba(255, 204, 128, 1)",
+    	mapStrokeColor: "rgba(0, 0, 0, 1)",
+    	mapPointsColor: "rgba(0, 0, 255, 1)",
+    	mapPointsBorderColor: "rgba(0, 0, 0, 1)",
+    	mapRouteColor: "rgba(0, 0, 0, 1)",
+    	bodyBackgroundColor: "rgba(243, 229, 245, 1)",
+    	routeBorderWidth: "4",
+    	pointsRadius: "8",
+    	pointsBorderWidth: "1"
 		    };
 
 					var circles = {
@@ -528,14 +530,15 @@ var bezierEditor = function(id) {
 		},
 		draw : function() {
 			var SettingsObj = JSON.parse(localStorage.getItem('Settings'))  || {
-    	mapColor: "#ffcc80",
-    	mapStrokeColor: "#000000",
-    	mapPointsColor: "#0000ff",
-    	mapPointsBorderColor: "#000000",
-    	mapRouteColor: "#000000",
-    	bodyBackgroundColor: "#f3e5f5",
+    	mapColor: "rgba(255, 204, 128, 1)",
+    	mapStrokeColor: "rgba(0, 0, 0, 1)",
+    	mapPointsColor: "rgba(0, 0, 255, 1)",
+    	mapPointsBorderColor: "rgba(0, 0, 0, 1)",
+    	mapRouteColor: "rgba(0, 0, 0, 1)",
+    	bodyBackgroundColor: "rgba(243, 229, 245, 1)",
     	routeBorderWidth: "4",
-    	pointsRadius: "8"
+    	pointsRadius: "8",
+    	pointsBorderWidth: "1"
     };
 			var _ctx = this.ctx;
 			_ctx.clearRect(0,0, this.canvas.width, this.canvas.height);

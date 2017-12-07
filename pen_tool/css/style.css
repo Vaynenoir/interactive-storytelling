@@ -370,6 +370,12 @@ th{
 table p{
   font-style: italic;
 }
+.minicolors-theme-default .minicolors-input{
+  height: 30px!important;
+  border-radius: 4px;
+  outline: none;
+  color: #000;
+}
 .map_settings_block{
   width: 400px;
   height: 200px;

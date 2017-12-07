@@ -14,6 +14,7 @@
 			<link rel="stylesheet" href="css/style.css">
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
+     <link rel="stylesheet" href="libs/jquery.minicolors.css">
 
 </head>
 <body>
@@ -109,9 +110,9 @@
   </tr>
   
   <tr>
-    <td><p>Map color:<input type="color" name="mapColor" class="colorPicker color"  id="mapColorPicker" style="display: none;"></p>
-				<p>Map stroke color: <input type="color" name="mapStrokeColor" class="colorPicker color"  id="mapStrokeColorPicker" style="display: none;"></p>
-				<p>Background-color: <input type="color" class="colorPicker color" name="bodyBackgroundColor"  id="bodyColorPicker" style="display: none;"></p>
+    <td><p>Map color:<input type="minicolors" name="mapColor" class="colorPicker minicolors"  id="mapColorPicker" style="display: none;"></p>
+				<p>Map stroke color: <input type="minicolors" name="mapStrokeColor" class="colorPicker minicolors"  id="mapStrokeColorPicker" style="display: none;"></p>
+				<p>Background-color: <input type="minicolors" class="colorPicker minicolors" name="bodyBackgroundColor"  id="bodyColorPicker" style="display: none;"></p>
 
     </td>
     <td><div class="map_settings_block">
@@ -124,8 +125,8 @@
   <tr>
     <td >
     <div class="flex_center">			
-    	<p>Points Color: <input type="color" name="mapPointsColor" class="colorPicker color"  id="mapPointsColorPicker" style="display: none;"></p>
-			<p>Points border color <input type="color" name="mapPointsBorderColor" class="colorPicker color"  id="mapPointsBorderColorPicker" style="display: none;"></p>
+    	<p>Points Color: <input type="minicolors" name="mapPointsColor" class="colorPicker minicolors"  id="mapPointsColorPicker" style="display: none;"></p>
+			<p>Points border color <input type="minicolors" name="mapPointsBorderColor" class="colorPicker minicolors"  id="mapPointsBorderColorPicker" style="display: none;"></p>
 			
 			<p>Points radius:
 				<form class="rangePicker" action="#">
@@ -158,7 +159,7 @@
     				</p>
 			  </form>
 			</p>
-			<p>Route color: <input type="color" class="colorPicker color" name="mapRouteColor" id="mapRouteColorPicker" style="display: none;"></p>
+			<p>Route color: <input type="minicolors" class="colorPicker minicolors" name="mapRouteColor" id="mapRouteColorPicker" style="display: none;"></p>
 		</div>
     </td>
     <td>
@@ -251,12 +252,12 @@ $(document).ready(function(){
 
 	function getSettingFromStorage(setting){
 		var SettingsObject = JSON.parse(localStorage.getItem("Settings")) || {
-    	mapColor: "#ffcc80",
-    	mapStrokeColor: "#000000",
-    	mapPointsColor: "#0000ff",
-    	mapPointsBorderColor: "#000000",
-    	mapRouteColor: "#000000",
-    	bodyBackgroundColor: "#f3e5f5",
+    	mapColor: "rgba(255, 204, 128, 1)",
+    	mapStrokeColor: "rgba(0, 0, 0, 1)",
+    	mapPointsColor: "rgba(0, 0, 255, 1)",
+    	mapPointsBorderColor: "rgba(0, 0, 0, 1)",
+    	mapRouteColor: "rgba(0, 0, 0, 1)",
+    	bodyBackgroundColor: "rgba(243, 229, 245, 1)",
     	routeBorderWidth: "4",
     	pointsRadius: "8",
     	pointsBorderWidth: "1"
@@ -372,12 +373,12 @@ function loadMap(map_container){
     // console.log(PathsArray);
 
     var SettingsObj = JSON.parse(localStorage.getItem("Settings")) || {
-    	mapColor: "#ffcc80", // rgba(0, 0, 0, 0.5)
-    	mapStrokeColor: "#000000",
-    	mapPointsColor: "#00ffff",
-    	mapPointsBorderColor: "#000000",
-    	mapRouteColor: "#000000",
-    	bodyBackgroundColor: "#f3e5f5",
+    	mapColor: "rgba(255, 204, 128, 1)",
+    	mapStrokeColor: "rgba(0, 0, 0, 1)",
+    	mapPointsColor: "rgba(0, 0, 255, 1)",
+    	mapPointsBorderColor: "rgba(0, 0, 0, 1)",
+    	mapRouteColor: "rgba(0, 0, 0, 1)",
+    	bodyBackgroundColor: "rgba(243, 229, 245, 1)",
     	routeBorderWidth: "4",
     	pointsRadius: "8",
     	pointsBorderWidth: "1"
@@ -492,6 +493,20 @@ mapForSettings.addEventListener("load", function(){
    	});
 
 
+
+
+   	 $(ColorCollection).minicolors({
+   	 	opacity: true,
+   	 	format: "rgb",
+   	 	rgbaString: false,
+   	 	change: function(hsl,rgb){
+   	 		var rgbaString = 'rgba(' + rgb.r + ', ' + rgb.g + ', ' + rgb.b + ', ' + rgb.a + ')';
+   	 		console.log(rgbaString);
+   	 	}
+
+   	 });
+   	 $(ColorCollection).minicolors("rgbaString");
+
    	$(ColorCollection).change(function(el){
    		var optionSelected = $("option:selected", this);
 			var valueSelected = this.value;
@@ -552,14 +567,13 @@ mapForSettings.addEventListener("load", function(){
 
 
 
-	var styleProps = JSON.parse(localStorage.getItem("mapStyleProperties")) || {
+		var styleProps = JSON.parse(localStorage.getItem("mapStyleProperties")) || {
 		transform: "",
 		top: "",
 		left: "" 
 	};
 	console.log(styleProps);
 	var scaleImg = 1.1;
-
 $("#plus").bind('click', function(){
 	scaleImg += 0.3;
 	$("#map_bg").css("transform", "scale("+scaleImg+")");
@@ -567,7 +581,6 @@ $("#plus").bind('click', function(){
 	// console.log(styleProps);
 	localStorage.setItem('zoom', JSON.stringify(scaleImg));
 	});
-
 $("#minus").bind('click',function(){
 	scaleImg -=0.3;
 	if(scaleImg < 1.1){
@@ -577,7 +590,6 @@ $("#minus").bind('click',function(){
 	styleProps.transform =  "scale("+scaleImg+")";
 	localStorage.setItem('zoom', JSON.stringify(scaleImg));
 });
-
 	var moveLeft = 2;
 	var moveTop = 2;
 	var moveLeftDefault = 0;
@@ -591,7 +603,6 @@ $("#moveLeft").bind("click",function(){
 	$("#map_bg").css("left", ""+moveLeft+"%");
 	styleProps.left =  ""+moveLeft+"%";
 	
-
 });
 $("#moveRight").bind("click", function(){
 	moveLeft-=3;
@@ -615,6 +626,8 @@ $("#moveBottom").bind("click", function(){
 
  $(document).ready(function(){     //Materialize.js plugins
     $('.modal').modal();
+
+
  
       $('.button-collapse').sideNav({
       menuWidth: 1200,
@@ -640,6 +653,7 @@ $("#moveBottom").bind("click", function(){
 </script>
 
 <script src="js/materialize.js"></script>
+<script src="libs/jquery.minicolors.min.js"></script>
 
 	
 </body>
