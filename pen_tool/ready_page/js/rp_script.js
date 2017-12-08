@@ -1,4 +1,27 @@
 $(document).ready(function() {
+    function getSettingFromStorage(setting){
+        var SettingsObject = JSON.parse(localStorage.getItem("Settings")) || {
+        mapColor: "rgba(255, 204, 128, 1)",
+        mapStrokeColor: "rgba(0, 0, 0, 1)",
+        mapPointsColor: "rgba(0, 0, 255, 1)",
+        mapPointsBorderColor: "rgba(0, 0, 0, 1)",
+        mapRouteColor: "rgba(0, 0, 0, 1)",
+        bodyBackgroundColor: "rgba(243, 229, 245, 1)",
+        routeBorderWidth: "4",
+        pointsRadius: "8",
+        pointsBorderWidth: "1",
+        contentWidth: "100",
+        contentAlign: "center"
+    };
+
+
+
+
+
+        if(SettingsObject[setting]){
+            return SettingsObject[setting];
+        }
+    }
 
     var dataContent = JSON.parse(localStorage.getItem('PointsContent'));
     var circleColor = JSON.parse(localStorage.getItem("SavedMapColors")) || {};
@@ -27,6 +50,7 @@ $(document).ready(function() {
         var section = document.createElement('section');
         $(section).addClass('js-section');
 
+       
         $(section).attr({
             "data-zoom": dataContent[i].zoom + "%",
             "data-pos-top": dataContent[i].top + "%",
@@ -44,7 +68,8 @@ $(document).ready(function() {
 
 
         text_cont.append(section);
-
+        $("div.text_wrapper").css("align-items", getSettingFromStorage("contentAlign") );
+         $('.js-section').css("width", getSettingFromStorage("contentWidth") + "%");
     }
 
 
@@ -142,19 +167,19 @@ $(document).ready(function() {
 
                     $(this).addClass("active");
 
-                    $('.mapbg').stop(400).animate({
+                    $('.mapbg').stop().animate({
                         zoom: dataZoom,
                         left: dataPosLeft,
                         right: dataPosRight,
                         top: dataPosTop,
                         bottom: dataPosBottom
-                    }, 400);
+                    }, 700);
 
 
 
                 } else {
                     $(this).removeClass("active");
-                    if (!$('.js-section').hasClass("active")) {
+                    if (!$('.js-section').hasClass("active") && $(window).scrollTop() < 20) {
                         $('.mapbg').stop().animate({
                             left: currentDisplacementLeft + "%",
                             top: currentDisplacementTop + "%",
@@ -201,7 +226,7 @@ $(document).ready(function() {
 
                     var Coordinates = $(this)[0].getBoundingClientRect();
                     var bottomOffsetImg = Coordinates.top + $(this).height();
-                    $(path1).attr('d', "M" + cx + " " + cy + " L" + (-Coordinates.left) + " " + (Coordinates.top - 110) + " L" + (-Coordinates.left) + " " + (Coordinates.bottom - 160));
+                    $(path1).attr('d', "M" + cx + " " + cy + " L" + (-Coordinates.left-100) + " " + (Coordinates.top - 110) + " L" + (-Coordinates.left-100) + " " + (Coordinates.bottom - 160));
                     $(path1).css('position', "relative");
                     $(path1).attr('fill', '#47DBB4');
                     $(path1).attr('opacity', '.2');

@@ -170,6 +170,43 @@
     </td>
 
   </tr>
+
+
+  <tr>
+  		<td>
+  			Content align and width:
+  			
+				<form action="#">
+				<div class="align_selection">
+			    <p>
+			      <input name="contentAlign" type="radio" value="flex-start" id="left_align" />
+			      <label for="left_align">Left</label>
+			    </p>
+			    <p>
+			      <input name="contentAlign" type="radio" value="center" id="center_align" />
+			      <label for="center_align">Center</label>
+			    </p>
+			    <p>
+			      <input name="contentAlign" type="radio" value="flex-end" id="right_align"  />
+			      <label for="right_align">Right</label>
+			    </p>
+			    </div>
+			        <p class="range-field">
+      					<input type="range" id="content_width" name="contentWidth" min="0" max="100" />
+   					 	</p>
+			  </form>
+				
+
+  		</td>
+			<td>
+					<div class="test_block">
+						<div class="content_block">T</div>
+					</div>
+
+
+			</td>
+
+  </tr>
 </table>
 
 
@@ -260,7 +297,9 @@ $(document).ready(function(){
     	bodyBackgroundColor: "rgba(243, 229, 245, 1)",
     	routeBorderWidth: "4",
     	pointsRadius: "8",
-    	pointsBorderWidth: "1"
+    	pointsBorderWidth: "1",
+    	contentWidth: "100",
+    	contentAlign: "center"
     };
 
 
@@ -381,7 +420,9 @@ function loadMap(map_container){
     	bodyBackgroundColor: "rgba(243, 229, 245, 1)",
     	routeBorderWidth: "4",
     	pointsRadius: "8",
-    	pointsBorderWidth: "1"
+    	pointsBorderWidth: "1",
+    	contentWidth: "100",
+    	contentAlign: "center"
     };
 
    	var MapColor = document.getElementById("mapColorPicker");
@@ -486,13 +527,20 @@ mapForSettings.addEventListener("load", function(){
    			});
    			
    			$(".routeExample").css("height", SettingsObj.routeBorderWidth);
-
+   			$(".content_block").css("width", SettingsObj.contentWidth+"%");
    	
    		localStorage.setItem('circlesCoords', JSON.stringify(circlesArray));
    		localStorage.setItem('Settings', JSON.stringify(SettingsObj));
    	});
 
-
+   	 $('input[name = contentAlign]').on("click",function(){
+   	 var checkedRadio = $(this).prop('checked', true);
+   	 var alignClass = checkedRadio[0].id;
+   	 console.log($(this).val());
+   	 $('.test_block').css("justify-content", $(this).val());
+   	 SettingsObj.contentAlign = $(this).val();
+   	 localStorage.setItem('Settings', JSON.stringify(SettingsObj));
+   	});
 
 
    	 $(ColorCollection).minicolors({
@@ -503,8 +551,9 @@ mapForSettings.addEventListener("load", function(){
    	 		var rgbaString = 'rgba(' + rgb.r + ', ' + rgb.g + ', ' + rgb.b + ', ' + rgb.a + ')';
    	 		console.log(rgbaString);
    	 	}
-
    	 });
+
+
    	 $(ColorCollection).minicolors("rgbaString");
 
    	$(ColorCollection).change(function(el){
@@ -540,6 +589,12 @@ mapForSettings.addEventListener("load", function(){
 			localStorage.setItem('Settings', JSON.stringify(SettingsObj));
 
    	});
+
+
+
+
+
+
 });
 	});
 }

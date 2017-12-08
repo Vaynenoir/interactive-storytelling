@@ -396,3 +396,51 @@ table p{
   background-color: #000;
   border-radius: 10px;
 }
+.align_selection{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.test_block{
+  width: 100%;
+  height: 100px;
+  border: 2px solid #ccc;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: #fce4ec;
+}
+.content_block{
+  background-color: #ce93d8 ;
+  width: 80%;
+  border: 1px solid #ccc;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.center_align{
+  justify-content: center!important;
+    width: 80%;
+  border: 1px solid green;
+  height: 80px;
+  display: flex;
+  align-items: center;
+}
+.left_align{
+  justify-content: flex-start!important;
+    width: 80%;
+  border: 1px solid green;
+  height: 80px;
+  display: flex;
+  align-items: center;
+}
+.right_align{
+  justify-content: flex-end!important;
+      width: 80%;
+  border: 1px solid green;
+  height: 80px;
+  display: flex;
+  align-items: center;
+}

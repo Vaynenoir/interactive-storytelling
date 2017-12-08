@@ -1,47 +1,7 @@
 $(document).ready(function() {
 
 
-    var savedDisplacement = JSON.parse(localStorage.getItem("mapStyleProperties")) || {};
-    console.log(savedDisplacement);
-    var savedZoom = JSON.parse(localStorage.getItem('zoom')) || 1;
-savedDisplacement.top = parseInt(savedDisplacement.top);
-savedDisplacement.left = parseInt(savedDisplacement.left);
-console.log(savedDisplacement.top, savedDisplacement.left);
 
-$("#plus").bind('click', function(){
-    savedZoom += 0.1;
-    $(".mapbg").css("zoom", savedZoom);
-    });
-
-$("#minus").bind('click',function(){
-    savedZoom -=0.1;
-    if(savedZoom< 1){
-        savedZoom= 1;
-    }
-    $(".mapbg").css("zoom", savedZoom);
-
-});
-
-
-
-$("#moveLeft").bind("click",function(){
-
-        savedDisplacement.left+=2;
-    
-    $(".mapbg").css("left", ""+savedDisplacement.left+"%");
-});
-$("#moveRight").bind("click", function(){
-    savedDisplacement.left-=2;
-    $(".mapbg").css("left", ""+savedDisplacement.left+"%");
-});
-$("#moveTop").bind("click", function(){
-    savedDisplacement.top+=2;
-    $(".mapbg").css("top", ""+savedDisplacement.top+"%");
-});
-$("#moveBottom").bind("click", function(){
-    savedDisplacement.top-=2;
-    $(".mapbg").css("top", ""+savedDisplacement.top+"%");
-});
 
 
 // $("#minus").bind('click',function(){
@@ -341,15 +301,37 @@ CirclesArrayClone.splice(j, 1);
                 $(this).css("stroke", getSettingFromStorage("mapPointsBorderColor"));
             });
 
-            paths.addEventListener("click", function() {
+                var DisplacementObj = {
+                    zoom: 100,
+                    top: 0,
+                    bottom: 0,
+                    left: 0,
+                    right: 0
+                };
+
+                console.log(pointsDataContentArray);
+                
+                var savedDisplacement = JSON.parse(localStorage.getItem("mapStyleProperties")) || {};
+
+                savedDisplacement.top = parseInt(savedDisplacement.top);
+                savedDisplacement.left = parseInt(savedDisplacement.left);
+                console.log(savedDisplacement.top, savedDisplacement.left);
+
+
+           paths.addEventListener("click", function() {
                 $('.button-collapse').sideNav('show');
                 $(".button-collapse").off('click').sideNav();
+
                 // $("#slide-out").css("transform", "translateX(0%)");
                 var Npoint = parseInt(this.id);
                 var dataTime = $(this).attr('data-time');
                 document.getElementById("pointIndex").innerHTML = Npoint;
                 var currentPath = this;
                 var pointDataTime = $(this).attr('data-time');
+
+
+
+
                 if (localStorage.getItem('PointsContent') != null) {
                     var getPointData = JSON.parse(localStorage.getItem('PointsContent'));
                     var PointLastData;
@@ -360,12 +342,73 @@ CirclesArrayClone.splice(j, 1);
 
                         var count = getPointData[j].pointId == dataTime;
                         if (getPointData[j].pointId == dataTime) {
+
+                            var savedZoom = getPointData[j].zoom || 100;
+                            savedDisplacement.top = getPointData[j].top;
+                            savedDisplacement.left = getPointData[j].left;
+
+                            DisplacementObj.zoom = savedZoom;
+                            DisplacementObj.top = savedDisplacement.top;
+                            DisplacementObj.left = savedDisplacement.left;
+
+
+                            $("#plus").bind('click', function() {
+                                savedZoom += 3;
+                                DisplacementObj.zoom = savedZoom;
+                                $(".mapbg").css("zoom", savedZoom + "%");
+                                console.log(DisplacementObj);
+                            });
+
+                            $("#minus").bind('click', function() {
+                                savedZoom -= 3;
+
+                                if (savedZoom <= 100) {
+                                    savedZoom = 100;
+                                }
+                                DisplacementObj.zoom = savedZoom;
+                                $(".mapbg").css("zoom", savedZoom + "%");
+                            });
+
+
+                            $("#moveLeft").bind("click", function() {
+
+                                savedDisplacement.left += 2;
+                                DisplacementObj.left = savedDisplacement.left;
+                                $(".mapbg").css("left", "" + savedDisplacement.left + "%");
+                            });
+                            $("#moveRight").bind("click", function() {
+                                savedDisplacement.left -= 2;
+                                DisplacementObj.left = savedDisplacement.left;
+                                $(".mapbg").css("left", "" + savedDisplacement.left + "%");
+                            });
+                            $("#moveTop").bind("click", function() {
+                                savedDisplacement.top += 2;
+                                DisplacementObj.top = savedDisplacement.top;
+                                $(".mapbg").css("top", "" + savedDisplacement.top + "%");
+                            });
+                            $("#moveBottom").bind("click", function() {
+                                savedDisplacement.top -= 2;
+                                DisplacementObj.top = savedDisplacement.top;
+                                $(".mapbg").css("top", "" + savedDisplacement.top + "%");
+                            });
+
+
+
+
                             document.getElementById("pointZoom").value = getPointData[j].zoom;
                             document.getElementById("pointTop").value = getPointData[j].top;
                             document.getElementById("pointBottom").value = getPointData[j].bottom;
                             document.getElementById("pointLeft").value = getPointData[j].left;
                             document.getElementById("pointRight").value = getPointData[j].right;
-                        }else{
+                            $('.mapbg').animate({
+                                zoom: getPointData[j].zoom + "%",
+                                top: getPointData[j].top + "%",
+
+                                left: getPointData[j].left + "%"
+                                // right: (getPointData[j].left - getPointData[j].right)+ "%"
+                            });
+                            console.log(getPointData[j]);
+                        } else {
                             document.getElementById("pointZoom").value = "100";
                             document.getElementById("pointTop").value = "0";
                             document.getElementById("pointBottom").value = "0";
@@ -395,11 +438,11 @@ CirclesArrayClone.splice(j, 1);
 
                     var pointsDataContent = {
                         pointId: 0,
-                        zoom: 0,
-                        top: 0,
-                        bottom: 0,
-                        left: 0,
-                        right: 0,
+                        zoom: DisplacementObj.zoom,
+                        top: DisplacementObj.top,
+                        // bottom:  DisplacementObj.bottom,
+                        left: DisplacementObj.left,
+                        // right: DisplacementObj.right,
                         data: ""
                     };
                     var InputZoomValue = parseInt(document.getElementById("pointZoom").value);
@@ -411,11 +454,11 @@ CirclesArrayClone.splice(j, 1);
 
                     pointsDataContent.pointId = pointDataTime;
 
-                    pointsDataContent.zoom = InputZoomValue;
-                    pointsDataContent.top = InputTopValue;
-                    pointsDataContent.bottom = InputBottomValue;
-                    pointsDataContent.left = InputLeftValue;
-                    pointsDataContent.right = InputRightValue;
+                    // pointsDataContent.zoom = DisplacementObj.zoom;
+                    // pointsDataContent.top = DisplacementObj.top;
+                    // pointsDataContent.bottom = DisplacementObj.bottom;
+                    // pointsDataContent.left = DisplacementObj.left;
+                    // pointsDataContent.right = DisplacementObj.right;
 
 
 
@@ -429,34 +472,34 @@ CirclesArrayClone.splice(j, 1);
 
                         }
                     }
-                    if(pointsDataContent.data.length == 0){
+                    if (pointsDataContent.data.length == 0) {
                         Materialize.toast('No data in point!', 2000);
-                    }else{
-                    pointsDataContentArray.push(pointsDataContent);
-                    Materialize.toast('Your data is saved!', 2000);
+                    } else {
+                        console.log(pointsDataContent);
+                        pointsDataContentArray.push(pointsDataContent);
+                        Materialize.toast('Your data is saved!', 2000);
                     }
                     localStorage.setItem('PointsContent', JSON.stringify(pointsDataContentArray));
                     // console.log(pointsDataContentArray);
                     // $("#userNotification").fadeIn(200);
                     var overlay = $('#sidenav-overlay');
-                    $(overlay).css("background-color","none");
+                    $(overlay).css("background-color", "none");
                     $(overlay).remove();
-                    
 
 
 
-                    if(pointsDataContent.data.length > 0){
-                    $(currentPath).css("fill", "#990033");
-                    }
-                    else if(pointsDataContent.data.length == 0){
+
+                    if (pointsDataContent.data.length > 0) {
+                        $(currentPath).css("fill", "#990033");
+                    } else if (pointsDataContent.data.length == 0) {
                         $(currentPath).css("fill", getSettingFromStorage("mapPointsColor"));
                     }
-                    
-                     $('.button-collapse').sideNav('hide');
-                     
+
+                    $('.button-collapse').sideNav('hide');
+
                 };
             });
-        }
+            }
 
 
 
