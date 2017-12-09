@@ -332,20 +332,26 @@ CirclesArrayClone.splice(j, 1);
 
 
 
-                if (localStorage.getItem('PointsContent') != null) {
-                    var getPointData = JSON.parse(localStorage.getItem('PointsContent'));
-                    var PointLastData;
+                var getPointData = JSON.parse(localStorage.getItem('PointsContent')) || [];
 
 
+                        if(!getPointData[Npoint-1]){
+                            var savedZoom = 100;
+                            savedDisplacement.top =  0;
+                            savedDisplacement.left =  0;
+                            $('.mapbg').animate({
+                                zoom: savedZoom + "%",
+                                top: savedDisplacement.top + "%",
 
-                    for (var j = 0; j < getPointData.length; j++) {
-
-                        var count = getPointData[j].pointId == dataTime;
-                        if (getPointData[j].pointId == dataTime) {
-
-                            var savedZoom = getPointData[j].zoom || 100;
-                            savedDisplacement.top = getPointData[j].top;
-                            savedDisplacement.left = getPointData[j].left;
+                                left: savedDisplacement.left + "%"
+                                // right: (getPointData[j].left - getPointData[j].right)+ "%"
+                            });
+                        }else{
+                                console.log(getPointData[Npoint-1]);
+                                savedZoom = getPointData[Npoint-1].zoom;
+                                savedDisplacement.top = getPointData[Npoint-1].top;
+                                savedDisplacement.left = getPointData[Npoint-1].left;
+                        }
 
                             DisplacementObj.zoom = savedZoom;
                             DisplacementObj.top = savedDisplacement.top;
@@ -391,15 +397,30 @@ CirclesArrayClone.splice(j, 1);
                                 DisplacementObj.top = savedDisplacement.top;
                                 $(".mapbg").css("top", "" + savedDisplacement.top + "%");
                             });
+                
+                
+                    
 
 
 
+                if (localStorage.getItem('PointsContent') != null) {
+                    
+                    var PointLastData;
 
-                            document.getElementById("pointZoom").value = getPointData[j].zoom;
-                            document.getElementById("pointTop").value = getPointData[j].top;
-                            document.getElementById("pointBottom").value = getPointData[j].bottom;
-                            document.getElementById("pointLeft").value = getPointData[j].left;
-                            document.getElementById("pointRight").value = getPointData[j].right;
+
+
+                    for (var j = 0; j < getPointData.length; j++) {
+
+                        var count = getPointData[j].pointId == dataTime;
+                        if (getPointData[j].pointId == dataTime) {
+                            console.log(getPointData[j].zoom);
+
+                            $("#pointZoom").val(getPointData[j].zoom);
+                           $("#pointTop").val(getPointData[j].top);
+                            $("#pointBottom").val(getPointData[j].bottom);
+                            $("#pointLeft").val(getPointData[j].left);
+                            $("#pointRight").val(getPointData[j].right);
+
                             $('.mapbg').animate({
                                 zoom: getPointData[j].zoom + "%",
                                 top: getPointData[j].top + "%",
@@ -408,13 +429,15 @@ CirclesArrayClone.splice(j, 1);
                                 // right: (getPointData[j].left - getPointData[j].right)+ "%"
                             });
                             console.log(getPointData[j]);
-                        } else {
-                            document.getElementById("pointZoom").value = "100";
-                            document.getElementById("pointTop").value = "0";
-                            document.getElementById("pointBottom").value = "0";
-                            document.getElementById("pointLeft").value = "0";
-                            document.getElementById("pointRight").value = "0";
-                        }
+                        } 
+                        // else {
+                        //     console.log("KEK PRIKIN");
+                        //     document.getElementById("pointZoom").value = "100";
+                        //     document.getElementById("pointTop").value = "0";
+                        //     document.getElementById("pointBottom").value = "0";
+                        //     document.getElementById("pointLeft").value = "0";
+                        //     document.getElementById("pointRight").value = "0";
+                        // }
 
                         if (count) {
 

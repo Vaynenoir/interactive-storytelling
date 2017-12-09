@@ -214,31 +214,33 @@
 			<!-- <p>Map color: <input type="color" name="mapColor" value="#2e2e2e" class="colorPicker"  id="mapColorPicker" style="display: none;"></p> -->
 
 
-			
-
-
-
-
-
-			
-
-
-
-
-
-			
-
-
-
-
-			
-
-
     	</div>
     	<div class="modal-footer">
       	<a  class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>
     	</div>
   	</div>
+
+
+
+
+
+  	<div id="modal2" class="modal modal2">
+    <div class="modal-content project_settings">
+      <h5>Project name:</h5>
+      <input type="text" id="projectName">
+      <p style="font-style: italic;">Project description:</p>
+      <textarea name="description" placeholder="descibe your project" id="projectDescription" cols="30" rows="10" ></textarea>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+    </div>
+  </div>
+
+
+
+
+
+
 		<div id="buttonWrapper">
 
 			<button class="editor_button waves-effect" id="plus" ><i class="material-icons">zoom_in</i></button>
@@ -248,6 +250,7 @@
 			<button class="editor_button" id="moveTop"><i class="material-icons">keyboard_arrow_up</i></button>
 			<button class="editor_button" id="moveBottom"><i class="material-icons">keyboard_arrow_down</i></button>
 			<button class="editor_button modal-trigger" data-target="modal1" id="changeColor"><i class="material-icons">colorize</i></button>
+			<button class="editor_button modal-trigger" data-target="modal2" id="projectName"><i class="material-icons">create_new_folder</i></button>
 		</div>
 	</div>
 	<div class="buttons_bar">

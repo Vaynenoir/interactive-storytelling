@@ -444,3 +444,13 @@ table p{
   display: flex;
   align-items: center;
 }
+#projectName{
+  text-transform: uppercase;
+  color: #4db6ac;
+}
+#projectDescription{
+  font-style: italic;
+  color: #4db6ac;
+  max-width: 738px;
+  min-width: 738px;
+}
