@@ -207,6 +207,64 @@
 			</td>
 
   </tr>
+  <tr>
+  	<td colspan="2">
+			<p>Mark a route start:</p>
+		  <div class="switch">
+		    <label>
+		      Off
+		      <input type="checkbox">
+		      <span class="lever"></span>
+		      On
+		    </label>
+		  </div>
+
+			<form action="#" class="centered_form">
+			    <p>
+			      <input name="group1" type="radio" id="defaultOption" />
+			      <label for="defaultOption">Default(point styles)</label>
+			    </p>
+			    <p>
+			      <input name="group1" type="radio" id="UserOption" />
+			      <label for="UserOption">Choose own</label>
+			    </p>
+			</form>
+  	</td>
+  </tr>
+
+	<tr class="additional_settings">
+		<td>
+		<p>Choose image:</p>
+			<div class="icon_gallery">
+				<img src="css/svg/flag.svg" class="icon_gallery__item" width="20px" height="20px" alt="">
+				<img src="css/svg/placeholder.svg" class="icon_gallery__item" width="20px" height="20px" alt="">
+				<img src="css/svg/star.svg" class="icon_gallery__item" width="20px" height="20px" alt="">
+				<img src="css/svg/square.svg" class="icon_gallery__item" width="20px" height="20px" alt="">
+			</div>
+
+			<p>Image color:</p>
+			<input type="minicolors" name="RouteStartIconColor" id="PathStartIconColor" class="colorPicker minicolors">
+
+			<p>Image size:</p>
+				<form class="rangePicker" action="#">
+		 				<p class="range-field">
+			      	<input type="range" name="RouteStartIconSize" id="test8" min="10" max="30" />
+			    	</p>
+				</form>
+
+		</td>
+
+		<td>
+			
+			<object data="" id="iconTest"  width="50px" height="50px" type=""></object>
+
+		</td>
+
+	</tr>
+
+
+
+
 </table>
 
 
@@ -232,7 +290,7 @@
       <textarea name="description" placeholder="descibe your project" id="projectDescription" cols="30" rows="10" ></textarea>
     </div>
     <div class="modal-footer">
-      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+      <a  id="saveProjectBtn" class="modal-action modal-close waves-effect waves-green btn-flat">Save</a>
     </div>
   </div>
 
@@ -302,7 +360,13 @@ $(document).ready(function(){
     	pointsRadius: "8",
     	pointsBorderWidth: "1",
     	contentWidth: "100",
-    	contentAlign: "center"
+    	contentAlign: "center",
+    	checkboxState: "false",
+    	defaultOption: "false",
+    	UserOption: "false",
+    	StartIcon: "",
+    	RouteStartIconColor: "rgba(0, 0, 0, 1)",
+    	RouteStartIconSize: "8"
     };
 
 
@@ -404,51 +468,57 @@ var editor = new bezierEditor("bezier-canvas");
 	});
 	 editor.draw();
 
-
+console.log(JSON.parse(localStorage.getItem("Settings")));
 
 function loadMap(map_container){
-		map_container.addEventListener("load", function(){
-		var svgDoc = map_container.contentDocument; //get the inner DOM of alpha.svg
-    var svgRoot  = svgDoc.documentElement;
-    var MapPathsGroup = svgRoot.getElementById("mapPaths");
-    var PathsArray = MapPathsGroup.getElementsByTagName('path');
-    // console.log(PathsArray);
+			map_container.addEventListener("load", function(){
+			var svgDoc = map_container.contentDocument; //get the inner DOM of alpha.svg
+	    var svgRoot  = svgDoc.documentElement;
+	    var MapPathsGroup = svgRoot.getElementById("mapPaths");
+	    var PathsArray = MapPathsGroup.getElementsByTagName('path');
+	    // console.log(PathsArray);
 
-    var SettingsObj = JSON.parse(localStorage.getItem("Settings")) || {
-    	mapColor: "rgba(255, 204, 128, 1)",
-    	mapStrokeColor: "rgba(0, 0, 0, 1)",
-    	mapPointsColor: "rgba(0, 0, 255, 1)",
-    	mapPointsBorderColor: "rgba(0, 0, 0, 1)",
-    	mapRouteColor: "rgba(0, 0, 0, 1)",
-    	bodyBackgroundColor: "rgba(243, 229, 245, 1)",
-    	routeBorderWidth: "4",
-    	pointsRadius: "8",
-    	pointsBorderWidth: "1",
-    	contentWidth: "100",
-    	contentAlign: "center"
-    };
+	    var SettingsObj = JSON.parse(localStorage.getItem("Settings")) || {
+	    	mapColor: "rgba(255, 204, 128, 1)",
+	    	mapStrokeColor: "rgba(0, 0, 0, 1)",
+	    	mapPointsColor: "rgba(0, 0, 255, 1)",
+	    	mapPointsBorderColor: "rgba(0, 0, 0, 1)",
+	    	mapRouteColor: "rgba(0, 0, 0, 1)",
+	    	bodyBackgroundColor: "rgba(243, 229, 245, 1)",
+	    	routeBorderWidth: "4",
+	    	pointsRadius: "8",
+	    	pointsBorderWidth: "1",
+	    	contentWidth: "100",
+	    	contentAlign: "center",
+	    	checkboxState: "unchecked",
+    		defaultOption: "unchecked",
+    		UserOption: "unchecked",
+    		StartIcon: "",
+    		RouteStartIconColor: "rgba(0, 0, 0, 1)",
+    		RouteStartIconSize: "8"
+	    };
 
-   	var MapColor = document.getElementById("mapColorPicker");
-   	var MapStrokeColor = document.getElementById("mapStrokeColorPicker");
-   	var MapPointsColor = document.getElementById("mapPointsColorPicker");
-   	var MapPointsBorderColor = document.getElementById("mapPointsBorderColorPicker");
-   	var MapRouteColor = document.getElementById("mapRouteColorPicker");
-   	var PageBodyColor = document.getElementById("bodyColorPicker");
+	   	var MapColor = document.getElementById("mapColorPicker");
+	   	var MapStrokeColor = document.getElementById("mapStrokeColorPicker");
+	   	var MapPointsColor = document.getElementById("mapPointsColorPicker");
+	   	var MapPointsBorderColor = document.getElementById("mapPointsBorderColorPicker");
+	   	var MapRouteColor = document.getElementById("mapRouteColorPicker");
+	   	var PageBodyColor = document.getElementById("bodyColorPicker");
 
-   	var ColorCollection = $(".colorPicker");
+	   	var ColorCollection = $(".colorPicker");
 
-   	var color_change = $("#color_change");
-
-
+	   	var color_change = $("#color_change");
 
 
 
-   	MapColor.style.display = "block";
-   	MapStrokeColor.style.display = "block";
-   	MapPointsColor.style.display = "block";
-   	MapPointsBorderColor.style.display = "block";
-   	MapRouteColor.style.display = "block";
-   	PageBodyColor.style.display = "block";
+
+
+	   	MapColor.style.display = "block";
+	   	MapStrokeColor.style.display = "block";
+	   	MapPointsColor.style.display = "block";
+	   	MapPointsBorderColor.style.display = "block";
+	   	MapRouteColor.style.display = "block";
+	   	PageBodyColor.style.display = "block";
 
 
 
@@ -461,33 +531,35 @@ function loadMap(map_container){
    		MapRouteColor.value = getSettingFromStorage("mapRouteColor");
    		PageBodyColor.value = getSettingFromStorage("bodyBackgroundColor");
 
+
    		$('#test6').value = getSettingFromStorage("pointsRadius")*2;
 
-
    		for(var i = 0; i < PathsArray.length; i++){
-   			// console.log(PathsArray[i]);
    			PathsArray[i].style.fill = getSettingFromStorage("mapColor");
    			PathsArray[i].style.stroke = getSettingFromStorage("mapStrokeColor");
    		}
+
 
    		  $('#circle_example').css({width: getSettingFromStorage("pointsRadius")*2,
    				height: getSettingFromStorage("pointsRadius")*2,
    				"background-color": getSettingFromStorage("mapPointsColor"),
 					border: getSettingFromStorage("pointsBorderWidth")+"solid" + getSettingFromStorage("mapPointsBorderColor")
    			});
-   		$(".routeExample").css({height: getSettingFromStorage("routeBorderWidth"),
-   			"background-color": getSettingFromStorage("mapRouteColor")
-   		});
+
+   			$(".routeExample").css({height: getSettingFromStorage("routeBorderWidth"),
+   				"background-color": getSettingFromStorage("mapRouteColor")
+   			});
+
+   			$("#iconTest").attr({
+   				width: getSettingFromStorage("RouteStartIconSize"),
+   				height: getSettingFromStorage("RouteStartIconSize")
+   			});
 
    
 
 
-
-
-
-
  var RangeInputs = $("input[type=range]");
- // console.log(RangeInputs);
+ var RouteStartCheckbox = $("input[type=checkbox]");
 
 
 var mapForSettings = document.getElementById("mapSettings");
@@ -537,23 +609,23 @@ mapForSettings.addEventListener("load", function(){
    	});
 
    	 $('input[name = contentAlign]').on("click",function(){
-   	 var checkedRadio = $(this).prop('checked', true);
-   	 var alignClass = checkedRadio[0].id;
-   	 console.log($(this).val());
-   	 $('.test_block').css("justify-content", $(this).val());
-   	 SettingsObj.contentAlign = $(this).val();
-   	 localStorage.setItem('Settings', JSON.stringify(SettingsObj));
+	   	 var checkedRadio = $(this).prop('checked', true);
+	   	 var alignClass = checkedRadio[0].id;
+	   	 console.log($(this).val());
+	   	 $('.test_block').css("justify-content", $(this).val());
+	   	 SettingsObj.contentAlign = $(this).val();
+	   	 localStorage.setItem('Settings', JSON.stringify(SettingsObj));
    	});
 
 
    	 $(ColorCollection).minicolors({
-   	 	opacity: true,
-   	 	format: "rgb",
-   	 	rgbaString: false,
-   	 	change: function(hsl,rgb){
-   	 		var rgbaString = 'rgba(' + rgb.r + ', ' + rgb.g + ', ' + rgb.b + ', ' + rgb.a + ')';
-   	 		console.log(rgbaString);
-   	 	}
+	   	 	opacity: true,
+	   	 	format: "rgb",
+	   	 	rgbaString: false,
+	   	 	change: function(hsl,rgb){
+	   	 		var rgbaString = 'rgba(' + rgb.r + ', ' + rgb.g + ', ' + rgb.b + ', ' + rgb.a + ')';
+	   	 		console.log(rgbaString);
+	   	 	}
    	 });
 
 
@@ -597,8 +669,147 @@ mapForSettings.addEventListener("load", function(){
 
 
 
-
 });
+
+
+
+
+
+
+  	$(RouteStartCheckbox).attr("checked", JSON.parse(getSettingFromStorage("checkboxState")));
+   	$("#defaultOption").attr("checked", JSON.parse(getSettingFromStorage("defaultOption")));
+   	$("#UserOption").attr("checked", JSON.parse(getSettingFromStorage("UserOption")));
+
+
+
+   	if($(RouteStartCheckbox).is(":checked")){
+   		$(".centered_form").show().css('display', 'flex');
+   		if($("#UserOption").is(":checked")){
+   		
+		   		$(".additional_settings").show();
+		   		var icon = "" + getSettingFromStorage("StartIcon");
+		   		var icon_cont = document.getElementById("iconTest");
+		   		if(icon.length > 0){
+		   		
+		   		$("#iconTest").attr("data", icon);
+		   		loadIcon(icon_cont);
+   				}else{
+   					$("#iconTest").attr("data", "");
+   				}
+   		}
+   		else if($("#defaultOption").is(":checked")){
+   			$(".additional_settings").hide();
+   		}
+   	}
+   	else{
+   		$(".additional_settings").hide();
+   		$(".centered_form").hide();
+   	}
+
+
+
+   	$(RouteStartCheckbox).on("click", function(){
+   		if($(this).is(":checked")){
+   			SettingsObj.checkboxState = "true";
+   			localStorage.setItem('Settings', JSON.stringify(SettingsObj));
+   			console.log(SettingsObj);
+   			$(".centered_form").show().css('display', 'flex');
+
+   		}
+   		else{
+   			$(".centered_form").hide();
+   			SettingsObj.checkboxState = "false";
+   			$(".additional_settings").hide();
+   			localStorage.setItem('Settings', JSON.stringify(SettingsObj));
+   		}
+   	});
+
+   			$("#UserOption").on("click",function(){
+   					SettingsObj.UserOption = "true";
+   					SettingsObj.defaultOption = "false";
+   					localStorage.setItem("Settings", JSON.stringify(SettingsObj));
+   					$(".additional_settings").show();				
+   					var icon_container = document.getElementById("iconTest");
+   					$("#iconTest").attr("data", getSettingFromStorage("StartIcon"));
+   					loadIcon(icon_container);
+
+   			});
+
+
+   			$("#defaultOption").on("click", function(){
+   				  SettingsObj.UserOption = "false";
+   					SettingsObj.defaultOption = "true";
+   					localStorage.setItem("Settings", JSON.stringify(SettingsObj));
+   					$(".additional_settings").hide();
+
+   			});
+
+
+
+  $(".icon_gallery__item").on("click", function(){
+   						var iconSRC = $(this).attr("src");
+   						console.log(iconSRC);
+   						var icon_container = document.getElementById("iconTest");
+   						$("#iconTest").attr("data", iconSRC );
+   						loadIcon(icon_container);
+   						SettingsObj.StartIcon = iconSRC;
+   						localStorage.setItem("Settings", JSON.stringify(SettingsObj));
+   					});
+
+function getSvgPointPosition(string){
+	string = string.slice(1);
+	string = string.split("c");
+	var substring = string.splice(1);
+	return substring;
+}
+
+
+
+
+function loadIcon(icon_container){
+	   						icon_container.addEventListener("load", function(){
+   										var svgDoc = icon_container.contentDocument; //get the inner DOM of alpha.svg
+	    								var svgRoot  = svgDoc.documentElement;
+	    								var paths = svgRoot.getElementsByTagName("path");
+	    								console.log(paths);
+
+	    								for(var i=0;i<paths.length;i++){
+												paths[i].style.fill = SettingsObj.RouteStartIconColor;
+											}
+											var pathDir = $(paths).attr("d");
+											localStorage.setItem("StartRouteIcon", JSON.stringify(pathDir));
+			    						$("input[name=RouteStartIconColor]").change(function(el){
+											var optionSelected = $("option:selected", this);
+											var valueSelected = this.value;
+											
+											var name = this.name;
+
+											SettingsObj[name] = valueSelected;
+											for(var i=0;i<paths.length;i++){
+												paths[i].style.fill = SettingsObj.RouteStartIconColor;
+											}
+											});
+
+			    						$("input[name = RouteStartIconSize]").change(function(){
+			    							var optionSelected = $("option:selected", this);
+										   	var valueSelected = this.value;
+										   	var name = this.name; 
+										   	SettingsObj[name] = valueSelected;
+										   	$("#iconTest").attr({
+										   		width: SettingsObj.RouteStartIconSize,
+										   		height: SettingsObj.RouteStartIconSize
+										   	});
+										   	console.log(SettingsObj);
+			    						});
+
+   						});
+}
+
+
+
+
+
+
 	});
 }
 
@@ -683,7 +894,42 @@ $("#moveBottom").bind("click", function(){
 
 
  $(document).ready(function(){     //Materialize.js plugins
-    $('.modal').modal();
+ 	  $('.modal').modal();
+ 	  $('select').material_select();
+
+
+
+
+
+  var projectInfo = JSON.parse(localStorage.getItem("ProjectInfo")) || {
+    projectName: "",
+    projectDescription: ""
+  };
+
+    $('.modal2').modal({
+    	dismissable: false,
+    	ready: function(modal, trigger) { 
+    		if(projectInfo){
+    			$("#projectName").val(projectInfo.projectName);
+    			$("#projectDescription").val(projectInfo.projectDescription)
+    		}
+
+      },
+    	complete: function() {
+	   		var NameInput = $("#projectName").val();
+	   		var DescriptionInput = $("#projectDescription").val();
+	   		if(NameInput.length > 0 && DescriptionInput.length > 0){
+	   			projectInfo.projectName = NameInput;
+	   			projectInfo.projectDescription = DescriptionInput;
+	   		}else{
+	   			projectInfo.projectName = "";
+	   			projectInfo.projectDescription = "";
+	   		}
+	   		localStorage.setItem("ProjectInfo" , JSON.stringify(projectInfo));
+    	 } 
+    });
+
+
 
 
  

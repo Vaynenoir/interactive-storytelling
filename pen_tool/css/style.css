@@ -413,7 +413,7 @@ table p{
 }
 .content_block{
   background-color: #ce93d8 ;
-  width: 80%;
+  width: 50%;
   border: 1px solid #ccc;
   height: 80px;
   display: flex;
@@ -453,4 +453,22 @@ table p{
   color: #4db6ac;
   max-width: 738px;
   min-width: 738px;
+}
+.centered_form{
+    
+    justify-content: space-around;
+    align-items: center;
+    display: none;
+}
+.additional_settings{
+  display: none;
+}
+.icon_gallery{
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+
+}
+.icon_gallery__item{
+  cursor: pointer;
 }

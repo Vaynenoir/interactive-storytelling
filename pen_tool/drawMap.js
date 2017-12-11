@@ -38,6 +38,22 @@ $(document).ready(function() {
     }
 
 
+    function getSvgPointPosition(string){
+        string = string.slice(1);
+        string = string.split("c");
+        var substring = string.splice(1);
+        substring = substring.join("c");
+        return substring;
+    }
+
+
+
+
+
+
+
+
+
       $('ul.tabs').tabs('select_tab', 'tab_2');
         $("#menu").on("click", function(){
     if(!$(this).hasClass('.active')){
@@ -146,6 +162,24 @@ $(document).ready(function() {
 
         var circlesArray = JSON.parse(localStorage.getItem('circlesCoords'));
         var pathLength = path.getTotalLength();
+
+
+        console.log(path.getPointAtLength(1));
+        var startRouteFlag = JSON.parse(localStorage.getItem("StartRouteIcon"));
+        var PartOfImg = getSvgPointPosition(startRouteFlag);
+        console.log(PartOfImg);
+        var FirstPartX = path.getPointAtLength(1).x;
+        var FirstPartY = path.getPointAtLength(1).y;
+        var fullPart = "M" + FirstPartX+","+FirstPartY+"c";
+        var flag = fullPart + PartOfImg;
+
+
+        var newPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        $(newPath).attr("d", flag);
+        $(newPath).attr("stroke", "#000");
+        $(newPath).attr("fill", "#000");
+        // svgRoot.append(newPath);
+        // console.log(flag);
         // console.log(circlesArray);
         var CirclesArrayClone = [];
         // var pointsDataContentNew  = [];
