@@ -30,7 +30,13 @@ $(document).ready(function() {
         bodyBackgroundColor: "rgba(243, 229, 245, 1)",
         routeBorderWidth: "4",
         pointsRadius: "8",
-        pointsBorderWidth: "1"
+        pointsBorderWidth: "1",
+        checkboxState: "false",
+        defaultOption: "false",
+        UserOption: "false",
+        StartIcon: "",
+        RouteStartIconColor: "rgba(0, 0, 0, 1)",
+        RouteStartIconSize: "8"
     };
         if(SettingsObject[setting]){
             return SettingsObject[setting];
@@ -164,23 +170,51 @@ $(document).ready(function() {
         var pathLength = path.getTotalLength();
 
 
-        console.log(path.getPointAtLength(1));
+        // console.log(path.getPointAtLength(1));
         var startRouteFlag = JSON.parse(localStorage.getItem("StartRouteIcon"));
-        var PartOfImg = getSvgPointPosition(startRouteFlag);
-        console.log(PartOfImg);
-        var FirstPartX = path.getPointAtLength(1).x;
-        var FirstPartY = path.getPointAtLength(1).y;
-        var fullPart = "M" + FirstPartX+","+FirstPartY+"c";
-        var flag = fullPart + PartOfImg;
+        // var PartOfImg = getSvgPointPosition(startRouteFlag);
+        // console.log(PartOfImg);
+        // var FirstPartX = path.getPointAtLength(1).x;
+        // var FirstPartY = path.getPointAtLength(1).y;
+        // var fullPart = "M" + FirstPartX+","+FirstPartY+"c";
+        // var flag = fullPart + PartOfImg;
 
 
-        var newPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        $(newPath).attr("d", flag);
-        $(newPath).attr("stroke", "#000");
-        $(newPath).attr("fill", "#000");
-        // svgRoot.append(newPath);
-        // console.log(flag);
-        // console.log(circlesArray);
+
+
+
+
+
+
+
+
+    var group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+
+        if(getSettingFromStorage("UserOption") == "true" && getSettingFromStorage("StartIcon").length > 0){
+            for(var i=0;i<startRouteFlag.length;i++){
+            var newPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            
+            $(newPath).attr({
+                d: startRouteFlag[i],
+                fill: getSettingFromStorage("RouteStartIconColor"),
+                transform: "scale(0.15)"
+            });
+            console.log(newPath);
+            // $(newPath).attr("cy", path.getPointAtLength(1).y);
+            
+            
+            }
+        }
+
+$(group).attr("transform", "translate("+(path.getPointAtLength(1).x - (getSettingFromStorage("RouteStartIconSize")/3)) + " " + (path.getPointAtLength(1).y - (getSettingFromStorage("RouteStartIconSize")/1.3) )+") " + "scale("+getSettingFromStorage("RouteStartIconSize")/100+")");
+group.append(newPath);
+svgRoot.append(group);
+
+
+
+
+
+
         var CirclesArrayClone = [];
         // var pointsDataContentNew  = [];
         var contentOfPoints = JSON.parse(localStorage.getItem('PointsContent')) || [];
@@ -287,8 +321,24 @@ CirclesArrayClone.splice(j, 1);
             for(var i=0;i<intersectionCircles.length;i++){
                 intersectionCircles[i].style.fill = "transparent";
             }
-            
 
+            if(getSettingFromStorage("checkboxState") == "true" && getSettingFromStorage("defaultOption") == "true"){
+                var startCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                $(startCircle).attr({
+                    cx: path.getPointAtLength(1).x,
+                    cy: path.getPointAtLength(1).y,
+                    r: getSettingFromStorage("pointsRadius"),
+                    stroke: getSettingFromStorage("mapPointsBorderColor"),
+                    fill: getSettingFromStorage("mapPointsColor"),
+                    "stroke-width": getSettingFromStorage("pointsBorderWidth")
+                });
+                console.log($(startCircle));
+                 svgRoot.append(startCircle);
+             }
+               
+        // $(newPath).attr("fill", "#000000!important");
+        // console.log(newPath);
+        // svgRoot.append(newPath);
 
 
         if (localStorage.getItem('PointsContent') != null) {

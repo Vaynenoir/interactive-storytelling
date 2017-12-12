@@ -236,10 +236,10 @@
 		<td>
 		<p>Choose image:</p>
 			<div class="icon_gallery">
-				<img src="css/svg/flag.svg" class="icon_gallery__item" width="20px" height="20px" alt="">
-				<img src="css/svg/placeholder.svg" class="icon_gallery__item" width="20px" height="20px" alt="">
-				<img src="css/svg/star.svg" class="icon_gallery__item" width="20px" height="20px" alt="">
-				<img src="css/svg/square.svg" class="icon_gallery__item" width="20px" height="20px" alt="">
+				<img src="css/svg/start_location1.svg" class="icon_gallery__item" width="20px" height="20px" alt="">
+				<img src="css/svg/start_location2.svg" class="icon_gallery__item" width="20px" height="20px" alt="">
+				<img src="css/svg/start_location3.svg" class="icon_gallery__item" width="20px" height="20px" alt="">
+				<img src="css/svg/start_location4.svg" class="icon_gallery__item" width="20px" height="20px" alt="">
 			</div>
 
 			<p>Image color:</p>
@@ -248,7 +248,7 @@
 			<p>Image size:</p>
 				<form class="rangePicker" action="#">
 		 				<p class="range-field">
-			      	<input type="range" name="RouteStartIconSize" id="test8" min="10" max="30" />
+			      	<input type="range" name="RouteStartIconSize" id="test8" min="10" max="50" />
 			    	</p>
 				</form>
 
@@ -366,7 +366,7 @@ $(document).ready(function(){
     	UserOption: "false",
     	StartIcon: "",
     	RouteStartIconColor: "rgba(0, 0, 0, 1)",
-    	RouteStartIconSize: "8"
+    	RouteStartIconSize: "10"
     };
 
 
@@ -495,7 +495,7 @@ function loadMap(map_container){
     		UserOption: "unchecked",
     		StartIcon: "",
     		RouteStartIconColor: "rgba(0, 0, 0, 1)",
-    		RouteStartIconSize: "8"
+    		RouteStartIconSize: "2"
 	    };
 
 	   	var MapColor = document.getElementById("mapColorPicker");
@@ -530,7 +530,7 @@ function loadMap(map_container){
    		MapPointsBorderColor.value = getSettingFromStorage("mapPointsBorderColor");
    		MapRouteColor.value = getSettingFromStorage("mapRouteColor");
    		PageBodyColor.value = getSettingFromStorage("bodyBackgroundColor");
-
+   		$("#PathStartIconColor").val(getSettingFromStorage("RouteStartIconColor"));
 
    		$('#test6').value = getSettingFromStorage("pointsRadius")*2;
 
@@ -756,12 +756,7 @@ mapForSettings.addEventListener("load", function(){
    						localStorage.setItem("Settings", JSON.stringify(SettingsObj));
    					});
 
-function getSvgPointPosition(string){
-	string = string.slice(1);
-	string = string.split("c");
-	var substring = string.splice(1);
-	return substring;
-}
+
 
 
 
@@ -772,12 +767,16 @@ function loadIcon(icon_container){
 	    								var svgRoot  = svgDoc.documentElement;
 	    								var paths = svgRoot.getElementsByTagName("path");
 	    								console.log(paths);
+	    								var iconObj = document.getElementById("iconTest");
 
+	    								var iconPathsArray = [];
 	    								for(var i=0;i<paths.length;i++){
 												paths[i].style.fill = SettingsObj.RouteStartIconColor;
+												var pathDir = paths[i].getAttribute("d");
+												iconPathsArray.push(pathDir);
 											}
-											var pathDir = $(paths).attr("d");
-											localStorage.setItem("StartRouteIcon", JSON.stringify(pathDir));
+											console.log(iconPathsArray);
+											localStorage.setItem("StartRouteIcon", JSON.stringify(iconPathsArray));
 			    						$("input[name=RouteStartIconColor]").change(function(el){
 											var optionSelected = $("option:selected", this);
 											var valueSelected = this.value;
@@ -799,6 +798,9 @@ function loadIcon(icon_container){
 										   		width: SettingsObj.RouteStartIconSize,
 										   		height: SettingsObj.RouteStartIconSize
 										   	});
+										   	svgRoot.setAttribute("width", $(iconObj).attr("width"));
+	    									svgRoot.setAttribute("height", $(iconObj).attr("height"));
+	    									console.log(svgRoot);
 										   	console.log(SettingsObj);
 			    						});
 
