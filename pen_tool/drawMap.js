@@ -97,7 +97,9 @@ $(document).ready(function() {
     function compareId(objA, objB) {
         return objA.id - objB.id;
     }
-
+    function compareTime(objA,objB){
+        return objA.pointId - objB.pointId;
+    }
 
 
 
@@ -150,6 +152,7 @@ $(document).ready(function() {
             $(path).attr("stroke-linecap","round")
         }
 
+
         Snap.plugin(function(Snap, Element, Paper, global) {
             Paper.prototype.circlePath = function(cx, cy, r) {
                 var p = "M" + cx + "," + cy;
@@ -187,27 +190,32 @@ $(document).ready(function() {
 
 
 
+    var pathStartIcon = JSON.parse(localStorage.getItem("StartRouteIcon"));
+    console.log(pathStartIcon);
+    var oParser = new DOMParser();
+    var oDOM = oParser.parseFromString(pathStartIcon, "text/xml");
+    console.log(oDOM.documentElement);
+
+    var parsedPathStartIcon = oDOM.documentElement;
+    var iconOffsetX = $(parsedPathStartIcon).attr("data-offset-x");
+    var iconOffsetY = $(parsedPathStartIcon).attr("data-offset-y");
+    var iconScale = $(parsedPathStartIcon).attr("data-scale");
 
     var group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
 
         if(getSettingFromStorage("UserOption") == "true" && getSettingFromStorage("StartIcon").length > 0){
-            for(var i=0;i<startRouteFlag.length;i++){
-            var newPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
             
-            $(newPath).attr({
-                d: startRouteFlag[i],
+            $(parsedPathStartIcon).attr({
                 fill: getSettingFromStorage("RouteStartIconColor"),
-                transform: "scale(0.15)"
+                transform: iconScale
             });
-            console.log(newPath);
+            console.log(parsedPathStartIcon);
             // $(newPath).attr("cy", path.getPointAtLength(1).y);
-            
-            
-            }
+ 
         }
 
-$(group).attr("transform", "translate("+(path.getPointAtLength(1).x - (getSettingFromStorage("RouteStartIconSize")/3)) + " " + (path.getPointAtLength(1).y - (getSettingFromStorage("RouteStartIconSize")/1.3) )+") " + "scale("+getSettingFromStorage("RouteStartIconSize")/100+")");
-group.append(newPath);
+$(group).attr("transform", "translate("+(path.getPointAtLength(1).x - (getSettingFromStorage("RouteStartIconSize")/iconOffsetX)) + " " + (path.getPointAtLength(1).y - (getSettingFromStorage("RouteStartIconSize")/iconOffsetY) )+") " + "scale("+getSettingFromStorage("RouteStartIconSize")/100+")");
+group.append(parsedPathStartIcon);
 svgRoot.append(group);
 
 
@@ -292,6 +300,9 @@ CirclesArrayClone.splice(j, 1);
                 "data-time": el.time
             });
 
+
+
+
             var intersects = Snap.path.intersection(circle, $(path).attr('d'));
             
             if(intersects.length == 0){
@@ -348,6 +359,22 @@ CirclesArrayClone.splice(j, 1);
         }
         for (var i = 0; i < circlesArray.length; i++) {
             var paths = svgDoc.getElementById(circlesArray[i].id);
+            var circleGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+
+
+            var text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            $(text).attr({
+                x: circlesArray[i].cx,
+                y: circlesArray[i].cy + 20,
+                "font-size": 12,
+                "font-style": "italic",
+                fill: "#ccccccc"
+            });
+            
+            circleGroup.append(paths);
+            circleGroup.append(text);
+            svgRoot.append(circleGroup);                      
+
 
             var equalTimeAttr = circlesArray[i].time;
             // console.log(equalTimeAttr);
@@ -357,18 +384,39 @@ CirclesArrayClone.splice(j, 1);
 
 
                 if (pointsDataContentArray[j].pointId == equalTimeAttr) {
+
                     // console.log("pointsId: " + pointsDataContentArray[j].pointId + ", eq = " + equalTimeAttr);
                     var checked = pointsDataContentArray[j].pointId;
                     // console.log(checked);
 
                     if(pointText.length != 0 ){
-                        console.log(pointText);
+
                         var FilledContentPaths = svgDoc.getElementById(circlesArray[i].id);
+                        var ClosestTextField = $(FilledContentPaths).parent().find("text");
+                        console.log(ClosestTextField);
+                        if(pointsDataContentArray[j].cityName){
+                            console.log(pointsDataContentArray[j].cityName);
+                            $(ClosestTextField).text(pointsDataContentArray[j].cityName);
+                        }
+                        
+                        console.log(circlesArray[i].id);
                         $(FilledContentPaths).css("fill", "#990033");
                     }
+                    
+
                 }
+                
 
             }
+
+
+
+
+
+
+
+
+
             $(paths).addClass('button-collapse');
             $(paths).attr('data-activates', "slide-out");
             $(paths).attr('href', "#");
@@ -423,6 +471,7 @@ CirclesArrayClone.splice(j, 1);
                             var savedZoom = 100;
                             savedDisplacement.top =  0;
                             savedDisplacement.left =  0;
+                            $("#pointName").html("");
                             $('.mapbg').animate({
                                 zoom: savedZoom + "%",
                                 top: savedDisplacement.top + "%",
@@ -431,10 +480,13 @@ CirclesArrayClone.splice(j, 1);
                                 // right: (getPointData[j].left - getPointData[j].right)+ "%"
                             });
                         }else{
-                                console.log(getPointData[Npoint-1]);
+                                
+                                
+                                console.log(getPointData[Npoint-1].cityName);    
                                 savedZoom = getPointData[Npoint-1].zoom;
                                 savedDisplacement.top = getPointData[Npoint-1].top;
                                 savedDisplacement.left = getPointData[Npoint-1].left;
+
                         }
 
                             DisplacementObj.zoom = savedZoom;
@@ -446,7 +498,7 @@ CirclesArrayClone.splice(j, 1);
                                 savedZoom += 3;
                                 DisplacementObj.zoom = savedZoom;
                                 $(".mapbg").css("zoom", savedZoom + "%");
-                                console.log(DisplacementObj);
+                                // console.log(DisplacementObj);
                             });
 
                             $("#minus").bind('click', function() {
@@ -491,19 +543,18 @@ CirclesArrayClone.splice(j, 1);
                     
                     var PointLastData;
 
-
-
                     for (var j = 0; j < getPointData.length; j++) {
 
                         var count = getPointData[j].pointId == dataTime;
                         if (getPointData[j].pointId == dataTime) {
-                            console.log(getPointData[j].zoom);
-
+                            // console.log(getPointData[j].zoom);
+                            
                             $("#pointZoom").val(getPointData[j].zoom);
                            $("#pointTop").val(getPointData[j].top);
                             $("#pointBottom").val(getPointData[j].bottom);
                             $("#pointLeft").val(getPointData[j].left);
                             $("#pointRight").val(getPointData[j].right);
+                                                
 
                             $('.mapbg').animate({
                                 zoom: getPointData[j].zoom + "%",
@@ -512,16 +563,9 @@ CirclesArrayClone.splice(j, 1);
                                 left: getPointData[j].left + "%"
                                 // right: (getPointData[j].left - getPointData[j].right)+ "%"
                             });
-                            console.log(getPointData[j]);
+                            // console.log(getPointData[j]);
+                            var PointCityName = getPointData[j].cityName;
                         } 
-                        // else {
-                        //     console.log("KEK PRIKIN");
-                        //     document.getElementById("pointZoom").value = "100";
-                        //     document.getElementById("pointTop").value = "0";
-                        //     document.getElementById("pointBottom").value = "0";
-                        //     document.getElementById("pointLeft").value = "0";
-                        //     document.getElementById("pointRight").value = "0";
-                        // }
 
                         if (count) {
 
@@ -529,7 +573,7 @@ CirclesArrayClone.splice(j, 1);
 
                         }
                     }
-
+                    $("#pointName").val(PointCityName);
                     editor.setData(PointLastData);
 
                 }
@@ -545,11 +589,10 @@ CirclesArrayClone.splice(j, 1);
 
                     var pointsDataContent = {
                         pointId: 0,
+                        cityName: "",
                         zoom: DisplacementObj.zoom,
                         top: DisplacementObj.top,
-                        // bottom:  DisplacementObj.bottom,
                         left: DisplacementObj.left,
-                        // right: DisplacementObj.right,
                         data: ""
                     };
                     var InputZoomValue = parseInt(document.getElementById("pointZoom").value);
@@ -558,15 +601,11 @@ CirclesArrayClone.splice(j, 1);
                     var InputLeftValue = parseInt(document.getElementById("pointLeft").value);
                     var InputRightValue = parseInt(document.getElementById('pointRight').value);
 
+                    var PointName = $("#pointName").val();
 
                     pointsDataContent.pointId = pointDataTime;
 
-                    // pointsDataContent.zoom = DisplacementObj.zoom;
-                    // pointsDataContent.top = DisplacementObj.top;
-                    // pointsDataContent.bottom = DisplacementObj.bottom;
-                    // pointsDataContent.left = DisplacementObj.left;
-                    // pointsDataContent.right = DisplacementObj.right;
-
+                    pointsDataContent.cityName = PointName;
 
 
 
@@ -584,8 +623,14 @@ CirclesArrayClone.splice(j, 1);
                     } else {
                         console.log(pointsDataContent);
                         pointsDataContentArray.push(pointsDataContent);
+                        var textField = $(currentPath).parent().find("text");
+                       
+                            
+                        $(textField).text(PointName);
+                        //  console.log($(textField));
                         Materialize.toast('Your data is saved!', 2000);
                     }
+                    pointsDataContentArray.sort(compareTime)
                     localStorage.setItem('PointsContent', JSON.stringify(pointsDataContentArray));
                     // console.log(pointsDataContentArray);
                     // $("#userNotification").fadeIn(200);

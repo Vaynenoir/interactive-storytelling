@@ -284,7 +284,13 @@ nav{
 width: 100%;
 display: flex;
 justify-content: space-around;
+margin: 18px 0 8px 0;
 
+}
+
+#pointName{
+  text-indent: 10px;
+  margin: 0;
 }
 /*object#map{
   flex: 1 0 auto;
@@ -372,7 +378,7 @@ justify-content: space-around;
 
 
 
-  <ul class="collapsible collapsible-accordion" data-collapsible="accordion">
+  <ul style="display: none;" class="collapsible collapsible-accordion" data-collapsible="accordion">
     <li>
       <div class="collapsible-header">Zoom</div>
       <div class="collapsible-body">
@@ -423,6 +429,12 @@ justify-content: space-around;
       <a href="#" class="editor_button waves-effect" id="moveTop"><i class="material-icons">keyboard_arrow_up</i></a>
       <a href="#" class="editor_button waves-effect" id="moveBottom"><i class="material-icons">keyboard_arrow_down</i></a>
 </div>
+  
+  <p class="sidenav__title">
+    type this point name
+  </p>
+  <input type="text" id="pointName">
+
 
   <div class="btn_wrapper"><a id="SavePointContent" class="waves-effect waves-teal btn hoverable center-align">Save content</a></div>
   <p id="userNotification" class="text" style="text-align: center; color: #fff; display: none;">Your data is saved!</p>

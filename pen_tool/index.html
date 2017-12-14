@@ -240,6 +240,8 @@
 				<img src="css/svg/start_location2.svg" class="icon_gallery__item" width="20px" height="20px" alt="">
 				<img src="css/svg/start_location3.svg" class="icon_gallery__item" width="20px" height="20px" alt="">
 				<img src="css/svg/start_location4.svg" class="icon_gallery__item" width="20px" height="20px" alt="">
+				<img src="css/svg/start_location5.svg" class="icon_gallery__item" width="20px" height="20px" alt="">
+				
 			</div>
 
 			<p>Image color:</p>
@@ -489,10 +491,10 @@ function loadMap(map_container){
 	    	pointsRadius: "8",
 	    	pointsBorderWidth: "1",
 	    	contentWidth: "100",
-	    	contentAlign: "center",
-	    	checkboxState: "unchecked",
-    		defaultOption: "unchecked",
-    		UserOption: "unchecked",
+	    	contentAlign: "flex-start",
+	    	checkboxState: "false",
+    		defaultOption: "false",
+    		UserOption: "false",
     		StartIcon: "",
     		RouteStartIconColor: "rgba(0, 0, 0, 1)",
     		RouteStartIconSize: "2"
@@ -766,13 +768,15 @@ function loadIcon(icon_container){
    										var svgDoc = icon_container.contentDocument; //get the inner DOM of alpha.svg
 	    								var svgRoot  = svgDoc.documentElement;
 	    								var paths = svgRoot.getElementsByTagName("path");
-	    								console.log(paths);
+	    								var s = new XMLSerializer();
+	    								
 	    								var iconObj = document.getElementById("iconTest");
 
 	    								var iconPathsArray = [];
 	    								for(var i=0;i<paths.length;i++){
 												paths[i].style.fill = SettingsObj.RouteStartIconColor;
-												var pathDir = paths[i].getAttribute("d");
+												var pathDir = s.serializeToString(paths[i]);
+												console.log(pathDir);
 												iconPathsArray.push(pathDir);
 											}
 											console.log(iconPathsArray);
