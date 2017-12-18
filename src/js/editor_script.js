@@ -2,7 +2,7 @@
 
 
             function getSettingFromStorage(setting) {
-                var SettingsObject = JSON.parse(localStorage.getItem("Settings")) || {
+                var SettingsObject = JSON.parse(localStorage.getItem("Settings")) || {      // get editor settings
                     mapColor: "rgba(255, 204, 128, 1)",
                     mapStrokeColor: "rgba(0, 0, 0, 1)",
                     mapPointsColor: "rgba(0, 0, 255, 1)",
@@ -23,19 +23,18 @@
                 };
 
 
-
-
                 if (SettingsObject[setting]) {
                     return SettingsObject[setting];
                 }
+
             }
 
-            console.log(getSettingFromStorage("mapColor"));
-            // localStorage.clear();
-            var editor = new bezierEditor("bezier-canvas");
-            editor.draw();
 
-            $('#clear').bind("click", function() {
+
+            var editor = new bezierEditor("bezier-canvas"); 
+            editor.draw(); // draw canvas
+
+            $('#clear').bind("click", function() {              //clear canvas and localstorage
 
                 console.log(editor.clearBezier());
                 $("#dataMap").attr("data", "");
@@ -45,37 +44,37 @@
 
             });
 
-            $('#redraw').bind("click", function() {
+            $('#redraw').bind("click", function() {          //redraw canvas
 
                 editor.draw();
                 Materialize.toast('Editor redrawn!', 2000);
 
             })
 
-            $('#screen').bind("click", function() {
+            $('#screen').bind("click", function() {             // full screen regyme
                 goFullScreen();
                 editor.draw();
             });
 
 
 
-            $('#export').bind("click", function() {
+            $('#export').bind("click", function() {             // export path, save all setting to localstorage and go to the next page
                 editor.draw();
 
-                var PathCurves = editor.ReturnSavedPath();
+                var PathCurves = editor.ReturnSavedPath();          
                 localStorage.setItem('SavedCurves', JSON.stringify(PathCurves));
                 var FirstRoute = JSON.parse(localStorage.getItem('path'));
 
 
-                if (FirstRoute) {
+                if (FirstRoute) {   //check if path was already drawn
                     var newRoute = editor.exportBezier();
                     newRoute = newRoute.slice(1);
-                    FirstRoute += newRoute;
+                    FirstRoute += newRoute;  // if path was redrawn then connect 2 paths
                     localStorage.setItem('path', JSON.stringify(FirstRoute));
                     console.log(newRoute);
                     console.log(FirstRoute);
                 } else {
-                    var DrawnPath = editor.exportBezier();
+                    var DrawnPath = editor.exportBezier(); //constructor method, to export route
 
                     localStorage.setItem('path', JSON.stringify(DrawnPath));
                 }
@@ -88,21 +87,8 @@
 
             var editor = new bezierEditor("bezier-canvas");
 
-            function handleFileSelect(evt) {
-                var files = evt.target.files;
-                var f = files[0];
-                var reader = new FileReader();
-                reader.onload = (function(theFile) {
-                    return function(e) {
-                        editor.loadImage(e.target.result);
-                        editor.draw();
-
-                    };
-                })(f);
-                reader.readAsDataURL(f);
-            }
-            $('.img_item').bind("click", function() {
-                var src = $(this).attr('src');
+            $('.img_item').bind("click", function() { 
+                var src = $(this).attr('src');               //save choosen map url
 
 
 
@@ -122,8 +108,8 @@
 
             console.log(JSON.parse(localStorage.getItem("Settings")));
 
-            function loadMap(map_container) {
-                map_container.addEventListener("load", function() {
+            function loadMap(map_container) { 
+                map_container.addEventListener("load", function() {           //load choosen path
                     var svgDoc = map_container.contentDocument; //get the inner DOM of alpha.svg
                     console.log(svgDoc);
                     var svgRoot = svgDoc.documentElement;
@@ -131,7 +117,7 @@
                     var PathsArray = MapPathsGroup.getElementsByTagName('path');
                     // console.log(PathsArray);
 
-                    var SettingsObj = JSON.parse(localStorage.getItem("Settings")) || {
+                    var SettingsObj = JSON.parse(localStorage.getItem("Settings")) || {  //page settings
                         mapColor: "rgba(255, 204, 128, 1)",
                         mapStrokeColor: "rgba(0, 0, 0, 1)",
                         mapPointsColor: "rgba(0, 0, 255, 1)",
@@ -185,7 +171,7 @@
 
                     $('#test6').value = getSettingFromStorage("pointsRadius") * 2;
 
-                    for (var i = 0; i < PathsArray.length; i++) {
+                    for (var i = 0; i < PathsArray.length; i++) {                    //change map color and map stroke color due to settings
                         PathsArray[i].style.fill = getSettingFromStorage("mapColor");
                         PathsArray[i].style.stroke = getSettingFromStorage("mapStrokeColor");
                     }
@@ -224,19 +210,17 @@
                         var svgDoc = mapForSettings.contentDocument; //get the inner DOM of alpha.svg
                         var svgRoot = svgDoc.documentElement;
                         var changedMap = svgRoot.getElementsByTagName('path');;
-                        // var SettingMapPathsArray = MapPathsGroup.getElementsByTagName('path');
-                        // console.log(changedMap);
+
 
                         $(".map_settings_block").css("background-color", getSettingFromStorage("bodyBackgroundColor"));
 
                         for (var i = 0; i < changedMap.length; i++) {
-                            // console.log(PathsArray[i]);
                             changedMap[i].style.fill = getSettingFromStorage("mapColor");
                             changedMap[i].style.stroke = getSettingFromStorage("mapStrokeColor");
                         }
 
 
-                        $(RangeInputs).change(function(el) {
+                        $(RangeInputs).change(function(el) {                  //user range settings choice vizualization
                             var optionSelected = $("option:selected", this);
                             var valueSelected = this.value;
                             var name = this.name;
@@ -262,7 +246,7 @@
                             localStorage.setItem('Settings', JSON.stringify(SettingsObj));
                         });
 
-                        $('input[name = contentAlign]').on("click", function() {
+                        $('input[name = contentAlign]').on("click", function() {        //choose text align on 3rd step
                             var checkedRadio = $(this).prop('checked', true);
                             var alignClass = checkedRadio[0].id;
                             console.log($(this).val());
@@ -272,7 +256,7 @@
                         });
 
 
-                        $(ColorCollection).minicolors({
+                        $(ColorCollection).minicolors({     //jquery-minicolors plugin settings
                             opacity: true,
                             format: "rgb",
                             rgbaString: false,
@@ -287,17 +271,13 @@
 
                         $(ColorCollection).minicolors("rgbaString");
 
-                        $(ColorCollection).change(function(el) {
+                        $(ColorCollection).change(function(el) {                    //user color settings choice vizualization and saving to localstorage
                             var optionSelected = $("option:selected", this);
                             var valueSelected = this.value;
-                            // console.log(optionSelected);
 
                             var name = this.name;
-                            // console.log(optionSelected);
-                            // console.log(valueSelected);
-                            SettingsObj[name] = valueSelected;
 
-                            // console.log(SettingsObj);
+                            SettingsObj[name] = valueSelected;
 
 
                             for (var i = 0; i < PathsArray.length; i++) {
@@ -331,12 +311,12 @@
 
 
                     $(RouteStartCheckbox).attr("checked", JSON.parse(getSettingFromStorage("checkboxState")));
-                    $("#defaultOption").attr("checked", JSON.parse(getSettingFromStorage("defaultOption")));
-                    $("#UserOption").attr("checked", JSON.parse(getSettingFromStorage("UserOption")));
+                    $("#defaultOption").attr("checked", JSON.parse(getSettingFromStorage("defaultOption")));       //default Route Start style
+                    $("#UserOption").attr("checked", JSON.parse(getSettingFromStorage("UserOption")));             //User's choice of Route Start style
 
 
 
-                    if ($(RouteStartCheckbox).is(":checked")) {
+                    if ($(RouteStartCheckbox).is(":checked")) {     
                         $(".centered_form").show().css('display', 'flex');
                         if ($("#UserOption").is(":checked")) {
 
@@ -375,7 +355,7 @@
                         }
                     });
 
-                    $("#UserOption").on("click", function() {
+                    $("#UserOption").on("click", function() {           //choose user option
                         SettingsObj.UserOption = "true";
                         SettingsObj.defaultOption = "false";
                         localStorage.setItem("Settings", JSON.stringify(SettingsObj));
@@ -387,7 +367,7 @@
                     });
 
 
-                    $("#defaultOption").on("click", function() {
+                    $("#defaultOption").on("click", function() {        //choose default option
                         SettingsObj.UserOption = "false";
                         SettingsObj.defaultOption = "true";
                         localStorage.setItem("Settings", JSON.stringify(SettingsObj));
@@ -397,7 +377,7 @@
 
 
 
-                    $(".icon_gallery__item").on("click", function() {
+                    $(".icon_gallery__item").on("click", function() {       //choose icon of Route Start
                         var iconSRC = $(this).attr("src");
                         console.log(iconSRC);
                         var icon_container = document.getElementById("iconTest");
@@ -410,7 +390,7 @@
 
 
 
-                    function loadIcon(icon_container) {
+                    function loadIcon(icon_container) {                          // load icon to show example
                         icon_container.addEventListener("load", function() {
                             var svgDoc = icon_container.contentDocument; //get the inner DOM of alpha.svg
                             var svgRoot = svgDoc.documentElement;
@@ -422,12 +402,13 @@
                             var iconPathsArray = [];
                             for (var i = 0; i < paths.length; i++) {
                                 paths[i].style.fill = SettingsObj.RouteStartIconColor;
-                                var pathDir = s.serializeToString(paths[i]);
+                                var pathDir = s.serializeToString(paths[i]);        //convert html element to string with XMLSerializer
                                 console.log(pathDir);
-                                iconPathsArray.push(pathDir);
+                                iconPathsArray.push(pathDir);   
                             }
+
                             console.log(iconPathsArray);
-                            localStorage.setItem("StartRouteIcon", JSON.stringify(iconPathsArray));
+                            localStorage.setItem("StartRouteIcon", JSON.stringify(iconPathsArray));         // save route start icon to localstorage settings
                             $("input[name=RouteStartIconColor]").change(function(el) {
                                 var optionSelected = $("option:selected", this);
                                 var valueSelected = this.value;
@@ -440,7 +421,7 @@
                                 }
                             });
 
-                            $("input[name = RouteStartIconSize]").change(function() {
+                            $("input[name = RouteStartIconSize]").change(function() {      // user choice of route start icon size
                                 var optionSelected = $("option:selected", this);
                                 var valueSelected = this.value;
                                 var name = this.name;
@@ -470,7 +451,7 @@
             if (savedMap) {
                 var svgMap = document.getElementById("dataMap");
                 $("#dataMap").attr("data", savedMap);
-                loadMap(svgMap);
+                loadMap(svgMap);                      // load map if it's saved in localstorage
 
                 var WrapperProps = JSON.parse(localStorage.getItem('mapStyleProperties')) || [];
                 var mapBg = document.getElementById("mapbg");
@@ -492,16 +473,42 @@
                 top: "",
                 left: ""
             };
+            
+                var scaleImg = 1.1;
+                var moveLeft = 0;
+                var moveTop = 0;
+                var moveLeftDefault = 0;
+                var moveTopDefault = 0;
+            if((styleProps.transform).length > 0){
+                // scaleImg = styleProps.transform;
+                
+                scaleImg = (styleProps.transform);
+                console.log(scaleImg);
+                scaleImg = scaleImg.slice(6,scaleImg.length-1);
+                scaleImg = parseFloat(scaleImg);
+                console.log(scaleImg);
+
+            }
+            if(styleProps.top.length > 0 || styleProps.left.length >0){
+                
+                moveLeft = parseInt(styleProps.left);
+                moveTop = parseInt(styleProps.top);
+                // console.log(moveLeft);
+                // console.log(scaleImg);
+            }
+
             console.log(styleProps);
-            var scaleImg = 1.1;
-            $("#plus").bind('click', function() {
-                scaleImg += 0.3;
+            
+            $("#plus").bind('click', function() {     //zoom map
+                scaleImg += 0.1;
+                // console.log(scaleImg);
                 $("#map_bg").css("transform", "scale(" + scaleImg + ")");
                 styleProps.transform = "scale(" + scaleImg + ")";
                 // console.log(styleProps);
                 localStorage.setItem('zoom', JSON.stringify(scaleImg));
+                localStorage.setItem("mapStyleProperties", JSON.stringify(styleProps));
             });
-            $("#minus").bind('click', function() {
+            $("#minus").bind('click', function() {              
                 scaleImg -= 0.3;
                 if (scaleImg < 1.1) {
                     scaleImg = 1;
@@ -509,35 +516,36 @@
                 $("#map_bg").css("transform", "scale(" + scaleImg + ")");
                 styleProps.transform = "scale(" + scaleImg + ")";
                 localStorage.setItem('zoom', JSON.stringify(scaleImg));
+                localStorage.setItem("mapStyleProperties", JSON.stringify(styleProps));
             });
-            var moveLeft = 2;
-            var moveTop = 2;
-            var moveLeftDefault = 0;
-            var moveTopDefault = 0;
-            $("map_bg").css("left", "" + moveLeftDefault + "%");
-            $("map_bg").css("top", "" + moveTopDefault + "%");
-            styleProps.left = "" + moveLeftDefault + "%";
-            styleProps.top = "" + moveTopDefault + "%";
-            $("#moveLeft").bind("click", function() {
+
+            $("map_bg").css("left", "" + moveLeft + "%");
+            $("map_bg").css("top", "" + moveTop + "%");
+            styleProps.left = "" + moveLeft + "%";
+            styleProps.top = "" + moveTop + "%";
+            $("#moveLeft").bind("click", function() {  // move map left
                 moveLeft += 3;
                 $("#map_bg").css("left", "" + moveLeft + "%");
                 styleProps.left = "" + moveLeft + "%";
-
+                localStorage.setItem("mapStyleProperties", JSON.stringify(styleProps));
             });
-            $("#moveRight").bind("click", function() {
+            $("#moveRight").bind("click", function() {   // move map right
                 moveLeft -= 3;
                 $("#map_bg").css("left", "" + moveLeft + "%");
                 styleProps.left = "" + moveLeft + "%";
-            });
-            $("#moveTop").bind("click", function() {
+                localStorage.setItem("mapStyleProperties", JSON.stringify(styleProps));
+            }); 
+            $("#moveTop").bind("click", function() {    // move map top
                 moveTop += 3;
                 $("#map_bg").css("top", "" + moveTop + "%");
                 styleProps.top = "" + moveTop + "%";
+                localStorage.setItem("mapStyleProperties", JSON.stringify(styleProps));
             });
-            $("#moveBottom").bind("click", function() {
+            $("#moveBottom").bind("click", function() { // move map bottom
                 moveTop -= 3;
                 $("#map_bg").css("top", "" + moveTop + "%");
                 styleProps.top = "" + moveTop + "%";
+                localStorage.setItem("mapStyleProperties", JSON.stringify(styleProps));
             });
 
 
@@ -547,9 +555,6 @@
         $(document).ready(function() { //Materialize.js plugins
             $('.modal').modal();
             $('select').material_select();
-
-
-
 
             var projectInfo = JSON.parse(localStorage.getItem("ProjectInfo")) || {
                 projectName: "",
