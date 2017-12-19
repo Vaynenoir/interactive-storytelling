@@ -131,7 +131,7 @@ $(document).ready(function() {
         var pathLength = path.getTotalLength();
 
 
-        var startRouteFlag = JSON.parse(localStorage.getItem("StartRouteIcon"));
+    var startRouteFlag = JSON.parse(localStorage.getItem("StartRouteIcon"));
 
 
 
@@ -400,7 +400,9 @@ CirclesArrayClone.splice(j, 1);
                         if(!getPointData[Npoint-1]){
                             var savedZoom = 100;
                             savedDisplacement.top =  0;
-                            savedDisplacement.left =  0;
+                            // savedDisplacement.left =  0;
+
+                            console.log(savedDisplacement.top + "%");
                             $("#pointName").html("");
                             $('.mapbg').animate({
                                 zoom: savedZoom + "%",
@@ -485,7 +487,6 @@ CirclesArrayClone.splice(j, 1);
                             $('.mapbg').animate({
                                 zoom: getPointData[j].zoom + "%",
                                 top: getPointData[j].top + "%",
-
                                 left: getPointData[j].left + "%"
 
                             });
@@ -627,7 +628,7 @@ CirclesArrayClone.splice(j, 1);
     var WrapperProps = JSON.parse(localStorage.getItem('mapStyleProperties'));
   
    
-        $(".mapbg").css("background-color", getSettingFromStorage("bodyBackgroundColor"));
+        // $(".mapbg").css("background-color", getSettingFromStorage("bodyBackgroundColor"));
         $("body").css("background-color", getSettingFromStorage("bodyBackgroundColor"));
     
 

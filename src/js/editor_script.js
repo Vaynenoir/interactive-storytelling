@@ -418,7 +418,10 @@
                                 SettingsObj[name] = valueSelected;
                                 for (var i = 0; i < paths.length; i++) {
                                     paths[i].style.fill = SettingsObj.RouteStartIconColor;
+                                    
                                 }
+                                localStorage.setItem("Settings", JSON.stringify(SettingsObj)); 
+                                // console.log(SettingsObj);
                             });
 
                             $("input[name = RouteStartIconSize]").change(function() {      // user choice of route start icon size

@@ -139,9 +139,9 @@ $(document).ready(function() {
                 var scrollCount = $(window).scrollTop();
                 var topOffset = $(this).offset().top;
                 var dataZoom = $(this).attr("data-zoom");
-                var dataPosTop = parseInt($(this).attr("data-pos-top")) + currentDisplacementTop + "%";
+                var dataPosTop = parseInt($(this).attr("data-pos-top")) +  "%";
                 var dataPosBottom = $(this).attr('data-pos-bottom');
-                var dataPosLeft = parseInt($(this).attr("data-pos-left")) + currentDisplacementLeft + "%";
+                var dataPosLeft = parseInt($(this).attr("data-pos-left")) +"%";
                 var dataPosRight = $(this).attr("data-pos-right");
 
 
@@ -460,7 +460,7 @@ $(document).ready(function() {
     console.log(WrapperProps);
 
         $("#IDmapbg").css("background-color", getSettingFromStorage("bodyBackgroundColor") );     //set page bg color from settings
-
+        $("body").css("background-color", getSettingFromStorage("bodyBackgroundColor") ); 
 
 
 

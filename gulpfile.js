@@ -46,6 +46,10 @@ var path = {
     clean: './build'
 };
 
+
+var JsPath = 'node_modules/';
+
+
 gulp.task('html:build', function () {
     gulp.src(path.src.html) 
         .pipe(rigger()) 
@@ -112,19 +116,28 @@ gulp.task('build', [
     'image:build'
 ]);
 
-gulp.task('libs-js:build', function () {  
-    return gulp.src(['src/libs/libs.js', 'src/libs/slick/slick.js', 'src/libs/scroll/scroll.js'])
-        .pipe(concat('libs1.js'))
+
+
+// gulp.task('libs-js', function () {  
+//     return gulp.src(['src/libs/libs.js', 'src/libs/slick/slick.js', 'src/libs/scroll/scroll.js', 'node_modules/ckeditor/ckeditor.js'])
+//         .pipe(concat('libs1.js'))
+//         .pipe(uglify()) 
+//         .pipe(gulp.dest('build/libs/'));
+// });
+
+gulp.task('libs-js', function () {  
+    return gulp.src([ JsPath + 'jquery/dist/jquery.js', JsPath + 'jquery-ui-dist/jquery-ui.min.js', JsPath + '@claviska/jquery-minicolors/jquery.minicolors.js',   JsPath + 'materialize-css/dist/js/materialize.min.js', JsPath + "snapsvg/dist/snap.svg-min.js"])
+        .pipe(concat('libs.js'))
         .pipe(uglify()) 
-        .pipe(gulp.dest('build/libs/'));
+        .pipe(gulp.dest('src/libs/'));
 });
 
-gulp.task('libs-css:build', function () { 
-    return gulp.src(['src/libs/materialize/materialize.min.css','src/libs/jquery-ui.css' ,'src/libs/minicolors_display/jquery.minicolors.css', 'src/libs/slick/slick.css'])
+gulp.task('libs-css', function () { 
+    return gulp.src(['node_modules/materialize-css/dist/css/materialize.min.css','node_modules/jquery-ui-dist/jquery-ui.css' ,'node_modules/@claviska/jquery-minicolors//jquery.minicolors.css'])
         .pipe(concat('libs.css'))
         .pipe(prefixer()) 
         .pipe(cssmin()) 
-        .pipe(gulp.dest('build/libs/'));
+        .pipe(gulp.dest('src/libs/'));
 });
 
 

@@ -5,7 +5,13 @@
   "main": "bezier-animation.js",
   "dependencies": {
     "@claviska/jquery-minicolors": "^2.2.6",
-    "ctx-get-transform": "^1.1.1"
+    "ckeditor": "^4.8.0",
+    "ctx-get-transform": "^1.1.1",
+    "jquery": "^1.12.4",
+    "jquery-ui": "^1.12.1",
+    "jquery-ui-dist": "^1.12.1",
+    "materialize-css": "^0.100.2",
+    "snapsvg": "^0.5.1"
   },
   "devDependencies": {
     "browser-sync": "^2.18.13",
