@@ -306,7 +306,7 @@ $(document).ready(function() {
         }            
 
 
-            var pathStartIcon = JSON.parse(localStorage.getItem("StartRouteIcon")) || [];
+            var pathStartIcon = JSON.parse(localStorage.getItem("StartRouteIcon")) ;
 
 
             var oParser = new DOMParser(); 
@@ -320,7 +320,7 @@ $(document).ready(function() {
 
          var group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
 
-        if(getSettingFromStorage("UserOption") == "true" && getSettingFromStorage("StartIcon").length > 0){        //check 1st step trigger and set Route start Icon
+        if(getSettingFromStorage("UserOption") == "true" && pathStartIcon){        //check 1st step trigger and set Route start Icon
             for(var i=0;i<pathStartIcon.length;i++){                
             
                 $(parsedPathStartIcon).attr({
@@ -328,14 +328,14 @@ $(document).ready(function() {
                     transform: iconScale
                 });       
             }
-        }
+        
 
         //transform Route start Icon
         $(group).attr("transform", "translate("+(path.getPointAtLength(1).x - (getSettingFromStorage("RouteStartIconSize")/iconOffsetX)) + " " + (path.getPointAtLength(1).y - (getSettingFromStorage("RouteStartIconSize")/iconOffsetY) )+") " + "scale("+getSettingFromStorage("RouteStartIconSize")/100+")");
         group.append(parsedPathStartIcon);
         svgRoot.append(group);
-
-
+        }
+        
 
 
 

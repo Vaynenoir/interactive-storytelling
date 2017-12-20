@@ -35,4 +35,6 @@ CKEDITOR.editorConfig = function( config ) {
 	config.filebrowserWindowHeight = '50%';
 	// Simplify the dialog windows.
 	config.removeDialogTabs = 'image:advanced;link:advanced';
+
+
 };

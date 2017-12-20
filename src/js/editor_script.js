@@ -332,6 +332,7 @@
                             }
                         } else if ($("#defaultOption").is(":checked")) {
                             $(".additional_settings").hide();
+
                         }
                     } else {
                         $(".additional_settings").hide();
@@ -370,6 +371,9 @@
                     $("#defaultOption").on("click", function() {        //choose default option
                         SettingsObj.UserOption = "false";
                         SettingsObj.defaultOption = "true";
+
+                        SettingsObj.StartIcon = "";
+                        localStorage.setItem("StartRouteIcon", JSON.stringify([]));
                         localStorage.setItem("Settings", JSON.stringify(SettingsObj));
                         $(".additional_settings").hide();
 
