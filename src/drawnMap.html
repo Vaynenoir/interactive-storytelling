@@ -9,7 +9,7 @@
 
     <link rel="stylesheet" href="libs/libs.css">
     <script src="libs/ckeditor/ckeditor.js"></script>
-    <script type="text/javascript" src="libs/ckfinder/ckfinder.js"></script>
+   <!--  <script type="text/javascript" src="libs/ckfinder/ckfinder.js"></script> -->
     <script type="text/javascript" src="js/bezier-editor.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="css/drawn_map.css">
@@ -143,7 +143,7 @@
 
     <script>
 
-
+        
         CKEDITOR.on('dialogDefinition', function(ev) {
 
             // Take the dialog name and its definition 
@@ -166,7 +166,30 @@
         });
 
 
-        var editor = CKEDITOR.replace( 'text');
+UPLOADCARE_PUBLIC_KEY = 'demopublickey';
+var editor = CKEDITOR.replace( 'text',{
+        extraPlugins: 'uploadcare',
+    // toolbar: [
+    //     [, 'Image'], ['Source', 'About']
+    // ],
+    uploadcare: {
+        multiple: true
+    }
+    });
+
+function favoriteFiles(container, button, dialogApi, settings) {
+  $.each(settings.favoriteFiles, function(i, uuid) {
+    container.append($('<img>', {
+        'class': 'favorite-files-image',
+        'src': settings.cdnBase + '/' + uuid + '/-/scale_crop/280x280/center/',
+      })
+      .on('click', function(e) {
+        dialogApi.addFiles([uploadcare.fileFrom('uploaded', uuid, settings)])
+      })
+    );
+  });
+}
+
 
 
 

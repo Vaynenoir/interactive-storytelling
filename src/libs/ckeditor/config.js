@@ -6,12 +6,12 @@
 CKEDITOR.editorConfig = function( config ) {
 	// Define changes to default configuration here.
 	// For complete reference see:
-	// http://docs.ckeditor.com/#!/api/CKEDITOR.config
+	// http://docs.ckeditor.com/#!/api/CKEDITOR.config0
 
 	// The toolbar groups arrangement, optimized for two toolbar rows.
 	config.toolbarGroups = [
 		{ name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
-		{ name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ] },
+		{ name: 'editing',     groups: [ 'find', 'selection', 'spellchecker', 'Uploadcare'] },
 		{ name: 'links' },
 		{ name: 'insert' },
 		{ name: 'forms' },
@@ -25,7 +25,29 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'colors' },
 		{ name: 'about' }
 	];
+	 // config.extraPlugins = 'dropler';
+  
+  // // configure the backend service and credentials
+  // // aws requires a few extra.. 
+  // config.droplerConfig = {
+  //     backend: 's3',
+  //     settings: {
+  //         bucket: 'bucketname',
+  //         region: 'your-region',
+  //         accessKeyId: 'key',
+  //         secretAccessKey: 'secret-key'
+  //     }
+  // };
 
+	config.imgUploadConfig = {
+      settings: {
+          bucket: 'bucket-name',
+          region: 'region-name',
+          accessKeyId: 'access-key',
+          secretAccessKey: 'secret-access-key'
+      }
+
+};
 	// Remove some buttons provided by the standard plugins, which are
 	// not needed in the Standard(s) toolbar.
 	config.removeButtons = 'Underline,Subscript,Superscript';
@@ -35,6 +57,10 @@ CKEDITOR.editorConfig = function( config ) {
 	config.filebrowserWindowHeight = '50%';
 	// Simplify the dialog windows.
 	config.removeDialogTabs = 'image:advanced;link:advanced';
+config.extraPlugins = 'dialog,dialogui,clipboard,widget,codesnippet';
+	config.extraPlugins = 'img-upload';
+		config.language = 'en';
+		config.language_list = [ 'en:English', 'es:Spanish' ];
 
 
 };

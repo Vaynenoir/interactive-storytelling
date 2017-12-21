@@ -11,7 +11,7 @@ $(document).ready(function() {
         routeBorderWidth: "4",
         pointsRadius: "8",
         pointsBorderWidth: "1",
-        contentWidth: "100",
+        contentWidth: "50",
         contentAlign: "flex-start"
     };
 
@@ -64,13 +64,52 @@ $(document).ready(function() {
         $(section).find('img').addClass('js-image');
         $(section).find('.js-image').attr('data-pos-x', 0);
         $(section).find('.js-image').attr('data-pos-y', 0);
+        
+
 
 
         text_cont.append(section);
         $("div.text_wrapper").css("align-items", getSettingFromStorage("contentAlign") );
          $('.js-section').css("width", getSettingFromStorage("contentWidth") + "%");
     }
+    function hasSliderClass(elem, className) {
+        return new RegExp(' ' + className + ' ').test(' ' + elem.className + ' ');
+    }
 
+    var sliderImg = $('.js-image');
+    
+    for(var i=0; i < sliderImg.length; i++){
+        var src = sliderImg[i].getAttribute('src');
+        var sliderImgSrc = src.slice(-9);
+        if(sliderImgSrc == "/preview/" && !hasSliderClass(sliderImg[i], "slick-item")){
+            sliderImg[i].classList.add("slick-item");
+        }
+    }
+
+    var sections = $('.js-section');
+    // $(sections).each(function() {
+    $.each(sections, function(){
+    if($('.js-section .slick-item').length > 0) {
+        var sliderWrap = document.createElement('div');
+        $(sliderWrap).addClass('slider');
+        $('.js-section .slick-item').wrapAll($(sliderWrap));
+        // $(".slider").css("width", getSettingFromStorage("contentWidth") + "%");
+        $(".slider").parent().find('br').remove();
+        if($(".slider").parent().is("p")){
+            $(".slider").unwrap();
+        }
+
+    }
+});
+// });
+      $('.slider').slick({
+       "slidesToShow": 1,
+       "slidesToScroll": 1,
+        autoplay: true,
+        autoplaySpeed: 2000,
+        prevArrow: false,
+            nextArrow: false
+      });
 
 
     $('.mapbg').css("zoom", "0%");
@@ -80,13 +119,13 @@ $(document).ready(function() {
 
     var map_url = JSON.parse(localStorage.getItem('map'));
     var map_url_true = map_url;
-    console.log(map_url_true);
+    // console.log(map_url_true);
 
     $('#map').attr('data', map_url_true); 
 
     a.addEventListener("load", function() { //loading map url from localstorage
 
-        console.log($("#map").attr('data'));
+        // console.log($("#map").attr('data'));
         var svgDoc = a.contentDocument;
         var svgRoot = svgDoc.documentElement;  //getting into object DOM
 
@@ -175,7 +214,7 @@ $(document).ready(function() {
             });
 
             var arrImgID = []; //array of page img elements
-            $('.js-image').each(function(el) {
+            $('.slick-current').each(function(el) {
 
                 arrImgID.push($(this));
             });
@@ -272,7 +311,7 @@ $(document).ready(function() {
         });
 
         var ParentCicleGroup = svgRoot.getElementById("pathGroup");
-        console.log(ParentCicleGroup);
+        // console.log(ParentCicleGroup);
         for(var i=0; i < circlesArray.length; i++){
             var circleGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
             var currentPoint = svgRoot.getElementById(i+1);
@@ -289,12 +328,12 @@ $(document).ready(function() {
                 class: "cityName"
             });
             $(text).text(dataContent[i].cityName);
-            console.log(text);
+            // console.log(text);
             circleGroup.append(text);
            
             ParentCicleGroup.append(circleGroup);   //group circles elements with their names(text elements)
             
-            console.log(currentPoint);
+            // console.log(currentPoint);
             
             svgRoot.append(circleGroup);  
         }
@@ -457,7 +496,7 @@ $(document).ready(function() {
     }, false);
 
     var WrapperProps = JSON.parse(localStorage.getItem('mapStyleProperties'));
-    console.log(WrapperProps);
+    // console.log(WrapperProps);
 
         $("#IDmapbg").css("background-color", getSettingFromStorage("bodyBackgroundColor") );     //set page bg color from settings
         $("body").css("background-color", getSettingFromStorage("bodyBackgroundColor") ); 

@@ -126,14 +126,14 @@ gulp.task('build', [
 // });
 
 gulp.task('libs-js', function () {  
-    return gulp.src([ JsPath + 'jquery/dist/jquery.js', JsPath + 'jquery-ui-dist/jquery-ui.min.js', JsPath + '@claviska/jquery-minicolors/jquery.minicolors.js',   JsPath + 'materialize-css/dist/js/materialize.min.js', JsPath + "snapsvg/dist/snap.svg-min.js"])
+    return gulp.src([ JsPath + 'jquery/dist/jquery.js', JsPath + 'jquery-ui-dist/jquery-ui.min.js', JsPath + '@claviska/jquery-minicolors/jquery.minicolors.js',   JsPath + 'materialize-css/dist/js/materialize.min.js', JsPath + "slick-carousel/slick/slick.js" ,JsPath + "snapsvg/dist/snap.svg-min.js"])
         .pipe(concat('libs.js'))
         .pipe(uglify()) 
         .pipe(gulp.dest('src/libs/'));
 });
 
 gulp.task('libs-css', function () { 
-    return gulp.src(['node_modules/materialize-css/dist/css/materialize.min.css','node_modules/jquery-ui-dist/jquery-ui.css' ,'node_modules/@claviska/jquery-minicolors//jquery.minicolors.css'])
+    return gulp.src(['node_modules/materialize-css/dist/css/materialize.min.css','node_modules/jquery-ui-dist/jquery-ui.css' ,'node_modules/@claviska/jquery-minicolors//jquery.minicolors.css', "node_modules/slick-carousel/slick/slick.css"])
         .pipe(concat('libs.css'))
         .pipe(prefixer()) 
         .pipe(cssmin()) 

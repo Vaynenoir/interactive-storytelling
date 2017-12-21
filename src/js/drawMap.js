@@ -11,7 +11,7 @@ $(document).ready(function() {
         routeBorderWidth: "4",
         pointsRadius: "8",
         pointsBorderWidth: "1",
-        contentWidth: "100",
+        contentWidth: "50",
         contentAlign: "flex-start",
         checkboxState: "false",
         defaultOption: "false",
