@@ -30,6 +30,7 @@ module.exports = function() {
         uc.jQuery.extend({}, config, {multiple: false})
       );
       file = uploadcare.fileFrom('uploaded', file, settings);
+      console.log(file);
     } else {
       settings = uc.settings.build(config)
       file = null;
@@ -40,28 +41,44 @@ module.exports = function() {
       uc.jQuery.when.apply(null, files).done(function() {
         uc.jQuery.each(arguments, function() {
           var imageUrl = this.cdnUrl;
+          if(this.isImage && files.length > 1){
+            var imgDataAttr = "";
+          }
+          if(this.isImage && files.length == 1){
+            var imgDataAttr = "single_img";
+          }
           if (this.isImage && ! this.cdnUrlModifiers) {
             imageUrl += '-/preview/';
+
           }
+          // if(this.isImage && files.length > 1){
+          //   alert(files);
+          // }
+
           if (element) {
+
             var widget;
             if (editor.widgets && (widget = editor.widgets.selected[0])
                 && widget.element === element
             ) {
+              console.log(editor.widgets.selected);
               widget.setData('src', imageUrl).setData('height', null)
             } else if (element.getName() == 'img') {
               element.data('cke-saved-src', '');
               element.setAttribute('src', imageUrl);
               element.removeAttribute('width');
               element.removeAttribute('height');
+              // element.setAttribute('data-simple_img', "true");
+               alert(element);
             } else {
               element.data('cke-saved-href', '');
               element.setAttribute('href', this.cdnUrl);
             }
           } else {
             if (this.isImage) {
-              editor.insertHtml('<img src="' + imageUrl + '" class="slick-item" width="50%"  alt=""/><br>', 'unfiltered_html');
-            } else {
+              editor.insertHtml('<img src="' + imageUrl + '" class="slick-item" data-img-amout="'+ imgDataAttr +'" width="50%"  alt=""/><br>', 'unfiltered_html');
+
+            }else{
               editor.insertHtml('<a href="' + this.cdnUrl + '">' + this.name + '</a> ', 'unfiltered_html');
             }
           }
@@ -109,7 +126,7 @@ CKEDITOR.plugins.add('uploadcare', {
     });
 
     editor.ui.addButton && editor.ui.addButton('Uploadcare', {
-      label : 'Uploadcare',
+      label : 'Add image',
       toolbar : 'insert',
       command : 'showUploadcareDialog'
     });

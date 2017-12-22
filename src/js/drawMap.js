@@ -25,7 +25,7 @@ $(document).ready(function() {
         }
     }
 var kek = JSON.parse(localStorage.getItem("Settings"))
-console.log(kek);
+// console.log(kek);
     function getSvgPointPosition(string){
         string = string.slice(1);
         string = string.split("c");
@@ -136,10 +136,10 @@ console.log(kek);
 
 
     var pathStartIcon = JSON.parse(localStorage.getItem("StartRouteIcon"));
-    console.log(pathStartIcon);
+    // console.log(pathStartIcon);
     var oParser = new DOMParser();
     var oDOM = oParser.parseFromString(pathStartIcon, "text/xml");
-    console.log(oDOM.documentElement);
+    // console.log(oDOM.documentElement);
 
     var parsedPathStartIcon = oDOM.documentElement;
     var iconOffsetX = $(parsedPathStartIcon).attr("data-offset-x");
@@ -154,7 +154,7 @@ console.log(kek);
                 fill: getSettingFromStorage("RouteStartIconColor"),
                 transform: iconScale
             });
-            console.log(parsedPathStartIcon);
+            // console.log(parsedPathStartIcon);
  
         
 
@@ -283,7 +283,7 @@ CirclesArrayClone.splice(j, 1);
                     fill: getSettingFromStorage("mapPointsColor"),
                     "stroke-width": getSettingFromStorage("pointsBorderWidth")
                 });
-                console.log($(startCircle));
+                // console.log($(startCircle));
                  svgRoot.append(startCircle);
              }
                
@@ -330,13 +330,13 @@ CirclesArrayClone.splice(j, 1);
 
                         var FilledContentPaths = svgDoc.getElementById(circlesArray[i].id);
                         var ClosestTextField = $(FilledContentPaths).parent().find("text");
-                        console.log(ClosestTextField);
+                        // console.log(ClosestTextField);
                         if(pointsDataContentArray[j].cityName){
-                            console.log(pointsDataContentArray[j].cityName);
+                            // console.log(pointsDataContentArray[j].cityName);
                             $(ClosestTextField).text(pointsDataContentArray[j].cityName);
                         }
                         
-                        console.log(circlesArray[i].id);
+                        // console.log(circlesArray[i].id);
                         $(FilledContentPaths).css("fill", "#990033");
                     }
                     
@@ -372,13 +372,13 @@ CirclesArrayClone.splice(j, 1);
                     right: 0
                 };
 
-                console.log(pointsDataContentArray);
+                // console.log(pointsDataContentArray);
                 
                 var savedDisplacement = JSON.parse(localStorage.getItem("mapStyleProperties")) || {};
 
                 savedDisplacement.top = parseInt(savedDisplacement.top);
                 savedDisplacement.left = parseInt(savedDisplacement.left);
-                console.log(savedDisplacement.top, savedDisplacement.left);
+                // console.log(savedDisplacement.top, savedDisplacement.left);
 
 
            paths.addEventListener("click", function() {
@@ -402,7 +402,7 @@ CirclesArrayClone.splice(j, 1);
                             savedDisplacement.top =  0;
                             // savedDisplacement.left =  0;
 
-                            console.log(savedDisplacement.top + "%");
+                            // console.log(savedDisplacement.top + "%");
                             $("#pointName").html("");
                             $('.mapbg').animate({
                                 zoom: savedZoom + "%",
@@ -412,7 +412,7 @@ CirclesArrayClone.splice(j, 1);
                         }else{
                                 
                                 
-                                console.log(getPointData[Npoint-1].cityName);    
+                                // console.log(getPointData[Npoint-1].cityName);    
                                 savedZoom = getPointData[Npoint-1].zoom;
                                 savedDisplacement.top = getPointData[Npoint-1].top;
                                 savedDisplacement.left = getPointData[Npoint-1].left;
