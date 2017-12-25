@@ -62,7 +62,9 @@
 			word-wrap: break-word;
 /*			position: relative;*/
 		}
-
+.slick-single{
+	width: 100%!important;
+}
 		.my-svg{
 			
 		}

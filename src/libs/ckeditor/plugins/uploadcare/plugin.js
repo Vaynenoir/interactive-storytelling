@@ -39,16 +39,20 @@ module.exports = function() {
     var dialog = uploadcare.openDialog(file, settings).done(function(selected) {
       var files = settings.multiple ? selected.files() : [selected];
       uc.jQuery.when.apply(null, files).done(function() {
+        if(files.length > 1){
+         editor.insertHtml('<div class="slick_gallery">', 'unfiltered_html');
+        }
+
         uc.jQuery.each(arguments, function() {
           var imageUrl = this.cdnUrl;
           if(this.isImage && files.length > 1){
             var imgDataAttr = "";
           }
           if(this.isImage && files.length == 1){
-            var imgDataAttr = "single_img";
+            var imgDataAttr = "single";
           }
           if (this.isImage && ! this.cdnUrlModifiers) {
-            imageUrl += '-/preview/';
+            imageUrl += '-/preview/' + imgDataAttr;
 
           }
           // if(this.isImage && files.length > 1){
@@ -83,6 +87,10 @@ module.exports = function() {
             }
           }
         });
+        if(files.length > 1){
+         editor.insertHtml('</div>', 'unfiltered_html');
+        }
+      console.log("LFGFDGFGDFg");
       });
     });
   });
@@ -141,7 +149,7 @@ CKEDITOR.plugins.add('uploadcare', {
       var resizerSize = 12;
       
       var clearToolbar = require('./tools/clear-toolbar');
-      
+
       editable.attachListener( editable.isInline() ? editable : editor.document, 'mousemove', function( evt ) {
         evt = evt.data;
         var target = evt.getTarget();
@@ -181,6 +189,7 @@ CKEDITOR.plugins.add('uploadcare', {
             dialogBtn.on('click', function(){
               editor.getSelection().selectElement( targetImg );
               editor.execCommand('showUploadcareDialog');
+
             });
             
             target.removeAllListeners();
@@ -521,6 +530,7 @@ module.exports = function getBody() {
     var editor = CKEDITOR.currentInstance;
     var editable = editor.editable();
     var doc = editable.getDocument();
+    // console.log(doc);
     return doc.getBody();
   } catch (ex) {
     return null;      

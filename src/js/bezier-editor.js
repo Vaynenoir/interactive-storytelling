@@ -194,17 +194,42 @@ var bezierEditor = function(id) {
 					};
 					
 					editor.state.down = false;
-					var zoom = JSON.parse(localStorage.getItem('zoom'));
+					var Displacement = JSON.parse(localStorage.getItem('mapStyleProperties')) || { transform: ""};
+					var screenChangedCTM = JSON.parse(localStorage.getItem("SreenCTM")) || { zoom: 0, e: 0, f: 0};
 					var clickX = 0;
 					var	clickY = 0;
 					var canvas = document.getElementById("bezier-canvas");
 					var svg = document.getElementById("map_bg");
 					console.log(svg);
+					var  zoom, left, top;
+					 if((Displacement.transform).length > 0){
+                // scaleImg = styleProps.transform;
+                
+                var transformString = (Displacement.transform);
+                // console.log(scaleImg);
+                var regex = /[+-]?\d+(\.\d+)?/g;
+                var StringValues = transformString.match(regex).map(function(v) {
+                    return parseFloat(v); 
+                });
+                console.log(StringValues);
+
+                zoom = StringValues[0];
+                left = StringValues[1],
+                top = StringValues[2];
+                console.log( zoom, left, top);
+
+            }else{
+            	zoom = 1;
+            	left = 0;
+            	top = 0;
+            }
+            console.log(zoom, left, top);
 
 					var pos = getMousePos(svg,e);
 					if(zoom || zoom>0){
-					clickX = pos.x/zoom; 
-					clickY = pos.y/zoom;				
+					clickX = pos.x; 
+					clickY = pos.y;	
+					console.log(clickX, clickY);			
 					}
 					else{
 					clickX = pos.x; 

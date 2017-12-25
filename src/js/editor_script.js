@@ -137,6 +137,137 @@
                         RouteStartIconSize: "2"
                     };
 
+
+                    // var WrapperProps = JSON.parse(localStorage.getItem('mapStyleProperties')) || [];
+
+                    // if (WrapperProps) {
+
+                    //     $.each(WrapperProps, function(prop, value) {
+                    //         $(MapPathsGroup).css(prop, value);
+                    //     });
+
+                    // }
+
+
+
+                var styleProps = JSON.parse(localStorage.getItem("mapStyleProperties")) || {
+                     transform: ""
+                };
+            
+                var scaleImg = 1;
+                var moveLeft = 0;
+                var moveTop = 0;
+                var moveLeftDefault = 0;
+                var moveTopDefault = 0;
+
+
+
+
+
+
+
+            if((styleProps.transform).length > 0){
+                // scaleImg = styleProps.transform;
+                
+                transformString = (styleProps.transform);
+                // console.log(scaleImg);
+                var regex = /[+-]?\d+(\.\d+)?/g;
+                var StringValues = transformString.match(regex).map(function(v) {
+                    return parseFloat(v); 
+                });
+                console.log(StringValues);
+
+                scaleImg = StringValues[0];
+                moveLeft = StringValues[1],
+                moveTop = StringValues[2];
+                console.log( scaleImg, moveLeft, moveTop);
+
+                $(MapPathsGroup).attr("transform", "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")");
+            }
+            // if(styleProps.top.length > 0 || styleProps.left.length >0){
+                
+            //     moveLeft = parseInt(styleProps.left);
+            //     moveTop = parseInt(styleProps.top);
+            //     // console.log(moveLeft);
+            //     // console.log(scaleImg);
+            // }
+
+            var optionsCTM = {
+                zoom: 0,
+                e: 0, 
+                f: 0
+            };
+
+            console.log(styleProps);
+            
+            $("#plus").bind('click', function() {     //zoom map
+                scaleImg += 0.1;
+                $(MapPathsGroup).attr("transform", "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")");
+                styleProps.transform = "scale(" + scaleImg + ") translate("+ moveLeft +"    " + moveTop+ ")";
+                
+                localStorage.setItem("mapStyleProperties", JSON.stringify(styleProps));
+
+                console.log($(svgRoot).find("#mapPaths"));
+                
+                var myScreenCTM = $(svgRoot).find("#mapPaths")[0].getScreenCTM();
+
+                console.log(myScreenCTM);
+                localStorage.setItem("SreenCTM", JSON.stringify(optionsCTM));
+                localStorage.setItem('zoom', JSON.stringify(scaleImg));
+            });
+            $("#minus").bind('click', function() {              
+                scaleImg -= 0.3;
+                if (scaleImg < 1.1) {
+                    scaleImg = 1.0;
+                }
+
+                $(MapPathsGroup).attr("transform", "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")");
+                styleProps.transform = "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")";
+                var myScreenCTM = $(svgRoot).find("#mapPaths")[0].getScreenCTM();
+                localStorage.setItem('zoom', JSON.stringify(scaleImg));
+                localStorage.setItem("SreenCTM", JSON.stringify(optionsCTM));
+                localStorage.setItem("mapStyleProperties", JSON.stringify(styleProps));
+            });
+
+
+            $("#moveLeft").bind("click", function() {  // move map left
+                moveLeft += 10;
+                 $(MapPathsGroup).attr("transform", "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")");
+                styleProps.transform = "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")";
+                var myScreenCTM = $(svgRoot).find("#mapPaths")[0].getScreenCTM();
+                optionsCTM.e = myScreenCTM.e;
+                localStorage.setItem("SreenCTM", JSON.stringify(optionsCTM));
+                localStorage.setItem("mapStyleProperties", JSON.stringify(styleProps));
+            });
+            $("#moveRight").bind("click", function() {   // move map right
+                moveLeft -= 10;
+                 $(MapPathsGroup).attr("transform", "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")");
+                styleProps.transform = "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")";
+                var myScreenCTM = $(svgRoot).find("#mapPaths")[0].getScreenCTM();
+                optionsCTM.e = myScreenCTM.e;
+                localStorage.setItem("SreenCTM", JSON.stringify(optionsCTM));
+                localStorage.setItem("mapStyleProperties", JSON.stringify(styleProps));
+            }); 
+            $("#moveTop").bind("click", function() {    // move map top
+                moveTop += 10;
+                 $(MapPathsGroup).attr("transform", "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")");
+                styleProps.transform = "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")";
+                var myScreenCTM = $(svgRoot).find("#mapPaths")[0].getScreenCTM();
+                optionsCTM.f = myScreenCTM.f;
+                localStorage.setItem("SreenCTM", JSON.stringify(optionsCTM));
+                localStorage.setItem("mapStyleProperties", JSON.stringify(styleProps));
+            });
+            $("#moveBottom").bind("click", function() { // move map bottom
+                moveTop -= 10;
+                $(MapPathsGroup).attr("transform", "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")");
+                styleProps.transform = "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")";
+                var myScreenCTM = $(svgRoot).find("#mapPaths")[0].getScreenCTM();
+                optionsCTM.f = myScreenCTM.f;
+                localStorage.setItem("SreenCTM", JSON.stringify(optionsCTM));
+                localStorage.setItem("mapStyleProperties", JSON.stringify(styleProps));
+            });
+
+
                     var MapColor = document.getElementById("mapColorPicker");
                     var MapStrokeColor = document.getElementById("mapStrokeColorPicker");
                     var MapPointsColor = document.getElementById("mapPointsColorPicker");
@@ -475,86 +606,7 @@
 
 
 
-            var styleProps = JSON.parse(localStorage.getItem("mapStyleProperties")) || {
-                transform: "",
-                top: "",
-                left: ""
-            };
-            
-                var scaleImg = 1.1;
-                var moveLeft = 0;
-                var moveTop = 0;
-                var moveLeftDefault = 0;
-                var moveTopDefault = 0;
-            if((styleProps.transform).length > 0){
-                // scaleImg = styleProps.transform;
-                
-                scaleImg = (styleProps.transform);
-                console.log(scaleImg);
-                scaleImg = scaleImg.slice(6,scaleImg.length-1);
-                scaleImg = parseFloat(scaleImg);
-                console.log(scaleImg);
-
-            }
-            if(styleProps.top.length > 0 || styleProps.left.length >0){
-                
-                moveLeft = parseInt(styleProps.left);
-                moveTop = parseInt(styleProps.top);
-                // console.log(moveLeft);
-                // console.log(scaleImg);
-            }
-
-            console.log(styleProps);
-            
-            $("#plus").bind('click', function() {     //zoom map
-                scaleImg += 0.1;
-                // console.log(scaleImg);
-                $("#map_bg").css("transform", "scale(" + scaleImg + ")");
-                styleProps.transform = "scale(" + scaleImg + ")";
-                // console.log(styleProps);
-                localStorage.setItem('zoom', JSON.stringify(scaleImg));
-                localStorage.setItem("mapStyleProperties", JSON.stringify(styleProps));
-            });
-            $("#minus").bind('click', function() {              
-                scaleImg -= 0.3;
-                if (scaleImg < 1.1) {
-                    scaleImg = 1;
-                }
-                $("#map_bg").css("transform", "scale(" + scaleImg + ")");
-                styleProps.transform = "scale(" + scaleImg + ")";
-                localStorage.setItem('zoom', JSON.stringify(scaleImg));
-                localStorage.setItem("mapStyleProperties", JSON.stringify(styleProps));
-            });
-
-            $("map_bg").css("left", "" + moveLeft + "%");
-            $("map_bg").css("top", "" + moveTop + "%");
-            styleProps.left = "" + moveLeft + "%";
-            styleProps.top = "" + moveTop + "%";
-            $("#moveLeft").bind("click", function() {  // move map left
-                moveLeft += 3;
-                $("#map_bg").css("left", "" + moveLeft + "%");
-                styleProps.left = "" + moveLeft + "%";
-                localStorage.setItem("mapStyleProperties", JSON.stringify(styleProps));
-            });
-            $("#moveRight").bind("click", function() {   // move map right
-                moveLeft -= 3;
-                $("#map_bg").css("left", "" + moveLeft + "%");
-                styleProps.left = "" + moveLeft + "%";
-                localStorage.setItem("mapStyleProperties", JSON.stringify(styleProps));
-            }); 
-            $("#moveTop").bind("click", function() {    // move map top
-                moveTop += 3;
-                $("#map_bg").css("top", "" + moveTop + "%");
-                styleProps.top = "" + moveTop + "%";
-                localStorage.setItem("mapStyleProperties", JSON.stringify(styleProps));
-            });
-            $("#moveBottom").bind("click", function() { // move map bottom
-                moveTop -= 3;
-                $("#map_bg").css("top", "" + moveTop + "%");
-                styleProps.top = "" + moveTop + "%";
-                localStorage.setItem("mapStyleProperties", JSON.stringify(styleProps));
-            });
-
+           
 
         });
 

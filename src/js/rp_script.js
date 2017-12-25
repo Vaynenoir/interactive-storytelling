@@ -81,11 +81,17 @@ $(document).ready(function() {
     for(var i=0; i < sliderImg.length; i++){
         var src = sliderImg[i].getAttribute('src');
         var sliderImgSrc = src.slice(-9);
+        var singleImgSrc = src.slice(-15);
+        console.log(singleImgSrc);
         if(sliderImgSrc == "/preview/" && !hasSliderClass(sliderImg[i], "slick-item")){
             sliderImg[i].classList.add("slick-item");
         }
+        if(singleImgSrc == "/preview/single" && !hasSliderClass(sliderImg[i], "slick-single")){
+            sliderImg[i].classList.remove("slick-item")
+            sliderImg[i].classList.add("slick-single");
+        }
     }
-    console.log(sliderImg);
+    // console.log(sliderImg);
 
             $.fn.hasAttr = function(name) {  
            return this.attr(name) !== undefined;
@@ -93,18 +99,18 @@ $(document).ready(function() {
     var sections = $('.js-section');
     
 
-    var sliderItem = $('.slick-item');
+    var sliderItem = $('.slick-single');
 
-if(sliderItem && sliderItem.length > 0){
+    if(sliderItem && sliderItem.length > 0){
         $.each(sliderItem, function(i,el){
             
 
 
-        if($(el).hasAttr('data-img-amout') && $(el).attr('data-img-amout') == "single_img"){
+        // if($(el).hasAttr('data-img-amout') && $(el).attr('data-img-amout') == "single_img"){
             var sliderWrap = document.createElement('div');
             $(sliderWrap).addClass('slick-current');
             $(el).wrap($(sliderWrap));
-        }
+        // }
 
 
         });
@@ -123,13 +129,15 @@ if(sliderItem && sliderItem.length > 0){
     if($(el).find('.slick-item').length !== 0){
         console.log($(el));
         var slickItem =  $(el).find('.slick-item');
-              if($(slickItem).hasAttr('data-img-amout') && $(slickItem).attr('data-img-amout') == "single_img"){
-            var sliderWrap = document.createElement('div');
-            $(sliderWrap).addClass('slick-current');
-            $(slickItem).wrap($(sliderWrap));
-        }  
+            if($(slickItem).hasAttr('data-img-amout') && $(slickItem).attr('data-img-amout') == "single_img"){
+                var sliderWrap = document.createElement('div');
+                // console.log("kek");
+                $(sliderWrap).addClass('slick-current');
+                $(slickItem).wrap($(sliderWrap));
+            }  
         
         else if($(slickItem).attr('data-img-amout') == "" || !$(slickItem).hasAttr('data-img-amout')){
+
             var sliderWrap = document.createElement('div');
             $(sliderWrap).addClass('slider');
             $(slickItem).wrapAll($(sliderWrap));
@@ -182,7 +190,25 @@ if(sliderItem && sliderItem.length > 0){
         var PathsArray = MapPathsGroup.getElementsByTagName('path');
 
 
+        var WrapperProps = JSON.parse(localStorage.getItem('mapStyleProperties')) || { transform: ""};
+             if((WrapperProps.transform).length > 0){
+                // scaleImg = styleProps.transform;
+                
+                transformString = (WrapperProps.transform);
+                // console.log(scaleImg);
+                var regex = /[+-]?\d+(\.\d+)?/g;
+                var StringValues = transformString.match(regex).map(function(v) {
+                    return parseFloat(v); 
+                });
+                console.log(StringValues);
 
+                scaleImg = StringValues[0];
+                moveLeft = StringValues[1],
+                moveTop = StringValues[2];
+                console.log( scaleImg, moveLeft, moveTop);
+
+                $(MapPathsGroup).attr("transform", "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")");
+            }       
 
 
         for(var i = 0; i < PathsArray.length; i++){                         
@@ -272,6 +298,7 @@ if(sliderItem && sliderItem.length > 0){
             $('.slick-current').each(function(el) {
 
                 arrImgID.push($(this));
+                // console.log(arrImgID);
             });
 
 
@@ -283,6 +310,7 @@ if(sliderItem && sliderItem.length > 0){
 
                 imgParentID = parseInt(imgParentID[8]) - 1;
                 if (imgParentID == CirclePathCoords[i].id-1) {
+                    console.log(imgParentID);
                     $(this).attr({
                         'data-pos-x': CirclePathCoords[imgParentID].cx,
                         'data-pos-y': CirclePathCoords[imgParentID].cy
@@ -294,6 +322,7 @@ if(sliderItem && sliderItem.length > 0){
 
             $(arrImgID).each(function() {  //if current img inWindow, than create a light from current point to img's border
                 if (inWindow($(this))) {
+                    console.log($(this));
                     vis_count++;
 
                     var cx = $(this).attr('data-pos-x');
@@ -550,7 +579,7 @@ if(sliderItem && sliderItem.length > 0){
 
     }, false);
 
-    var WrapperProps = JSON.parse(localStorage.getItem('mapStyleProperties'));
+ 
     // console.log(WrapperProps);
 
         $("#IDmapbg").css("background-color", getSettingFromStorage("bodyBackgroundColor") );     //set page bg color from settings
@@ -558,8 +587,8 @@ if(sliderItem && sliderItem.length > 0){
 
 
 
-    $.each(WrapperProps, function(prop, value) {
-        $("#IDmapbg").css(prop, value); //set offsets from 1st step
-    });
+    // $.each(WrapperProps, function(prop, value) {
+    //     $("#IDmapbg").css(prop, value); //set offsets from 1st step
+    // });
 
 });

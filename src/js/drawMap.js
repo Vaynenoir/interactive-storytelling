@@ -92,6 +92,8 @@ var kek = JSON.parse(localStorage.getItem("Settings"))
             var ColorMapData = JSON.parse(localStorage.getItem('SavedMapColors')) || [];
 
 
+
+
         for(var i = 0; i < PathsArray.length; i++){
             PathsArray[i].style.fill = getSettingFromStorage("mapColor");
             PathsArray[i].style.stroke = getSettingFromStorage("mapStrokeColor");
@@ -372,9 +374,33 @@ CirclesArrayClone.splice(j, 1);
                     right: 0
                 };
 
+
+
                 // console.log(pointsDataContentArray);
+             var savedDisplacement = JSON.parse(localStorage.getItem("mapStyleProperties")) || {};
+
+             var scaleImg, moveLeft, moveTop;
+ 
+            if((savedDisplacement.transform).length > 0){
+                // scaleImg = styleProps.transform;
                 
-                var savedDisplacement = JSON.parse(localStorage.getItem("mapStyleProperties")) || {};
+                var transformString = (savedDisplacement.transform);
+                // console.log(scaleImg);
+                var regex = /[+-]?\d+(\.\d+)?/g;
+                var StringValues = transformString.match(regex).map(function(v) {
+                    return parseFloat(v); 
+                });
+                console.log(StringValues);
+
+                scaleImg = StringValues[0];
+                moveLeft = StringValues[1],
+                moveTop = StringValues[2];
+                console.log( scaleImg, moveLeft, moveTop);
+
+                $(MapPathsGroup).attr("transform", "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")");
+            }
+               
+                
 
                 savedDisplacement.top = parseInt(savedDisplacement.top);
                 savedDisplacement.left = parseInt(savedDisplacement.left);
@@ -395,6 +421,28 @@ CirclesArrayClone.splice(j, 1);
 
 
                 var getPointData = JSON.parse(localStorage.getItem('PointsContent')) || [];
+                var pointsDefaultDisplacement = JSON.parse(localStorage.getItem("mapStyleProperties")) || {transform: ""};
+
+
+                  if((pointsDefaultDisplacement.transform).length > 0){
+                                // scaleImg = styleProps.transform;
+                                
+                                transformString = (pointsDefaultDisplacement.transform);
+                                // console.log(scaleImg);
+                                var regex = /[+-]?\d+(\.\d+)?/g;
+                                var StringValues = transformString.match(regex).map(function(v) {
+                                    return parseFloat(v); 
+                                });
+                                console.log(StringValues);
+
+                                zoom = StringValues[0];
+                                moveLeft = StringValues[1],
+                                moveTop = StringValues[2];
+                                console.log( scaleImg, moveLeft, moveTop);
+
+                                // $(MapPathsGroup).attr("transform", "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")");
+                    }                
+
 
 
                         if(!getPointData[Npoint-1]){
@@ -632,8 +680,8 @@ CirclesArrayClone.splice(j, 1);
         $("body").css("background-color", getSettingFromStorage("bodyBackgroundColor"));
     
 
-    $.each(WrapperProps, function(prop, value) {
-        $(".mapbg").css(prop, value);
-    });
+    // $.each(WrapperProps, function(prop, value) {
+    //     $(".mapbg").css(prop, value);
+    // });
 
 });
