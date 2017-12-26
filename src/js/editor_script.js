@@ -34,6 +34,7 @@
             var editor = new bezierEditor("bezier-canvas"); 
             editor.draw(); // draw canvas
 
+
             $('#clear').bind("click", function() {              //clear canvas and localstorage
 
                 console.log(editor.clearBezier());
@@ -202,16 +203,15 @@
             
             $("#plus").bind('click', function() {     //zoom map
                 scaleImg += 0.1;
-                $(MapPathsGroup).attr("transform", "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")");
+                $(MapPathsGroup).attr("transform", "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ") translate(" +(-moveLeft) + " " + (-moveTop) + ")");
                 styleProps.transform = "scale(" + scaleImg + ") translate("+ moveLeft +"    " + moveTop+ ")";
-                
+                console.log(editor);
+                $('canvas').attr("transform", "scale(" + scaleImg + ") translate("+ moveLeft +"px " + moveTop+ "px)");
+                var ctx = editor.ctx;
+
+                // ctx.transform(scaleImg, moveLeft, moveTop, scaleImg, 0, 1);
+                // editor.draw();
                 localStorage.setItem("mapStyleProperties", JSON.stringify(styleProps));
-
-                console.log($(svgRoot).find("#mapPaths"));
-                
-                var myScreenCTM = $(svgRoot).find("#mapPaths")[0].getScreenCTM();
-
-                console.log(myScreenCTM);
                 localStorage.setItem("SreenCTM", JSON.stringify(optionsCTM));
                 localStorage.setItem('zoom', JSON.stringify(scaleImg));
             });
@@ -223,7 +223,8 @@
 
                 $(MapPathsGroup).attr("transform", "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")");
                 styleProps.transform = "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")";
-                var myScreenCTM = $(svgRoot).find("#mapPaths")[0].getScreenCTM();
+
+                 $('canvas').css("transform", "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")");
                 localStorage.setItem('zoom', JSON.stringify(scaleImg));
                 localStorage.setItem("SreenCTM", JSON.stringify(optionsCTM));
                 localStorage.setItem("mapStyleProperties", JSON.stringify(styleProps));
@@ -234,8 +235,8 @@
                 moveLeft += 10;
                  $(MapPathsGroup).attr("transform", "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")");
                 styleProps.transform = "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")";
-                var myScreenCTM = $(svgRoot).find("#mapPaths")[0].getScreenCTM();
-                optionsCTM.e = myScreenCTM.e;
+
+                $('canvas').css("transform", "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")");
                 localStorage.setItem("SreenCTM", JSON.stringify(optionsCTM));
                 localStorage.setItem("mapStyleProperties", JSON.stringify(styleProps));
             });
@@ -243,8 +244,8 @@
                 moveLeft -= 10;
                  $(MapPathsGroup).attr("transform", "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")");
                 styleProps.transform = "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")";
-                var myScreenCTM = $(svgRoot).find("#mapPaths")[0].getScreenCTM();
-                optionsCTM.e = myScreenCTM.e;
+
+                $('canvas').css("transform", "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")");
                 localStorage.setItem("SreenCTM", JSON.stringify(optionsCTM));
                 localStorage.setItem("mapStyleProperties", JSON.stringify(styleProps));
             }); 
@@ -252,8 +253,8 @@
                 moveTop += 10;
                  $(MapPathsGroup).attr("transform", "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")");
                 styleProps.transform = "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")";
-                var myScreenCTM = $(svgRoot).find("#mapPaths")[0].getScreenCTM();
-                optionsCTM.f = myScreenCTM.f;
+
+                 $('canvas').css("transform", "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")");
                 localStorage.setItem("SreenCTM", JSON.stringify(optionsCTM));
                 localStorage.setItem("mapStyleProperties", JSON.stringify(styleProps));
             });
@@ -261,8 +262,8 @@
                 moveTop -= 10;
                 $(MapPathsGroup).attr("transform", "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")");
                 styleProps.transform = "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")";
-                var myScreenCTM = $(svgRoot).find("#mapPaths")[0].getScreenCTM();
-                optionsCTM.f = myScreenCTM.f;
+
+                 $('canvas').css("transform", "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")");
                 localStorage.setItem("SreenCTM", JSON.stringify(optionsCTM));
                 localStorage.setItem("mapStyleProperties", JSON.stringify(styleProps));
             });

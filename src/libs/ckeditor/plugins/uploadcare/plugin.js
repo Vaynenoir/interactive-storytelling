@@ -42,6 +42,9 @@ module.exports = function() {
         if(files.length > 1){
          editor.insertHtml('<div class="slick_gallery">', 'unfiltered_html');
         }
+        if(files.length == 1){
+          editor.insertHtml('<div class="single_image">', 'unfiltered_html');
+        }
 
         uc.jQuery.each(arguments, function() {
           var imageUrl = this.cdnUrl;
@@ -90,6 +93,10 @@ module.exports = function() {
         if(files.length > 1){
          editor.insertHtml('</div>', 'unfiltered_html');
         }
+        if(files.length == 1){
+          editor.insertHtml('</div>', 'unfiltered_html');
+        }
+        $('#modal1').modal('open');
       console.log("LFGFDGFGDFg");
       });
     });

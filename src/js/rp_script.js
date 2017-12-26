@@ -51,11 +51,9 @@ $(document).ready(function() {
 
        
         $(section).attr({
-            "data-zoom": dataContent[i].zoom + "%",
-            "data-pos-top": dataContent[i].top + "%",           
-            "data-pos-bottom": dataContent[i].bottom + "%",
-            "data-pos-left": dataContent[i].left + "%",
-            "data-pos-right": dataContent[i].bottom + "%",
+            "data-zoom": dataContent[i].zoom,
+            "data-pos-top": dataContent[i].top,           
+            "data-pos-left": dataContent[i].left,
             "id": "section_" + (i+1)
         });
         
@@ -77,20 +75,20 @@ $(document).ready(function() {
     }
 
     var sliderImg = $('.js-image');
-    console.log(sliderImg);
-    for(var i=0; i < sliderImg.length; i++){
-        var src = sliderImg[i].getAttribute('src');
-        var sliderImgSrc = src.slice(-9);
-        var singleImgSrc = src.slice(-15);
-        console.log(singleImgSrc);
-        if(sliderImgSrc == "/preview/" && !hasSliderClass(sliderImg[i], "slick-item")){
-            sliderImg[i].classList.add("slick-item");
-        }
-        if(singleImgSrc == "/preview/single" && !hasSliderClass(sliderImg[i], "slick-single")){
-            sliderImg[i].classList.remove("slick-item")
-            sliderImg[i].classList.add("slick-single");
-        }
-    }
+    // console.log(sliderImg);
+    // for(var i=0; i < sliderImg.length; i++){
+    //     var src = sliderImg[i].getAttribute('src');
+    //     var sliderImgSrc = src.slice(-9);
+    //     var singleImgSrc = src.slice(-15);
+    //     console.log(singleImgSrc);
+    //     if(sliderImgSrc == "/preview/" && !hasSliderClass(sliderImg[i], "slick-item")){
+    //         sliderImg[i].classList.add("slick-item");
+    //     }
+    //     if(singleImgSrc == "/preview/single" && !hasSliderClass(sliderImg[i], "slick-single")){
+    //         sliderImg[i].classList.remove("slick-item")
+    //         sliderImg[i].classList.add("slick-single");
+    //     }
+    // }
     // console.log(sliderImg);
 
             $.fn.hasAttr = function(name) {  
@@ -99,22 +97,21 @@ $(document).ready(function() {
     var sections = $('.js-section');
     
 
-    var sliderItem = $('.slick-single');
+    // var sliderItem = $('.slick-single');
 
-    if(sliderItem && sliderItem.length > 0){
-        $.each(sliderItem, function(i,el){
+    // if(sliderItem && sliderItem.length > 0){
+    //     $.each(sliderItem, function(i,el){
             
 
+    //     // if($(el).hasAttr('data-img-amout') && $(el).attr('data-img-amout') == "single_img"){
+    //         var sliderWrap = document.createElement('div');
+    //         $(sliderWrap).addClass('slick-current');
+    //         $(el).wrap($(sliderWrap));
+    //     // }
 
-        // if($(el).hasAttr('data-img-amout') && $(el).attr('data-img-amout') == "single_img"){
-            var sliderWrap = document.createElement('div');
-            $(sliderWrap).addClass('slick-current');
-            $(el).wrap($(sliderWrap));
-        // }
 
-
-        });
-    }
+    //     });
+    // }
 
 
 
@@ -123,41 +120,49 @@ $(document).ready(function() {
 
     $.each(sections, function(i,el){
 
-
-
-
-    if($(el).find('.slick-item').length !== 0){
-        console.log($(el));
-        var slickItem =  $(el).find('.slick-item');
-            if($(slickItem).hasAttr('data-img-amout') && $(slickItem).attr('data-img-amout') == "single_img"){
-                var sliderWrap = document.createElement('div');
-                // console.log("kek");
-                $(sliderWrap).addClass('slick-current');
-                $(slickItem).wrap($(sliderWrap));
-            }  
+    // if($(el).find('.slick-item').length !== 0){
+    //     console.log($(el));
+    //     var slickItem =  $(el).find('.slick-item');
+    //         if($(slickItem).hasAttr('data-img-amout') && $(slickItem).attr('data-img-amout') == "single_img"){
+    //             var sliderWrap = document.createElement('div');
+    //             // console.log("kek");
+    //             $(sliderWrap).addClass('slick-current');
+    //             $(slickItem).wrap($(sliderWrap));
+    //         }  
         
-        else if($(slickItem).attr('data-img-amout') == "" || !$(slickItem).hasAttr('data-img-amout')){
+    //     else if($(slickItem).attr('data-img-amout') == "" || !$(slickItem).hasAttr('data-img-amout')){
 
-            var sliderWrap = document.createElement('div');
-            $(sliderWrap).addClass('slider');
-            $(slickItem).wrapAll($(sliderWrap));
-        }
+    //         var sliderWrap = document.createElement('div');
+    //         $(sliderWrap).addClass('slider');
+    //         $(slickItem).wrapAll($(sliderWrap));
+    //     }
 
         // else{
         //     var sliderWrap = document.createElement('div');
         //     $(sliderWrap).addClass('slick-current');
         //     $(slickItem).wrapAll($(sliderWrap));            
         // }
-        $(".slider").css("width", 100 + "%");
-        $(".slider").parent().find('br').remove();
+
+        // if($(el).find('.slick-gallery').length !== 0){
+            var slider = $(el).find('.slick-gallery');
+            console.log(slider);
+            var singleImage = $(el).find(".single_image");
+            if(!$(singleImage).hasClass(".slick-current")){
+                $(singleImage).addClass("slick-current");
+            }
+        // }
+
+        // $(".slider").css("width", 100 + "%");
+        $(slider).find('br').remove();
         // if($(".slider").parent().is("p")){
         //     $(".slider").unwrap();
         // }
-    }
-
+    // }
+$('br').remove();
+    $(slider).text().replace(/&nbsp;/g, '');
 });
 
-      $('.slider').slick({
+      $('.slick_gallery').slick({
        "slidesToShow": 1,
        "slidesToScroll": 1,
         // autoplay: true,
@@ -169,9 +174,9 @@ $(document).ready(function() {
       });
 
 
-    $('.mapbg').css("zoom", "0%");
-    $('.mapbg').css("right", "0");
-    $('mapbg').css("bottom", "0");
+    // $('.mapbg').css("zoom", "0%");
+    // $('.mapbg').css("right", "0");
+    // $('mapbg').css("bottom", "0");
     var a = document.getElementById('map');
 
     var map_url = JSON.parse(localStorage.getItem('map'));
@@ -188,9 +193,12 @@ $(document).ready(function() {
 
         var MapPathsGroup = svgRoot.getElementById("mapPaths");
         var PathsArray = MapPathsGroup.getElementsByTagName('path');
-
-
+        var wholeSvgGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        wholeSvgGroup.append(MapPathsGroup);
+        $(wholeSvgGroup).attr("id", "wholeSvgGroup");
+        var FullMapGroup = Snap(wholeSvgGroup);
         var WrapperProps = JSON.parse(localStorage.getItem('mapStyleProperties')) || { transform: ""};
+
              if((WrapperProps.transform).length > 0){
                 // scaleImg = styleProps.transform;
                 
@@ -207,7 +215,7 @@ $(document).ready(function() {
                 moveTop = StringValues[2];
                 console.log( scaleImg, moveLeft, moveTop);
 
-                $(MapPathsGroup).attr("transform", "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")");
+                FullMapGroup.attr("transform", "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")");
             }       
 
 
@@ -240,7 +248,6 @@ $(document).ready(function() {
 
 
 
-
         var currentDisplacementTop = parseInt($("#IDmapbg")[0].style.top);  // map offset set up by user on 1st step
         var currentDisplacementLeft = parseInt($('#IDmapbg')[0].style.left);
         var path1 = document.createElementNS('http://www.w3.org/2000/svg', 'path');
@@ -253,9 +260,9 @@ $(document).ready(function() {
                 var scrollCount = $(window).scrollTop();
                 var topOffset = $(this).offset().top;
                 var dataZoom = $(this).attr("data-zoom");
-                var dataPosTop = parseInt($(this).attr("data-pos-top")) +  "%";
+                var dataPosTop = parseInt($(this).attr("data-pos-top"));
                 var dataPosBottom = $(this).attr('data-pos-bottom');
-                var dataPosLeft = parseInt($(this).attr("data-pos-left")) +"%";
+                var dataPosLeft = parseInt($(this).attr("data-pos-left"));
                 var dataPosRight = $(this).attr("data-pos-right");
 
 
@@ -264,24 +271,17 @@ $(document).ready(function() {
 
                     $(this).addClass("active");
 
-                    $('.mapbg').stop().animate({ //animate map zoom and offset, set up by user on 2nd step, due to current section  
-                        zoom: dataZoom,
-                        left: dataPosLeft,
-                        right: dataPosRight,
-                        top: dataPosTop,
-                        bottom: dataPosBottom
+                    FullMapGroup.animate({ //animate map zoom and offset, set up by user on 2nd step, due to current section  
+                        transform: "scale(" + dataZoom +") translate(" + (dataPosLeft) + " " + dataPosTop + ")"
                     }, 700);
 
                 }
                 else{
                     $(this).removeClass("active");
                     if (!$('.js-section').hasClass("active") && $(window).scrollTop() < 20) {
-                        $('.mapbg').stop().animate({
-                            left: currentDisplacementLeft + "%",
-                            top: currentDisplacementTop + "%",
-                            zoom: "100%"
-                        }, 400);
-
+                        FullMapGroup.animate({ //animate map zoom and offset, set up by user on 2nd step, due to current section  
+                            transform: "scale(" + scaleImg +") translate(" + (moveLeft) + " " + (moveTop) + ")"
+                        }, 700);
                     }
 
                 }
@@ -337,8 +337,8 @@ $(document).ready(function() {
                 }
             });
 
-
-            svgRoot.append(path1);
+            $(wholeSvgGroup).append(path1);
+            svgRoot.append(wholeSvgGroup);
             if (vis_count > 0) {
                 $(path1).fadeIn(900);
             } else {
@@ -360,7 +360,8 @@ $(document).ready(function() {
         var pathGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
         pathGroup.id = "pathGroup";
         pathGroup.append(path);     //group paths
-        svgRoot.append(pathGroup);
+        $(wholeSvgGroup).append(pathGroup);
+        svgRoot.append(wholeSvgGroup);
         var s = Snap(pathGroup);
 
 
@@ -399,7 +400,9 @@ $(document).ready(function() {
         for(var i=0; i < circlesArray.length; i++){
             var circleGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
             var currentPoint = svgRoot.getElementById(i+1);
+
             circleGroup.append(currentPoint);
+
             
             var text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
             $(text).attr({                                                                  //name of point
@@ -416,10 +419,10 @@ $(document).ready(function() {
             circleGroup.append(text);
            
             ParentCicleGroup.append(circleGroup);   //group circles elements with their names(text elements)
-            
+            wholeSvgGroup.append(ParentCicleGroup);
             // console.log(currentPoint);
             
-            svgRoot.append(circleGroup);  
+            svgRoot.append(wholeSvgGroup);  
         }
 
 
@@ -456,7 +459,8 @@ $(document).ready(function() {
         //transform Route start Icon
         $(group).attr("transform", "translate("+(path.getPointAtLength(1).x - (getSettingFromStorage("RouteStartIconSize")/iconOffsetX)) + " " + (path.getPointAtLength(1).y - (getSettingFromStorage("RouteStartIconSize")/iconOffsetY) )+") " + "scale("+getSettingFromStorage("RouteStartIconSize")/100+")");
         group.append(parsedPathStartIcon);
-        svgRoot.append(group);
+        wholeSvgGroup.append(group);
+        svgRoot.append(wholeSvgGroup);
         }
         
 
@@ -478,7 +482,8 @@ $(document).ready(function() {
                     "stroke-width": getSettingFromStorage("pointsBorderWidth")
                 });
                 // console.log($(startCircle));
-                svgRoot.append(startCircle);
+                wholeSvgGroup.append(startCircle);
+                svgRoot.append(wholeSvgGroup);
              }
                 
         // svgDoc.getElementsByTagName('circle').style.opacity = "0";

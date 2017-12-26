@@ -8,9 +8,8 @@
 				stroke: #5d5c56;
 				opacity: .8;
 		}
-				#mapPaths path{
-		fill: #ffcc80;
-		stroke: #000;
+		g#mapPaths path{
+		fill: rgba(255, 204, 128, 1);
 		}
 	</style>
 	

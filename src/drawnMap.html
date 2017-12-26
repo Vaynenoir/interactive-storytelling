@@ -131,7 +131,21 @@
 
      </div>
 
-
+  <div id="modal1" class="modal">
+    <div class="modal-content">
+      <h4>Add light to this photo(or slider)?</h4>
+    <div class="switch">
+        <label>
+                Off
+            <input type="checkbox">
+            <span class="lever"></span> On
+        </label>
+    </div>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+    </div>
+  </div>
 
 
     <div class="wrapper">
@@ -194,54 +208,12 @@ function favoriteFiles(container, button, dialogApi, settings) {
 
 
 
-//           CKFinder.setupCKEditor( editor, '../' );
-        
-// function CheckAuthentication() {
-//     // WARNING : DO NOT simply return "true". By doing so, you are allowing
-//     // "anyone" to upload and list the files in your server. You must implement
-//     // some kind of session validation here. Even something very simple as...
-//     // return isset($_SESSION['IsAuthorized']) && $_SESSION['IsAuthorized'];
-//     return true; // not good option though; go for sessions
-// }
-// $baseUrl = 'http://127.0.0.1:8080/src/libs/upload';
-// $enabled = true;
-// $config['SecureImageUploads'] = false;
-// $config['ChmodFolders'] = 0777 ;
-
-
-
-
-
-
-
-
-
-
-
-
-
-//         CKFinder.setupCKEditor( editor, '/ckfinder/' );
-//         // console.log(CKFinder);
-
-// var finder = new CKFinder();
-// finder.basePath = '/ckfinder/';
-// // Setting custom width and user language.
-// finder.create({ width : 700, language : 'de' });
-
-
-// finder.selectActionData = "container";
-// finder.selectActionFunction = function( fileUrl, data ) {
-//     alert( 'Selected file: ' + fileUrl );
-//     // Using CKFinderAPI to show simple dialog.
-//     this.openMsgDialog( '', 'Additional data: ' + data['selectActionData'] );
-//     document.getElementById( data['selectActionData'] ).innerHTML = fileUrl;
-//     console.log(fileUrl);
-// }
 
 
     </script>
 
     <script src="libs/libs.js"></script>
+    <!-- <script src="libs/jquery.svganim.min.js"></script> -->
     <script src="js/drawMap.js"></script>
 </body>
 

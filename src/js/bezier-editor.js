@@ -227,8 +227,8 @@ var bezierEditor = function(id) {
 
 					var pos = getMousePos(svg,e);
 					if(zoom || zoom>0){
-					clickX = pos.x; 
-					clickY = pos.y;	
+					clickX = pos.x/zoom; 
+					clickY = pos.y/zoom;	
 					console.log(clickX, clickY);			
 					}
 					else{

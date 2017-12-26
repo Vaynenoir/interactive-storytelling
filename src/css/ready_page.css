@@ -9,6 +9,12 @@
 	width: 100%!important;
 	height: auto;
 }
+.js-section br{
+	display: none;
+}
+.slick-single br{
+	display: none;
+}
 .slick-slider .slick-list {
     transform: none;
 }
