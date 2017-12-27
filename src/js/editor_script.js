@@ -139,7 +139,7 @@
                     };
 
 
-                    // var WrapperProps = JSON.parse(localStorage.getItem('mapStyleProperties')) || [];
+                    // var WrapperProps = JSON.parse(localStorage.getItem('mapStyleProperties')) || {transform: ""};
 
                     // if (WrapperProps) {
 
@@ -167,7 +167,7 @@
 
 
 
-            if((styleProps.transform).length > 0){
+            if((styleProps.transform).length != ""){
                 // scaleImg = styleProps.transform;
                 
                 transformString = (styleProps.transform);
@@ -183,7 +183,7 @@
                 moveTop = StringValues[2];
                 console.log( scaleImg, moveLeft, moveTop);
 
-                $(MapPathsGroup).attr("transform", "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")");
+                $("#map_bg").css("transform", "scale(" + scaleImg + ") translate("+ moveLeft +"px," + moveTop+ "px)");
             }
             // if(styleProps.top.length > 0 || styleProps.left.length >0){
                 
@@ -203,13 +203,15 @@
             
             $("#plus").bind('click', function() {     //zoom map
                 scaleImg += 0.1;
-                $(MapPathsGroup).attr("transform", "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ") translate(" +(-moveLeft) + " " + (-moveTop) + ")");
+                $('#map_bg').css("transform", "scale(" + scaleImg + ") translate("+ moveLeft +"px," + moveTop+ "px)");
                 styleProps.transform = "scale(" + scaleImg + ") translate("+ moveLeft +"    " + moveTop+ ")";
-                console.log(editor);
-                $('canvas').attr("transform", "scale(" + scaleImg + ") translate("+ moveLeft +"px " + moveTop+ "px)");
-                var ctx = editor.ctx;
 
-                // ctx.transform(scaleImg, moveLeft, moveTop, scaleImg, 0, 1);
+
+
+
+                // var ctx = editor.ctx;
+
+                // ctx.transform(scaleImg, 0, 0, scaleImg, moveLeft, moveTop);
                 // editor.draw();
                 localStorage.setItem("mapStyleProperties", JSON.stringify(styleProps));
                 localStorage.setItem("SreenCTM", JSON.stringify(optionsCTM));
@@ -221,10 +223,10 @@
                     scaleImg = 1.0;
                 }
 
-                $(MapPathsGroup).attr("transform", "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")");
+                $('#map_bg').css("transform", "scale(" + scaleImg + ") translate("+ moveLeft +"px," + moveTop+ "px)");
                 styleProps.transform = "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")";
 
-                 $('canvas').css("transform", "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")");
+                 // $('canvas').css("transform", "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")");
                 localStorage.setItem('zoom', JSON.stringify(scaleImg));
                 localStorage.setItem("SreenCTM", JSON.stringify(optionsCTM));
                 localStorage.setItem("mapStyleProperties", JSON.stringify(styleProps));
@@ -233,37 +235,37 @@
 
             $("#moveLeft").bind("click", function() {  // move map left
                 moveLeft += 10;
-                 $(MapPathsGroup).attr("transform", "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")");
+                $('#map_bg').css("transform", "scale(" + scaleImg + ") translate("+ moveLeft +"px," + moveTop+ "px)");
                 styleProps.transform = "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")";
 
-                $('canvas').css("transform", "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")");
+
                 localStorage.setItem("SreenCTM", JSON.stringify(optionsCTM));
                 localStorage.setItem("mapStyleProperties", JSON.stringify(styleProps));
             });
             $("#moveRight").bind("click", function() {   // move map right
                 moveLeft -= 10;
-                 $(MapPathsGroup).attr("transform", "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")");
+                $('#map_bg').css("transform", "scale(" + scaleImg + ") translate("+ moveLeft +"px," + moveTop+ "px)");
                 styleProps.transform = "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")";
 
-                $('canvas').css("transform", "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")");
+
                 localStorage.setItem("SreenCTM", JSON.stringify(optionsCTM));
                 localStorage.setItem("mapStyleProperties", JSON.stringify(styleProps));
             }); 
             $("#moveTop").bind("click", function() {    // move map top
                 moveTop += 10;
-                 $(MapPathsGroup).attr("transform", "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")");
+                $('#map_bg').css("transform", "scale(" + scaleImg + ") translate("+ moveLeft +"px," + moveTop+ "px)");
                 styleProps.transform = "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")";
 
-                 $('canvas').css("transform", "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")");
+
                 localStorage.setItem("SreenCTM", JSON.stringify(optionsCTM));
                 localStorage.setItem("mapStyleProperties", JSON.stringify(styleProps));
             });
             $("#moveBottom").bind("click", function() { // move map bottom
                 moveTop -= 10;
-                $(MapPathsGroup).attr("transform", "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")");
+                $('#map_bg').css("transform", "scale(" + scaleImg + ") translate("+ moveLeft +"px," + moveTop+ "px)");
                 styleProps.transform = "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")";
 
-                 $('canvas').css("transform", "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")");
+
                 localStorage.setItem("SreenCTM", JSON.stringify(optionsCTM));
                 localStorage.setItem("mapStyleProperties", JSON.stringify(styleProps));
             });
@@ -450,7 +452,7 @@
 
                     if ($(RouteStartCheckbox).is(":checked")) {     
                         $(".centered_form").show().css('display', 'flex');
-                        if ($("#UserOption").is(":checked")) {
+                        if($("#UserOption").is(":checked")) {
 
                             $(".additional_settings").show();
                             var icon = "" + getSettingFromStorage("StartIcon");

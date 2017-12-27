@@ -133,13 +133,15 @@
 
   <div id="modal1" class="modal">
     <div class="modal-content">
-      <h4>Add light to this photo(or slider)?</h4>
-    <div class="switch">
+      <h4 class="sidenav__title center-align" style="font-size: 16px;">Add light to this photo(or slider)?</h4>
+    <div class="switch center-align">
         <label>
                 Off
-            <input type="checkbox">
+            <input id="galleryLight" type="checkbox" data-light="lightOff">
             <span class="lever"></span> On
         </label>
+        <p id="on" style="display: none;" class="sidenav__title center-align">Light On!</p>
+        <p id="off" style="display: none;"  class="sidenav__title center-align">Light Off!</p>
     </div>
     </div>
     <div class="modal-footer">

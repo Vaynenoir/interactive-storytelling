@@ -125,7 +125,7 @@ $(document).ready(function() {
         var pathGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
         pathGroup.id = "pathGroup";
         pathGroup.append(path);
-        MapPathsGroup.append(pathGroup);
+        wholeSvgGroup.append(pathGroup);
         wholeSvgGroup.append(MapPathsGroup);
         svgRoot.append(wholeSvgGroup);
         var s = Snap(pathGroup);
@@ -311,7 +311,8 @@ $(document).ready(function() {
 
             circleGroup.append(paths);
             circleGroup.append(text);
-            wholeSvgGroup.append(circleGroup);
+            pathGroup.append(circleGroup);
+            wholeSvgGroup.append(pathGroup);
             svgRoot.append(wholeSvgGroup);
 
 
@@ -374,14 +375,14 @@ $(document).ready(function() {
             };
 
             var FullMapGroup = Snap(wholeSvgGroup);
-
+            var pathDisplacement = Snap(pathGroup);
 
             // console.log(pointsDataContentArray);
-            var savedDisplacement = JSON.parse(localStorage.getItem("mapStyleProperties")) || {};
+            var savedDisplacement = JSON.parse(localStorage.getItem("mapStyleProperties")) || { transform: ""};
 
             var zoom, moveLeft, moveTop;
-
-            if((savedDisplacement.transform).length > 0){
+            console.log(savedDisplacement.transform.length);
+            if((savedDisplacement.transform)){
                 // scaleImg = styleProps.transform;
 
                 var transformString = (savedDisplacement.transform);
@@ -397,7 +398,8 @@ $(document).ready(function() {
                 moveTop = StringValues[2];
                 console.log( scaleImg, moveLeft, moveTop);
 
-                FullMapGroup.attr("transform", "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")");
+                FullMapGroup.attr("transform", "scale(" + scaleImg + ") translate("+ (moveLeft) +" " + (moveTop)+ ")");
+                // pathDisplacement.attr("transform", "scale(" + scaleImg + ") translate("+ (-moveLeft) +" " + (-moveTop)+ ")");
             }
 
 
@@ -552,6 +554,7 @@ $(document).ready(function() {
 
 
 
+
                 document.getElementById("SavePointContent").onclick = function() {
 
                     var pointsDataContent = {
@@ -560,6 +563,7 @@ $(document).ready(function() {
                         zoom: zoom,
                         left: moveLeft,
                         top: moveTop,
+                        slider: "false",
                         data: ""
                     };
                     // var InputZoomValue = parseInt(document.getElementById("pointZoom").value);

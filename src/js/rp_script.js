@@ -198,7 +198,7 @@ $('br').remove();
         $(wholeSvgGroup).attr("id", "wholeSvgGroup");
         var FullMapGroup = Snap(wholeSvgGroup);
         var WrapperProps = JSON.parse(localStorage.getItem('mapStyleProperties')) || { transform: ""};
-
+        var pathDisplacement = Snap(pathGroup);
              if((WrapperProps.transform).length > 0){
                 // scaleImg = styleProps.transform;
                 
@@ -216,6 +216,7 @@ $('br').remove();
                 console.log( scaleImg, moveLeft, moveTop);
 
                 FullMapGroup.attr("transform", "scale(" + scaleImg + ") translate("+ moveLeft +" " + moveTop+ ")");
+               
             }       
 
 
@@ -360,9 +361,11 @@ $('br').remove();
         var pathGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
         pathGroup.id = "pathGroup";
         pathGroup.append(path);     //group paths
+
         $(wholeSvgGroup).append(pathGroup);
         svgRoot.append(wholeSvgGroup);
         var s = Snap(pathGroup);
+        // s.attr("transform", "scale(" + scaleImg + ") translate("+ (-moveLeft) +" " + (-moveTop)+ ")");
 
 
         var circlesArray = JSON.parse(localStorage.getItem('circlesCoords'));

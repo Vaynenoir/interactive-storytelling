@@ -39,16 +39,45 @@ module.exports = function() {
     var dialog = uploadcare.openDialog(file, settings).done(function(selected) {
       var files = settings.multiple ? selected.files() : [selected];
       uc.jQuery.when.apply(null, files).done(function() {
+        
+        // $("#galleryLight").prop('checked', 'false');
+        $('#modal1').modal('open');
+        var Off = $("#off");
+        var On = $("#on");
+        $("#galleryLight").on("click", function(){
+          var light = "lightOn";
+          if($(this).is(":checked")){
+
+            $("#galleryLight").prop('checked', true);
+            // light = "lightOn";
+            $(this).attr("data-light", "lightOn");
+            $(On).fadeIn(300);
+            $(Off).css("display", "none");
+          }else{
+            $("#galleryLight").prop('checked', false);
+            // light = "lightOff";
+            $(this).attr("data-light", "lightOff");
+            $(Off).fadeIn(300);
+            $(On).css("display", "none");
+          }
+        });
+        console.log($("#galleryLight"));
+        console.log("LFGFDGFGDFg");
+        var lightElement = document.getElementById("galleryLight");
+        var light = lightElement.getAttribute("data-light");
+        console.log(light);
         if(files.length > 1){
-         editor.insertHtml('<div class="slick_gallery">', 'unfiltered_html');
+
+         editor.insertHtml('<div class="slick_gallery '+ light + '">', 'unfiltered_html');
         }
         if(files.length == 1){
-          editor.insertHtml('<div class="single_image">', 'unfiltered_html');
+          editor.insertHtml('<div class="single_image '+ light + '">', 'unfiltered_html');
         }
 
         uc.jQuery.each(arguments, function() {
           var imageUrl = this.cdnUrl;
           if(this.isImage && files.length > 1){
+
             var imgDataAttr = "";
           }
           if(this.isImage && files.length == 1){
@@ -96,8 +125,7 @@ module.exports = function() {
         if(files.length == 1){
           editor.insertHtml('</div>', 'unfiltered_html');
         }
-        $('#modal1').modal('open');
-      console.log("LFGFDGFGDFg");
+
       });
     });
   });
