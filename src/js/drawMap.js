@@ -91,7 +91,8 @@ $(document).ready(function() {
         var wholeSvgGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
         $(wholeSvgGroup).attr("id", "wholeSvgGroup");
 
-
+        $("input[name=light-trigger]").attr("data-light", "lightOff");
+         $("input[name=light-trigger]").prop("checked", false);
 
         for (var i = 0; i < PathsArray.length; i++) {
             PathsArray[i].style.fill = getSettingFromStorage("mapColor");

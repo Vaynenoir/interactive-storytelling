@@ -44,31 +44,39 @@ module.exports = function() {
         $('#modal1').modal('open');
         var Off = $("#off");
         var On = $("#on");
-        $("#galleryLight").on("click", function(){
-          var light = "lightOn";
+         $("input[name=light-trigger]").attr("checked", false);
+         var light = "lightOff";
+        $("input[name=light-trigger]").on("click", function(){
+          
           if($(this).is(":checked")){
 
-            $("#galleryLight").prop('checked', true);
+            $("input[name=light-trigger]").prop('checked', true);
             // light = "lightOn";
             $(this).attr("data-light", "lightOn");
             $(On).fadeIn(300);
             $(Off).css("display", "none");
           }else{
-            $("#galleryLight").prop('checked', false);
+            $("input[name=light-trigger]").prop('checked', false);
             // light = "lightOff";
             $(this).attr("data-light", "lightOff");
             $(Off).fadeIn(300);
             $(On).css("display", "none");
           }
+          var dataToFix = editor.getData();
+          var parser = new DOMParser();
+          var htmlDoc=parser.parseFromString(dataToFix, "text/html");
+          console.log(htmlDoc);
+          console.log(editor.getData());
         });
         console.log($("#galleryLight"));
         console.log("LFGFDGFGDFg");
-        var lightElement = document.getElementById("galleryLight");
-        var light = lightElement.getAttribute("data-light");
+        // var light = $("input[name=light-trigger]").attr("data-light");
         console.log(light);
+        if(light){
         if(files.length > 1){
 
          editor.insertHtml('<div class="slick_gallery '+ light + '">', 'unfiltered_html');
+
         }
         if(files.length == 1){
           editor.insertHtml('<div class="single_image '+ light + '">', 'unfiltered_html');
@@ -119,6 +127,8 @@ module.exports = function() {
             }
           }
         });
+      }
+        
         if(files.length > 1){
          editor.insertHtml('</div>', 'unfiltered_html');
         }

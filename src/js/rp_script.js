@@ -144,8 +144,16 @@ $(document).ready(function() {
         // }
 
         // if($(el).find('.slick-gallery').length !== 0){
+            // if(($(el).find(".slick-gallery")).length > 0){
+            //     var firstChildren = $(el + "> .slick-gallery");
+            //     console.log(firstChildren);
+            // }
             var slider = $(el).find('.slick-gallery');
-            console.log(slider);
+            if($(slider).has("div.slick-gallery")){
+                console.log("kek");
+                
+            }
+            // console.log(slider);
             var singleImage = $(el).find(".single_image");
             if(!$(singleImage).hasClass(".slick-current")){
                 $(singleImage).addClass("slick-current");
@@ -161,6 +169,15 @@ $(document).ready(function() {
 $('br').remove();
     $(slider).text().replace(/&nbsp;/g, '');
 });
+
+
+// $(".js-section div").each(function(index, element){
+//     if($(element).hasClass(".slick-gallery")){
+//         console.log($(element));
+//     }
+// });
+
+
 
       $('.slick_gallery').slick({
        "slidesToShow": 1,
@@ -255,6 +272,51 @@ $('br').remove();
         $(path1).css('display', 'none');
 
 
+
+
+
+
+            var arrImgID = []; //array of page img elements
+            // $('.js-image').each(function(i,el){
+            //     if(!$(el).hasClass('.slick-item')){
+            //         arrImgID.push($(el));
+            //     }
+            // });
+
+            $('.lightOff').each(function(el) {
+
+                arrImgID.push($(this));
+                
+            });
+// console.log(arrImgID);
+
+            var CirclePathCoords = JSON.parse(localStorage.getItem('circlesCoords'));
+
+            $(arrImgID).each(function(i, el) { //get coordinates of point which is tied with current img
+
+                var imgParentID = $(el).closest('section')[0].id;
+                
+                imgParentID = parseInt(imgParentID[8]) - 1;
+                console.log(i);
+                // console.log((CirclePathCoords[i].id-1));
+                if (imgParentID == (CirclePathCoords[imgParentID].id-1)) {
+                    // console.log(imgParentID);
+                    $(el).attr({
+                        'data-pos-x': CirclePathCoords[imgParentID].cx,
+                        'data-pos-y': CirclePathCoords[imgParentID].cy
+                    });
+                }
+            });
+
+
+
+
+
+
+
+
+
+
         function sectionCounter() {
             $('.js-section').each(function(i) {
 
@@ -289,41 +351,13 @@ $('br').remove();
 
             });
 
-            var arrImgID = []; //array of page img elements
-            // $('.js-image').each(function(i,el){
-            //     if(!$(el).hasClass('.slick-item')){
-            //         arrImgID.push($(el));
-            //     }
-            // });
 
-            $('.slick-current').each(function(el) {
-
-                arrImgID.push($(this));
-                // console.log(arrImgID);
-            });
-
-
-            var CirclePathCoords = JSON.parse(localStorage.getItem('circlesCoords'));
-
-            $(arrImgID).each(function(i, el) { //get coordinates of point which is tied with current img
-
-                var imgParentID = $(this).closest('section')[0].id;
-
-                imgParentID = parseInt(imgParentID[8]) - 1;
-                if (imgParentID == CirclePathCoords[i].id-1) {
-                    console.log(imgParentID);
-                    $(this).attr({
-                        'data-pos-x': CirclePathCoords[imgParentID].cx,
-                        'data-pos-y': CirclePathCoords[imgParentID].cy
-                    });
-                }
-            });
 
             var vis_count = 0;
 
             $(arrImgID).each(function() {  //if current img inWindow, than create a light from current point to img's border
                 if (inWindow($(this))) {
-                    console.log($(this));
+                    // console.log($(this));
                     vis_count++;
 
                     var cx = $(this).attr('data-pos-x');
@@ -331,9 +365,11 @@ $('br').remove();
 
                     var Coordinates = $(this)[0].getBoundingClientRect();
                     var bottomOffsetImg = Coordinates.top + $(this).height();
-                    $(path1).attr('d', "M" + cx + " " + cy + " L" + (-Coordinates.left-100) + " " + (Coordinates.top - 110) + " L" + (-Coordinates.left-100) + " " + (Coordinates.bottom - 160));
+                    // console.log("left " +Coordinates.left, "top " + Coordinates.top, "bottom "+ Coordinates.bottom, "right "+ Coordinates.right);
+                    $(path1).attr('d', "M" + cx + " " + cy + " L" + (-Coordinates.left+100) + " " + (Coordinates.top+40) + " L" + (-Coordinates.left+100) + " " + (Coordinates.bottom-200));
                     $(path1).css('position', "relative");
-                    $(path1).attr('fill', '#47DBB4');
+                    $(path1).attr('fill', '#47DBB4');  //47DBB4
+                    // $(path1).attr('stroke', '#000000'); 
                     $(path1).attr('opacity', '.2');
                 }
             });

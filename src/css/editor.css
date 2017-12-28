@@ -35,12 +35,13 @@ canvas.select {
 #dataMap{
   position: absolute;
 }
+
 #map_bg{
  
  
   overflow: hidden;
   background-repeat: no-repeat;
-  width: 1900px;
+  width: 1200px;
   height: 930px;
   position: relative;
 }
