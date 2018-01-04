@@ -149,10 +149,12 @@ $(document).ready(function() {
             //     console.log(firstChildren);
             // }
             var slider = $(el).find('.slick-gallery');
-            if($(slider).has("div.slick-gallery")){
-                console.log("kek");
+            if($(slider).find("img.slick-item").length == 0){
+                console.log($(slider));
+                $(slider).remove();
                 
             }
+
             // console.log(slider);
             var singleImage = $(el).find(".single_image");
             if(!$(singleImage).hasClass(".slick-current")){
@@ -191,6 +193,7 @@ $('br').remove();
       });
 
 
+
     // $('.mapbg').css("zoom", "0%");
     // $('.mapbg').css("right", "0");
     // $('mapbg').css("bottom", "0");
@@ -207,7 +210,8 @@ $('br').remove();
         // console.log($("#map").attr('data'));
         var svgDoc = a.contentDocument;
         var svgRoot = svgDoc.documentElement;  //getting into object DOM
-
+        svgRoot.setAttribute("x", "520px");
+        svgRoot.setAttribute("y", "300px");
         var MapPathsGroup = svgRoot.getElementById("mapPaths");
         var PathsArray = MapPathsGroup.getElementsByTagName('path');
         var wholeSvgGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
@@ -283,7 +287,7 @@ $('br').remove();
             //     }
             // });
 
-            $('.lightOff').each(function(el) {
+            $('.lightOn').each(function(el) {
 
                 arrImgID.push($(this));
                 
@@ -307,10 +311,6 @@ $('br').remove();
                     });
                 }
             });
-
-
-
-
 
 
 
@@ -343,7 +343,7 @@ $('br').remove();
                     $(this).removeClass("active");
                     if (!$('.js-section').hasClass("active") && $(window).scrollTop() < 20) {
                         FullMapGroup.animate({ //animate map zoom and offset, set up by user on 2nd step, due to current section  
-                            transform: "scale(" + scaleImg +") translate(" + (moveLeft) + " " + (moveTop) + ")"
+                            transform: "scale(" + scaleImg +") translate(" + (moveLeft) + " " + (moveTop) + ")"  ///CHANGE
                         }, 700);
                     }
 
@@ -363,14 +363,25 @@ $('br').remove();
                     var cx = $(this).attr('data-pos-x');
                     var cy = $(this).attr('data-pos-y');
 
+                    var currentSection = this.closest("section");
+                    var currentZoom = $(currentSection).attr("data-zoom");
+                    var currentTopOffset = $(currentSection).attr("data-pos-top");
+                    var currentLeftOffset = $(currentSection).attr("data-pos-left");
+                    // console.log(currentZoom);
+
                     var Coordinates = $(this)[0].getBoundingClientRect();
                     var bottomOffsetImg = Coordinates.top + $(this).height();
-                    // console.log("left " +Coordinates.left, "top " + Coordinates.top, "bottom "+ Coordinates.bottom, "right "+ Coordinates.right);
-                    $(path1).attr('d', "M" + cx + " " + cy + " L" + (-Coordinates.left+100) + " " + (Coordinates.top+40) + " L" + (-Coordinates.left+100) + " " + (Coordinates.bottom-200));
+                    // console.log(Coordinates);
+                    var right_top_X = -(+Coordinates.left + +Coordinates.width) / 1920*1400;
+                    var right_top_Y = (+Coordinates.top / 1200*900);
+                    var right_bottom_X = -(+Coordinates.left + +Coordinates.width) / 1920*1400;
+                    var right_bottom_Y = (Coordinates.bottom) / 1200*900;
+                    $(path1).attr('d', "M" + cx + " " + cy + " L" + (right_top_X)/currentZoom + " " + (right_top_Y) + " L" + (right_bottom_X)/currentZoom + " " + (right_bottom_Y) + " Z");
                     $(path1).css('position', "relative");
                     $(path1).attr('fill', '#47DBB4');  //47DBB4
                     // $(path1).attr('stroke', '#000000'); 
-                    $(path1).attr('opacity', '.2');
+                    $(path1).attr('opacity', '.3');
+                    $(path1).attr("transform-origin", "520px 300px");
                 }
             });
 
@@ -402,10 +413,11 @@ $('br').remove();
         svgRoot.append(wholeSvgGroup);
         var s = Snap(pathGroup);
         // s.attr("transform", "scale(" + scaleImg + ") translate("+ (-moveLeft) +" " + (-moveTop)+ ")");
-
+        function clickCircle(e){
+            console.log(e.offsetX, e.offsetY);
+        }
 
         var circlesArray = JSON.parse(localStorage.getItem('circlesCoords'));
-
 
         $.each(circlesArray, function(index, el) {
             
@@ -415,8 +427,8 @@ $('br').remove();
                 "stroke-width": getSettingFromStorage("pointsBorderWidth"),
                 id: index+1,
                 class: "circleElement",
-                style: "display:none"
-
+                style: "display:none",
+                onclick: "clickCircle()"
             });
 
 
@@ -620,6 +632,23 @@ $('br').remove();
 
 
         $(window).on("scroll", scrolled);   //draw animation on scroll
+
+
+
+
+
+
+
+
+
+
+
+
+        $("body").click(function(e){
+            console.log(e);
+        });
+
+
 
     }, false);
 

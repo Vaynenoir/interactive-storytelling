@@ -7,12 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Drawn map</title>
 
-    <link rel="stylesheet" href="libs/materialize/materialize.min.css">
-    <link rel="stylesheet" href="libs/jquery-ui/jquery-ui.css">  
+    <link rel="stylesheet" href="libs/libs.css">
     <script src="libs/ckeditor/ckeditor.js"></script>
+   <!--  <script type="text/javascript" src="libs/ckfinder/ckfinder.js"></script> -->
     <script type="text/javascript" src="js/bezier-editor.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="css/drawn_map.css">
+    <link rel="stylesheet" href="css/drawn_map.min.css">
  
 </head>
 
@@ -103,7 +103,8 @@
             </li>
 
         </ul>
-
+<!-- <input type="hidden" id="images" name="images"
+             role="uploadcare-uploader" data-clearable="" data-images-only="true" data-crop="free,2:3,4:3,16:9"/> -->
 
         <div class="btn_wrap">
             <a href="#" class="editor_button waves-effect" id="plus"><i class="material-icons">zoom_in</i></a>
@@ -130,7 +131,23 @@
 
      </div>
 
-
+  <div id="modal1" class="modal">
+    <div class="modal-content">
+      <h4 class="sidenav__title center-align" style="font-size: 16px;">Add light to this photo(or slider)?</h4>
+    <div class="switch center-align">
+        <label>
+                Off
+            <input id="galleryLight" name="light-trigger" type="checkbox" data-light="lightOff">
+            <span class="lever"></span> On
+        </label>
+        <p id="on" style="display: none;" class="sidenav__title center-align">Light On!</p>
+        <p id="off" style="display: none;"  class="sidenav__title center-align">Light Off!</p>
+    </div>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+    </div>
+  </div>
 
 
     <div class="wrapper">
@@ -142,6 +159,8 @@
 
 
     <script>
+
+        
         CKEDITOR.on('dialogDefinition', function(ev) {
 
             // Take the dialog name and its definition 
@@ -162,9 +181,41 @@
             }
 
         });
-        var editor = CKEDITOR.replace("text");
+
+
+UPLOADCARE_PUBLIC_KEY = 'demopublickey';
+var editor = CKEDITOR.replace( 'text',{
+        extraPlugins: 'uploadcare',
+    // toolbar: [
+    //     [, 'Image'], ['Source', 'About']
+    // ],
+    uploadcare: {
+        multiple: true
+    }
+    });
+
+function favoriteFiles(container, button, dialogApi, settings) {
+  $.each(settings.favoriteFiles, function(i, uuid) {
+    container.append($('<img>', {
+        'class': 'favorite-files-image',
+        'src': settings.cdnBase + '/' + uuid + '/-/scale_crop/280x280/center/',
+      })
+      .on('click', function(e) {
+        dialogApi.addFiles([uploadcare.fileFrom('uploaded', uuid, settings)])
+      })
+    );
+  });
+}
+
+
+
+
+
+
     </script>
+
     <script src="libs/libs.js"></script>
+    <!-- <script src="libs/jquery.svganim.min.js"></script> -->
     <script src="js/drawMap.js"></script>
 </body>
 

@@ -74,3 +74,18 @@
 		.my-svg{
 			
 		}
+
+#coords{
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  padding: 3px 6px;
+  background-color: rgba(255,255,255,0.8);
+}
+#lightPath{
+	-moz-transform-origin: 520px 300px;
+-ms-transform-origin:  520px 300px;
+-o-transform-origin: 520px 300px;
+-webkit-transform-origin:  520px 300px;
+transform-origin: 520px 300px;
+}

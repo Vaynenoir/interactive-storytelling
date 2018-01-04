@@ -1,5 +1,10 @@
 
 $(document).ready(function(){
+    var canvas = document.getElementById("bezier-canvas");
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
 
 	function getSettingFromStorage(setting){
 		var SettingsObject = JSON.parse(localStorage.getItem("Settings")) || {
@@ -55,9 +60,6 @@ function goFullScreen(){
         }
 			canvasWrapper.width = "1200";
  			canvasWrapper.height = "933";
-
- 		
-
 }
 
 var createNode = function(x, y, control1, control2) {
