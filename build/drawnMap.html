@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Drawn map</title>
+
+    <link rel="stylesheet" href="libs/libs.css">
+    <script src="libs/ckeditor/ckeditor.js"></script>
+   <!--  <script type="text/javascript" src="libs/ckfinder/ckfinder.js"></script> -->
+    <script type="text/javascript" src="js/bezier-editor.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="css/drawn_map.min.css">
+ 
+</head>
+
+<body>
+    <div class="navbar-fixed">
+        <nav class="nav-extended">
+
+            <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+            <ul id="nav-mobile" class="left hide-on-med-and-down ">
+                <li><a href="index.html" target="_self">Step 1.draw your route on the map</a>
+                </li>
+                <li><a href="drawnMap.html" target="_self">Step 2.fill points with content</a>
+                </li>
+                <li><a href="ready_page.html" target="_self">Result</a>
+                </li>
+            </ul>
+
+
+
+            <a id="menu" onclick="$('.tap-target').tapTarget('open')" class="right waves-effect waves-light btn btn-floating "><i class="material-icons">&#xE88E;</i></a>
+            <div class="tap-target" data-activates="menu">
+                <div class="tap-target-content">
+                    <h5>Tutorial</h5>
+                    <p>Shift + click to add point</p>
+                    <p>Alt + click to delete point</p>
+                    <p>Ctrl + mouse hold to drag subpath control point</p>
+
+                </div>
+            </div>
+        </nav>
+    </div>
+
+
+
+
+    <ul id="slide-out" class="side-nav">
+        <li>
+            <div class="user-view">
+                <div class="background"></div>
+            </div>
+        </li>
+
+
+        <p class="sidenav__title">type your data to the point №<span id="pointIndex"></span>
+        </p>
+        <textarea name="text" id="point_textData" cols="30" rows="10"></textarea>
+
+
+
+        <ul style="display: none;" class="collapsible collapsible-accordion" data-collapsible="accordion">
+            <li>
+                <div class="collapsible-header">Zoom</div>
+                <div class="collapsible-body">
+                    <input type="number" min="-2" max="4" class="valueInput" id="pointZoom" value="100">
+                </div>
+            </li>
+            <li>
+                <div class="collapsible-header">Displacement</div>
+                <div class="collapsible-body">
+
+                    <ul class="collapsible collapsible-accordion" data-collapsible="accordion">
+                        <li>
+                            <div class="collapsible-header">Top</div>
+                            <div class="collapsible-body">
+                                <input type="number" min="-2" max="4" class="valueInput" id="pointTop" value="0">
+                            </div>
+                        </li>
+                        <li>
+                            <div class="collapsible-header">Bottom</div>
+                            <div class="collapsible-body">
+                                <input type="number" min="-2" max="4" class="valueInput" id="pointBottom" value="0">
+                            </div>
+                        </li>
+                        <li>
+                            <div class="collapsible-header">Left</div>
+                            <div class="collapsible-body">
+                                <input type="number" min="-2" max="4" class="valueInput" id="pointLeft" value="0">
+                            </div>
+                        </li>
+                        <li>
+                            <div class="collapsible-header">Right</div>
+                            <div class="collapsible-body">
+                                <input type="number" min="-2" max="4" class="valueInput" id="pointRight" value="0">
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+        </ul>
+<!-- <input type="hidden" id="images" name="images"
+             role="uploadcare-uploader" data-clearable="" data-images-only="true" data-crop="free,2:3,4:3,16:9"/> -->
+
+        <div class="btn_wrap">
+            <a href="#" class="editor_button waves-effect" id="plus"><i class="material-icons">zoom_in</i></a>
+            <a href="#" class="editor_button waves-effect" id="minus"><i class="material-icons">zoom_out</i></a>
+            <a href="#" class="editor_button waves-effect" id="moveLeft"><i class="material-icons">keyboard_arrow_left</i></a>
+            <a href="#" class="editor_button waves-effect" id="moveRight"><i class="material-icons">keyboard_arrow_right</i></a>
+            <a href="#" class="editor_button waves-effect" id="moveTop"><i class="material-icons">keyboard_arrow_up</i></a>
+            <a href="#" class="editor_button waves-effect" id="moveBottom"><i class="material-icons">keyboard_arrow_down</i></a>
+        </div>
+
+        <p class="sidenav__title">
+            type this point name
+        </p>
+        <input type="text" id="pointName">
+
+
+        <div class="btn_wrapper"><a id="SavePointContent" class="waves-effect waves-teal btn hoverable center-align">Save content</a>
+        </div>
+        <p id="userNotification" class="text" style="text-align: center; color: #fff; display: none;">Your data is saved!</p>
+
+
+    </ul>
+    <a href="#" data-activates="slide-out" class="button-collapse"></a>
+
+     </div>
+
+  <div id="modal1" class="modal">
+    <div class="modal-content">
+      <h4 class="sidenav__title center-align" style="font-size: 16px;">Add light to this photo(or slider)?</h4>
+    <div class="switch center-align">
+        <label>
+                Off
+            <input id="galleryLight" name="light-trigger" type="checkbox" data-light="lightOff">
+            <span class="lever"></span> On
+        </label>
+        <p id="on" style="display: none;" class="sidenav__title center-align">Light On!</p>
+        <p id="off" style="display: none;"  class="sidenav__title center-align">Light Off!</p>
+    </div>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+    </div>
+  </div>
+
+
+    <div class="wrapper">
+        <div class="mapbg">
+            <object id="map" data="" type="image/svg+xml" width="1920px" height="1200px"></object>
+        </div>
+
+    </div>
+
+
+    <script>
+
+        
+        CKEDITOR.on('dialogDefinition', function(ev) {
+
+            // Take the dialog name and its definition 
+            // from the event data.
+
+            var dialogName = ev.data.name;
+            var dialogDefinition = ev.data.definition;
+
+            // Check if the definition is from the 
+            // dialog window you are interested in.
+
+            if (dialogName == 'image') {
+                var infoTab = dialogDefinition.getContents('info');
+                infoTab.remove('txtHSpace'); //Remove Element Horizontal Space From Tab Info
+                infoTab.remove('txtVSpace'); //Remove Element Vertical Space From Tab Info
+                infoTab.remove('Alignment'); //Remove Element Vertical Space From Tab Info
+                console.log(ev.data.definition.dialog.getSize());
+            }
+
+        });
+
+
+UPLOADCARE_PUBLIC_KEY = 'demopublickey';
+var editor = CKEDITOR.replace( 'text',{
+        extraPlugins: 'uploadcare',
+    // toolbar: [
+    //     [, 'Image'], ['Source', 'About']
+    // ],
+    uploadcare: {
+        multiple: true
+    }
+    });
+
+function favoriteFiles(container, button, dialogApi, settings) {
+  $.each(settings.favoriteFiles, function(i, uuid) {
+    container.append($('<img>', {
+        'class': 'favorite-files-image',
+        'src': settings.cdnBase + '/' + uuid + '/-/scale_crop/280x280/center/',
+      })
+      .on('click', function(e) {
+        dialogApi.addFiles([uploadcare.fileFrom('uploaded', uuid, settings)])
+      })
+    );
+  });
+}
+
+
+
+
+
+
+    </script>
+
+    <script src="libs/libs.js"></script>
+    <!-- <script src="libs/jquery.svganim.min.js"></script> -->
+    <script src="js/drawMap.js"></script>
+</body>
+
+</html>

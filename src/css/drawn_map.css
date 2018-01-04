@@ -1,0 +1,318 @@
+body {
+  background: #fffde7;
+  color: #5d5c56;
+  overflow-x: hidden;
+  display: flex;
+  min-height: 100%;
+  flex-direction: column;
+}
+
+.sidenav__title {
+  color: #2bbbad;
+  text-align: center;
+  text-transform: uppercase;
+  font-style: italic;
+}
+
+#title {
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-style: bold;
+  color: #64b5f6;
+  text-shadow: 3px 0px 9px rgba(69, 150, 150, 0.43);
+}
+
+.wrapper {
+  width: 100%;
+  height: 100%;
+  /*  position: relative;*/
+}
+
+.ui-resizable-e {
+  width: 8px;
+  background-color: #fff;
+}
+
+.ui-resizable-resizing:after {
+  content: '';
+  position: absolute;
+  z-index: 999;
+  left: 0px;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+}
+
+.mapbg {
+  background-repeat: no-repeat;
+  width: 1900px;
+  position: absolute;
+  z-index: 3;
+}
+
+
+/* The side navigation menu */
+
+.sidenav {
+  height: 100%;
+  /* 100% Full-height */
+  width: 0;
+  /* 0 width - change this with JavaScript */
+  position: absolute;
+  /* Stay in place */
+  z-index: 5;
+  /* Stay on top */
+  top: 0;
+  box-sizing: content-box;
+  overflow-y: hidden;
+  left: 0;
+  /*     outline: 3px dashed #ccc;*/
+  background-color: #424040;
+  overflow-x: hidden;
+  /* Disable horizontal scroll */
+  padding-top: 60px;
+  /* Place content 60px from the top */
+  transition: 0.5s;
+  /* 0.5 second transition effect to slide in the sidenav */
+  /*      overflow-y: hidden;*/
+}
+
+
+/* The navigation menu links */
+
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #ffffff;
+  display: block;
+  transition: 0.3s
+}
+
+
+/* When you mouse over the navigation links, change their color */
+
+.sidenav a:hover,
+.offcanvas a:focus {
+  color: #f1f1f1;
+}
+
+
+/* Position and style the close button (top right corner) */
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+
+#head {
+  position: relative;
+  width: 100%;
+  height: 900px;
+}
+
+
+/*#main {
+    transition: margin-left .5s;
+    padding: 20px;
+    height: 900px;
+    position: relative;
+}*/
+
+.cke_chrome {
+  border: 1px solid #9fcbff!important;
+}
+
+.cke_inner {
+  background: linear-gradient(to bottom, #fff -15px, #005e6f 40px);
+}
+
+.cke_dialog_background_cover {
+  overflow: auto!important;
+}
+
+#point_textData {
+  min-height: 100px;
+  height: 300px;
+  width: 96%;
+  max-width: 96%;
+  height: 755px;
+  max-height: 755px;
+  margin: 0 1% 0 1%;
+  color: #4db6ac;
+  font-style: italic;
+  border: 1px dashed #4db6ac;
+}
+
+.sidenav .sidenav__title {
+  text-align: center;
+  text-transform: uppercase;
+  color: #80deea;
+  font-style: italic;
+  font-size: 15px;
+}
+
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+
+@media screen and (max-height: 450px) {
+  .sidenav {
+    padding-top: 15px;
+  }
+  .sidenav a {
+    font-size: 18px;
+  }
+}
+
+#cke_point_textData {
+  width: 94%;
+  margin: 0 1% 0 1%;
+}
+
+.btn_wrapper {
+  margin: 5%;
+  display: flex;
+  justify-content: center;
+}
+
+#SavePointContent {
+  width: 60%;
+  font-size: 16px;
+  text-transform: uppercase;
+  color: #fff;
+  padding: 0px;
+  border-radius: 6px;
+}
+
+
+/*.zoom_input{
+  width: 50%!important;
+  color: #fff;
+  margin: 0 auto;
+}*/
+
+ul input {
+  margin: 0;
+}
+
+.collapsible {
+  width: 96%;
+  margin: 2% 2% 2% 2%;
+  border-radius: 5px;
+}
+
+.collapsible-body {
+  padding: 0.1rem;
+  background-color: #9e9e9e;
+  border-radius: 2px;
+}
+
+.collapsible-header {
+  background-color: #e0e0e0;
+  border-bottom: 1px solid #ccc;
+  color: #009688;
+  font-style: italic;
+  text-shadow: -3px -1px 5px rgba(152, 150, 150, 6);
+  padding: 0.7rem;
+}
+
+.valueInput {
+  margin: 0!important;
+  color: #b2ebf2;
+  height: 2.2rem;
+  font-style: italic;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0;
+  /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+.sidenav .closebtn {
+  top: -5px;
+  right: 5px;
+}
+
+.sidenav p {
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
+h1 {
+  margin: 0;
+  z-index: 100;
+  transition: margin-left .5s;
+  font-size: 2.5rem;
+  text-align: center;
+}
+
+.next {
+  z-index: 200;
+  position: absolute;
+  left: 84%;
+  top: 832px;
+}
+
+.ui-resizable {
+  position: fixed;
+}
+
+.navbar-fixed,
+nav.nav-extended {
+  height: 48px;
+  line-height: 48px;
+}
+
+.tap-target-wrapper.open .tap-target {
+  transform: scale(3.2);
+  opacity: 0.75;
+}
+
+nav {
+  background-color: #4db6ac;
+}
+
+nav i.material-icons {
+  line-height: 41px;
+  font-size: 30px;
+}
+
+#menu {
+  margin-right: 10px;
+  margin-top: 3px;
+}
+
+.tap-target-wrapper.open .tap-target {
+  transform: scale(3.2);
+  opacity: 0.75;
+}
+
+.tap-target-content {
+  line-height: 20px;
+  font-size: 0.7em;
+  padding: 0 110px!important;
+}
+
+.btn_wrap {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  margin: 18px 0 8px 0;
+}
+
+#pointName {
+  text-indent: 10px;
+  margin: 0;
+}
+#modal1{
+  z-index: 12000!important;
+}

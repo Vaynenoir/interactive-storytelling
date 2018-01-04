@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>PenTool</title>
+
+
+    <link rel="stylesheet" href="libs/libs.css">
+    <link rel="stylesheet" href="css/editor.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="libs/minicolors_display/jquery.minicolors.css"> -->
+
+</head>
+
+<body>
+    <div class="navbar-fixed">
+        <nav class="nav-extended">
+
+            <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+            <ul id="nav-mobile" class="left hide-on-med-and-down">
+                <li><a href="index.html" target="_self">Step 1.draw your route on the map</a>
+                </li>
+                <li><a href="drawnMap.html" target="_self">Step 2.fill points with content</a>
+                </li>
+                <li><a href="ready_page.html" target="_self">Result</a>
+                </li>
+            </ul>
+
+            <a id="menu" onclick="$('.tap-target').tapTarget('open')" class="right waves-effect waves-light btn btn-floating "><i class="material-icons">&#xE88E;</i></a>
+            <div class="tap-target" data-activates="menu">
+                <div class="tap-target-content">
+                    <h5>Tutorial</h5>
+                    <p>Shift + click to add point</p>
+                    <p>Alt + click to delete point</p>
+                    <p>Ctrl + mouse hold to drag subpath control point</p>
+
+                </div>
+            </div>
+
+        </nav>
+    </div>
+
+    <div class="wrapper container" id="topPoint">
+
+        <div class="debug"></div>
+        <div class="centered" id="full_screen">
+            <div class="wrap_map">
+                <div id="map_bg">
+                    <object data="" id="dataMap" width="1920px" height="1200px" type=""></object>
+                    
+                     <canvas id="bezier-canvas" width="1200" height="900"></canvas>
+              
+                </div>
+            </div>
+
+
+            <ul id="slide-out" class="side-nav">
+                <li>
+                    <div class="user-view">
+                        <div class="background">
+
+                        </div>
+
+                        <div id="gallery" class="map_gallery row" style="">
+
+                            <div class="gallery_item col s3">
+                                <a href="#topPoint">
+                                    <p class="centered">Australia</p><img class="img_item" src="svg/maps/australiaHigh.svg" width="300px" height="300px" alt="">
+                                </a>
+                            </div>
+                            <div class="gallery_item col s3">
+                                <a href="#topPoint">
+                                    <p class="centered">Azerbaijan</p><img class="img_item" src="svg/maps/azerbaijanHigh.svg" width="300px" height="300px" alt="">
+                                </a>
+                            </div>
+                            <div class="gallery_item col s3">
+                                <a href="#topPoint">
+                                    <p class="centered">Belarus</p><img class="img_item" src="svg/maps/belarusHigh.svg" width="300px" height="300px" alt="">
+                                </a>
+                            </div>
+                            <div class="gallery_item col s3">
+                                <a href="#topPoint">
+                                    <p class="centered">Belgium</p><img class="img_item" src="svg/maps/belgiumHigh.svg" width="300px" height="300px" alt="">
+                                </a>
+                            </div>
+                            <div class="gallery_item col s3">
+                                <a href="#topPoint">
+                                    <p class="centered">France</p><img class="img_item" src="svg/maps/franceHigh.svg" width="300px" height="300px" alt="">
+                                </a>
+                            </div>
+                            <div class="gallery_item col s3">
+                                <a href="#topPoint">
+                                    <p class="centered">Georgia</p><img class="img_item" src="svg/maps/georgiaHigh.svg" width="300px" height="300px" alt="">
+                                </a>
+                            </div>
+                            <div class="gallery_item col s3">
+                                <a href="#topPoint">
+                                    <p class="centered">Ireland</p><img class="img_item" src="svg/maps/irelandHigh.svg" width="300px" height="300px" alt="">
+                                </a>
+                            </div>
+                            <div class="gallery_item col s3">
+                                <a href="#topPoint">
+                                    <p class="centered">Sweden</p><img class="img_item" src="svg/maps/swedenHigh.svg" width="300px" height="300px" alt="">
+                                </a>
+                            </div>
+                            <div class="gallery_item col s3">
+                                <a href="#topPoint">
+                                    <p class="centered">Turkey</p><img class="img_item" src="svg/maps/turkeyHigh.svg" width="300px" height="300px" alt="">
+                                </a>
+                            </div>
+                            <div class="gallery_item col s3">
+                                <a href="#topPoint">
+                                    <p class="centered">United States</p><img class="img_item" src="svg/maps/usaHigh.svg" width="300px" height="300px" alt="">
+                                </a>
+                            </div>
+                            <div class="gallery_item col s3">
+                                <a href="#topPoint">
+                                    <p class="centered">Armenia</p><img class="img_item" src="svg/maps/armeniaHigh.svg" width="300px" height="300px" alt="">
+                                </a>
+                            </div>
+                            <div class="gallery_item col s3">
+                                <a href="#topPoint">
+                                    <p class="centered">Netherlands</p><img class="img_item" src="svg/maps/netherlandsHigh.svg" width="300px" height="300px" alt="">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+            </ul>
+
+
+
+            <!-- Modal Structure -->
+            <div id="modal1" class="modal modal-fixed-footer">
+                <div class="modal-content" id="color_change">
+
+                    <h2 style="text-align: center; font-size: 23px;text-transform: uppercase;">Change Map background and stroke color:</h2>
+
+                    <table class="centered" style="width:100%">
+                        <tr>
+                            <th>Settings</th>
+                            <th>Result</th>
+                        </tr>
+
+                        <tr>
+                            <td>
+                            <div class="flex_center">
+                                <p>Map color:
+                                    <input type="minicolors" name="mapColor" class="colorPicker minicolors" id="mapColorPicker" style="display: none;">
+                                </p>
+                                <p>Map stroke color:
+                                    <input type="minicolors" name="mapStrokeColor" class="colorPicker minicolors" id="mapStrokeColorPicker" style="display: none;">
+                                </p>
+                                <p>Background-color:
+                                    <input type="minicolors" class="colorPicker minicolors" name="bodyBackgroundColor" id="bodyColorPicker" style="display: none;">
+                                </p>
+														</div>
+                            </td>
+                            <td>
+                                <div class="map_settings_block">
+                                    <object data="" id="mapSettings" width="500px" height="350px" type=""></object>
+                                </div>
+                            </td>
+                        </tr>
+
+
+
+                        <tr>
+                            <td>
+                                <div class="flex_center">
+                                    <p>Points Color:
+                                        <input type="minicolors" name="mapPointsColor" class="colorPicker minicolors" id="mapPointsColorPicker" style="display: none;">
+                                    </p>
+                                    <p>Points border color:
+                                        <input type="minicolors" name="mapPointsBorderColor" class="colorPicker minicolors" id="mapPointsBorderColorPicker" style="display: none;">
+                                    </p>
+
+                                    <p>Points radius:
+                                        <form class="rangePicker" action="#">
+                                            <p class="range-field">
+                                                <input type="range" name="pointsRadius" id="test6" min="4" max="12" />
+                                            </p>
+                                        </form>
+                                    </p>
+                                    <p>Points border width:
+                                        <form class="rangePicker" action="#">
+                                            <p class="range-field">
+                                                <input type="range" name="pointsBorderWidth" id="test7" min="1" max="6" />
+                                            </p>
+                                        </form>
+                                    </p>
+                                </div>
+                            </td>
+                            <td>
+                                <div id="circle_example"></div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <div class="flex_center">
+                                    <p>Route border width:
+                                        <form class="rangePicker" action="#">
+                                            <p class="range-field">
+                                                <input type="range" name="routeBorderWidth" id="test5" min="2" max="10" />
+                                            </p>
+                                        </form>
+                                    </p>
+                                    <p>Route color:
+                                        <input type="minicolors" class="colorPicker minicolors" name="mapRouteColor" id="mapRouteColorPicker" style="display: none;">
+                                    </p>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="flex_center">
+                                    <div class="routeExample"></div>
+
+                                </div>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+                            <td>
+                                Content align and width:
+
+                                <form action="#">
+                                    <div class="align_selection">
+                                        <p>
+                                            <input name="contentAlign" type="radio" value="flex-start" id="left_align" />
+                                            <label for="left_align">Left</label>
+                                        </p>
+                                        <p>
+                                            <input name="contentAlign" type="radio" value="center" id="center_align" />
+                                            <label for="center_align">Center</label>
+                                        </p>
+                                        <p>
+                                            <input name="contentAlign" type="radio" value="flex-end" id="right_align" />
+                                            <label for="right_align">Right</label>
+                                        </p>
+                                    </div>
+                                    <p class="range-field">
+                                        <input type="range" id="content_width" name="contentWidth" min="0" max="100" />
+                                    </p>
+                                </form>
+
+
+                            </td>
+                            <td>
+                                <div class="test_block">
+                                    <div class="content_block">T</div>
+                                </div>
+
+
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <p>Mark a route start:</p>
+                                <div class="switch">
+                                    <label>
+                                        Off
+                                        <input type="checkbox">
+                                        <span class="lever"></span> On
+                                    </label>
+                                </div>
+
+                                <form action="#" class="centered_form">
+                                    <p>
+                                        <input name="group1" type="radio" id="defaultOption" />
+                                        <label for="defaultOption">Default(point styles)</label>
+                                    </p>
+                                    <p>
+                                        <input name="group1" type="radio" id="UserOption" />
+                                        <label for="UserOption">Choose own</label>
+                                    </p>
+                                </form>
+                            </td>
+                        </tr>
+
+                        <tr class="additional_settings">
+                            <td>
+                                <p>Choose image:</p>
+                                <div class="icon_gallery">
+                                    <img src="svg/icons/start_location1.svg" class="icon_gallery__item" width="20px" height="20px" alt="">
+                                    <img src="svg/icons/start_location2.svg" class="icon_gallery__item" width="20px" height="20px" alt="">
+                                    <img src="svg/icons/start_location3.svg" class="icon_gallery__item" width="20px" height="20px" alt="">
+                                    <img src="svg/icons/start_location4.svg" class="icon_gallery__item" width="20px" height="20px" alt="">
+                                    <img src="svg/icons/start_location5.svg" class="icon_gallery__item" width="20px" height="20px" alt="">
+
+                                </div>
+
+                                <p>Image color:</p>
+                                <input type="minicolors" name="RouteStartIconColor" id="PathStartIconColor" class="colorPicker minicolors">
+
+                                <p>Image size:</p>
+                                <form class="rangePicker" action="#">
+                                    <p class="range-field">
+                                        <input type="range" name="RouteStartIconSize" id="test8" min="10" max="50" />
+                                    </p>
+                                </form>
+
+                            </td>
+
+                            <td>
+
+                                <object data="" id="iconTest" width="50px" height="50px" type=""></object>
+
+                            </td>
+
+                        </tr>
+
+                    </table>
+
+                </div>
+
+                <div class="modal-footer">
+                    <a class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>
+                </div>
+            </div>
+
+
+
+
+
+            <div id="modal2" class="modal modal2">
+                <div class="modal-content project_settings">
+                    <h5>Project name:</h5>
+                    <input type="text" id="projectName">
+                    <p style="font-style: italic;">Project description:</p>
+                    <textarea name="description" placeholder="descibe your project" id="projectDescription" cols="30" rows="10"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <a id="saveProjectBtn" class="modal-action modal-close waves-effect waves-green btn-flat">Save</a>
+                </div>
+            </div>
+
+
+
+
+
+            <div id="buttonWrapper">
+
+                <button class="editor_button waves-effect" id="plus"><i class="material-icons">zoom_in</i>
+                </button>
+                <button class="editor_button" id="minus"><i class="material-icons">zoom_out</i>
+                </button>
+                <button class="editor_button" id="moveLeft"><i class="material-icons">keyboard_arrow_left</i>
+                </button>
+                <button class="editor_button" id="moveRight"><i class="material-icons">keyboard_arrow_right</i>
+                </button>
+                <button class="editor_button" id="moveTop"><i class="material-icons">keyboard_arrow_up</i>
+                </button>
+                <button class="editor_button" id="moveBottom"><i class="material-icons">keyboard_arrow_down</i>
+                </button>
+                <button class="editor_button modal-trigger" data-target="modal1" id="changeColor"><i class="material-icons">colorize</i>
+                </button>
+                <button class="editor_button modal-trigger" data-target="modal2" id="projectName"><i class="material-icons">create_new_folder</i>
+                </button>
+            </div>
+        </div>
+        <div class="buttons_bar">
+            <a href="drawnMap.html">
+                <button class="waves-effect waves-light btn" id="export">Save data and go next</button>
+            </a>
+
+            <button class="waves-effect waves-light btn" id="redraw">redraw editor</button>
+            <button class="waves-effect waves-light btn" id="clear">clear all</button>
+            <button class="waves-effect waves-light btn" id="screen">full screen</button>
+            <button class="waves-effect waves-light btn right button-collapse" data-activates="slide-out" id="chooseMap">choose map</button>
+
+        </div>
+
+    </div>
+
+
+
+
+    <footer class="page-footer">
+        <div class="footer-copyright">
+            <div class="container">
+                © 2014 Copyright Text
+                <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="libs/libs.js"></script>
+    <script type="text/javascript" src="js/bezier-editor.js"></script>
+    <script src="js/editor_script.js" type="text/javascript"></script>
+</body>
+
+</html>
