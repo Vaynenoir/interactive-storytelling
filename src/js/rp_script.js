@@ -315,8 +315,6 @@ $('br').remove();
 
 
 
-
-
         function sectionCounter() {
             $('.js-section').each(function(i) {
 
@@ -352,8 +350,17 @@ $('br').remove();
             });
 
 
+        function svgPoint(element, x, y) {
+          var pt = svgRoot.createSVGPoint();
+
+          pt.x = x;
+          pt.y = y;
+
+          return pt.matrixTransform(element.getScreenCTM().inverse());
+        }
 
             var vis_count = 0;
+
 
             $(arrImgID).each(function() {  //if current img inWindow, than create a light from current point to img's border
                 if (inWindow($(this))) {
@@ -369,24 +376,54 @@ $('br').remove();
                     var currentLeftOffset = $(currentSection).attr("data-pos-left");
                     // console.log(currentZoom);
 
+
+
+
+
                     var Coordinates = $(this)[0].getBoundingClientRect();
                     var bottomOffsetImg = Coordinates.top + $(this).height();
                     // console.log(Coordinates);
+
                     var right_top_X = -(+Coordinates.left + +Coordinates.width) / 1920*1400;
                     var right_top_Y = (+Coordinates.top / 1200*900);
                     var right_bottom_X = -(+Coordinates.left + +Coordinates.width) / 1920*1400;
                     var right_bottom_Y = (Coordinates.bottom) / 1200*900;
-                    $(path1).attr('d', "M" + cx + " " + cy + " L" + (right_top_X)/currentZoom + " " + (right_top_Y) + " L" + (right_bottom_X)/currentZoom + " " + (right_bottom_Y) + " Z");
+
+
+                    var svg_right_top = svgPoint(svgRoot, right_top_X, right_top_Y);
+                    var svg_right_bottom = svgPoint(svgRoot, right_bottom_X, right_bottom_Y);
+
+                    var group_right_top = svgPoint(wholeSvgGroup, right_top_X, right_top_Y);
+                    var group_right_bottom = svgPoint(wholeSvgGroup, right_bottom_X, right_bottom_Y);
+
+
+                    // console.log(svgPoint(svgRoot, Coordinates.x, Coordinates.y));
+
+                    // console.log(svgPoint(wholeSvgGroup, right_top_X, right_top_Y));
+                    // console.log("PAGE COORDS " + right_top_X +  ", " + right_top_Y);
+
+
+                    // $(path1).attr('d', "M" + cx + " " + cy + " L" + (-svg_right_top.x - right_top_X )  + " " + (right_top_Y) + " L" + (-svg_right_bottom.x - right_bottom_X ) + " " + (right_bottom_Y - currentTopOffset ) + " Z");
+
                     $(path1).css('position', "relative");
-                    $(path1).attr('fill', '#47DBB4');  //47DBB4
+                    if(getSettingFromStorage("contentAlign") == "flex-start"){
+                    $(path1).attr('d', "M" + cx + " " + cy + " L" + (svg_right_top.x - right_top_X )  + " " + (right_top_Y) + " L" + (svg_right_bottom.x - right_bottom_X ) + " " + (right_bottom_Y - currentTopOffset ) + " Z");
+                    $(path1).attr('fill', 'url(#gradient)');  //47DBB4
+                   
+                }else if(getSettingFromStorage("contentAlign") == "flex-end"){
+                    $(path1).attr('fill', 'url(#gradient_reverse)');  //47DBB4
+                    $(path1).attr('d', "M" + cx + " " + cy + " L" + (-svg_right_top.x - right_top_X )  + " " + (right_top_Y) + " L" + (-svg_right_bottom.x - right_bottom_X ) + " " + (right_bottom_Y - currentTopOffset ) + " Z");
+                }
                     // $(path1).attr('stroke', '#000000'); 
                     $(path1).attr('opacity', '.3');
-                    $(path1).attr("transform-origin", "520px 300px");
+                    
+                    // $(path1).attr("transform", "scale(" + 1 + ") translate("+ currentLeftOffset +" " + currentTopOffset+ ")");
                 }
             });
 
-            $(wholeSvgGroup).append(path1);
+            $(wholeSvgGroup).prepend(path1);
             svgRoot.append(wholeSvgGroup);
+
             if (vis_count > 0) {
                 $(path1).fadeIn(900);
             } else {
@@ -634,6 +671,22 @@ $('br').remove();
         $(window).on("scroll", scrolled);   //draw animation on scroll
 
 
+        var NS = svgRoot.getAttribute('xmlns');
+
+        svgRoot.addEventListener('click', function(e) {
+            console.log("1");
+          var pt = svgRoot.createSVGPoint(), svgP, circle;
+          
+          pt.x = e.clientX;
+          pt.y = e.clientY;
+          svgP = pt.matrixTransform(svgRoot.getScreenCTM().inverse());
+
+          circle = document.createElementNS(NS, 'circle');
+          circle.setAttributeNS(null, 'cx', svgP.x);
+          circle.setAttributeNS(null, 'cy', svgP.y);
+          circle.setAttributeNS(null, 'r', 10);
+          svgRoot.appendChild(circle);
+        }, false);
 
 
 
@@ -641,12 +694,7 @@ $('br').remove();
 
 
 
-
-
-
-        $("body").click(function(e){
-            console.log(e);
-        });
+     
 
 
 

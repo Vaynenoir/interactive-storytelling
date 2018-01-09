@@ -44,8 +44,8 @@ module.exports = function() {
         $('#modal1').modal('open');
         var Off = $("#off");
         var On = $("#on");
-         $("input[name=light-trigger]").attr("data-light", "lightOff");
-         var light = "lightOff";
+         // $("input[name=light-trigger]").attr("data-light", "lightOff");
+         // var light = "lightOff";
          $("input[name=light-trigger]").attr("checked", false);
          $(On).css("display", "none");
         $("input[name=light-trigger]").on("click", function(){

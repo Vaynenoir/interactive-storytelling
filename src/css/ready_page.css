@@ -89,3 +89,6 @@
 -webkit-transform-origin:  520px 300px;
 transform-origin: 520px 300px;
 }
+.single_image img{
+	width: 100%!important;
+}

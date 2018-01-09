@@ -13,6 +13,22 @@
 		}
 	</style>
 	
+	<linearGradient spreadMethod="pad" id="gradient" x1="100%" y1="0%" x2="0%" y2="0%">
+<stop offset="0" style="stop-color:rgb(71, 219, 180);stop-opacity:1;" />
+	<stop offset="45%" style="stop-color:rgba(71, 219, 180, 0.85);stop-opacity:0.85;" />
+	<stop offset="100%" style="stop-color:rgba(255, 255, 255, 0.68);stop-opacity:0.68;" />
+</linearGradient>
+<linearGradient spreadMethod="pad" id="gradient_reverse" x1="0%" y1="0%" x2="100%" y2="0%">
+<stop offset="0%" style="stop-color:rgb(71, 219, 180);stop-opacity:1;" />
+	<stop offset="36" style="stop-color:rgba(192, 243, 229, 0.71);stop-opacity:0.71;" />
+	<stop offset="40" style="stop-color:rgba(206, 245, 235, 0.86);stop-opacity:0.86;" />
+	<stop offset="54%" style="stop-color:rgba(255, 255, 255, 0.75);stop-opacity:0.75;" />
+	<stop offset="100%" style="stop-color:rgba(71, 219, 180, 0.42);stop-opacity:0.42;" />
+</linearGradient>	
+
+
+
+
 		<amcharts:ammap  projection="mercator" leftLongitude="25.664066" bottomLatitude="35.806126" rightLongitude="44.819234" topLatitude="42.105360">
 		</amcharts:ammap>
 </defs>
