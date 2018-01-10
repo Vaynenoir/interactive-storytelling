@@ -2,33 +2,12 @@
 	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1920px" height="1200px"
 	 viewBox="0 0 1920 1200" enable-background="new 0 0 1920 1200" xml:space="preserve">
 <defs>
-		<style  type="text/css">
-		g#mapPaths{
-							fill: #e8e3c4;
-				stroke: #5d5c56;
-				opacity: .8;
-		}
-		g#mapPaths path{
-		fill: rgba(255, 204, 128, 1);
-		}
-	</style>
-
-	<linearGradient spreadMethod="pad" id="gradient" x1="100%" y1="0%" x2="0%" y2="0%">
-<stop offset="0" style="stop-color:rgb(71, 219, 180);stop-opacity:1;" />
-	<stop offset="45%" style="stop-color:rgba(71, 219, 180, 0.85);stop-opacity:0.85;" />
-	<stop offset="100%" style="stop-color:rgba(255, 255, 255, 0.68);stop-opacity:0.68;" />
-</linearGradient>
-<linearGradient spreadMethod="pad" id="gradient_reverse" x1="0%" y1="0%" x2="100%" y2="0%">
-<stop offset="0%" style="stop-color:rgb(71, 219, 180);stop-opacity:1;" />
-	<stop offset="36" style="stop-color:rgba(192, 243, 229, 0.71);stop-opacity:0.71;" />
-	<stop offset="40" style="stop-color:rgba(206, 245, 235, 0.86);stop-opacity:0.86;" />
-	<stop offset="54%" style="stop-color:rgba(255, 255, 255, 0.75);stop-opacity:0.75;" />
-	<stop offset="100%" style="stop-color:rgba(71, 219, 180, 0.42);stop-opacity:0.42;" />
-</linearGradient>	
+	
+	
 		<amcharts:ammap  projection="mercator" leftLongitude="-4.796120" bottomLatitude="41.363289" rightLongitude="9.560553" topLatitude="51.089515">
 		</amcharts:ammap>
 </defs>
-<g id="mapPaths">
+<g>
 	<path id="FR-A" fill="#CCCCCC" stroke="#FFFFFF" stroke-width="0.5" d="M1039.39,329.359l7.333-2.705l-2.035-4.004l2.884-1.851
 		l-1.528-0.933l2.819-7.864l4.979-2.136l6.741-8.639l-1.525-3.512l12.292-16.234l-1.695-2.896l-5.553,0.633l-3.604-1.882l2.84-2.485
 		l-2.056-2.041l2.84-7.516l-2.415-2.879l3.899,0.569l-6.063-2.627l8.817-0.316l4.684-2.453l7.587-10.664l-3.434-0.237l-2.034-2.943

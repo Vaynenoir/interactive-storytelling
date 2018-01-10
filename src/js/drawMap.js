@@ -58,7 +58,7 @@ $(document).ready(function() {
             $("div").remove("#sidenav-overlay");
             $('.button-collapse').sideNav('hide');
             $("#slide-out").css("transform", "translateX(-100%)");
-            console.log("kek");
+            // console.log("kek");
         }
 
     });
@@ -210,10 +210,11 @@ $(document).ready(function() {
 
             }
         }
-
+        console.log(circlesArray);
         circlesArray.sort(compareId);
+        console.log(circlesArray);
 
-
+        console.log(contentOfPoints);
 
 
         localStorage.setItem('circlesCoords', JSON.stringify(circlesArray));
@@ -382,7 +383,7 @@ $(document).ready(function() {
             var savedDisplacement = JSON.parse(localStorage.getItem("mapStyleProperties")) || { transform: ""};
 
             var zoom, moveLeft, moveTop;
-            console.log(savedDisplacement.transform.length);
+            // console.log(savedDisplacement.transform.length);
             if((savedDisplacement.transform)){
                 // scaleImg = styleProps.transform;
 
@@ -392,12 +393,12 @@ $(document).ready(function() {
                 var StringValues = transformString.match(regex).map(function(v) {
                     return parseFloat(v); 
                 });
-                console.log(StringValues);
+                // console.log(StringValues);
 
                 scaleImg = StringValues[0];
                 moveLeft = StringValues[1],
                 moveTop = StringValues[2];
-                console.log( scaleImg, moveLeft, moveTop);
+                // console.log( scaleImg, moveLeft, moveTop);
 
                 FullMapGroup.attr("transform", "scale(" + scaleImg + ") translate("+ (moveLeft) +" " + (moveTop)+ ")");
                 // pathDisplacement.attr("transform", "scale(" + scaleImg + ") translate("+ (-moveLeft) +" " + (-moveTop)+ ")");
@@ -428,7 +429,7 @@ $(document).ready(function() {
                     transform: ""
                 };
 
-                console.log(FullMapGroup);
+                // console.log(FullMapGroup);
                 if ((pointsDefaultDisplacement.transform).length > 0) {
                     // scaleImg = styleProps.transform;
 
@@ -438,7 +439,7 @@ $(document).ready(function() {
                     var StringValues = transformString.match(regex).map(function(v) {
                         return parseFloat(v);
                     });
-                    console.log(StringValues);
+                    // console.log(StringValues);
 
                     zoom = StringValues[0];
                     moveLeft = StringValues[1],
@@ -482,7 +483,7 @@ $(document).ready(function() {
                 $("#plus").bind('click', function() {
                     zoom += 0.1;
                     DisplacementObj.zoom = zoom;
-                    console.log(MapPathsGroup);
+                    // console.log(MapPathsGroup);
                     FullMapGroup.animate({ "transform": "scale(" + zoom +") translate(" + (moveLeft) + " " + moveTop + ")" }, 300);
                 });
 
@@ -593,7 +594,7 @@ $(document).ready(function() {
                     if (pointsDataContent.data.length == 0) {
                         Materialize.toast('No data in point!', 2000);
                     } else {
-                        console.log(pointsDataContent);
+                        // console.log(pointsDataContent);
                         pointsDataContentArray.push(pointsDataContent);
                         var textField = $(currentPath).parent().find("text");
 
@@ -603,13 +604,26 @@ $(document).ready(function() {
                         Materialize.toast('Your data is saved!', 2000);
                     }
                     pointsDataContentArray.sort(compareTime)
-                    localStorage.setItem('PointsContent', JSON.stringify(pointsDataContentArray));
+                    
                     var overlay = $('#sidenav-overlay');
                     $(overlay).css("background-color", "none");
                     $(overlay).remove();
 
+                    console.log(pointsDataContentArray, circlesArray);
+                    var SortedDataArray = [];
+
+                    for(var i = 0; i < circlesArray.length; i++){
+                      for(var j = 0; j < pointsDataContentArray.length; j++){
+                        if(circlesArray[i].time == pointsDataContentArray[j].pointId){
+                          SortedDataArray.push(pointsDataContentArray[j]);
+                        }
+                      }
+                    }
+                    console.log(SortedDataArray);
 
 
+
+                    localStorage.setItem('PointsContent', JSON.stringify(SortedDataArray));
 
                     if (pointsDataContent.data.length > 0) {
                         $(currentPath).css("fill", "#990033");
@@ -659,11 +673,11 @@ $(document).ready(function() {
 
         localStorage.setItem("stopsAtLength", JSON.stringify(stopsAtLength));
 
-        if (pointsArray.length !== stopsAtLength.length) {
-            console.log("HERE IS THE DIFFERENCE: 1st array length = " + pointsArray.length + ', 2nd arr length= ' + stopsAtLength.length + "");
-        } else {
-            console.log('no DIFFERENCE between arr lengths');
-        }
+        // if (pointsArray.length !== stopsAtLength.length) {
+        //     console.log("HERE IS THE DIFFERENCE: 1st array length = " + pointsArray.length + ', 2nd arr length= ' + stopsAtLength.length + "");
+        // } else {
+        //     console.log('no DIFFERENCE between arr lengths');
+        // }
 
 
 

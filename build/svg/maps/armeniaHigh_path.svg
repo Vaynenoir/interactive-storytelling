@@ -1,38 +1,4 @@
-<svg version="1.1" id="Layer_1" xmlns:amcharts="http://amcharts.com/ammap"
-	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1920px" height="1200px"
-	 viewBox="0 0 1920 1200" enable-background="new 0 0 1920 1200" xml:space="preserve">
-<defs>
-	<style  type="text/css">
-		g#mapPaths{
-							fill: #e8e3c4;
-				stroke: #5d5c56;
-				opacity: .8;
-		}
-		g#mapPaths path{
-		fill: rgba(255, 204, 128, 1);
-		}
 
-	</style>
-	<linearGradient spreadMethod="pad" id="gradient" x1="100%" y1="0%" x2="0%" y2="0%">
-<stop offset="0" style="stop-color:rgb(71, 219, 180);stop-opacity:1;" />
-	<stop offset="45%" style="stop-color:rgba(71, 219, 180, 0.85);stop-opacity:0.85;" />
-	<stop offset="100%" style="stop-color:rgba(255, 255, 255, 0.68);stop-opacity:0.68;" />
-</linearGradient>
-
-
-<linearGradient spreadMethod="pad" id="gradient_reverse" x1="0%" y1="0%" x2="100%" y2="0%">
-<stop offset="0%" style="stop-color:rgb(71, 219, 180);stop-opacity:1;" />
-	<stop offset="36" style="stop-color:rgba(192, 243, 229, 0.71);stop-opacity:0.71;" />
-	<stop offset="40" style="stop-color:rgba(206, 245, 235, 0.86);stop-opacity:0.86;" />
-	<stop offset="54%" style="stop-color:rgba(255, 255, 255, 0.75);stop-opacity:0.75;" />
-	<stop offset="100%" style="stop-color:rgba(71, 219, 180, 0.42);stop-opacity:0.42;" />
-</linearGradient>
-
-
-		<amcharts:ammap  bottomLatitude="38.832890" rightLongitude="46.630286" topLatitude="41.303028" leftLongitude="43.454090" projection="mercator">
-		</amcharts:ammap>
-</defs>
-<g id="mapPaths">
 	<path id="AM-AG" fill="#CCCCCC" stroke="#FFFFFF" stroke-width="0.5" d="M498.396,360.847l4.929-1.428l5.666,0.442l6.61,2.629
 		l11.33,9.679h16.533l2.352-8.353l8.034-0.884h7.089l18.405,7.911l3.777-2.63h4.258l6.146,3.071l3.777,4.399l0.464,8.795
 		l-0.88,4.091l0,0l-0.528,2.494l10.387,9.227l3.297,6.143l14.164,11.856l11.811,2.628l22.663,2.629l-0.944,7.028l-3.297,8.761
@@ -206,5 +172,4 @@
 		l-5.97-3.218l-14.244,0.339l-3.793-1.553l-11.219-7.298l-7.73-12.944l-7.01-3.661l-11.268-1.077l-3.535,1.36l-5.635,4.862
 		l-3.488,4.783l-4.769,0.374l-11.636-3.786l0.144-16.298l2.882-4.398l-3.794-2.438l-0.192-4.521l4.033-3.343l-2.689-5.906
 		l-5.905-3.015l-5.633-5.86l-3.953-7.72l-7.667-8.625l-10.978-6.086L856.937,720.079z"/>
-</g>
-</svg>
+

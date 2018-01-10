@@ -39,9 +39,9 @@ $(document).ready(function() {
         return objA.pointId - objB.pointId;
     }
 
-    if(dataContent){
-    dataContent.sort(compareId);
-    }
+    // if(dataContent){
+    // // dataContent.sort(compareId);
+    // }
 
     var text_cont = document.getElementById("boom");
 
@@ -218,7 +218,7 @@ $('br').remove();
         wholeSvgGroup.append(MapPathsGroup);
         $(wholeSvgGroup).attr("id", "wholeSvgGroup");
         var FullMapGroup = Snap(wholeSvgGroup);
-        var WrapperProps = JSON.parse(localStorage.getItem('mapStyleProperties')) || { transform: ""};
+        var WrapperProps = JSON.parse(localStorage.getItem('mapStyleProperties')) || { transform: "scale(" + 1 + ") translate("+ 0 +" " + 0+ ")"};
         var pathDisplacement = Snap(pathGroup);
              if((WrapperProps.transform).length > 0){
                 // scaleImg = styleProps.transform;

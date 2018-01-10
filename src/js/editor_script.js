@@ -61,7 +61,8 @@
 
             $('#export').bind("click", function() {             // export path, save all setting to localstorage and go to the next page
                 editor.draw();
-
+                var ChosenMap = JSON.parse(localStorage.getItem('map')) || "";
+                if(ChosenMap.length > 0){
                 var PathCurves = editor.ReturnSavedPath();          
                 localStorage.setItem('SavedCurves', JSON.stringify(PathCurves));
                 var FirstRoute = JSON.parse(localStorage.getItem('path'));
@@ -80,10 +81,10 @@
                     localStorage.setItem('path', JSON.stringify(DrawnPath));
                 }
 
-                console.log(styleProps);
-
-                localStorage.setItem("mapStyleProperties", JSON.stringify(styleProps));
-
+                window.location = "drawnMap.html";
+            }else{
+                Materialize.toast('Editor is clear! 2nd step is restricted!', 2000);
+            }
             });
 
             var editor = new bezierEditor("bezier-canvas");

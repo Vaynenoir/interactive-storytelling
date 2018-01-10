@@ -25,7 +25,8 @@ var path = {
         css: 'build/css/',
         img: 'build/img/',
         fonts: 'build/fonts/',
-        svg: 'build/svg/icons'
+        svg: 'build/svg/icons',
+        maps: 'build/svg/maps'
     },
     src: { 
         html: 'src/*.html', 
@@ -33,7 +34,8 @@ var path = {
         style: 'src/scss/*.scss',
         img: 'src/img/**/*.*', 
         fonts: 'src/fonts/**/*.*',
-        svg: 'src/svg/icons/*.*'
+        svg: 'src/svg/icons/*.*',
+        maps: 'src/svg/maps/*.*'
     },
     watch: { 
         html: 'src/**/*.html',
@@ -41,7 +43,8 @@ var path = {
         style: 'src/scss/**/*.scss',
         img: 'src/img/**/*.*',
         fonts: 'src/fonts/**/*.*',
-        svg: 'src/svg/icons/*.svg'
+        svg: 'src/svg/icons/*.svg',
+        maps: 'src/svg/maps/*.svg'
     },
     clean: './build'
 };
@@ -100,6 +103,13 @@ gulp.task('icons:build', function () {
         .pipe(svgmin())
         .pipe(gulp.dest(path.build.svg));
 });
+
+gulp.task('maps:build', function(){
+    gulp.src(path.src.maps)
+        .pipe(gulp.dest(path.build.maps))
+
+});
+
 
 gulp.task('fonts:build', function() {
     gulp.src(path.src.fonts)
