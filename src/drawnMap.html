@@ -114,11 +114,23 @@
             <a href="#" class="editor_button waves-effect" id="moveTop"><i class="material-icons">keyboard_arrow_up</i></a>
             <a href="#" class="editor_button waves-effect" id="moveBottom"><i class="material-icons">keyboard_arrow_down</i></a>
         </div>
+          
 
+          <div class="icon_checkbox">
+          
+          <p class="show_icon-title">show icon</p>
+              <div class="switch" id="icon_switch">
+                <label>
+                  <input type="checkbox" name="showIcon" checked="false">
+                  <span class="lever"></span>
+                </label>
+              </div>
+            
+            </div>
         <p class="sidenav__title">
             type this point name
         </p>
-        <input type="text" id="pointName">
+        <input type="text" id="pointName" style="font-style:italic;" placeholder="Point name">
 
 
         <div class="btn_wrapper"><a id="SavePointContent" class="waves-effect waves-teal btn hoverable center-align">Save content</a>
@@ -156,6 +168,57 @@
         </div>
 
     </div>
+
+
+
+ <!-- Modal Trigger -->
+  <!-- <a class="waves-effect waves-light btn modal-trigger" href="#modal2">Modal</a> -->
+
+  <!-- Modal Structure -->
+  <div id="modal2" class="modal">
+    <div class="modal-content">
+      <h2 style="text-align: center; font-size: 23px;text-transform: uppercase;">Choose subpath moving icon:</h2>
+      <table class="centered" style="width:100%">
+        <tr>
+            <th>Icons</th>
+            <th>Result</th>
+        </tr>
+        <tr>
+            <td>
+                <p>Choose image:</p>
+                <div class="icon_gallery">
+                    <img src="svg/icons/sports.svg" class="icon_gallery__item" width="30px" height="30px" alt="">
+                    <img src="svg/icons/transport.svg" class="icon_gallery__item" width="30px" height="30px" alt="">
+                    <img src="svg/icons/transport-1.svg" class="icon_gallery__item" width="30px" height="30px" alt="">
+                    <img src="svg/icons/transport-2.svg" class="icon_gallery__item" width="30px" height="30px" alt="">
+                    <img src="svg/icons/transport-3.svg" class="icon_gallery__item" width="30px" height="30px" alt="">
+
+                </div>
+
+                <p>Image color:</p>
+                <input type="minicolors" name="subPathIcon" id="subPathIcon" class="colorPicker minicolors">
+                <p>Image size:</p>
+                <form class="rangePicker" action="#">
+                    <p class="range-field">
+                        <input type="range" name="subPathIconSize" id="test8" min="10" max="50" />
+                    </p>
+                </form>
+            </td>
+            <td>
+                <object data="" id="subPathIconObj" width="50px" height="50px" type=""></object>
+            </td>
+        </tr>
+
+
+      </table>
+
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+    </div>
+  </div>
+
+
 
 
     <script>

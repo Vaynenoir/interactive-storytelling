@@ -331,7 +331,7 @@ $('br').remove();
                 if (topOffset <= scrollCount && inWindow($(this))) { //Add class "active" if current section is inWindow
 
                     $(this).addClass("active");
-
+                    $(path).css("display", "block");
                     FullMapGroup.animate({ //animate map zoom and offset, set up by user on 2nd step, due to current section  
                         transform: "scale(" + dataZoom +") translate(" + (dataPosLeft) + " " + dataPosTop + ")"
                     }, 700);
@@ -340,6 +340,7 @@ $('br').remove();
                 else{
                     $(this).removeClass("active");
                     if (!$('.js-section').hasClass("active") && $(window).scrollTop() < 20) {
+                        $(path).css("display", "none");
                         FullMapGroup.animate({ //animate map zoom and offset, set up by user on 2nd step, due to current section  
                             transform: "scale(" + scaleImg +") translate(" + (moveLeft) + " " + (moveTop) + ")"  ///CHANGE
                         }, 700);
@@ -578,14 +579,51 @@ $('br').remove();
 
         text_cont.style.display = "block";
 
-        var length = path.getTotalLength();
+        var StopPoints = JSON.parse(localStorage.getItem('stopsAtLength'));
+
+        // var length = path.getTotalLength();
+        var length = StopPoints[StopPoints.length - 1];
         // console.log(length);
         var offsetDash = $(path).css({
             "stroke-dashoffset": length,
             "stroke-dasharray": length + " " + length
         });
 
-        var StopPoints = JSON.parse(localStorage.getItem('stopsAtLength'));
+        var movingIcon = JSON.parse(localStorage.getItem("movingIcon"));
+        console.log(movingIcon);
+        var oParser = new DOMParser();
+        var oDOM = oParser.parseFromString(movingIcon, "text/xml");
+        var movingIconDOM = oDOM.documentElement;
+        var direction = $(movingIconDOM).attr("d");
+        var last_point = path.getPointAtLength(StopPoints[StopPoints.length-1]);
+        console.log(movingIconDOM);
+        var map = Snap(wholeSvgGroup);
+        console.log(map);
+
+        
+        // $(movingIconDOM).attr("id", "transport");
+        // wholeSvgGroup.append(movingIconDOM);
+        var first_point = path.getPointAtLength(1);
+        var transport = map.path(direction);
+        $(transport).attr("id", "transport");
+        // wholeSvgGroup.group(transport);
+        
+        pathGroup.prepend(transport);
+        wholeSvgGroup.append(pathGroup);
+        console.log(wholeSvgGroup);
+        // transport.transform("matrix(0.05,0,0,0.05,0,0)");
+        // transport.transform("matrix(0.05,0,0,0.05," + first_point.x + "," + first_point.y + ")");'
+        transport.transform("matrix(0.05,0,0,0.05," + first_point.x + "," + first_point.y + ")");
+        // transport.transform("scale(0.05)");
+        console.log(transport);
+        var transportbbox = transport.getBBox();
+        transport.attr("visibility", "hidden");
+                //  Snap.animate(0, length, function( step ) {
+                //     moveToPoint = Snap.path.getPointAtLength( path, step );
+                //        x = moveToPoint.x - (transportbbox.width/2);
+                //        y = moveToPoint.y - (transportbbox.height/2);
+                //     transport.transform('translate(' + x + ',' + y + ') rotate('+ (moveToPoint.alpha - 90)+', '+transportbbox.cx+', '+transportbbox.cy+')');
+                // },5000, mina.easeout);
 
 
         function drawPath() {   //Main route Draw animation
@@ -606,6 +644,20 @@ $('br').remove();
                         var $offsetUnit = $percentageComplete * (StopPoints[currentSectionID] / 100);
                         var CurrentPathCurrentLength;
                         CurrentPathCurrentLength = Math.floor($offsetUnit);
+                        // var $globalOffsetUnit = $percentageComplete * (length/100);
+
+                        console.log(CurrentPathCurrentLength);
+
+
+                        // console.log()
+
+
+                        // var globalPath = Math.floor($globalOffsetUnit);
+                        var LengthPoint = path.getPointAtLength(CurrentPathCurrentLength);
+
+
+
+                        
 
 
                         var currentCircle = svgDoc.getElementById(currentSectionID+1);
@@ -619,17 +671,19 @@ $('br').remove();
 
                             if(curDashOffset >= length - 20){   
                                 $(circleElements[j]).fadeOut(900);
-                                $(textElements[j]).fadeOut(900);
+                                $(textElements[j]).fadeOut(900);                       
                                  // $(currentCircleName).fadeOut(900);
                             }
                             else {
                                  if(circleElements[j].id <= currentSectionID+1){                //Main route points display and fade out
                                     $(circleElements[j]).fadeIn(900);
                                     $(textElements[j]).fadeIn(900);
+
                                 }
                                 else if(circleElements[j].id > currentSectionID+1 ){
                                     $(circleElements[j]).fadeOut(900);
                                     $(textElements[j]).fadeOut(900);
+
                                 }
                             }
                         }
@@ -637,12 +691,14 @@ $('br').remove();
                         if (CurrentPathCurrentLength < StopPoints[currentSectionID]) { //draw path
 
                             if (currentSectionID == 0 && CurrentPathCurrentLength < StopPoints[currentSectionID]) { // path drawing to first point
-                                $(path).css("stroke-dashoffset", "" + (length - CurrentPathCurrentLength) + "px");                           
+                                $(path).css("stroke-dashoffset", "" + (length - CurrentPathCurrentLength) + "px");      
+                                
                             }
 
 
                             if (currentSectionID > 0 && CurrentPathCurrentLength < StopPoints[currentSectionID]) { // path drawing to next point
                                 $(path).css("stroke-dashoffset", "" + (length - (StopPoints[currentSectionID - 1] + CurrentPathCurrentLength)) + "");
+
                             }
 
                         }
@@ -651,6 +707,20 @@ $('br').remove();
 
                             $(path).css("stroke-dashoffset", "" + (length - StopPoints[currentSectionID]) + "px");
 
+                        }
+
+                        if(currentSectionID == 1){
+                            var route = (StopPoints[0] + CurrentPathCurrentLength);
+                            var route_points = path.getPointAtLength(route); 
+                            transport.attr("visibility", "visible");
+                            if(route > StopPoints[1]){
+                                var route = StopPoints[1];
+                                var route_points = path.getPointAtLength(route); 
+
+                                transport.transform("matrix(0.05,0,0,0.05," + route_points.x + "," + route_points.y + ")");
+                            }else{
+                                    transport.transform("matrix(0.05,0,0,0.05," + route_points.x + "," + route_points.y + ")");
+                            }
                         }
 
                     }
@@ -669,34 +739,6 @@ $('br').remove();
 
 
         $(window).on("scroll", scrolled);   //draw animation on scroll
-
-
-        var NS = svgRoot.getAttribute('xmlns');
-
-        svgRoot.addEventListener('click', function(e) {
-            console.log("1");
-          var pt = svgRoot.createSVGPoint(), svgP, circle;
-          
-          pt.x = e.clientX;
-          pt.y = e.clientY;
-          svgP = pt.matrixTransform(svgRoot.getScreenCTM().inverse());
-
-          circle = document.createElementNS(NS, 'circle');
-          circle.setAttributeNS(null, 'cx', svgP.x);
-          circle.setAttributeNS(null, 'cy', svgP.y);
-          circle.setAttributeNS(null, 'r', 10);
-          svgRoot.appendChild(circle);
-        }, false);
-
-
-
-
-
-
-
-     
-
-
 
     }, false);
 

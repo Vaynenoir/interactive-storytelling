@@ -12,6 +12,8 @@ body {
   text-align: center;
   text-transform: uppercase;
   font-style: italic;
+  margin-top: 5px!important;
+  margin-bottom: 5px!important;
 }
 
 #title {
@@ -156,6 +158,7 @@ body {
   color: #80deea;
   font-style: italic;
   font-size: 15px;
+
 }
 
 
@@ -315,4 +318,46 @@ nav i.material-icons {
 }
 #modal1{
   z-index: 12000!important;
+}
+.icon_checkbox{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.show_icon-title{
+  text-transform: uppercase;
+  color: #2bbbad;
+  font-style: italic;
+}
+table tr, th,td{
+  border: 1px solid #ccc;
+  position: relative;
+}
+td{
+ /* padding: 10px 0 ;*/
+  width: 80%;
+}
+th{
+  text-align: center;
+}
+table p{
+  font-style: italic;
+}
+.icon_gallery{
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+
+}
+.icon_gallery__item{
+  cursor: pointer;
+}
+.centered{
+  letter-spacing: 0!important;
+}
+.minicolors-theme-default .minicolors-input{
+  height: 30px!important;
+  border-radius: 4px;
+  outline: none;
+  color: #000;
 }

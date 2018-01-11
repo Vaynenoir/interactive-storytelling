@@ -443,7 +443,7 @@ $(document).ready(function() {
 
                     zoom = StringValues[0];
                     moveLeft = StringValues[1],
-                        moveTop = StringValues[2];
+                    moveTop = StringValues[2];
 
                 }
 
@@ -553,6 +553,98 @@ $(document).ready(function() {
                     editor.setData(PointLastData);
 
                 }
+
+                $('input[name=showIcon]').attr("checked", false);
+
+                $('#icon_switch').on("click", function(){
+                    if($('input[name=showIcon]').is(":checked")){
+                        $("input[name=showIcon]").attr("checked", true);
+                        $("#modal2").modal("open");
+                        setTimeout(function(){$("input[name=showIcon]").attr("checked", false);}, 300);
+                    }else{
+                         $("input[name=showIcon]").attr("checked", false);
+                    }
+                });
+
+                        $("input[name = subPathIcon]").minicolors({     //jquery-minicolors plugin settings
+                            opacity: true,
+                            format: "rgb",
+                            rgbaString: false,
+                            change: function(hsl, rgb) {
+                                var rgbaString = 'rgba(' + rgb.r + ', ' + rgb.g + ', ' + rgb.b + ', ' + rgb.a + ')';
+                                console.log(rgbaString);
+                            },
+                            swatches: ['rgba(154, 9, 173, 1)','rgba(240, 17, 17, 1)','rgba(0, 255, 21, 1)','rgba(15, 43, 255, 1)','rgba(255, 239, 13, 1)'],
+                            showSpeed: 100
+                        });
+
+
+
+                        $(".icon_gallery__item").on("click", function() {       //choose icon of Route Start
+                            var iconSRC = $(this).attr("src");
+                            console.log(iconSRC);
+                            var icon_container = document.getElementById("subPathIconObj");
+                            $("#subPathIconObj").attr("data", iconSRC);
+                            loadIcon(icon_container);
+                            // SettingsObj.StartIcon = iconSRC;
+                            // localStorage.setItem("Settings", JSON.stringify(SettingsObj));
+                        });                           
+
+
+
+
+                        function loadIcon(icon_container) {                          // load icon to show example
+                            icon_container.addEventListener("load", function() {
+                                var svgDoc = icon_container.contentDocument; //get the inner DOM of alpha.svg
+                                var svgRoot = svgDoc.documentElement;
+                                var paths = svgRoot.getElementsByTagName("path");
+                                var s = new XMLSerializer();
+
+                                var iconObj = document.getElementById("subPathIconObj");
+
+                                var iconPathsArray = [];
+                                for (var i = 0; i < paths.length; i++) {
+                                    // paths[i].style.fill = SettingsObj.RouteStartIconColor;
+                                    var pathDir = s.serializeToString(paths[i]);        //convert html element to string with XMLSerializer
+                                    // console.log(pathDir);
+                                    iconPathsArray.push(pathDir);   
+                                }
+
+                                // console.log(iconPathsArray);
+                                localStorage.setItem("movingIcon", JSON.stringify(iconPathsArray));         // save route start icon to localstorage settings
+                                $("input[name=subPathIcon]").change(function(el) {
+                                    var optionSelected = $("option:selected", this);
+                                    var valueSelected = this.value;
+
+                                    var name = this.name;
+
+                                    // SettingsObj[name] = valueSelected;
+                                    for (var i = 0; i < paths.length; i++) {
+                                        paths[i].style.fill = valueSelected;
+                                        
+                                    }
+                                    // localStorage.setItem("Settings", JSON.stringify(SettingsObj)); 
+                                    // console.log(SettingsObj);
+                                });
+
+                                $("input[name = subPathIconSize]").change(function() {      // user choice of route start icon size
+                                    var optionSelected = $("option:selected", this);
+                                    var valueSelected = this.value;
+                                    var name = this.name;
+                                    // SettingsObj[name] = valueSelected;
+                                    $("#subPathIconObj").attr({
+                                        width: valueSelected,
+                                        height: valueSelected
+                                    });
+                                    svgRoot.setAttribute("width", $(iconObj).attr("width"));
+                                    svgRoot.setAttribute("height", $(iconObj).attr("height"));
+                                    // console.log(svgRoot);
+                                    // console.log(SettingsObj);
+                                });
+
+                            });
+                        }
+
 
 
 
