@@ -36,6 +36,9 @@ $(document).ready(function() {
 
 
     $('.modal').modal();
+
+
+
     $('ul.tabs').tabs('select_tab', 'tab_2');
     $("#menu").on("click", function() {
         if (!$(this).hasClass('.active')) {
@@ -554,7 +557,34 @@ $(document).ready(function() {
 
                 }
 
+                var subpathSetting = {
+                    pointId: "",
+                    icon: "",
+                    color: "",
+                    size: ""
+                };
+
+                var subpathIcons = JSON.parse(localStorage.getItem('subpathIcons')) || [];
+                    $(".modal2").modal({
+                        complete: function(){
+                            
+                            if(subpathIcons.length > 0){
+                                for(var i = 0; i < subpathIcons.length; i++){
+                                    if(subpathIcons[i].pointId == Npoint){
+                                        subpathIcons.splice(i,1);
+                                    }
+                                }
+                            }
+                            subpathIcons.push(subpathSetting);
+                            localStorage.setItem("subpathIcons", JSON.stringify(subpathIcons));
+                            console.log(subpathIcons);
+                        }
+                    });
+
                 $('input[name=showIcon]').attr("checked", false);
+
+
+
 
                 $('#icon_switch').on("click", function(){
                     if($('input[name=showIcon]').is(":checked")){
@@ -585,7 +615,11 @@ $(document).ready(function() {
                             console.log(iconSRC);
                             var icon_container = document.getElementById("subPathIconObj");
                             $("#subPathIconObj").attr("data", iconSRC);
+
+                            subpathSetting.pointId = Npoint - 1;
+
                             loadIcon(icon_container);
+                            
                             // SettingsObj.StartIcon = iconSRC;
                             // localStorage.setItem("Settings", JSON.stringify(SettingsObj));
                         });                           
@@ -607,8 +641,10 @@ $(document).ready(function() {
                                     // paths[i].style.fill = SettingsObj.RouteStartIconColor;
                                     var pathDir = s.serializeToString(paths[i]);        //convert html element to string with XMLSerializer
                                     // console.log(pathDir);
-                                    iconPathsArray.push(pathDir);   
+                                    iconPathsArray.push(pathDir);
+                                    subpathSetting.icon = pathDir;   
                                 }
+
 
                                 // console.log(iconPathsArray);
                                 localStorage.setItem("movingIcon", JSON.stringify(iconPathsArray));         // save route start icon to localstorage settings
@@ -623,6 +659,8 @@ $(document).ready(function() {
                                         paths[i].style.fill = valueSelected;
                                         
                                     }
+                                    subpathSetting.color = valueSelected;
+
                                     // localStorage.setItem("Settings", JSON.stringify(SettingsObj)); 
                                     // console.log(SettingsObj);
                                 });
@@ -636,6 +674,9 @@ $(document).ready(function() {
                                         width: valueSelected,
                                         height: valueSelected
                                     });
+                                    subpathSetting.size = valueSelected;
+                                    
+                                    
                                     svgRoot.setAttribute("width", $(iconObj).attr("width"));
                                     svgRoot.setAttribute("height", $(iconObj).attr("height"));
                                     // console.log(svgRoot);
