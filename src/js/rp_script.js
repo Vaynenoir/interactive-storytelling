@@ -346,7 +346,7 @@ $('br').remove();
                         }, 700);
                         console.log("LALALALA");
                         var transportIcons = $('.map_transport');
-                        console.log($(transportIcons));
+                        // console.log($(transportIcons));
                          $(transportIcons).attr("opacity", "0");
                         // $.each(transportIcons, function(i, el){
                         //     console.log($(el));
@@ -602,74 +602,42 @@ $('br').remove();
         });
 
         var movingIcon = JSON.parse(localStorage.getItem("movingIcon"));
-        console.log(movingIcon);
+        // console.log(movingIcon);
         var map = Snap(wholeSvgGroup);
 
 
         var pointIcons = [];
 
-
+        // console.log(subpathIcons);
         for(var i = 0; i < subpathIcons.length; i++){
             pointIcons.push(subpathIcons[i].pointId);
             var oParser = new DOMParser;
             var oDOM = oParser.parseFromString(subpathIcons[i].icon, "text/xml");
             var movingIconDOM = oDOM.documentElement;
             var direction = $(movingIconDOM).attr("d");
-            console.log(oDOM);
+            // console.log(oDOM);
             var transport = map.path(direction);
-            transport.attr({ "id": "transport_"+subpathIcons[i].pointId, "data-id":subpathIcons[i].pointId ,class: "map_transport", opacity: "0"});
+            transport.attr({ "id": "transport_"+subpathIcons[i].pointId, "data-id":subpathIcons[i].pointId ,class: "map_transport",  fill: subpathIcons[i].color, opacity: 0});
             pathGroup.prepend(transport);
             wholeSvgGroup.append(pathGroup);
-            console.log(wholeSvgGroup);
+            // console.log(wholeSvgGroup);
 
 
 
             var first_point = path.getPointAtLength(StopPoints[i]);
-            console.log($("transport_"+subpathIcons[i].pointId));
+            // console.log($("transport_"+subpathIcons[i].pointId));
 
             transport.transform("matrix(0.05,0,0,0.05," + first_point.x + "," + first_point.y + ")");
+
         }
-        console.log(subpathIcons.length);
+        // console.log(subpathIcons.length);
         console.log(pointIcons);
-
-
-
-
-
-        var oParser = new DOMParser();
-        var oDOM = oParser.parseFromString(movingIcon, "text/xml");
-        var movingIconDOM = oDOM.documentElement;
-        var direction = $(movingIconDOM).attr("d");
-        // var last_point = path.getPointAtLength(StopPoints[StopPoints.length-1]);
-        console.log(movingIconDOM);
-        
-        console.log(map);
-
-        
-        // $(movingIconDOM).attr("id", "transport");
-        // wholeSvgGroup.append(movingIconDOM);
-        var first_point = path.getPointAtLength(1);
-        // var transport = map.path(direction);
-        $(transport).attr("id", "transport");
-        // wholeSvgGroup.group(transport);
-        
-        // pathGroup.prepend(transport);
-        // wholeSvgGroup.append(pathGroup);
-        console.log(wholeSvgGroup);
-
-        // transport.transform("matrix(0.05,0,0,0.05," + first_point.x + "," + first_point.y + ")");
-
-        console.log(transport);
-        var transportbbox = transport.getBBox();
-        // transport.attr("visibility", "hidden");
 
 
 
         function drawPath() {   //Main route Draw animation
             var circleElements = svgDoc.querySelectorAll('.circleElement');
-            // console.log(circleElements);
             var textElements = svgDoc.querySelectorAll('.cityName');
-            // console.log(textElements);
             for (var i = 0; i < StopPoints.length; i++) {
 
                 $.each($('.js-section'), function(i, el) {
@@ -683,15 +651,7 @@ $('br').remove();
                         var $offsetUnit = $percentageComplete * (StopPoints[currentSectionID] / 100);
                         var CurrentPathCurrentLength;
                         CurrentPathCurrentLength = Math.floor($offsetUnit);
-                        // var $globalOffsetUnit = $percentageComplete * (length/100);
 
-                        // console.log(CurrentPathCurrentLength);
-
-
-                        // console.log()
-
-
-                        // var globalPath = Math.floor($globalOffsetUnit);
                         var LengthPoint = path.getPointAtLength(CurrentPathCurrentLength);
 
 
@@ -700,16 +660,21 @@ $('br').remove();
 
 
                         var currentCircle = svgDoc.getElementById(currentSectionID+1);
-                        var currentTransport = svgRoot.querySelector("#transport_" + currentSectionID+1);
-                        var allTransports = svgRoot.querySelectorAll(".map_transport");
-                        $(allTransports).fadeOut(300);
-                        $(currentTransport).fadeIn(300);
+                        var moveToPoint = Snap.path.getPointAtLength(movingTransport);
+                        console.log(moveToPoint);
+                        
+
+
+                        // var currentTransport = svgRoot.querySelector("#transport_" + currentSectionID+1);
+                        // var allTransports = svgRoot.querySelectorAll(".map_transport");
+                        // $(allTransports).fadeOut(300);
+                        // $(currentTransport).fadeIn(100);
                             //fghfghfghfghfgh
                         var curDashOffset = parseFloat($(path).css("stroke-dashoffset"));   
+
                         for(var j = 0; j < circleElements.length; j++){
                             
                             var currentCircleName = $(currentCircle).parent().find("text");
-
                             if(curDashOffset >= length - 20){   
                                 $(circleElements[j]).fadeOut(900);
                                 $(textElements[j]).fadeOut(900);                       
@@ -719,13 +684,13 @@ $('br').remove();
                                  if(circleElements[j].id <= currentSectionID+1){                //Main route points display and fade out
                                     $(circleElements[j]).fadeIn(900);
                                     $(textElements[j]).fadeIn(900);
-                                    // $(allTransports[j-1]).fadeIn(200);
+                                    // $(allTransports[j-1]).fadeIn(100);
 
                                 }
                                 else if(circleElements[j].id > currentSectionID+1 ){
                                     $(circleElements[j]).fadeOut(900);
                                     $(textElements[j]).fadeOut(900);
-                                    // $(allTransports[j-1]).fadeOut(400);
+                                    // $(allTransports[j-1]).fadeOut(300);
 
                                 }
                             }
@@ -735,43 +700,48 @@ $('br').remove();
 
                             if (currentSectionID == 0 && CurrentPathCurrentLength < StopPoints[currentSectionID]) { // path drawing to first point
                                 $(path).css("stroke-dashoffset", "" + (length - CurrentPathCurrentLength) + "px");      
-                                
+                                var movingTransport = map.select("#transport_"+pointIcons[0]);
+                                movingTransport.animate({opacity:"0"},100);    
                             }
 
 
                             if (currentSectionID > 0 && CurrentPathCurrentLength < StopPoints[currentSectionID]) { // path drawing to next point
                                 $(path).css("stroke-dashoffset", "" + (length - (StopPoints[currentSectionID - 1] + CurrentPathCurrentLength)) + "");
-
+                                    console.log(currentSectionID);
                                     for(var k = 0; k < pointIcons.length; k++){
-                                    if(currentSectionID == parseInt(pointIcons[k])){
-                                        var route = (StopPoints[parseInt(pointIcons[k]) - 1] + CurrentPathCurrentLength);
-                                        var route_points = path.getPointAtLength(route); 
-                                        var movingTransport = map.select("#transport_"+pointIcons[k]);
-                                        // console.log(movingTransport);
-                                        movingTransport.animate({opacity:"1"},200)   
-                                        if(route > StopPoints[pointIcons[k] + 1]){
+                                        if(currentSectionID == parseInt(pointIcons[k] - 1)){
+                                            // console.log(currentSectionID);
+                                            console.log(parseInt(pointIcons[k] - 1));
+                                            var route = (StopPoints[parseInt(pointIcons[k]) - 2] + CurrentPathCurrentLength);
+                                            console.log(StopPoints[parseInt(pointIcons[k]) - 1]);
+                                            var route_points = path.getPointAtLength(route); 
+                                            var movingTransport = map.select("#transport_"+pointIcons[k]);
+                                            // console.log(movingTransport);
+                                            movingTransport.animate({opacity:"1"},100);   
+                                            if(route > StopPoints[pointIcons[k] - 1]){
+                                                console.log("IF");
+                                                movingTransport.animate({opacity:"0"},100);     
+                                                if(route > StopPoints[pointIcons[pointIcons.length - 1]]){
 
-                                                movingTransport.animate({opacity:"0"},200)     
 
 
-                                        }
-                                        if(route < StopPoints[pointIcons[k]] ){
-                                            console.log("ELSE");
-                                            movingTransport.transform("matrix(0.05,0,0,0.05," + route_points.x + "," + route_points.y + ")");
-                                            if(route > StopPoints[pointIcons[0]]){
-                                                var fadeTransport = map.select("#transport_" + pointIcons[0]);
-                                                 fadeTransport.animate({opacity:"0"},200);                                                
+                                                    movingTransport.animate({opacity:"1"},100);  
+                                                }
                                             }
-                                        }
-                                        // if(route < StopPoints[pointIcons[k] + 1]){
-                                        //     movingTransport.animate({opacity:"0"},200); 
-                                        // }
+                                            if(route < StopPoints[pointIcons[k] - 1] ){
+                                                console.log("ELSE");
+                                                movingTransport.transform("matrix(0.05,0,0,0.05," + route_points.x + "," + route_points.y + ")");
+                                                if(route > StopPoints[pointIcons[0]]){
+                                                    var fadeTransport = map.select("#transport_" + pointIcons[0]);
+                                                     fadeTransport.animate({opacity:"0"},100);                                                
+                                                }
+                                            }
 
-                                    }
-                                    if(pointIcons[k-1] > currentSectionID + 1){
-                                        var movingTransport = map.select("#transport_"+pointIcons[k]);
-                                        movingTransport.animate({opacity:"0"},200)    
-                                    }
+                                        }
+                                        if(pointIcons[k] > currentSectionID + 1){
+                                            var movingTransport = map.select("#transport_"+pointIcons[k]);
+                                            movingTransport.animate({opacity:"0"},100);
+                                        }
                                     }
 
 

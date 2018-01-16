@@ -143,10 +143,8 @@ $(document).ready(function() {
 
 
         var pathStartIcon = JSON.parse(localStorage.getItem("StartRouteIcon"));
-        // console.log(pathStartIcon);
         var oParser = new DOMParser();
         var oDOM = oParser.parseFromString(pathStartIcon, "text/xml");
-        // console.log(oDOM.documentElement);
 
         var parsedPathStartIcon = oDOM.documentElement;
         var iconOffsetX = $(parsedPathStartIcon).attr("data-offset-x");
@@ -213,12 +211,32 @@ $(document).ready(function() {
 
             }
         }
-        console.log(circlesArray);
+        // console.log(circlesArray);
         circlesArray.sort(compareId);
+        // console.log(circlesArray);
+
+        // console.log(contentOfPoints);
+
+
+
+
+        console.log(path);
+        
+        var path_end_point = path.getPointAtLength(path.getTotalLength());
+        // console.log(last_path_point);
+        var LastPointDate = new Date();
+        var currentTime = LastPointDate.getTime();
         console.log(circlesArray);
-
-        console.log(contentOfPoints);
-
+        
+            if(circlesArray[circlesArray.length - 1].cx == path_end_point.x && circlesArray[circlesArray.length - 1].cy == path_end_point.y){
+                console.log(circlesArray[circlesArray.length-1]);
+            }
+            else{
+                var last_path_point = {cx: path_end_point.x, cy: path_end_point.y, id: circlesArray.length, r: getSettingFromStorage("pointsRadius"), time: currentTime};
+                console.log(last_path_point);
+                circlesArray.push(last_path_point);             
+            }
+        
 
         localStorage.setItem('circlesCoords', JSON.stringify(circlesArray));
 
@@ -227,7 +245,6 @@ $(document).ready(function() {
         var circlesArray = JSON.parse(localStorage.getItem('circlesCoords'));
         var pointsArray = [];
         var stringArr = '';
-
 
 
 
@@ -575,6 +592,7 @@ $(document).ready(function() {
                                     }
                                 }
                             }
+                            console.log(Npoint);
                             subpathIcons.push(subpathSetting);
                             localStorage.setItem("subpathIcons", JSON.stringify(subpathIcons));
                             console.log(subpathIcons);
@@ -616,7 +634,7 @@ $(document).ready(function() {
                             var icon_container = document.getElementById("subPathIconObj");
                             $("#subPathIconObj").attr("data", iconSRC);
 
-                            subpathSetting.pointId = Npoint - 1;
+                            subpathSetting.pointId = Npoint;
 
                             loadIcon(icon_container);
                             
