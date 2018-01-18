@@ -613,38 +613,17 @@ $('br').remove();
         for(var i = 0; i < subpathIcons.length; i++){
             pointIcons.push(subpathIcons[i].pointId);
             var oParser = new DOMParser;
-            var oDOM = oParser.parseFromString(subpathIcons[i].icon, "text/xml");
-            var movingIconDOM = oDOM.documentElement;
-            var direction = $(movingIconDOM).attr("d");
-            // console.log(oDOM);
-            var transport = map.path(direction);
+            var group_content = oParser.parseFromString(subpathIcons[i].icon, "image/svg+xml");
+            var parsed_group_content = group_content.documentElement;
+            var snap_group = Snap(parsed_group_content);
+            var transport = map.g(snap_group);
             transport.attr({ "id": "transport_"+subpathIcons[i].pointId, "data-id":subpathIcons[i].pointId ,class: "map_transport",  fill: subpathIcons[i].color, opacity: 0});
             pathGroup.prepend(transport);
             wholeSvgGroup.append(pathGroup);
-            // console.log(wholeSvgGroup);
-
-
-
             var first_point = path.getPointAtLength(StopPoints[i]);
-            // console.log($("transport_"+subpathIcons[i].pointId));
-
             transport.transform("matrix(0.05,0,0,0.05," + first_point.x + "," + first_point.y + ")");
-
         }
-        // console.log(subpathIcons.length);
-        // console.log(pointIcons);
-        // var test_circle = map.circle(path.getPointAtLength(StopPoints[0]).x, path.getPointAtLength(StopPoints[0]).y, 4);
-        // test_circle.attr({
-        //     fill: "green"
-        // });
-        // console.log(test_circle);
-        // var line = map.path();
-        // line.attr({
-        //     fill: "none",
-        //     stroke: "green"
-        // });
 
-     
 
         function drawPath() {   //Main route Draw animation
             var circleElements = svgDoc.querySelectorAll('.circleElement');
@@ -770,7 +749,7 @@ $('br').remove();
 
 
                                                 myMatrix.scale(0.05,0.05); 
-                                                console.log(angle);
+                                                // console.log(angle);
 
                                                
                                                 myMatrix.rotate(angle+180, circle_route_points.x*20, circle_route_points.y*20);  

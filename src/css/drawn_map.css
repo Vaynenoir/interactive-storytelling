@@ -321,13 +321,20 @@ nav i.material-icons {
 }
 .icon_checkbox{
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
+  border-top: 1px dashed #ccc;
+  border-bottom: 1px dashed #ccc;
 }
-.show_icon-title{
+/*.show_icon-title{
   text-transform: uppercase;
   color: #2bbbad;
   font-style: italic;
+}*/
+#icon_switch label{
+   text-transform: uppercase;
+  color: #2bbbad;
+  font-style: italic; 
 }
 table tr, th,td{
   border: 1px solid #ccc;
@@ -360,4 +367,7 @@ table p{
   border-radius: 4px;
   outline: none;
   color: #000;
+}
+#settings_btn{
+  display:none;
 }

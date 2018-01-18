@@ -51,7 +51,7 @@ $(document).ready(function() {
     })
 
     $('.button-collapse').sideNav({
-        menuWidth: 300,
+        menuWidth: 350,
         edge: 'left',
         closeOnClick: false,
         draggable: true,
@@ -574,17 +574,84 @@ $(document).ready(function() {
 
                 }
 
+                var subpathIcons = JSON.parse(localStorage.getItem('subpathIcons')) || [];
+
+
                 var subpathSetting = {
                     pointId: "",
                     icon: "",
                     color: "",
-                    size: ""
+                    size: "",
+                    icon_src: ""
                 };
 
-                var subpathIcons = JSON.parse(localStorage.getItem('subpathIcons')) || [];
+                $('input[name=showIcon]').prop("checked", false);               
+
+
+                for(var i = 0; i < subpathIcons.length; i++){
+                    
+                    if(parseInt(subpathIcons[i].pointId) == Npoint){
+                        $('input[name=showIcon]').prop("checked", "checked");
+                        console.log($('input[name=showIcon]').attr("checked"));
+
+                        break;
+                    }else{
+                        $("#settings_btn").attr({
+                            "background-color": "#ccc",
+                            disabled: "disabled"
+                        });
+                    }
+                }
+
+
+                // if($('input[name=showIcon]').attr("checked") == "checked"){
+                    
+                //     console.log("dfgdfgdfg");
+                // }else{
+                //    $("#settings_btn").fadeOut(); 
+                // }
+
+
+
+                $('#icon_switch').on("click", function(){
+                    if($('input[name=showIcon]').is(":checked")){
+                        $("input[name=showIcon]").attr("checked", true);
+                        $("#settings_btn").fadeIn(400);
+                        
+                        // setTimeout(function(){$("input[name=showIcon]").attr("checked", false);}, 300);
+                    }else{
+                         $("input[name=showIcon]").attr("checked", false);
+                         $("#settings_btn").fadeOut(400);
+                    }
+                });
+
+                $("#settings_btn").on("click", function(){
+                    $("#modal2").modal("open");
+
+                });
+
                     $(".modal2").modal({
+                        ready: function(){
+                            var icon_settings = JSON.parse(localStorage.getItem('subpathIcons')) || [];
+                            if(icon_settings.length != 0){
+                                for(var i = 0; i < icon_settings.length; i++){
+                                    if(parseInt(icon_settings[i].pointId) === Npoint){
+                                        console.log("EQuaLS!");
+                                        $("input[name=color]").val(icon_settings[i].color);
+                                        var icon_container = document.getElementById("subPathIconObj");
+                                        $("#subPathIconObj").attr("data", icon_settings[i].icon_src);
+                                        loadIcon(icon_container, icon_settings[i].color);
+
+                                    }else{
+                                        console.log(" NOT EQuaLS!");
+                                        $("input[name=color]").val("rgba(255, 255, 255, 1)");
+                                        $("#subPathIconObj").attr("data", "");
+                                    }
+                                }
+                            }
+                        },
+
                         complete: function(){
-                            
                             if(subpathIcons.length > 0){
                                 for(var i = 0; i < subpathIcons.length; i++){
                                     if(subpathIcons[i].pointId == Npoint){
@@ -593,28 +660,25 @@ $(document).ready(function() {
                                 }
                             }
                             console.log(Npoint);
-                            subpathIcons.push(subpathSetting);
-                            localStorage.setItem("subpathIcons", JSON.stringify(subpathIcons));
-                            console.log(subpathIcons);
+                            var source = $("#subPathIconObj").attr("data");
+                            if(source.length > 0){
+                                subpathSetting.icon_src = source;
+                                subpathSetting.color = $("input[name=color]").val();
+                                subpathSetting.pointId = Npoint;
+                                subpathIcons.push(subpathSetting);
+                                subpathIcons.sort(compareTime);
+                                localStorage.setItem("subpathIcons", JSON.stringify(subpathIcons));
+                                console.log(subpathIcons);
+                            }else{
+                                Materialize.toast('No icon to this point!', 2000);
+                            }
                         }
+
                     });
 
-                $('input[name=showIcon]').attr("checked", false);
 
 
-
-
-                $('#icon_switch').on("click", function(){
-                    if($('input[name=showIcon]').is(":checked")){
-                        $("input[name=showIcon]").attr("checked", true);
-                        $("#modal2").modal("open");
-                        setTimeout(function(){$("input[name=showIcon]").attr("checked", false);}, 300);
-                    }else{
-                         $("input[name=showIcon]").attr("checked", false);
-                    }
-                });
-
-                        $("input[name = subPathIcon]").minicolors({     //jquery-minicolors plugin settings
+                        $("input[name = color]").minicolors({     //jquery-minicolors plugin settings
                             opacity: true,
                             format: "rgb",
                             rgbaString: false,
@@ -635,7 +699,7 @@ $(document).ready(function() {
                             $("#subPathIconObj").attr("data", iconSRC);
 
                             subpathSetting.pointId = Npoint;
-
+                            subpathSetting.icon_src = iconSRC;
                             loadIcon(icon_container);
                             
                             // SettingsObj.StartIcon = iconSRC;
@@ -645,55 +709,74 @@ $(document).ready(function() {
 
 
 
-                        function loadIcon(icon_container) {                          // load icon to show example
+                        function loadIcon(icon_container, icon_color) {                          // load icon to show example
                             icon_container.addEventListener("load", function() {
                                 var svgDoc = icon_container.contentDocument; //get the inner DOM of alpha.svg
                                 var svgRoot = svgDoc.documentElement;
-                                var paths = svgRoot.getElementsByTagName("path");
+
+
+
+
+                                var paths_group = svgRoot.querySelector("#transport");
                                 var s = new XMLSerializer();
+                                var paths = paths_group.getElementsByTagName("path");
+                                // console.log(paths);
+
+                                for(var i = 0; i < paths.length; i++){
+                                    paths[i].style.fill = icon_color;
+                                }
 
                                 var iconObj = document.getElementById("subPathIconObj");
 
-                                var iconPathsArray = [];
-                                for (var i = 0; i < paths.length; i++) {
-                                    // paths[i].style.fill = SettingsObj.RouteStartIconColor;
-                                    var pathDir = s.serializeToString(paths[i]);        //convert html element to string with XMLSerializer
-                                    // console.log(pathDir);
-                                    iconPathsArray.push(pathDir);
-                                    subpathSetting.icon = pathDir;   
-                                }
+                                var pathDir = s.serializeToString(paths_group);        //convert html element to string with XMLSerializer
+                                subpathSetting.icon = pathDir;   
 
 
-                                // console.log(iconPathsArray);
-                                localStorage.setItem("movingIcon", JSON.stringify(iconPathsArray));         // save route start icon to localstorage settings
-                                $("input[name=subPathIcon]").change(function(el) {
+                                console.log(subpathIcons);
+
+
+                                // var subpathIcons = JSON.parse(localStorage.getItem('subpathIcons')) || []
+                                // console.log(subpathIcons);
+                                // if(subpathIcons.length > 0){
+                                //     for(var i = 0; i < subpathIcons.length; i++)
+                                //         if(subpathSetting[i].pointId == Npoint){
+                                //             for(var j = 0; j < paths.length; j++){
+                                //                 paths[j].style.fill = subpathSetting[i].color;
+                                //             }
+                                //         }
+                                // }
+
+
+
+
+                                $("input[name=color]").change(function(el) {
                                     var optionSelected = $("option:selected", this);
                                     var valueSelected = this.value;
 
+
+
                                     var name = this.name;
 
-                                    // SettingsObj[name] = valueSelected;
+                                    subpathSetting[name] = valueSelected;
+                                    console.log(subpathSetting[name]);
                                     for (var i = 0; i < paths.length; i++) {
-                                        paths[i].style.fill = valueSelected;
+                                        paths[i].style.fill = subpathSetting.color;
                                         
                                     }
-                                    subpathSetting.color = valueSelected;
-
+                                    
                                     // localStorage.setItem("Settings", JSON.stringify(SettingsObj)); 
                                     // console.log(SettingsObj);
                                 });
 
-                                $("input[name = subPathIconSize]").change(function() {      // user choice of route start icon size
+                                $("input[name = size]").change(function() {      // user choice of route start icon size
                                     var optionSelected = $("option:selected", this);
                                     var valueSelected = this.value;
                                     var name = this.name;
-                                    // SettingsObj[name] = valueSelected;
+                                    subpathSetting[name] = valueSelected;
                                     $("#subPathIconObj").attr({
-                                        width: valueSelected,
-                                        height: valueSelected
+                                        width: subpathSetting[name],
+                                        height: subpathSetting[name]
                                     });
-                                    subpathSetting.size = valueSelected;
-                                    
                                     
                                     svgRoot.setAttribute("width", $(iconObj).attr("width"));
                                     svgRoot.setAttribute("height", $(iconObj).attr("height"));
