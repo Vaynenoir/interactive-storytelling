@@ -311,11 +311,18 @@ nav i.material-icons {
   justify-content: space-around;
   margin: 18px 0 8px 0;
 }
-
+.point_name_block{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: flex-end;
+}
 #pointName {
   text-indent: 10px;
   margin: 0;
 }
+
+
 #modal1{
   z-index: 12000!important;
 }
@@ -325,6 +332,7 @@ nav i.material-icons {
   align-items: center;
   border-top: 1px dashed #ccc;
   border-bottom: 1px dashed #ccc;
+  padding: 2% 0;
 }
 /*.show_icon-title{
   text-transform: uppercase;
@@ -367,7 +375,4 @@ table p{
   border-radius: 4px;
   outline: none;
   color: #000;
-}
-#settings_btn{
-  display:none;
 }

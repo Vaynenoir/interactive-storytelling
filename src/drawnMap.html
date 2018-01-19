@@ -116,23 +116,21 @@
         </div>
           
 
-          <div class="icon_checkbox">
-          
-         
-              <div class="switch" id="icon_switch">
-
-                <label>
-                show icon
-                  <input type="checkbox" name="showIcon" checked="false">
-                  <span class="lever"></span>
-                </label>
-              </div>
-            <a id="settings_btn" class="waves-effect waves-light btn">Settings</a>
+            <div class="icon_checkbox">
+                  <div class="switch" id="icon_switch">
+                    <label>
+                    show icon
+                      <input type="checkbox" name="showIcon" checked="false">
+                      <span class="lever"></span>
+                    </label>
+                  </div>
+                <a id="settings_btn" class="waves-effect waves-light btn">Settings</a>
             </div>
-        <p class="sidenav__title">
-            type this point name
-        </p>
-        <input type="text" id="pointName" style="font-style:italic;" placeholder="Point name">
+
+        <div class="input-field col s6">  
+            <input type="text" class="validate" id="pointName" style="font-style:italic;">
+            <label id="point_name_label" for="pointName">Point Name</label>
+        </div>
 
 
         <div class="btn_wrapper"><a id="SavePointContent" class="waves-effect waves-teal btn hoverable center-align">Save content</a>
@@ -202,7 +200,7 @@
                 <p>Image size:</p>
                 <form class="rangePicker" action="#">
                     <p class="range-field">
-                        <input type="range" name="size" id="test8" min="10" max="50" />
+                        <input type="range" name="size" id="test8" min="5" max="10" />
                     </p>
                 </form>
             </td>

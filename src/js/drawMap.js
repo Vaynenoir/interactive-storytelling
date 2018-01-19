@@ -51,7 +51,7 @@ $(document).ready(function() {
     })
 
     $('.button-collapse').sideNav({
-        menuWidth: 350,
+        menuWidth: 323,
         edge: 'left',
         closeOnClick: false,
         draggable: true,
@@ -479,6 +479,7 @@ $(document).ready(function() {
 
                     // console.log(savedDisplacement.top + "%");
                     $("#pointName").html("");
+                    $("#point_name_label").removeClass();
                     // $('.mapbg').animate({
                     //     zoom: savedZoom + "%",
                     //     top: savedDisplacement.top + "%",
@@ -569,7 +570,15 @@ $(document).ready(function() {
 
                         }
                     }
+                    if(PointCityName.length > 0){
                     $("#pointName").val(PointCityName);
+                    console.log($("#pointName").closest("label"));
+                    $("#point_name_label").addClass("active");
+                }else{
+                    $("#pointName").val("");
+                    $("#point_name_label").removeClass("active");
+                }
+
                     editor.setData(PointLastData);
 
                 }
@@ -581,25 +590,21 @@ $(document).ready(function() {
                     pointId: "",
                     icon: "",
                     color: "",
-                    size: "",
+                    size: 5,
                     icon_src: ""
                 };
 
                 $('input[name=showIcon]').prop("checked", false);               
-
+                $("#settings_btn").attr("disabled", "disabled");
 
                 for(var i = 0; i < subpathIcons.length; i++){
                     
                     if(parseInt(subpathIcons[i].pointId) == Npoint){
                         $('input[name=showIcon]').prop("checked", "checked");
+                        $("#settings_btn").removeAttr('disabled')
                         console.log($('input[name=showIcon]').attr("checked"));
 
                         break;
-                    }else{
-                        $("#settings_btn").attr({
-                            "background-color": "#ccc",
-                            disabled: "disabled"
-                        });
                     }
                 }
 
@@ -616,12 +621,19 @@ $(document).ready(function() {
                 $('#icon_switch').on("click", function(){
                     if($('input[name=showIcon]').is(":checked")){
                         $("input[name=showIcon]").attr("checked", true);
-                        $("#settings_btn").fadeIn(400);
+                        $("#settings_btn").removeAttr('disabled');
                         
                         // setTimeout(function(){$("input[name=showIcon]").attr("checked", false);}, 300);
                     }else{
                          $("input[name=showIcon]").attr("checked", false);
-                         $("#settings_btn").fadeOut(400);
+                         $("#settings_btn").attr("disabled", "disabled");
+                         for(var i = 0; i < subpathIcons.length; i++){
+                            if(parseInt(subpathIcons[i].pointId) == Npoint){
+                                subpathIcons.splice(i, 1);
+                            }
+                         }
+                         subpathIcons.sort(compareTime);
+                         localStorage.setItem("subpathIcons", JSON.stringify(subpathIcons));
                     }
                 });
 
@@ -774,8 +786,8 @@ $(document).ready(function() {
                                     var name = this.name;
                                     subpathSetting[name] = valueSelected;
                                     $("#subPathIconObj").attr({
-                                        width: subpathSetting[name],
-                                        height: subpathSetting[name]
+                                        width: subpathSetting[name] * 10,
+                                        height: subpathSetting[name] * 10
                                     });
                                     
                                     svgRoot.setAttribute("width", $(iconObj).attr("width"));
