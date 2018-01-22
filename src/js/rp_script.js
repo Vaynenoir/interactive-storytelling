@@ -257,7 +257,7 @@ $('br').remove();
 
         if (PathDirection) {   // main route styling
             var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-
+            var pathClone = document.createElementNS('http://www.w3.org/2000/svg', 'path');
             $(path).attr('d', PathDirection);
             $(path).attr('fill', 'transparent');
             $(path).attr('stroke', getSettingFromStorage("mapRouteColor"));
@@ -265,9 +265,20 @@ $('br').remove();
             $(path).attr('stroke-width', getSettingFromStorage("routeBorderWidth"));
             $(path).attr("stroke-linecap","round")
             $(path).attr("id", "routePath");
-
+            $(pathClone).attr({
+                d: PathDirection,
+                fill: "transparent",
+                stroke: "#ccc",
+                "stroke-dashoffset": "300px",
+                "stroke-dasharray": "6px",
+                opacity: "0.4", 
+                "stroke-width": getSettingFromStorage("routeBorderWidth"),
+                "stroke-linecap": "round",
+                id: "routePathClone"
+            });
+            // MapPathsGroup.append(pathClone);
+            wholeSvgGroup.append(pathClone);
         }
-
 
 
         var currentDisplacementTop = parseInt($("#IDmapbg")[0].style.top);  // map offset set up by user on 1st step
@@ -715,6 +726,16 @@ $('br').remove();
                                             var x0 = route_points.x + 100;
                                             var y0 = slope*(x0 - route_points.x) + route_points.y;
                                             var movingTransport = map.select("#transport_"+pointIcons[k]);
+                                            var transport_zoom = parseFloat(movingTransport.attr("data-scale"));
+                                            console.log(transport_zoom);
+                                            var bbox = movingTransport.getBBox();
+                                            var cx = bbox.x + (bbox.width/2),
+                                            cy = bbox.y + (bbox.height/2);
+                                            console.log(movingTransport,cx,cy , route_points.x , route_points.y);
+
+
+
+
                                             // console.log(movingTransport);
                                             movingTransport.animate({opacity:"1"},100);   
                                             if(route > StopPoints[pointIcons[k] - 1]){
@@ -726,17 +747,16 @@ $('br').remove();
                                                 // }
                                             }
                                             if(route < StopPoints[pointIcons[k] - 1] ){
-                                                transport_zoom = parseFloat(movingTransport.attr("data-scale"));
-                                                console.log(transport_zoom);
-                                                var bbox = transport.getBBox();
-                                                var cx = bbox.x + (bbox.width/2),
-                                                cy = bbox.y + (bbox.height/2);
+
                                                 var myMatrix = new Snap.Matrix();
                                                 myMatrix.scale(transport_zoom,transport_zoom);         
                                                 myMatrix.rotate(angle+180, circle_route_points.x*20, circle_route_points.y*20);  
                                                 myMatrix.translate((route_points.x * 20),((route_points.y - 12) * 20));
                                                 movingTransport.animate({transform: myMatrix}, 10);
-
+                                                
+                                                // myMatrix.translate(cx/transport_zoom, cy/transport_zoom);
+                                                movingTransport.animate({transform: myMatrix}, 10);
+                                                // console.log("TRANNSLATE " + (route_points.x * 20),((route_points.y - 12) * 20));
                                                 if(route > StopPoints[pointIcons[0]]){
                                                     var fadeTransport = map.select("#transport_" + pointIcons[0]);
                                                     fadeTransport.animate({opacity:"0"},100);
