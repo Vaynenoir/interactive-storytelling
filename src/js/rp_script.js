@@ -265,19 +265,50 @@ $('br').remove();
             $(path).attr('stroke-width', getSettingFromStorage("routeBorderWidth"));
             $(path).attr("stroke-linecap","round")
             $(path).attr("id", "routePath");
-            $(pathClone).attr({
-                d: PathDirection,
-                fill: "transparent",
-                stroke: "#ccc",
-                "stroke-dashoffset": "300px",
-                "stroke-dasharray": "6px",
-                opacity: "0.4", 
-                "stroke-width": getSettingFromStorage("routeBorderWidth"),
-                "stroke-linecap": "round",
-                id: "routePathClone"
-            });
-            // MapPathsGroup.append(pathClone);
-            wholeSvgGroup.append(pathClone);
+
+            if(getSettingFromStorage("routeShadow") == "true" && getSettingFromStorage("routeType") == "dashed"){
+                $(pathClone).attr({
+                    d: PathDirection,
+                    fill: "transparent",
+                    stroke: "#ccc",
+                    "stroke-dashoffset": "300px",
+                    "stroke-dasharray": "12px",
+                    opacity: "0.4", 
+                    "stroke-width": getSettingFromStorage("routeBorderWidth"),
+                    "stroke-linecap": "round",
+                    id: "routePathClone"
+                });
+                // MapPathsGroup.append(pathClone);
+                wholeSvgGroup.append(pathClone);
+            }
+            if(getSettingFromStorage("routeShadow") == "true" && getSettingFromStorage("routeType") == "dotted"){
+                $(pathClone).attr({
+                    d: PathDirection,
+                    fill: "transparent",
+                    stroke: "#ccc",
+                    "stroke-dashoffset": "300px",
+                    "stroke-dasharray": "4px",
+                    opacity: "0.4", 
+                    "stroke-width": getSettingFromStorage("routeBorderWidth"),
+                    "stroke-linecap": "round",
+                    id: "routePathClone"
+                });
+                // MapPathsGroup.append(pathClone);
+                wholeSvgGroup.append(pathClone);                
+            }
+            if(getSettingFromStorage("routeShadow") == "true" && getSettingFromStorage("routeType") == "line"){
+                $(pathClone).attr({
+                    d: PathDirection,
+                    fill: "transparent",
+                    stroke: "#ccc",
+                    opacity: "0.4", 
+                    "stroke-width": getSettingFromStorage("routeBorderWidth"),
+                    "stroke-linecap": "round",
+                    id: "routePathClone"
+                });
+                // MapPathsGroup.append(pathClone);
+                wholeSvgGroup.append(pathClone);                
+            }
         }
 
 

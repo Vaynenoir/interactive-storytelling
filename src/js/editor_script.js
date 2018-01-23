@@ -10,6 +10,8 @@
                     mapRouteColor: "rgba(0, 0, 0, 1)",
                     bodyBackgroundColor: "rgba(243, 229, 245, 1)",
                     routeBorderWidth: "4",
+                    routeType: "line",
+                    routeShadow: "false",
                     pointsRadius: "8",
                     pointsBorderWidth: "1",
                     contentWidth: "50",
@@ -127,6 +129,8 @@
                         mapRouteColor: "rgba(0, 0, 0, 1)",
                         bodyBackgroundColor: "rgba(243, 229, 245, 1)",
                         routeBorderWidth: "4",
+                        routeType: "line",
+                        routeShadow: "false",
                         pointsRadius: "8",
                         pointsBorderWidth: "1",
                         contentWidth: "50",
@@ -333,7 +337,7 @@
 
 
                     var RangeInputs = $("input[type=range]");
-                    var RouteStartCheckbox = $("input[type=checkbox]");
+                    var RouteStartCheckbox = $("input[name=routeStartCheckbox]");
 
 
                     var mapForSettings = document.getElementById("mapSettings");
@@ -389,6 +393,87 @@
                             SettingsObj.contentAlign = $(this).val();
                             localStorage.setItem('Settings', JSON.stringify(SettingsObj));
                         });
+
+
+                        if(getSettingFromStorage("routeType") == "line"){
+                            $("input[value=line]").attr("checked", true);
+                        }
+                        if(getSettingFromStorage("routeType") == "dashed"){
+                            $("input[value=dashed]").attr("checked", true);
+                            $(".routeExample").css({
+                                height: "",
+                                "background-color" : "transparent",
+                                "border-bottom": getSettingFromStorage("routeBorderWidth")+"px" + " dashed " + getSettingFromStorage("mapRouteColor")
+                            });
+                            console.log(getSettingFromStorage("routeBorderWidth")+"px" + " dashed " + getSettingFromStorage("mapRouteColor"));
+                        }                        
+                        if(getSettingFromStorage("routeType") == "dotted"){
+                            $("input[value=dotted]").attr("checked", true);
+                            $(".routeExample").css({
+                                height: "",
+                                "background-color" : "transparent",
+                                "border-bottom": getSettingFromStorage("routeBorderWidth")+"px" + " dotted " + getSettingFromStorage("mapRouteColor")
+                            });
+                        }
+
+
+                        $('input[name = routeType]').on("click", function() {        //choose route type on 3rd step
+                            var checkedRadio = $(this).prop('checked', true);
+                            var alignClass = checkedRadio[0].id;
+                            console.log($(this).val());
+                            console.log($(this).val());
+                            // $('.test_block').css("justify-content", $(this).val());
+                            SettingsObj.routeType = $(this).val();
+
+                                    if($(this).val() == "line"){
+                                         $(".routeExample").css({
+                                            height: getSettingFromStorage("routeBorderWidth"),
+                                            "border-bottom": "0px",
+                                            "background-color" : getSettingFromStorage("mapRouteColor")
+                                        });                                       
+                                    }
+                                    if($(this).val() == "dashed"){
+                                        $(".routeExample").css({
+                                            height: "1px",
+                                            "border-bottom": getSettingFromStorage("routeBorderWidth")+"px" + " dashed " + getSettingFromStorage("mapRouteColor"),
+                                            "background-color" : "transparent"
+                                        });
+                                        console.log(getSettingFromStorage("routeBorderWidth")+"px" + " dashed " + getSettingFromStorage("mapRouteColor"));
+                                    }                        
+                                    if($(this).val() == "dotted"){
+                                        $(".routeExample").css({
+                                            height: "1px",
+                                            "border-bottom": getSettingFromStorage("routeBorderWidth")+"px" + " dotted " + getSettingFromStorage("mapRouteColor"),
+                                            "background-color" : "transparent"
+                                        });
+                                    }
+
+
+
+
+
+
+
+
+
+
+                            console.log(SettingsObj);
+                            localStorage.setItem('Settings', JSON.stringify(SettingsObj));
+                        });
+                        $("input[name=routeShadow]").attr("checked", JSON.parse(getSettingFromStorage("routeShadow")));
+
+                        $("input[name=routeShadow]").on("click", function(){
+                            if(this.checked){
+                                console.log("kek");
+                                SettingsObj.routeShadow = "true";
+                                localStorage.setItem('Settings', JSON.stringify(SettingsObj));
+                            }else{
+                                console.log("jopa");
+                                SettingsObj.routeShadow = "false";
+                                localStorage.setItem('Settings', JSON.stringify(SettingsObj));
+                            }
+                        });
+
 
 
                         $(ColorCollection).minicolors({     //jquery-minicolors plugin settings
@@ -477,7 +562,7 @@
 
 
                     $(RouteStartCheckbox).on("click", function() {
-                        if ($(this).is(":checked")) {
+                        if (this.checked) {
                             SettingsObj.checkboxState = "true";
                             localStorage.setItem('Settings', JSON.stringify(SettingsObj));
                             console.log(SettingsObj);

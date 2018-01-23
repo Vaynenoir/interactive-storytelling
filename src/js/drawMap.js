@@ -644,20 +644,24 @@ $(document).ready(function() {
 
                     $(".modal2").modal({
                         ready: function(){
+                            var trueElement;
                             var icon_settings = JSON.parse(localStorage.getItem('subpathIcons')) || [];
                             if(icon_settings.length != 0){
                                 for(var i = 0; i < icon_settings.length; i++){
-                                    if(parseInt(icon_settings[i].pointId) === Npoint){
+                                    trueElement = parseInt(icon_settings[i].pointId) === Npoint;
+                                    if(trueElement){
                                         console.log("EQuaLS!");
                                         $("input[name=color]").val(icon_settings[i].color);
                                         var icon_container = document.getElementById("subPathIconObj");
                                         $("#subPathIconObj").attr("data", icon_settings[i].icon_src);
                                         loadIcon(icon_container, icon_settings[i].color);
+                                        break;
 
                                     }else{
                                         console.log(" NOT EQuaLS!");
                                         $("input[name=color]").val("rgba(255, 255, 255, 1)");
                                         $("#subPathIconObj").attr("data", "");
+                                        continue;
                                     }
                                 }
                             }
@@ -780,21 +784,21 @@ $(document).ready(function() {
                                     // console.log(SettingsObj);
                                 });
 
-                                $("input[name = size]").change(function() {      // user choice of route start icon size
-                                    var optionSelected = $("option:selected", this);
-                                    var valueSelected = this.value;
-                                    var name = this.name;
-                                    subpathSetting[name] = valueSelected;
-                                    $("#subPathIconObj").attr({
-                                        width: subpathSetting[name] * 10,
-                                        height: subpathSetting[name] * 10
-                                    });
+                                // $("input[name = size]").change(function() {      // user choice of route start icon size
+                                //     var optionSelected = $("option:selected", this);
+                                //     var valueSelected = this.value;
+                                //     var name = this.name;
+                                //     subpathSetting[name] = valueSelected;
+                                //     $("#subPathIconObj").attr({
+                                //         width: subpathSetting[name] * 10,
+                                //         height: subpathSetting[name] * 10
+                                //     });
                                     
-                                    svgRoot.setAttribute("width", $(iconObj).attr("width"));
-                                    svgRoot.setAttribute("height", $(iconObj).attr("height"));
-                                    // console.log(svgRoot);
-                                    // console.log(SettingsObj);
-                                });
+                                //     svgRoot.setAttribute("width", $(iconObj).attr("width"));
+                                //     svgRoot.setAttribute("height", $(iconObj).attr("height"));
+                                //     // console.log(svgRoot);
+                                //     // console.log(SettingsObj);
+                                // });
 
                             });
                         }

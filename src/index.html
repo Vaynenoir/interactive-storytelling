@@ -213,11 +213,27 @@
                                     <p>Route color:
                                         <input type="minicolors" class="colorPicker minicolors" name="mapRouteColor" id="mapRouteColorPicker" style="display: none;">
                                     </p>
-                                    <p>Route type:                                    
-                                        dotted, dashed, line
-                                    </p>
+
+                                    Route type:                                    
+                                        <form action="#">
+                                        <div class="route_type_block">
+                                            <p>
+                                              <input name="routeType" type="radio" value="line" id="line" />
+                                              <label for="line">Line</label>
+                                            </p>
+                                            <p>
+                                              <input name="routeType" type="radio" value="dashed" id="dashed" />
+                                              <label for="dashed">Dashed line</label>
+                                            </p>
+                                            <p>
+                                              <input name="routeType" type="radio" value="dotted" id="dotted"  />
+                                              <label for="dotted">Dotted line</label>
+                                            </p>
+                                        </div>
+                                        </form>
+                                    
                                     <p>
-                                        <input type="checkbox" id="showPath">
+                                        <input type="checkbox" name="routeShadow" class="filled-in" id="showPath">
                                         <label for="showPath">show route</label>
                                     </p>
                                 </div>
@@ -273,7 +289,7 @@
                                 <div class="switch">
                                     <label>
                                         Off
-                                        <input type="checkbox">
+                                        <input type="checkbox" name="routeStartCheckbox">
                                         <span class="lever"></span> On
                                     </label>
                                 </div>
