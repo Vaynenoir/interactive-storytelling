@@ -18,18 +18,28 @@
 <body>
     <div class="navbar-fixed">
         <nav class="nav-extended">
+            
+            <a href="#" class="brand-logo left">Logo</a>
+
 
             <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-            <ul id="nav-mobile" class="left hide-on-med-and-down">
-                <li><a href="index.html" target="_self">Step 1.draw your route on the map</a>
+            <ul id="nav-mobile" class=" hide-on-med-and-down">
+                <li><a href="index.html" target="_self">link</a>
                 </li>
-                <li><a href="drawnMap.html" target="_self">Step 2.fill points with content</a>
+                <li><a href="drawnMap.html" target="_self">link</a>
                 </li>
-                <li><a href="ready_page.html" target="_self">Result</a>
+                <li><a href="ready_page.html" target="_self">link</a>
+                </li>
+                <li><a href="ready_page.html" target="_self">link</a>
                 </li>
             </ul>
 
-            <a id="menu" onclick="$('.tap-target').tapTarget('open')" class="right waves-effect waves-light btn btn-floating "><i class="material-icons">&#xE88E;</i></a>
+            <a id="menu" onclick="$('.tap-target').tapTarget('open')" class="right hide waves-effect waves-light btn btn-floating "><i class="material-icons">&#xE88E;</i></a>
+
+            <a class="btn-floating btn right account  waves-effect waves-light dropdown-button " href='#'  data-activates='dropdown1'><i class="material-icons">account_circle</i></a>
+
+
+
             <div class="tap-target" data-activates="menu">
                 <div class="tap-target-content">
                     <h5>Tutorial</h5>
@@ -43,18 +53,64 @@
         </nav>
     </div>
 
-    <div class="wrapper container" id="topPoint">
+<!-- USER DROPDOWN -->
+  <!-- Dropdown Structure -->
+  <ul id='dropdown1' class='dropdown-content'>
+    <li>
+    <div class="user-view">
+      <div class="background">
+        <img src="svg/office.jpg">
+      </div>
+      <a href="#!user"><img class="circle" width="50px" height="50px" src="svg/btn_icons/001-user-1.png"></a>
+      <a href="#!name"><span class=" name">John Doe</span></a>
+      <a href="#!email"><span class=" email">jdandturk@gmail.com</span></a>
+    </div>
+
+    </li>
+    <li><a href="#!">two</a></li>
+    <li class="divider"></li>
+    <li><a href="#!">three</a></li>
+    <li><a href="#!"><i class="material-icons">view_module</i>Sign Up</a></li>
+    <li><a href="#!"><i class="material-icons">cloud</i>Logout</a></li>
+  </ul>
+<!-- END USER DROPDOWN -->
+
+
+
+
+
+
+
+    <div class="wrapper container container_map" id="topPoint">
 
         <div class="debug"></div>
-        <div class="centered" id="full_screen">
+        <div class="centered_map" id="full_screen">
             <div class="wrap_map">
                 <div id="map_bg">
                     <object data="" id="dataMap" width="1920px" height="1200px" type=""></object>
                     
-                     <canvas id="bezier-canvas" width="1200" height="900"></canvas>
+                     <canvas id="bezier-canvas" width="100%" height="900"></canvas>
               
                 </div>
             </div>
+
+
+
+
+
+
+
+
+
+
+<!-- SIDEBAR START -->
+
+
+
+
+
+
+
 
 
             <ul id="slide-out" class="side-nav">
@@ -128,9 +184,20 @@
                             </div>
                         </div>
                     </div>
+
                 </li>
 
             </ul>
+
+
+<!-- SIDEBAR END -->
+
+
+
+
+
+
+
 
 
 
@@ -374,10 +441,12 @@
                 </button>
                 <button class="editor_button" id="minus"><i class="material-icons">zoom_out</i>
                 </button>
+
                 <button class="editor_button" id="moveLeft"><i class="material-icons">keyboard_arrow_left</i>
                 </button>
                 <button class="editor_button" id="moveRight"><i class="material-icons">keyboard_arrow_right</i>
                 </button>
+                  
                 <button class="editor_button" id="moveTop"><i class="material-icons">keyboard_arrow_up</i>
                 </button>
                 <button class="editor_button" id="moveBottom"><i class="material-icons">keyboard_arrow_down</i>
@@ -386,7 +455,48 @@
                 </button>
                 <button class="editor_button modal-trigger" data-target="modal2" id="projectName"><i class="material-icons">create_new_folder</i>
                 </button>
+                <button class="editor_button"  id="showMyMenu">kek
+                </button>
+
+
+
+<!--                   <div class="fixed-action-btn horizontal click-to-toggle">
+                        <a class="btn-floating  red">
+                          <i class="material-icons">menu</i>
+                        </a>
+                        <ul>
+                          <li><a class="btn-floating red"><i class="material-icons">insert_chart</i></a></li>
+                          <li><a class="btn-floating yellow darken-1"><i class="material-icons">format_quote</i></a></li>
+                          <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
+                          <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>
+                        </ul>
+                      </div> -->
             </div>
+
+<!--             <div id="buttonWrapper">
+                <a class="waves-effect editor_button waves-light button-collapse btn" data-activates="slide-out">b</a>
+                <a class="waves-effect editor_button waves-light btn">b</a>
+                <a class="waves-effect editor_button waves-light btn">b</a>
+                <a class="waves-effect editor_button waves-light btn">b</a>
+                <a class="waves-effect editor_button waves-light btn">b</a>
+                <a class="waves-effect editor_button waves-light btn">b</a>
+                <a class="waves-effect editor_button waves-light btn">b</a>
+                <a class="waves-effect editor_button waves-light btn">b</a>
+                <a class="waves-effect editor_button waves-light btn">b</a>
+            </div> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
         </div>
         <div class="buttons_bar">
             <!-- <a href="drawnMap.html"> -->
