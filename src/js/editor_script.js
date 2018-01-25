@@ -37,6 +37,14 @@
             editor.draw(); // draw canvas
 
 
+
+
+
+
+
+
+
+
             $('#clear').bind("click", function() {              //clear canvas and localstorage
 
                 console.log(editor.clearBezier());
@@ -210,8 +218,6 @@
                 scaleImg += 0.1;
                 $('#map_bg').css("transform", "scale(" + scaleImg + ") translate("+ moveLeft +"px," + moveTop+ "px)");
                 styleProps.transform = "scale(" + scaleImg + ") translate("+ moveLeft +"    " + moveTop+ ")";
-
-
 
 
                 // var ctx = editor.ctx;
@@ -748,16 +754,18 @@
 
 
             $('.button-collapse').sideNav({
-                menuWidth: 600,
+                menuWidth: 400,
                 edge: 'left',
                 closeOnClick: true,
                 draggable: true,
                 onOpen: function(){
-                    $("ul#slide-out").css("transform", "translateX(57px)!important");
+                    // $("ul#slide-out").css("transform", "translateX(57px)!important");
                     console.log($(".side-nav"));
+                   
                 },
                 onClose: function(){
-                    $("ul#slide-out").css("transform", "translateX(-100%)!important");
+                    // $("ul#slide-out").css("transform", "translateX(-100%)!important");
+
                 }
             });
 
@@ -770,6 +778,72 @@
                     $('.tap-target').tapTarget('close');
                 }
             })
+
+
+
+
+
+            $(".slide_btn").on("click", function(){
+                    if($(this).hasClass("active")){
+                        $(this).removeClass("active");
+                        closeSideNav();
+                    }else{
+                        var dataAttribute = $(this).attr("data-execute");
+                        console.log(dataAttribute);
+                        $(".slide_btn").removeClass("active");
+
+                        $(".setting_option").hide();
+
+                        $(this).addClass("active");
+                        
+                        $("#"+dataAttribute).show();
+                        openSideNav(dataAttribute);
+                    }
+
+            });
+                
+
+
+
+
+function openSideNav(action){
+
+                    if(action == "choose_map"){
+
+                        $(".main-menu").animate({
+                            width: "1200px",
+                            overflow: "visible"
+                        },100); 
+                    }
+
+                    else if(action == "colorize"){
+                         $(".main-menu").animate({
+                            width: "800px",
+                            overflow: "visible"
+                        },100); 
+                    }                       
+                    
+
+                    else{
+                        $(".main-menu").animate({
+                            width: "250px",
+                            overflow: "visible"
+                        },100);                         
+                    }
+}
+function closeSideNav(){
+                        $(".main-menu").animate({
+                        width: "0px",
+                        overflow: "hidden"
+                    },100);
+}
+
+
+
+
+
+
+
 
 
         });

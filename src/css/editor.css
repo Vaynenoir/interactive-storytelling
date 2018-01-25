@@ -339,18 +339,256 @@ canvas.select {
 .account{
   margin-right: 10px;
 }
+.slide_btn{
+  background-color: #4db6ac!important;
+  margin-top: 10%;
+  width: 60px;
+  height: 60px;
+}
+.step{
+  /*background-image: url("../svg/btn_icons/006-info.png");*/
+  background-size: 24px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  color: #000;
+  background-color: #ccc;
+  border-radius: 50%;
+}
+.project{
+    background-image: url("../svg/btn_icons/033-file.png");
+  background-size: 24px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  color: #fff;
+  background-color: #ccc;
+}
+.choose_map{
+  
+    background-image: url("../svg/btn_icons/028-australia-map.png");
+  background-size: 24px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  color: #fff;
+  background-color: #ccc;
+}
+.displacement{
+      background-image: url("../svg/btn_icons/025-move-1.png");
+  background-size: 24px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  color: #fff;
+  background-color: #ccc;
+}
+.pen{
+        background-image: url("../svg/btn_icons/1007-itinerary.png");
+  background-size: 24px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  color: #fff;
+  background-color: #ccc;
+}
+.colorize_map{
+  
+        background-image: url("../svg/btn_icons/021-paint-palette.png");
+  background-size: 24px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  color: #fff;
+  background-color: #ccc;
+}
+.redraw{
+
+        background-image: url("../svg/btn_icons/014-dustbin.png");
+  background-size: 24px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  color: #fff;
+  background-color: #ccc;
+}
+.next_step{
+  
+  background-image: url("../svg/btn_icons/009-arrows-3.png");
+  background-size: 24px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  color: #fff;
+  background-color: #ccc;
+}
+.info{
+   background-image: url("../svg/btn_icons/006-info.png");
+  background-size: 24px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  color: #fff;
+  background-color: #ccc; 
+}
+
+
+
+
+
+
+
 .page-footer{
   padding-top: 0;
   margin-top: 3%;
   background-color: #4db6ac;
 }
 
+@import url(//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css);
+}
+@import url(https://fonts.googleapis.com/css?family=Titillium+Web:300);
+.fa-2x {
+font-size: 2em;
+}
+.fa {
+position: relative;
+display: table-cell;
+width: 60px;
+height: 36px;
+text-align: center;
+vertical-align: middle;
+font-size:20px;
+}
+
+
+/*.main-menu:hover,nav.main-menu.expanded {
+width:250px;
+overflow:visible;
+}*/
+.container_map{
+  position: relative;
+}
+.main-menu {
+background:#ffffff;
+border-right:1px solid #e5e5e5;
+position:absolute;
+top:0;
+bottom:0;
+height:100%;
+left:0;
+width:0px;
+margin-left: 70px;
+overflow-x:hidden;
+overflow-y: auto;
+-webkit-transition:width .08s linear;
+transition:width .08s linear;
+-webkit-transform:translateZ(0) scale(1,1);
+z-index:888;
+}
+
+.main-menu>ul {
+margin:7px 0;
+}
+
+.main-menu li {
+position:relative;
+display:block;
+width:250px;
+}
+
+.main-menu li>a {
+position:relative;
+display:table;
+border-collapse:collapse;
+border-spacing:0;
+color:#999;
+ font-family: arial;
+font-size: 14px;
+text-decoration:none;
+-webkit-transform:translateZ(0) scale(1,1);
+-webkit-transition:all .1s linear;
+transition:all .1s linear;
+  
+}
+
+.main-menu .nav-icon {
+position:relative;
+display:table-cell;
+width:60px;
+height:36px;
+text-align:center;
+vertical-align:middle;
+font-size:18px;
+}
+
+.main-menu .nav-text {
+position:relative;
+display:table-cell;
+vertical-align:middle;
+width:190px;
+margin-left: 60px;
+  font-family: 'Titillium Web', sans-serif;
+}
+
+.main-menu>ul.logout {
+position:absolute;
+left:0;
+bottom:0;
+}
+
+.no-touch .scrollable.hover {
+overflow-y:hidden;
+}
+
+.no-touch .scrollable.hover:hover {
+overflow-y:auto;
+overflow:visible;
+}
+
+a:hover,a:focus {
+text-decoration:none;
+}
+
+nav {
+-webkit-user-select:none;
+-moz-user-select:none;
+-ms-user-select:none;
+-o-user-select:none;
+user-select:none;
+}
+
+nav ul,nav li {
+outline:0;
+margin:0;
+padding:0;
+}
+.main-menu li:hover>a,nav.main-menu li.active>a,.dropdown-menu>li>a:hover,.dropdown-menu>li>a:focus,.dropdown-menu>.active>a,.dropdown-menu>.active>a:hover,.dropdown-menu>.active>a:focus,.no-touch .dashboard-page nav.dashboard-menu ul li:hover a,.dashboard-page nav.dashboard-menu ul li.active a {
+color:#fff;
+background-color:#5fa2db;
+}
+
+@font-face {
+  font-family: 'Titillium Web';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Titillium WebLight'), local('TitilliumWeb-Light'), url(http://themes.googleusercontent.com/static/fonts/titilliumweb/v2/anMUvcNT0H1YN4FII8wpr24bNCNEoFTpS2BTjF6FB5E.woff) format('woff');
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   #buttonWrapper {
     position: absolute;
-    width: 30px;
+    width: 70px;
     top: 0;
     left: 0;
-    padding: 2% 2%;
+/*    padding: 2% 2%;*/
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -360,10 +598,19 @@ canvas.select {
     border: 1px dashed #000;
     border-left: 0;
   }
-
+  .sidepanel{
+    position: absolute;
+    width: 200px;
+    top: 0;
+    left: 70px;
+    height: 100%;
+    background-color: #ccc;
+  }
   .editor_button{       
-    padding: 14px;
-  
+    width: 60px;
+    height: 60px;
+    padding: 4%;
+    background-color: #fff;
     margin: 0px 0px 2px 0px;
     outline: none;
   }
@@ -539,23 +786,46 @@ table p{
 
 
 
+.step_option{
+  background-color: #ff0000;
+  display: none;
+}
+.project_option{
+  background-color: #00ff00;
+  display: none;
+}
+.choose_map_option{
+  /*color: #000;*/
+   display: none;
+}
+.choose_map_option p{
+  color: #000;
+}
+.displacement_option{
 
+   display: none;
+}
+.flex_container{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
 
-/*
-#A, #B {
-    position: absolute;
 }
-#A {
-    top: 0px;
-    width: 200px;
-    bottom: 0px;
-    background:orange;
+.pen_option{
+  background-color: #112333;
+  display: none;
 }
-#B {
-    top: 0px;
-    left: 200px;
-    right: 0;
-    bottom: 0px;
-    background:green;
+.colorize_option{
+  background-color: #222222;
+  display: none;
 }
-*/
+.clearall_option{
+  background-color: #666666;
+  display: none;
+
+}
+.next_step_option{
+    background-color: #eee222;
+  display: none;
+}
