@@ -215,7 +215,6 @@ canvas.select {
       display: flex;
       justify-content: center;
       position: relative;
-      margin-top:20px;
       letter-spacing: 1px;
       color: #100;
     }
@@ -246,7 +245,7 @@ canvas.select {
 
       background-color: #F3D6E4;
       border-radius: 12px;
-      transform: scale(1.1,1.1);
+      transform: scale(1.05,1.05);
       transition: 0.4s;
       -webkit-box-shadow: 0px 0px 74px 0px rgba(0,0,0,0.75);
       -moz-box-shadow: 0px 0px 74px 0px rgba(0,0,0,0.75);
@@ -339,89 +338,6 @@ canvas.select {
 .account{
   margin-right: 10px;
 }
-.slide_btn{
-  background-color: #4db6ac!important;
-  margin-top: 10%;
-  width: 60px;
-  height: 60px;
-}
-.step{
-  /*background-image: url("../svg/btn_icons/006-info.png");*/
-  background-size: 24px;
-  background-position: center center;
-  background-repeat: no-repeat;
-  color: #000;
-  background-color: #ccc;
-  border-radius: 50%;
-}
-.project{
-    background-image: url("../svg/btn_icons/033-file.png");
-  background-size: 24px;
-  background-position: center center;
-  background-repeat: no-repeat;
-  color: #fff;
-  background-color: #ccc;
-}
-.choose_map{
-  
-    background-image: url("../svg/btn_icons/028-australia-map.png");
-  background-size: 24px;
-  background-position: center center;
-  background-repeat: no-repeat;
-  color: #fff;
-  background-color: #ccc;
-}
-.displacement{
-      background-image: url("../svg/btn_icons/025-move-1.png");
-  background-size: 24px;
-  background-position: center center;
-  background-repeat: no-repeat;
-  color: #fff;
-  background-color: #ccc;
-}
-.pen{
-        background-image: url("../svg/btn_icons/1007-itinerary.png");
-  background-size: 24px;
-  background-position: center center;
-  background-repeat: no-repeat;
-  color: #fff;
-  background-color: #ccc;
-}
-.colorize_map{
-  
-        background-image: url("../svg/btn_icons/021-paint-palette.png");
-  background-size: 24px;
-  background-position: center center;
-  background-repeat: no-repeat;
-  color: #fff;
-  background-color: #ccc;
-}
-.redraw{
-
-        background-image: url("../svg/btn_icons/014-dustbin.png");
-  background-size: 24px;
-  background-position: center center;
-  background-repeat: no-repeat;
-  color: #fff;
-  background-color: #ccc;
-}
-.next_step{
-  
-  background-image: url("../svg/btn_icons/009-arrows-3.png");
-  background-size: 24px;
-  background-position: center center;
-  background-repeat: no-repeat;
-  color: #fff;
-  background-color: #ccc;
-}
-.info{
-   background-image: url("../svg/btn_icons/006-info.png");
-  background-size: 24px;
-  background-position: center center;
-  background-repeat: no-repeat;
-  color: #fff;
-  background-color: #ccc; 
-}
 
 
 
@@ -431,7 +347,7 @@ canvas.select {
 
 .page-footer{
   padding-top: 0;
-  margin-top: 3%;
+
   background-color: #4db6ac;
 }
 
@@ -460,7 +376,8 @@ overflow:visible;
   position: relative;
 }
 .main-menu {
-background:#ffffff;
+  color: #000;
+background:#546e7a;
 border-right:1px solid #e5e5e5;
 position:absolute;
 top:0;
@@ -575,10 +492,23 @@ background-color:#5fa2db;
 
 
 
+.container .row{
+  margin-left: 1%!important;
+  margin-top: 20px;
 
+}
+.fixed-action-btn.horizontal{
+  padding: 0;
+}
 
-
-
+.fixed-action-btn {
+    position: relative;
+    left: 0;
+    top: 0;
+    padding-top: 15px;
+    margin-bottom: 0;
+    z-index: 992;
+}
 
 
 
@@ -589,13 +519,14 @@ background-color:#5fa2db;
     top: 0;
     left: 0;
 /*    padding: 2% 2%;*/
+padding-top: 1%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
     height: 100%;
-    background-color: #f3e5f5;
-    border: 1px dashed #000;
+    background-color: #37474f;
+    /*border-right: 1px dashed #ccc;*/
     border-left: 0;
   }
   .sidepanel{
@@ -609,14 +540,37 @@ background-color:#5fa2db;
   .editor_button{       
     width: 60px;
     height: 60px;
-    padding: 4%;
-    background-color: #fff;
-    margin: 0px 0px 2px 0px;
+    padding:12%;
+
+    margin: 8px 0px 10px 0px;
     outline: none;
   }
   button:focus{ 
     border: #000;
   }
+
+.overlay_hover{
+  position: relative;
+}
+.text{
+
+  width: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: none;
+  transition: .5s ease;
+  text-align: center;
+}
+.overlay_hover:hover .text{
+  display: block;
+  transform: translate(70px, 20px);
+  -ms-transform: translate(70px, 20px);
+  transition: 5s;
+  width: 100%;
+}
+
+
 
   .material-icons{
     color: #00796b;
@@ -661,8 +615,11 @@ input[type=range]{
 }
 table tr, th,td{
   border: 1px solid #ccc;
+  border-left: 0;
+
   position: relative;
 }
+
 td{
  /* padding: 10px 0 ;*/
   width: 80%;
@@ -782,6 +739,102 @@ table p{
   letter-spacing: 0!important;
 }
 
+.slide_btn{
+  
+  margin-top: 10%;
+  width: 60px;
+  height: 60px;
+}
+.slide_btn:hover{
+  background-color: red;
+}
+.step{
+  /*background-image: url("../svg/btn_icons/006-info.png");*/
+  background-size: 24px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  color: #000;
+  background-color: #4db6ac;
+
+}
+.project{
+    background-image: url("../svg/btn_icons/033-file.png");
+  background-size: 24px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  color: #fff;
+  background-color: #4db6ac;
+}
+.choose_map{
+  
+    background-image: url("../svg/btn_icons/028-australia-map.png");
+  background-size: 24px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  color: #fff;
+  background-color: #4db6ac;
+}
+.displacement{
+      background-image: url("../svg/btn_icons/025-move-1.png");
+  background-size: 24px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  color: #fff;
+  background-color: #4db6ac;
+}
+.pen{
+        background-image: url("../svg/btn_icons/1007-itinerary.png");
+  background-size: 24px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  color: #fff;
+  background-color: #4db6ac;
+}
+.colorize_map{
+  
+        background-image: url("../svg/btn_icons/021-paint-palette.png");
+  background-size: 24px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  color: #fff;
+  background-color: #4db6ac;
+}
+.clear{
+
+        background-image: url("../svg/btn_icons/014-dustbin.png");
+  background-size: 24px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  color: #fff;
+  background-color: #4db6ac;
+}
+.redraw{
+
+        background-image: url("../svg/btn_icons/019-paint.png");
+  background-size: 24px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  color: #fff;
+  background-color: #4db6ac;
+}
+
+.next_step{
+  
+  background-image: url("../svg/btn_icons/009-arrows-3.png");
+  background-size: 24px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  color: #fff;
+  background-color: #4db6ac;
+}
+.info{
+   background-image: url("../svg/btn_icons/006-info.png");
+  background-size: 24px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  color: #fff;
+  background-color: #4db6ac; 
+}
 
 
 
@@ -791,8 +844,10 @@ table p{
   display: none;
 }
 .project_option{
-  background-color: #00ff00;
   display: none;
+}
+.project_option h5, p{
+  color: #000;
 }
 .choose_map_option{
   /*color: #000;*/
@@ -802,8 +857,11 @@ table p{
   color: #000;
 }
 .displacement_option{
-
+  padding-top: 70px;
    display: none;
+}
+.active{
+  background-color: red;
 }
 .flex_container{
   display: flex;
@@ -817,7 +875,6 @@ table p{
   display: none;
 }
 .colorize_option{
-  background-color: #222222;
   display: none;
 }
 .clearall_option{
@@ -828,4 +885,29 @@ table p{
 .next_step_option{
     background-color: #eee222;
   display: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.galanix_link{
+  color: #fff;
+  text-decoration: none;
 }

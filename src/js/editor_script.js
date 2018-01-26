@@ -707,36 +707,42 @@
 
 
         $(document).ready(function() { //Materialize.js plugins
-            $('.modal').modal();
-            $('select').material_select();
+        //     $('.modal').modal();
+        //     $('select').material_select();
 
-            var projectInfo = JSON.parse(localStorage.getItem("ProjectInfo")) || {
-                projectName: "",
-                projectDescription: ""
-            };
+        //     var projectInfo = JSON.parse(localStorage.getItem("ProjectInfo")) || {
+        //         projectName: "",
+        //         projectDescription: ""
+        //     };
 
-            $('.modal2').modal({
-                dismissable: false,
-                ready: function(modal, trigger) {
-                    if (projectInfo) {
-                        $("#projectName").val(projectInfo.projectName);
-                        $("#projectDescription").val(projectInfo.projectDescription)
-                    }
+        //     $('.modal2').modal({
+        //         dismissable: false,
+        //         ready: function(modal, trigger) {
+        //             if (projectInfo) {
+        //                 $("#projectName").val(projectInfo.projectName);
+        //                 $("#projectDescription").val(projectInfo.projectDescription)
+        //             }
 
-                },
-                complete: function() {
-                    var NameInput = $("#projectName").val();
-                    var DescriptionInput = $("#projectDescription").val();
-                    if (NameInput.length > 0 && DescriptionInput.length > 0) {
-                        projectInfo.projectName = NameInput;
-                        projectInfo.projectDescription = DescriptionInput;
-                    } else {
-                        projectInfo.projectName = "";
-                        projectInfo.projectDescription = "";
-                    }
-                    localStorage.setItem("ProjectInfo", JSON.stringify(projectInfo));
-                }
-            });
+        //         },
+        //         complete: function() {
+        //             var NameInput = $("#projectName").val();
+        //             var DescriptionInput = $("#projectDescription").val();
+        //             if (NameInput.length > 0 && DescriptionInput.length > 0) {
+        //                 projectInfo.projectName = NameInput;
+        //                 projectInfo.projectDescription = DescriptionInput;
+        //             } else {
+        //                 projectInfo.projectName = "";
+        //                 projectInfo.projectDescription = "";
+        //             }
+        //             localStorage.setItem("ProjectInfo", JSON.stringify(projectInfo));
+        //         }
+        //     });
+
+
+
+
+
+
 
               $('.dropdown-button').dropdown({
                   inDuration: 300,
@@ -807,11 +813,18 @@
 
 
 function openSideNav(action){
+            var projectInfo = JSON.parse(localStorage.getItem("ProjectInfo")) || {
+                projectName: "",
+                projectDescription: ""
+            };
+
+
+
 
                     if(action == "choose_map"){
 
                         $(".main-menu").animate({
-                            width: "1200px",
+                            width: "1250px",
                             overflow: "visible"
                         },100); 
                     }
@@ -821,15 +834,62 @@ function openSideNav(action){
                             width: "800px",
                             overflow: "visible"
                         },100); 
-                    }                       
-                    
-
-                    else{
+                    }
+                    else if(action == "project"){
                         $(".main-menu").animate({
-                            width: "250px",
+                            width: "800px",
+                            overflow: "visible"
+                        },100); 
+                        if (projectInfo) {
+                            $("#projectName").val(projectInfo.projectName);
+                            $("#projectDescription").val(projectInfo.projectDescription)
+                        }
+
+                        $("#saveProjectBtn").on("click", function(){
+                            var NameInput = $("#projectName").val();
+                            var DescriptionInput = $("#projectDescription").val();
+                            if (NameInput.length > 0 && DescriptionInput.length > 0) {
+                                projectInfo.projectName = NameInput;
+                                projectInfo.projectDescription = DescriptionInput;
+                            } else {
+                                projectInfo.projectName = "";
+                                projectInfo.projectDescription = "";
+                            }
+                            localStorage.setItem("ProjectInfo", JSON.stringify(projectInfo));
+
+                        });
+                    }
+                    else if(action == "displacement"){
+                        $(".main-menu").animate({
+                            width: "100px",
                             overflow: "visible"
                         },100);                         
                     }
+                    else if(action == "pen"){
+                        Materialize.toast("Draw path and points!", 3000);
+                        $(".main-menu").animate({
+                            width: "0px",
+                            overflow: "hidden"
+                        },100);        
+                    }
+                    else if(action == "info" ){
+                        $(".main-menu").animate({
+                            width: "500px",
+                            overflow: "visible"
+                        },100);                                  
+                    }        
+                    else if(action == "step"){
+                        $(".main-menu").animate({
+                            width: "70px",
+                            overflow: "visible"
+                        },100);                        
+                    }
+                    // else{
+                    //     $(".main-menu").animate({
+                    //         width: "250px",
+                    //         overflow: "visible"
+                    //     },100);                         
+                    // }
 }
 function closeSideNav(){
                         $(".main-menu").animate({
