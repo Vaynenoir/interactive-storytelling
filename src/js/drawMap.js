@@ -95,7 +95,7 @@ $(document).ready(function() {
         $(wholeSvgGroup).attr("id", "wholeSvgGroup");
 
         $("input[name=light-trigger]").attr("data-light", "lightOff");
-         $("input[name=light-trigger]").prop("checked", false);
+        $("input[name=light-trigger]").prop("checked", false);
 
         for (var i = 0; i < PathsArray.length; i++) {
             PathsArray[i].style.fill = getSettingFromStorage("mapColor");
@@ -221,22 +221,21 @@ $(document).ready(function() {
 
 
         console.log(path);
-        
+
         var path_end_point = path.getPointAtLength(path.getTotalLength());
         // console.log(last_path_point);
         var LastPointDate = new Date();
         var currentTime = LastPointDate.getTime();
         console.log(circlesArray);
-        
-            if(circlesArray[circlesArray.length - 1].cx == path_end_point.x && circlesArray[circlesArray.length - 1].cy == path_end_point.y){
-                console.log(circlesArray[circlesArray.length-1]);
-            }
-            else{
-                var last_path_point = {cx: path_end_point.x, cy: path_end_point.y, id: circlesArray.length, r: getSettingFromStorage("pointsRadius"), time: currentTime};
-                console.log(last_path_point);
-                circlesArray.push(last_path_point);             
-            }
-        
+
+        if (circlesArray[circlesArray.length - 1].cx == path_end_point.x && circlesArray[circlesArray.length - 1].cy == path_end_point.y) {
+            console.log(circlesArray[circlesArray.length - 1]);
+        } else {
+            var last_path_point = { cx: path_end_point.x, cy: path_end_point.y, id: circlesArray.length, r: getSettingFromStorage("pointsRadius"), time: currentTime };
+            console.log(last_path_point);
+            circlesArray.push(last_path_point);
+        }
+
 
         localStorage.setItem('circlesCoords', JSON.stringify(circlesArray));
 
@@ -400,27 +399,27 @@ $(document).ready(function() {
             var pathDisplacement = Snap(pathGroup);
 
             // console.log(pointsDataContentArray);
-            var savedDisplacement = JSON.parse(localStorage.getItem("mapStyleProperties")) || { transform: ""};
+            var savedDisplacement = JSON.parse(localStorage.getItem("mapStyleProperties")) || { transform: "" };
 
             var zoom, moveLeft, moveTop;
             // console.log(savedDisplacement.transform.length);
-            if((savedDisplacement.transform)){
+            if ((savedDisplacement.transform)) {
                 // scaleImg = styleProps.transform;
 
                 var transformString = (savedDisplacement.transform);
                 // console.log(scaleImg);
                 var regex = /[+-]?\d+(\.\d+)?/g;
                 var StringValues = transformString.match(regex).map(function(v) {
-                    return parseFloat(v); 
+                    return parseFloat(v);
                 });
                 // console.log(StringValues);
 
                 scaleImg = StringValues[0];
                 moveLeft = StringValues[1],
-                moveTop = StringValues[2];
+                    moveTop = StringValues[2];
                 // console.log( scaleImg, moveLeft, moveTop);
 
-                FullMapGroup.attr("transform", "scale(" + scaleImg + ") translate("+ (moveLeft) +" " + (moveTop)+ ")");
+                FullMapGroup.attr("transform", "scale(" + scaleImg + ") translate(" + (moveLeft) + " " + (moveTop) + ")");
                 // pathDisplacement.attr("transform", "scale(" + scaleImg + ") translate("+ (-moveLeft) +" " + (-moveTop)+ ")");
             }
 
@@ -463,16 +462,16 @@ $(document).ready(function() {
 
                     zoom = StringValues[0];
                     moveLeft = StringValues[1],
-                    moveTop = StringValues[2];
+                        moveTop = StringValues[2];
 
                 }
 
 
 
                 if (!getPointData[Npoint - 1]) {
-                        var zoom = 1;
-                        var moveTop = 0;
-                        var moveLeft = 0;
+                    var zoom = 1;
+                    var moveTop = 0;
+                    var moveLeft = 0;
                     // var savedZoom = zoom;
                     // savedDisplacement.top = moveTop;
                     // savedDisplacement.left = moveLeft;
@@ -505,7 +504,7 @@ $(document).ready(function() {
                     zoom += 0.1;
                     DisplacementObj.zoom = zoom;
                     // console.log(MapPathsGroup);
-                    FullMapGroup.animate({ "transform": "scale(" + zoom +") translate(" + (moveLeft) + " " + moveTop + ")" }, 300);
+                    FullMapGroup.animate({ "transform": "scale(" + zoom + ") translate(" + (moveLeft) + " " + moveTop + ")" }, 300);
                 });
 
                 $("#minus").bind('click', function() {
@@ -545,6 +544,7 @@ $(document).ready(function() {
 
 
                 if (localStorage.getItem('PointsContent') != null) {
+                    console.log("kek");
 
                     var PointLastData;
 
@@ -553,15 +553,16 @@ $(document).ready(function() {
                         var count = getPointData[j].pointId == dataTime;
                         if (getPointData[j].pointId == dataTime) {
 
-                            FullMapGroup.animate({ 
-                                transform: "scale(" + parseFloat(getPointData[j].zoom) + ") translate(" + (getPointData[j].left) + " " + getPointData[j].top + ")" 
+                            FullMapGroup.animate({
+                                transform: "scale(" + parseFloat(getPointData[j].zoom) + ") translate(" + (getPointData[j].left) + " " + getPointData[j].top + ")"
                             }, 300);
 
                             // $('.mapbg').animate({
                             //     zoom: getPointData[j].transform,
                             // });
-
+                            console.log(getPointData[j].cityName);
                             var PointCityName = getPointData[j].cityName;
+                            console.log(PointCityName);
                         }
 
                         if (count) {
@@ -570,14 +571,15 @@ $(document).ready(function() {
 
                         }
                     }
-                    if(PointCityName.length > 0){
-                    $("#pointName").val(PointCityName);
-                    console.log($("#pointName").closest("label"));
-                    $("#point_name_label").addClass("active");
-                }else{
-                    $("#pointName").val("");
-                    $("#point_name_label").removeClass("active");
-                }
+                    console.log(PointCityName);
+                    if (PointCityName) {
+                        $("#pointName").val(PointCityName);
+                        console.log($("#pointName").closest("label"));
+                        $("#point_name_label").addClass("active");
+                    } else {
+                        $("#pointName").val("");
+                        $("#point_name_label").removeClass("active");
+                    }
 
                     editor.setData(PointLastData);
 
@@ -594,12 +596,12 @@ $(document).ready(function() {
                     icon_src: ""
                 };
 
-                $('input[name=showIcon]').prop("checked", false);               
+                $('input[name=showIcon]').prop("checked", false);
                 $("#settings_btn").attr("disabled", "disabled");
 
-                for(var i = 0; i < subpathIcons.length; i++){
-                    
-                    if(parseInt(subpathIcons[i].pointId) == Npoint){
+                for (var i = 0; i < subpathIcons.length; i++) {
+
+                    if (parseInt(subpathIcons[i].pointId) == Npoint) {
                         $('input[name=showIcon]').prop("checked", "checked");
                         $("#settings_btn").removeAttr('disabled')
                         console.log($('input[name=showIcon]').attr("checked"));
@@ -610,7 +612,7 @@ $(document).ready(function() {
 
 
                 // if($('input[name=showIcon]').attr("checked") == "checked"){
-                    
+
                 //     console.log("dfgdfgdfg");
                 // }else{
                 //    $("#settings_btn").fadeOut(); 
@@ -618,190 +620,190 @@ $(document).ready(function() {
 
 
 
-                $('#icon_switch').on("click", function(){
-                    if($('input[name=showIcon]').is(":checked")){
+                $('#icon_switch').on("click", function() {
+                    if ($('input[name=showIcon]').is(":checked")) {
                         $("input[name=showIcon]").attr("checked", true);
                         $("#settings_btn").removeAttr('disabled');
-                        
+
                         // setTimeout(function(){$("input[name=showIcon]").attr("checked", false);}, 300);
-                    }else{
-                         $("input[name=showIcon]").attr("checked", false);
-                         $("#settings_btn").attr("disabled", "disabled");
-                         for(var i = 0; i < subpathIcons.length; i++){
-                            if(parseInt(subpathIcons[i].pointId) == Npoint){
+                    } else {
+                        $("input[name=showIcon]").attr("checked", false);
+                        $("#settings_btn").attr("disabled", "disabled");
+                        for (var i = 0; i < subpathIcons.length; i++) {
+                            if (parseInt(subpathIcons[i].pointId) == Npoint) {
                                 subpathIcons.splice(i, 1);
                             }
-                         }
-                         subpathIcons.sort(compareTime);
-                         localStorage.setItem("subpathIcons", JSON.stringify(subpathIcons));
+                        }
+                        subpathIcons.sort(compareTime);
+                        localStorage.setItem("subpathIcons", JSON.stringify(subpathIcons));
                     }
                 });
 
-                $("#settings_btn").on("click", function(){
+                $("#settings_btn").on("click", function() {
                     $("#modal2").modal("open");
 
                 });
 
-                    $(".modal2").modal({
-                        ready: function(){
-                            var trueElement;
-                            var icon_settings = JSON.parse(localStorage.getItem('subpathIcons')) || [];
-                            if(icon_settings.length != 0){
-                                for(var i = 0; i < icon_settings.length; i++){
-                                    trueElement = parseInt(icon_settings[i].pointId) === Npoint;
-                                    if(trueElement){
-                                        console.log("EQuaLS!");
-                                        $("input[name=color]").val(icon_settings[i].color);
-                                        var icon_container = document.getElementById("subPathIconObj");
-                                        $("#subPathIconObj").attr("data", icon_settings[i].icon_src);
-                                        loadIcon(icon_container, icon_settings[i].color);
-                                        break;
+                $(".modal2").modal({
+                    ready: function() {
+                        var trueElement;
+                        var icon_settings = JSON.parse(localStorage.getItem('subpathIcons')) || [];
+                        if (icon_settings.length != 0) {
+                            for (var i = 0; i < icon_settings.length; i++) {
+                                trueElement = parseInt(icon_settings[i].pointId) === Npoint;
+                                if (trueElement) {
+                                    console.log("EQuaLS!");
+                                    $("input[name=color]").val(icon_settings[i].color);
+                                    var icon_container = document.getElementById("subPathIconObj");
+                                    $("#subPathIconObj").attr("data", icon_settings[i].icon_src);
+                                    loadIcon(icon_container, icon_settings[i].color);
+                                    break;
 
-                                    }else{
-                                        console.log(" NOT EQuaLS!");
-                                        $("input[name=color]").val("rgba(255, 255, 255, 1)");
-                                        $("#subPathIconObj").attr("data", "");
-                                        continue;
-                                    }
+                                } else {
+                                    console.log(" NOT EQuaLS!");
+                                    $("input[name=color]").val("rgba(255, 255, 255, 1)");
+                                    $("#subPathIconObj").attr("data", "");
+                                    continue;
                                 }
-                            }
-                        },
-
-                        complete: function(){
-                            if(subpathIcons.length > 0){
-                                for(var i = 0; i < subpathIcons.length; i++){
-                                    if(subpathIcons[i].pointId == Npoint){
-                                        subpathIcons.splice(i,1);
-                                    }
-                                }
-                            }
-                            console.log(Npoint);
-                            var source = $("#subPathIconObj").attr("data");
-                            if(source.length > 0){
-                                subpathSetting.icon_src = source;
-                                subpathSetting.color = $("input[name=color]").val();
-                                subpathSetting.pointId = Npoint;
-                                subpathIcons.push(subpathSetting);
-                                subpathIcons.sort(compareTime);
-                                localStorage.setItem("subpathIcons", JSON.stringify(subpathIcons));
-                                console.log(subpathIcons);
-                            }else{
-                                Materialize.toast('No icon to this point!', 2000);
                             }
                         }
+                    },
 
-                    });
+                    complete: function() {
+                        if (subpathIcons.length > 0) {
+                            for (var i = 0; i < subpathIcons.length; i++) {
+                                if (subpathIcons[i].pointId == Npoint) {
+                                    subpathIcons.splice(i, 1);
+                                }
+                            }
+                        }
+                        console.log(Npoint);
+                        var source = $("#subPathIconObj").attr("data");
+                        if (source.length > 0) {
+                            subpathSetting.icon_src = source;
+                            subpathSetting.color = $("input[name=color]").val();
+                            subpathSetting.pointId = Npoint;
+                            subpathIcons.push(subpathSetting);
+                            subpathIcons.sort(compareTime);
+                            localStorage.setItem("subpathIcons", JSON.stringify(subpathIcons));
+                            console.log(subpathIcons);
+                        } else {
+                            Materialize.toast('No icon to this point!', 2000);
+                        }
+                    }
+
+                });
 
 
 
-                        $("input[name = color]").minicolors({     //jquery-minicolors plugin settings
-                            opacity: true,
-                            format: "rgb",
-                            rgbaString: false,
-                            change: function(hsl, rgb) {
-                                var rgbaString = 'rgba(' + rgb.r + ', ' + rgb.g + ', ' + rgb.b + ', ' + rgb.a + ')';
-                                console.log(rgbaString);
-                            },
-                            swatches: ['rgba(154, 9, 173, 1)','rgba(240, 17, 17, 1)','rgba(0, 255, 21, 1)','rgba(15, 43, 255, 1)','rgba(255, 239, 13, 1)'],
-                            showSpeed: 100
+                $("input[name = color]").minicolors({ //jquery-minicolors plugin settings
+                    opacity: true,
+                    format: "rgb",
+                    rgbaString: false,
+                    change: function(hsl, rgb) {
+                        var rgbaString = 'rgba(' + rgb.r + ', ' + rgb.g + ', ' + rgb.b + ', ' + rgb.a + ')';
+                        console.log(rgbaString);
+                    },
+                    swatches: ['rgba(154, 9, 173, 1)', 'rgba(240, 17, 17, 1)', 'rgba(0, 255, 21, 1)', 'rgba(15, 43, 255, 1)', 'rgba(255, 239, 13, 1)'],
+                    showSpeed: 100
+                });
+
+
+
+                $(".icon_gallery__item").on("click", function() { //choose icon of Route Start
+                    var iconSRC = $(this).attr("src");
+                    console.log(iconSRC);
+                    var icon_container = document.getElementById("subPathIconObj");
+                    $("#subPathIconObj").attr("data", iconSRC);
+
+                    subpathSetting.pointId = Npoint;
+                    subpathSetting.icon_src = iconSRC;
+                    loadIcon(icon_container);
+
+                    // SettingsObj.StartIcon = iconSRC;
+                    // localStorage.setItem("Settings", JSON.stringify(SettingsObj));
+                });
+
+
+
+
+                function loadIcon(icon_container, icon_color) { // load icon to show example
+                    icon_container.addEventListener("load", function() {
+                        var svgDoc = icon_container.contentDocument; //get the inner DOM of alpha.svg
+                        var svgRoot = svgDoc.documentElement;
+
+
+
+
+                        var paths_group = svgRoot.querySelector("#transport");
+                        var s = new XMLSerializer();
+                        var paths = paths_group.getElementsByTagName("path");
+                        // console.log(paths);
+
+                        for (var i = 0; i < paths.length; i++) {
+                            paths[i].style.fill = icon_color;
+                        }
+
+                        var iconObj = document.getElementById("subPathIconObj");
+
+                        var pathDir = s.serializeToString(paths_group); //convert html element to string with XMLSerializer
+                        subpathSetting.icon = pathDir;
+
+
+                        console.log(subpathIcons);
+
+
+                        // var subpathIcons = JSON.parse(localStorage.getItem('subpathIcons')) || []
+                        // console.log(subpathIcons);
+                        // if(subpathIcons.length > 0){
+                        //     for(var i = 0; i < subpathIcons.length; i++)
+                        //         if(subpathSetting[i].pointId == Npoint){
+                        //             for(var j = 0; j < paths.length; j++){
+                        //                 paths[j].style.fill = subpathSetting[i].color;
+                        //             }
+                        //         }
+                        // }
+
+
+
+
+                        $("input[name=color]").change(function(el) {
+                            var optionSelected = $("option:selected", this);
+                            var valueSelected = this.value;
+
+
+
+                            var name = this.name;
+
+                            subpathSetting[name] = valueSelected;
+                            console.log(subpathSetting[name]);
+                            for (var i = 0; i < paths.length; i++) {
+                                paths[i].style.fill = subpathSetting.color;
+
+                            }
+
+                            // localStorage.setItem("Settings", JSON.stringify(SettingsObj)); 
+                            // console.log(SettingsObj);
                         });
 
+                        // $("input[name = size]").change(function() {      // user choice of route start icon size
+                        //     var optionSelected = $("option:selected", this);
+                        //     var valueSelected = this.value;
+                        //     var name = this.name;
+                        //     subpathSetting[name] = valueSelected;
+                        //     $("#subPathIconObj").attr({
+                        //         width: subpathSetting[name] * 10,
+                        //         height: subpathSetting[name] * 10
+                        //     });
 
+                        //     svgRoot.setAttribute("width", $(iconObj).attr("width"));
+                        //     svgRoot.setAttribute("height", $(iconObj).attr("height"));
+                        //     // console.log(svgRoot);
+                        //     // console.log(SettingsObj);
+                        // });
 
-                        $(".icon_gallery__item").on("click", function() {       //choose icon of Route Start
-                            var iconSRC = $(this).attr("src");
-                            console.log(iconSRC);
-                            var icon_container = document.getElementById("subPathIconObj");
-                            $("#subPathIconObj").attr("data", iconSRC);
-
-                            subpathSetting.pointId = Npoint;
-                            subpathSetting.icon_src = iconSRC;
-                            loadIcon(icon_container);
-                            
-                            // SettingsObj.StartIcon = iconSRC;
-                            // localStorage.setItem("Settings", JSON.stringify(SettingsObj));
-                        });                           
-
-
-
-
-                        function loadIcon(icon_container, icon_color) {                          // load icon to show example
-                            icon_container.addEventListener("load", function() {
-                                var svgDoc = icon_container.contentDocument; //get the inner DOM of alpha.svg
-                                var svgRoot = svgDoc.documentElement;
-
-
-
-
-                                var paths_group = svgRoot.querySelector("#transport");
-                                var s = new XMLSerializer();
-                                var paths = paths_group.getElementsByTagName("path");
-                                // console.log(paths);
-
-                                for(var i = 0; i < paths.length; i++){
-                                    paths[i].style.fill = icon_color;
-                                }
-
-                                var iconObj = document.getElementById("subPathIconObj");
-
-                                var pathDir = s.serializeToString(paths_group);        //convert html element to string with XMLSerializer
-                                subpathSetting.icon = pathDir;   
-
-
-                                console.log(subpathIcons);
-
-
-                                // var subpathIcons = JSON.parse(localStorage.getItem('subpathIcons')) || []
-                                // console.log(subpathIcons);
-                                // if(subpathIcons.length > 0){
-                                //     for(var i = 0; i < subpathIcons.length; i++)
-                                //         if(subpathSetting[i].pointId == Npoint){
-                                //             for(var j = 0; j < paths.length; j++){
-                                //                 paths[j].style.fill = subpathSetting[i].color;
-                                //             }
-                                //         }
-                                // }
-
-
-
-
-                                $("input[name=color]").change(function(el) {
-                                    var optionSelected = $("option:selected", this);
-                                    var valueSelected = this.value;
-
-
-
-                                    var name = this.name;
-
-                                    subpathSetting[name] = valueSelected;
-                                    console.log(subpathSetting[name]);
-                                    for (var i = 0; i < paths.length; i++) {
-                                        paths[i].style.fill = subpathSetting.color;
-                                        
-                                    }
-                                    
-                                    // localStorage.setItem("Settings", JSON.stringify(SettingsObj)); 
-                                    // console.log(SettingsObj);
-                                });
-
-                                // $("input[name = size]").change(function() {      // user choice of route start icon size
-                                //     var optionSelected = $("option:selected", this);
-                                //     var valueSelected = this.value;
-                                //     var name = this.name;
-                                //     subpathSetting[name] = valueSelected;
-                                //     $("#subPathIconObj").attr({
-                                //         width: subpathSetting[name] * 10,
-                                //         height: subpathSetting[name] * 10
-                                //     });
-                                    
-                                //     svgRoot.setAttribute("width", $(iconObj).attr("width"));
-                                //     svgRoot.setAttribute("height", $(iconObj).attr("height"));
-                                //     // console.log(svgRoot);
-                                //     // console.log(SettingsObj);
-                                // });
-
-                            });
-                        }
+                    });
+                }
 
 
 
@@ -854,7 +856,7 @@ $(document).ready(function() {
                         Materialize.toast('Your data is saved!', 2000);
                     }
                     pointsDataContentArray.sort(compareTime)
-                    
+
                     var overlay = $('#sidenav-overlay');
                     $(overlay).css("background-color", "none");
                     $(overlay).remove();
@@ -862,12 +864,12 @@ $(document).ready(function() {
                     console.log(pointsDataContentArray, circlesArray);
                     var SortedDataArray = [];
 
-                    for(var i = 0; i < circlesArray.length; i++){
-                      for(var j = 0; j < pointsDataContentArray.length; j++){
-                        if(circlesArray[i].time == pointsDataContentArray[j].pointId){
-                          SortedDataArray.push(pointsDataContentArray[j]);
+                    for (var i = 0; i < circlesArray.length; i++) {
+                        for (var j = 0; j < pointsDataContentArray.length; j++) {
+                            if (circlesArray[i].time == pointsDataContentArray[j].pointId) {
+                                SortedDataArray.push(pointsDataContentArray[j]);
+                            }
                         }
-                      }
                     }
                     console.log(SortedDataArray);
 

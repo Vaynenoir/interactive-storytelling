@@ -20,7 +20,14 @@ $font_family_6: 'Avenir Next', Avenir, 'Helvetica Neue', Helvetica, Arial, sans-
 	font-style: normal;
 	src: url('../Lato/Lato-Regular.ttf');
 }
-
+/*		.bg_svg{
+			 display: inline-block;
+ position: relative;
+ width: 50%;
+ padding-bottom: 60%; 
+ 
+ vertical-align: middle; 
+		}*/
 body {
 	font-family: $font_family_1;
 	color: $color_1;
@@ -43,8 +50,6 @@ body {
 	position: fixed;
 	z-index: -2;
 	height: 0;
-	width: 100%;
-	padding-top: 20px;
 }
 .text_wrapper {
 	position: relative;

@@ -1,9 +1,23 @@
-$color_1: #5d5c56;
+//colors
+$color_chilean_heath_approx: #fffde7;
+$color_chicago_approx: #5d5c56;
+$white_80: rgba(255,255,255,0.8);
 
 body {
 	height: 2000px;
-	background: #fffde7;
-	color: $color_1;
+	background: $color_chilean_heath_approx;
+	color: $color_chicago_approx;
+}
+.slick-item {
+	max-width: 100%;
+	width: 100%!important;
+	height: auto;
+}
+.slick-single {
+	width: 100%!important;
+	br {
+		display: none;
+	}
 }
 .wrapper {
 	width: 100%;
@@ -15,20 +29,14 @@ body {
 	z-index: -2;
 	opacity: 0.7;
 }
+.slider {
+	height: auto;
+}
 .flex_right {
-	display: flex !important;
+	display: flex!important;
 	flex-direction: column;
 	justify-content: flex-start;
 	align-items: flex-end;
-}
-div.text_wrapper {
-	display: flex !important;
-	flex-direction: column;
-	justify-content: flex-start;
-	align-items: flex-start;
-	position: relative;
-	padding: 5em 3em;
-	z-index: 1000;
 }
 #textWrap {
 	position: relative;
@@ -36,15 +44,46 @@ div.text_wrapper {
 }
 .text_wrapper {
 	p {
-		word-break: break-all;
+		max-width: 700px;
 		margin: 0 0 2%;
 	}
 	section {
 		display: flex;
 		flex-direction: column;
-		align-items: flex-start;
-		width: 50%;
+		width: 700px;
 		max-width: 700px;
-		word-wrap: break-word;
+		text-align: left;
 	}
+}
+.my-svg {
+}
+#coords {
+	position: absolute;
+	right: 5px;
+	bottom: 5px;
+	padding: 3px 6px;
+	background-color: $white_80;
+}
+#lightPath {
+	//Instead of the line below you could use @include transform-origin($origin-x, $origin-y, $origin-z, $only3d)
+	transform-origin: 520px 300px;
+}
+.js-section br {
+	display: none;
+}
+.slick-slider .slick-list {
+	//Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
+	transform: none;
+}
+div.text_wrapper {
+	display: flex!important;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: flex-start;
+	position: relative;
+	padding: 5em 3em;
+	z-index: 1000;
+}
+.single_image img {
+	width: 100%!important;
 }

@@ -6,22 +6,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>PenTool</title>
-
-
     <link rel="stylesheet" href="libs/libs.css">
     <link rel="stylesheet" href="css/editor.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- <link rel="stylesheet" href="libs/minicolors_display/jquery.minicolors.css"> -->
-
 </head>
 
 <body>
     <div class="navbar-fixed">
         <nav class="nav-extended">
-            
             <a href="#" class="brand-logo left">Logo</a>
-
-
             <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
             <ul id="nav-mobile" class=" hide-on-med-and-down">
                 <li><a href="index.html" target="_self">link</a>
@@ -33,129 +27,88 @@
                 <li><a href="ready_page.html" target="_self">link</a>
                 </li>
             </ul>
-
             <a id="menu" onclick="$('.tap-target').tapTarget('open')" class="right hide waves-effect waves-light btn btn-floating "><i class="material-icons">&#xE88E;</i></a>
-
-            <a class="btn-floating btn right account  waves-effect waves-light dropdown-button " href='#'  data-activates='dropdown1'><i class="material-icons">account_circle</i></a>
-
-
-
+            <a class="btn-floating btn right account  waves-effect waves-light dropdown-button " href='#' data-activates='dropdown1'><i class="material-icons">account_circle</i></a>
             <div class="tap-target" data-activates="menu">
                 <div class="tap-target-content">
                     <h5>Tutorial</h5>
                     <p>Shift + click to add point</p>
                     <p>Alt + click to delete point</p>
                     <p>Ctrl + mouse hold to drag subpath control point</p>
-
                 </div>
             </div>
-
         </nav>
     </div>
-
-<!-- USER DROPDOWN -->
-  <!-- Dropdown Structure -->
-  <ul id='dropdown1' class='dropdown-content'>
-    <li>
-    <div class="user-view">
-      <div class="background">
-        <img src="svg/office.jpg">
-      </div>
-      <a href="#!user"><img class="circle" width="50px" height="50px" src="svg/btn_icons/001-user-1.png"></a>
-      <a href="#!name"><span class=" name">John Doe</span></a>
-      <a href="#!email"><span class=" email">jdandturk@gmail.com</span></a>
-    </div>
-
-    </li>
-    <li><a href="#!">two</a></li>
-    <li class="divider"></li>
-    <li><a href="#!">three</a></li>
-    <li><a href="#!"><i class="material-icons">view_module</i>Sign Up</a></li>
-    <li><a href="#!"><i class="material-icons">cloud</i>Logout</a></li>
-  </ul>
-<!-- END USER DROPDOWN -->
-
-
-
-
-
-
-
+    <!-- USER DROPDOWN -->
+    <!-- Dropdown Structure -->
+    <ul id='dropdown1' class='dropdown-content'>
+        <li>
+            <div class="user-view">
+                <a href="#!user"><img class="circle" width="50px" height="50px" src="svg/btn_icons/001-user-1.png"></a>
+                <a href="#!name"><span class=" name">John Doe</span></a>
+                <a href="#!email"><span class=" email">jdandturk@gmail.com</span></a>
+            </div>
+        </li>
+        <li><a href="#!">two</a></li>
+        <li class="divider"></li>
+        <li><a href="#!">three</a></li>
+        <li><a href="#!"><i class="material-icons">view_module</i>Sign Up</a></li>
+        <li><a href="#!"><i class="material-icons">cloud</i>Logout</a></li>
+    </ul>
+    <!-- END USER DROPDOWN -->
     <div class="wrapper container container_map" id="topPoint">
-
         <div class="debug"></div>
         <div class="centered_map" id="full_screen">
             <div class="wrap_map">
                 <div id="map_bg">
                     <object data="" id="dataMap" width="1920px" height="1200px" type=""></object>
-                    
-                     <canvas id="bezier-canvas" width="100%" height="900"></canvas>
-              
+                    <canvas id="bezier-canvas" width="100%" height="900"></canvas>
                 </div>
             </div>
+            <!-- SIDEBAR START -->
+            <nav class="main-menu">
+                <div class="settings_wrapper">
+                    <div class="step_option setting_option" id="step">
+                        <a class="btn waves-light waves-effect step_btn tooltipped ">1</a>
+                        <a class="btn waves-light waves-effect step_btn tooltipped " href="drawnMap.html">2</a>
+                        <a class="btn waves-light waves-effect step_btn tooltipped " href="ready_page.html">3</a>
+                    </div>
+                    <div class="project_option setting_option" id="project">
 
 
+                        <h4 class="project_title">Project settings</h4>
+                        <div class="divider"></div>
+                      <div class="row">
+                        <form class="col s12">
+                          <div class="row">
+                            <div class="input-field col s12">
+                              <i class="material-icons prefix">folder_open</i>
+                              <input id="projectName" type="text" class="validate" required="" aria-required="true">
+                              <label for="projectName" >Project name</label>
+                            </div>
+                            <div class="input-field col s12">
+                              <i class="material-icons prefix">mode_edit</i>
+                              <textarea id="projectDescription" name="description"  class="materialize-textarea"></textarea>
+                              <label for="projectDescription">Project description</label>
+                            </div>
+                            <div class="input-field col s12 right">
+                                <i class="material-icons prefix">vpn_key</i>
+                                <div class="chips chips-autocomplete"></div>
 
+                            </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- SIDEBAR START -->
-<nav class="main-menu">
-    <div class="settings_wrapper">
-        <div class="step_option setting_option" id="step">
-            <a class="btn tooltipped " >1</a>
-            <a class="btn tooltipped " href="drawnMap.html" >2</a>
-            <a class="btn tooltipped "  href="ready_page.html" >3</a>
-
-        </div>        
-        <div class="project_option setting_option" id="project">
-                    <h5>Project name:</h5>
-                    <input type="text" id="projectName">
-                    <p style="font-style: italic;">Project description:</p>
-                    <textarea name="description" placeholder="descibe your project" id="projectDescription" cols="30" rows="10"></textarea>
-                    <a class="btn waves-effect waves-light" id="saveProjectBtn">Save</a>
-        </div>
-
-
-        <div class="choose_map_option setting_option" id="choose_map">
-             <div id="gallery" class="map_gallery row" style="">
-
+                          </div>
+                        </form>
+                      </div>
+                                 <div class="divider"></div>
+                                 <div class="center_btn">
+                                    <a class="btn waves-effect waves-light" id="saveProjectBtn">Save Project</a>
+                                </div>
+                        
+                        
+                    </div>
+                    <div class="choose_map_option setting_option" id="choose_map">
+                        <div id="gallery" class="map_gallery row" style="">
                             <div class="gallery_item col s3">
                                 <a href="#topPoint">
                                     <p class="centered">Australia</p><img class="img_item" src="svg/maps/australiaHigh.svg" width="200px" height="200px" alt="">
@@ -218,57 +171,46 @@
                             </div>
                         </div>
                     </div>
-        </div>        
-
-
-
-        <div class="displacement_option setting_option" id="displacement">
-            <div class="flex_container">
-                <a class="editor_button waves-effect waves-light btn" id="plus"><i class="material-icons">zoom_in</i>
+                </div>
+                <div class="displacement_option setting_option" id="displacement">
+                    <div class="flex_container">
+                        <a class="editor_button waves-effect waves-light btn" id="plus"><i class="material-icons">zoom_in</i>
                 </a>
-                <a class="editor_button waves-effect waves-light btn" id="minus"><i class="material-icons">zoom_out</i>
+                        <a class="editor_button waves-effect waves-light btn" id="minus"><i class="material-icons">zoom_out</i>
                 </a>
-
-                <a class="editor_button waves-effect waves-light btn" id="moveLeft"><i class="material-icons">keyboard_arrow_left</i>
+                        <a class="editor_button waves-effect waves-light btn" id="moveLeft"><i class="material-icons">keyboard_arrow_left</i>
                 </a>
-                <a class="editor_button waves-effect waves-light btn" id="moveRight"><i class="material-icons">keyboard_arrow_right</i>
+                        <a class="editor_button waves-effect waves-light btn" id="moveRight"><i class="material-icons">keyboard_arrow_right</i>
                 </a>
-                  
-                <a class="editor_button waves-effect waves-light btn" id="moveTop"><i class="material-icons">keyboard_arrow_up</i>
+                        <a class="editor_button waves-effect waves-light btn" id="moveTop"><i class="material-icons">keyboard_arrow_up</i>
                 </a>
-                <a class="editor_button waves-effect waves-light btn" id="moveBottom"><i class="material-icons">keyboard_arrow_down</i>
+                        <a class="editor_button waves-effect waves-light btn" id="moveBottom"><i class="material-icons">keyboard_arrow_down</i>
                 </a>
-
-            </div>
-        </div>
-
-
-
-<!--         <div class="pen_option setting_option" id="pen">
+                    </div>
+                </div>
+                <!--         <div class="pen_option setting_option" id="pen">
             pen_option
         </div>         -->
-        <div class="colorize_option setting_option" id="colorize">
- <h2 style="text-align: center; font-size: 23px;text-transform: uppercase;">Change Map background and stroke color:</h2>
-
+                <div class="colorize_option setting_option" id="colorize">
+                    <h2 style="text-align: center; font-size: 23px;text-transform: uppercase;">Change Map background and stroke color:</h2>
                     <table class="centered" style="width:100%">
                         <tr>
                             <th>Settings</th>
                             <th>Result</th>
                         </tr>
-
                         <tr>
                             <td>
-                            <div class="flex_center">
-                                <p>Map color:
-                                    <input type="minicolors" name="mapColor" class="colorPicker minicolors" id="mapColorPicker" style="display: none;">
-                                </p>
-                                <p>Map stroke color:
-                                    <input type="minicolors" name="mapStrokeColor" class="colorPicker minicolors" id="mapStrokeColorPicker" style="display: none;">
-                                </p>
-                                <p>Background-color:
-                                    <input type="minicolors" class="colorPicker minicolors" name="bodyBackgroundColor" id="bodyColorPicker" style="display: none;">
-                                </p>
-                                                        </div>
+                                <div class="flex_center">
+                                    <p>Map color:
+                                        <input type="minicolors" name="mapColor" class="colorPicker minicolors" id="mapColorPicker" style="display: none;">
+                                    </p>
+                                    <p>Map stroke color:
+                                        <input type="minicolors" name="mapStrokeColor" class="colorPicker minicolors" id="mapStrokeColorPicker" style="display: none;">
+                                    </p>
+                                    <p>Background-color:
+                                        <input type="minicolors" class="colorPicker minicolors" name="bodyBackgroundColor" id="bodyColorPicker" style="display: none;">
+                                    </p>
+                                </div>
                             </td>
                             <td>
                                 <div class="map_settings_block">
@@ -276,9 +218,6 @@
                                 </div>
                             </td>
                         </tr>
-
-
-
                         <tr>
                             <td>
                                 <div class="flex_center">
@@ -288,7 +227,6 @@
                                     <p>Points border color:
                                         <input type="minicolors" name="mapPointsBorderColor" class="colorPicker minicolors" id="mapPointsBorderColorPicker" style="display: none;">
                                     </p>
-
                                     <p>Points radius:
                                         <form class="rangePicker" action="#">
                                             <p class="range-field">
@@ -309,7 +247,6 @@
                                 <div id="circle_example"></div>
                             </td>
                         </tr>
-
                         <tr>
                             <td>
                                 <div class="flex_center">
@@ -323,25 +260,23 @@
                                     <p>Route color:
                                         <input type="minicolors" class="colorPicker minicolors" name="mapRouteColor" id="mapRouteColorPicker" style="display: none;">
                                     </p>
-
-                                    Route type:                                    
-                                        <form action="#">
+                                    Route type:
+                                    <form action="#">
                                         <div class="route_type_block">
                                             <p>
-                                              <input name="routeType" type="radio" value="line" id="line" />
-                                              <label for="line">Line</label>
+                                                <input name="routeType" type="radio" value="line" id="line" />
+                                                <label for="line">Line</label>
                                             </p>
                                             <p>
-                                              <input name="routeType" type="radio" value="dashed" id="dashed" />
-                                              <label for="dashed">Dashed line</label>
+                                                <input name="routeType" type="radio" value="dashed" id="dashed" />
+                                                <label for="dashed">Dashed line</label>
                                             </p>
                                             <p>
-                                              <input name="routeType" type="radio" value="dotted" id="dotted"  />
-                                              <label for="dotted">Dotted line</label>
+                                                <input name="routeType" type="radio" value="dotted" id="dotted" />
+                                                <label for="dotted">Dotted line</label>
                                             </p>
                                         </div>
-                                        </form>
-                                    
+                                    </form>
                                     <p>
                                         <input type="checkbox" name="routeShadow" class="filled-in" id="showPath">
                                         <label for="showPath">show route</label>
@@ -351,17 +286,12 @@
                             <td>
                                 <div class="flex_center">
                                     <div class="routeExample"></div>
-
                                 </div>
                             </td>
-
                         </tr>
-
-
                         <tr>
                             <td>
                                 Content align and width:
-
                                 <form action="#">
                                     <div class="align_selection">
                                         <p>
@@ -381,17 +311,12 @@
                                         <input type="range" id="content_width" name="contentWidth" min="0" max="100" />
                                     </p>
                                 </form>
-
-
                             </td>
                             <td>
                                 <div class="test_block">
                                     <div class="content_block">T</div>
                                 </div>
-
-
                             </td>
-
                         </tr>
                         <tr>
                             <td colspan="2">
@@ -403,7 +328,6 @@
                                         <span class="lever"></span> On
                                     </label>
                                 </div>
-
                                 <form action="#" class="centered_form">
                                     <p>
                                         <input name="group1" type="radio" id="defaultOption" />
@@ -416,7 +340,6 @@
                                 </form>
                             </td>
                         </tr>
-
                         <tr class="additional_settings">
                             <td>
                                 <p>Choose image:</p>
@@ -426,184 +349,56 @@
                                     <img src="svg/icons/start_location3.svg" class="icon_gallery__item" width="20px" height="20px" alt="">
                                     <img src="svg/icons/start_location4.svg" class="icon_gallery__item" width="20px" height="20px" alt="">
                                     <img src="svg/icons/start_location5.svg" class="icon_gallery__item" width="20px" height="20px" alt="">
-
                                 </div>
-
                                 <p>Image color:</p>
                                 <input type="minicolors" name="RouteStartIconColor" id="PathStartIconColor" class="colorPicker minicolors">
-
                                 <p>Image size:</p>
                                 <form class="rangePicker" action="#">
                                     <p class="range-field">
                                         <input type="range" name="RouteStartIconSize" id="test8" min="10" max="50" />
                                     </p>
                                 </form>
-
                             </td>
-
                             <td>
-
                                 <object data="" id="iconTest" width="50px" height="50px" type=""></object>
-
                             </td>
-
                         </tr>
-
                     </table>
-
-
-
-
+                </div>
+                <div class="clearall_option setting_option" id="clearall">
+                </div>
+                <div class="next_step_option setting_option" id="next_step">
+                    <!-- <button class="waves-effect waves-light btn" id="export">Save data and go next</button> -->
+                </div>
+                <div class="info_option setting_option" id="info">
+                    <h2>About project</h2>
+                    <div class="divider"></div>
+                </div>
         </div>
-        <div class="clearall_option setting_option" id="clearall">
-            <!-- <button class="waves-effect waves-light btn" id="redraw">redraw editor</button> -->
-            <button class="waves-effect waves-light btn" id="clear">clear all</button>
-            <button class="waves-effect waves-light btn" id="screen">full screen</button>
+        </nav>
+        <div id="buttonWrapper">
+            <a class="btn tooltipped slide_btn step" data-position="right" data-delay="50" data-tooltip="Current step" data-execute="step">1</a>
+            <a class="btn tooltipped slide_btn project" data-position="right" data-delay="50" data-tooltip="Save project" data-execute="project"></a>
+            <a class="btn tooltipped slide_btn choose_map" data-position="right" data-delay="50" data-tooltip="Choose map" data-execute="choose_map"></a>
+            <a class="btn tooltipped slide_btn displacement" data-position="right" data-delay="50" data-tooltip="Map displacement" data-execute="displacement"></a>
+            <a class="btn tooltipped slide_btn pen" data-position="right" data-delay="50" data-tooltip="Draw route and points" data-execute="pen"></a>
+            <a class="btn tooltipped slide_btn colorize_map" data-position="right" data-delay="50" data-tooltip="Color map" data-execute="colorize"></a>
+            <a class="btn tooltipped slide_btn clear" id="clear" data-position="right" data-delay="50" data-tooltip="Clear editor" data-execute="clearall"></a>
+            <a class="btn tooltipped slide_btn redraw" data-position="right" id="redraw" data-delay="50" data-tooltip="Redraw editor" data-execute="redraw"></a>
+            <a class="btn tooltipped slide_btn next_step" data-position="right" data-delay="50" data-tooltip="Next step" id="export" data-execute="next_step"></a>
+            <a class="btn tooltipped slide_btn info" data-position="right" data-delay="50" data-tooltip="Info" data-execute="info"></a>
         </div>
-        <div class="next_step_option setting_option" id="next_step">
-            <!-- <button class="waves-effect waves-light btn" id="export">Save data and go next</button> -->
-        </div>
-        <div class="info_option setting_option" id="info">info</div>
-    </div>
-
-</nav>
-
-
-
-
-
-
-
-            <div id="buttonWrapper">
-
-                
-
-                
-                <a class="btn tooltipped slide_btn step" data-position="right" data-delay="50" data-tooltip="Current step" data-execute="step">1</a>
-
-
-
-                    <a class="btn tooltipped slide_btn project" data-position="right" data-delay="50" data-tooltip="Save project" data-execute="project"></a>
-
-                <a class="btn tooltipped slide_btn choose_map" data-position="right" data-delay="50" data-tooltip="Choose map" data-execute="choose_map"></a>
-                <a class="btn tooltipped slide_btn displacement" data-position="right" data-delay="50" data-tooltip="Map displacement" data-execute="displacement"></a>
-                <a class="btn tooltipped slide_btn pen" data-position="right" data-delay="50" data-tooltip="Draw route and points" data-execute="pen"></a>
-                <a class="btn tooltipped slide_btn colorize_map" data-position="right" data-delay="50" data-tooltip="Color map" data-execute="colorize"></a>
-                <a class="btn tooltipped slide_btn clear" data-position="right" data-delay="50" data-tooltip="Clear editor" data-execute="clearall"></a>
-                <a class="btn tooltipped slide_btn redraw" data-position="right" id="redraw" data-delay="50" data-tooltip="Redraw editor" data-execute="redraw"></a>
-                <a class="btn tooltipped slide_btn next_step" data-position="right" data-delay="50" data-tooltip="Next step" id = "export"  data-execute="next_step"></a>
-                <a class="btn tooltipped slide_btn info" data-position="right" data-delay="50" data-tooltip="Info" data-execute="info"></a>
-
-
-
-
-            </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <!--           <ul id="slide-out" class="side-nav">
-                <li>
-                    <div class="user-view">
-                        <div class="background">
-
-                        </div>
-
-                       
-
-                </li>
-
-            </ul> -->
-
-
-<!-- SIDEBAR END -->
-
-
-
-
-
-
-
-<!--             <div id="buttonWrapper">
-                <a class="waves-effect editor_button waves-light button-collapse btn" data-activates="slide-out">b</a>
-                <a class="waves-effect editor_button waves-light btn">b</a>
-                <a class="waves-effect editor_button waves-light btn">b</a>
-                <a class="waves-effect editor_button waves-light btn">b</a>
-                <a class="waves-effect editor_button waves-light btn">b</a>
-                <a class="waves-effect editor_button waves-light btn">b</a>
-                <a class="waves-effect editor_button waves-light btn">b</a>
-                <a class="waves-effect editor_button waves-light btn">b</a>
-                <a class="waves-effect editor_button waves-light btn">b</a>
-            </div> -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-        </div>
-<!--         <div class="buttons_bar">
-
-
-            
-            
-            
-            <button class="waves-effect waves-light btn right button-collapse" data-activates="slide-out" id="chooseMap">choose map</button>
-
-        </div> -->
 
     </div>
-
-
-
-
+    </div>
     <footer class="page-footer">
         <div class="footer-copyright">
             <div class="container">
-                © 2017-2018, Interactive Story Maps Builder for Travellers. Made by <span><a target="_blank" class="galanix_link" href="http://galanix.com">Galanix</a></span>.
+                © 2017-<span id="current_year"></span>, Interactive Story Maps Builder for Travellers. Made by <span><a target="_blank" class="galanix_link" href="http://galanix.com">Galanix</a></span>.
                 <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
             </div>
         </div>
     </footer>
-
     <script src="libs/libs.js"></script>
     <script type="text/javascript" src="js/bezier-editor.js"></script>
     <script src="js/editor_script.js" type="text/javascript"></script>

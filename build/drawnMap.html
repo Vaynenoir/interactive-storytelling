@@ -12,7 +12,7 @@
    <!--  <script type="text/javascript" src="libs/ckfinder/ckfinder.js"></script> -->
     <script type="text/javascript" src="js/bezier-editor.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="css/drawn_map.min.css">
+    <link rel="stylesheet" href="css/drawn_map.css">
  
 </head>
 
@@ -114,11 +114,23 @@
             <a href="#" class="editor_button waves-effect" id="moveTop"><i class="material-icons">keyboard_arrow_up</i></a>
             <a href="#" class="editor_button waves-effect" id="moveBottom"><i class="material-icons">keyboard_arrow_down</i></a>
         </div>
+          
 
-        <p class="sidenav__title">
-            type this point name
-        </p>
-        <input type="text" id="pointName">
+            <div class="icon_checkbox">
+                  <div class="switch" id="icon_switch">
+                    <label>
+                    show icon
+                      <input type="checkbox" name="showIcon" checked="false">
+                      <span class="lever"></span>
+                    </label>
+                  </div>
+                <a id="settings_btn" class="waves-effect waves-light btn">Settings</a>
+            </div>
+
+        <div class="input-field col s6">  
+            <input type="text" class="validate" id="pointName" style="font-style:italic;">
+            <label id="point_name_label" for="pointName">Point Name</label>
+        </div>
 
 
         <div class="btn_wrapper"><a id="SavePointContent" class="waves-effect waves-teal btn hoverable center-align">Save content</a>
@@ -156,6 +168,57 @@
         </div>
 
     </div>
+
+
+
+ <!-- Modal Trigger -->
+  <!-- <a class="waves-effect waves-light btn modal-trigger" href="#modal2">Modal</a> -->
+
+  <!-- Modal Structure -->
+  <div id="modal2" class="modal modal2">
+    <div class="modal-content">
+      <h2 style="text-align: center; font-size: 23px;text-transform: uppercase;">Choose subpath moving icon:</h2>
+      <table class="centered" style="width:100%">
+        <tr>
+            <th>Icons</th>
+            <th>Result</th>
+        </tr>
+        <tr>
+            <td>
+                <p>Choose image:</p>
+                <div class="icon_gallery">
+                    <img src="svg/icons/sports.svg" class="icon_gallery__item" width="30px" height="30px" alt="">
+                    <img src="svg/icons/transport.svg" class="icon_gallery__item" width="30px" height="30px" alt="">
+                    <img src="svg/icons/transport-2.svg" class="icon_gallery__item" width="30px" height="30px" alt="">
+                    <img src="svg/icons/transport-3.svg" class="icon_gallery__item" width="30px" height="30px" alt="">
+                    <img src="svg/icons/transport-6.svg" class="icon_gallery__item" width="30px" height="30px" alt="">
+                    <img src="svg/icons/transport-7.svg" class="icon_gallery__item" width="30px" height="30px" alt="">
+                </div>
+
+                <p>Image color:</p>
+                <input type="minicolors" name="color"  id="subPathIcon" class="colorPicker minicolors">
+<!--                 <p>Image size:</p>
+                <form class="rangePicker" action="#">
+                    <p class="range-field">
+                        <input type="range" name="size" id="test8" min="5" max="10" />
+                    </p>
+                </form> -->
+            </td>
+            <td>
+                <object data="" id="subPathIconObj" width="50px" height="50px" type=""></object>
+            </td>
+        </tr>
+
+
+      </table>
+
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+    </div>
+  </div>
+
+
 
 
     <script>
