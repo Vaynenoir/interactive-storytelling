@@ -1,3 +1,3 @@
-https://galanix.github.io/interactive-storytelling/
+https://galanix.github.io/interactive-storytelling/build/example_page.html
 
-https://galanix.github.io/interactive-storytelling/pen_tool/
+https://galanix.github.io/interactive-storytelling/build/index.html
