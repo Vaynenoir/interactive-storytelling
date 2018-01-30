@@ -16,10 +16,47 @@ body {
     width: 90%!important;
 }
 .dropdown-content.active{
-    background-color: transparent;
+    background-color: #e0f2f1;
 }
+.dropdown-content{
+    background-color: #e0f2f1;    
+}
+
 .dropdown-content li a{
+    color: #607d8b;
+}
+.dropdown-content li a i{
+    color: #00695c;
+}
+.dropdown-content li:hover{
+    background-color: #e0f2f1;   
+}
+.sidebar_wrapper{
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+#close_sidebar i{
     color: #000;
+}
+#close_sidebar{
+    position: absolute;
+    left: 2%;
+    top: 0%;
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;
+
+}
+.dropdown-content li:first-child{
+    padding: 5%;
+}
+.user-view{
+    display: flex;
+    justify-content: flex-start;
 }
 .container_map {
     width: 100%!important;
@@ -262,7 +299,7 @@ textarea {
 
     background-color: #F3D6E4;
     border-radius: 12px;
-    transform: scale(1.05, 1.05);
+    transform: scale(1.01, 1.01);
     transition: 0.4s;
     -webkit-box-shadow: 0px 0px 74px 0px rgba(0, 0, 0, 0.75);
     -moz-box-shadow: 0px 0px 74px 0px rgba(0, 0, 0, 0.75);
@@ -830,7 +867,7 @@ i.active{
     background-color: #4db6ac;
 }
 .choose_map {
-
+   
     background-image: url("../svg/btn_icons/028-australia-map.png");
     background-size: 24px;
     background-position: center center;
@@ -904,6 +941,7 @@ i.active{
 
 
 .step_option {
+    padding-top: 70%;
     display: none;
 }
 .project_option {
@@ -915,7 +953,7 @@ p {
 }
 .choose_map_option {
     /*color: #000;*/
-
+    
     display: none;
 }
 .choose_map_option p {

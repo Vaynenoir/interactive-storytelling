@@ -49,11 +49,13 @@
                         var On = $("#on");
                         // $("input[name=light-trigger]").attr("data-light", "lightOff");
                         // var light = "lightOff";
-                        $("input[name=light-trigger]").attr("checked", false);
+                         $("input[name=light-trigger]").attr("checked", false);
+                        var light = $("input[name=light-trigger]").attr("data-light");
+                       
                         $(On).css("display", "none");
                         $("input[name=light-trigger]").on("click", function() {
 
-                            if ($(this).is(":checked")) {
+                            if (this.checked) {
 
                                 $("input[name=light-trigger]").prop('checked', true);
                                 light = "lightOn";
@@ -72,8 +74,11 @@
                             var htmlDoc = parser.parseFromString(dataToFix, "text/html");
                             // console.log(htmlDoc);
                             // console.log(editor.getData());
-                            var gallery = $(htmlDoc).find("div.slick_gallery:last-child");
-
+                            var gallery = $(htmlDoc).find("div.slick_gallery");
+                            console.log(gallery);
+                            console.log(light);
+                            light = $("input[name=light-trigger]").attr("data-light");
+                            console.log(light);
                             $(gallery).attr("class", light);
                             $(gallery).addClass("slick_gallery");
 
@@ -137,10 +142,10 @@
 
 
 
-                        console.log($("#galleryLight"));
-                        console.log("LFGFDGFGDFg");
-                        var light = $("input[name=light-trigger]").attr("data-light");
-                        console.log(light);
+                        // console.log($("#galleryLight"));
+                        // console.log("LFGFDGFGDFg");
+                        
+                        // console.log(light);
 
                         if (files.length > 1) {
 

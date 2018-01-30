@@ -610,16 +610,6 @@ $(document).ready(function() {
                     }
                 }
 
-
-                // if($('input[name=showIcon]').attr("checked") == "checked"){
-
-                //     console.log("dfgdfgdfg");
-                // }else{
-                //    $("#settings_btn").fadeOut(); 
-                // }
-
-
-
                 $('#icon_switch').on("click", function() {
                     if ($('input[name=showIcon]').is(":checked")) {
                         $("input[name=showIcon]").attr("checked", true);
@@ -643,6 +633,12 @@ $(document).ready(function() {
                     $("#modal2").modal("open");
 
                 });
+
+                 $(".modal2").modal({
+                    ready: function(){
+                        $("input[name=light-trigger]").attr("data-light", false);
+                    }
+                 });
 
                 $(".modal2").modal({
                     ready: function() {

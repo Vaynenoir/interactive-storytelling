@@ -28,8 +28,6 @@ body {
 			position: fixed;
 			z-index:-2;
 			height: 0;
-			width: width-value;
-			padding-top: (svg height/ svg width) * width-value;
 		}
 	@media only screen and (max-width: 992px) {
   		.bg_svg{
@@ -37,7 +35,7 @@ body {
 			z-index:-2;
 			height: 0;
 			width: 70%;
-			margin-right: :30%;
+			margin-right: 30%;
 			left: 10%;
 		}
 }

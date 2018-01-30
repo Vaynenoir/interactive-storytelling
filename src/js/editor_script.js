@@ -79,6 +79,61 @@ $(document).ready(function() {
         }
     });
 
+    $("#2_step_btn").on("click", function(){
+        editor.draw();
+        var ChosenMap = JSON.parse(localStorage.getItem('map')) || "";
+        if (ChosenMap.length > 0) {
+            var PathCurves = editor.ReturnSavedPath();
+            localStorage.setItem('SavedCurves', JSON.stringify(PathCurves));
+            var FirstRoute = JSON.parse(localStorage.getItem('path'));
+
+            if (FirstRoute) { //check if path was already drawn
+                var newRoute = editor.exportBezier();
+                newRoute = newRoute.slice(1);
+                FirstRoute += newRoute; // if path was redrawn then connect 2 paths
+                localStorage.setItem('path', JSON.stringify(FirstRoute));
+                console.log(newRoute);
+                console.log(FirstRoute);
+            } else {
+                var DrawnPath = editor.exportBezier(); //constructor method, to export route
+
+                localStorage.setItem('path', JSON.stringify(DrawnPath));
+            }
+
+            window.location = "drawnMap.html";
+        } else {
+            Materialize.toast('Editor is clear! 2nd step is restricted!', 2000);
+        }
+    });
+
+    $("#3_step_btn").on("click", function(){
+        editor.draw();
+        var ChosenMap = JSON.parse(localStorage.getItem('map')) || "";
+        if (ChosenMap.length > 0) {
+            var PathCurves = editor.ReturnSavedPath();
+            localStorage.setItem('SavedCurves', JSON.stringify(PathCurves));
+            var FirstRoute = JSON.parse(localStorage.getItem('path'));
+
+            if (FirstRoute) { //check if path was already drawn
+                var newRoute = editor.exportBezier();
+                newRoute = newRoute.slice(1);
+                FirstRoute += newRoute; // if path was redrawn then connect 2 paths
+                localStorage.setItem('path', JSON.stringify(FirstRoute));
+                console.log(newRoute);
+                console.log(FirstRoute);
+            } else {
+                var DrawnPath = editor.exportBezier(); //constructor method, to export route
+
+                localStorage.setItem('path', JSON.stringify(DrawnPath));
+            }
+
+            window.location = "ready_page.html";
+        } else {
+            Materialize.toast('Editor is clear! 3rd step is restricted!', 2000);
+        }
+    });
+
+
     var editor = new bezierEditor("bezier-canvas");
 
     $('.img_item').bind("click", function() {
@@ -598,16 +653,17 @@ $(document).ready(function() {
 
 $(document).ready(function() {
 
-    $('.dropdown-button').dropdown({
-        inDuration: 300,
-        outDuration: 225,
-        constrainWidth: false, // Does not change width of dropdown to that of the activator
-        hover: true, // Activate on hover
-        gutter: 0, // Spacing from edge
-        belowOrigin: true, // Displays dropdown below the button
-        alignment: 'left', // Displays dropdown with edge aligned to the left of button
-        stopPropagation: false // Stops event propagation
-    });
+  $('.dropdown-button').dropdown({
+      inDuration: 300,
+      outDuration: 225,
+      constrainWidth: false, // Does not change width of dropdown to that of the activator
+      hover: true, // Activate on hover
+      gutter: 0, // Spacing from edge
+      belowOrigin: false, // Displays dropdown below the button
+      alignment: 'left', // Displays dropdown with edge aligned to the left of button
+      stopPropagation: false // Stops event propagation
+    }
+  );
 
     $('.chips').material_chip();
 
@@ -755,6 +811,11 @@ $(document).ready(function() {
         }
         Materialize.updateTextFields();
     }
+    $("#close_sidebar").on("click", function(){
+        closeSideNav();
+        $(".slide_btn.active").removeClass("active");
+
+    });
 
     function closeSideNav() {
         $(".main-menu").animate({

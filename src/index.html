@@ -44,16 +44,23 @@
     <ul id='dropdown1' class='dropdown-content'>
         <li>
             <div class="user-view">
-                <a href="#!user"><img class="circle" width="50px" height="50px" src="svg/btn_icons/001-user-1.png"></a>
-                <a href="#!name"><span class=" name">John Doe</span></a>
-                <a href="#!email"><span class=" email">jdandturk@gmail.com</span></a>
+                <a href="#!user"><img class="circle" width="40px" height="40px" src="svg/btn_icons/001-user-1.png"></a>
+                <div class="user_information">
+                    <a href="#!name"><span class=" name">John Doe</span></a>
+                    <a href="#!email"><span class=" email">jdandturk@gmail.com</span></a>
+                </div>
             </div>
+            
         </li>
-        <li><a href="#!">two</a></li>
+
+        <li>
+             <div class="divider"></div>
+            <a href="#!">inbox</a>
+        </li>
         <li class="divider"></li>
         <li><a href="#!">three</a></li>
-        <li><a href="#!"><i class="material-icons">view_module</i>Sign Up</a></li>
-        <li><a href="#!"><i class="material-icons">cloud</i>Logout</a></li>
+        <li><a href="#!"><i class="material-icons">assignment</i>Sign Up</a></li>
+        <li><a href="#!"><i class="material-icons">exit_to_app</i>Logout</a></li>
     </ul>
     <!-- END USER DROPDOWN -->
     <div class="wrapper container container_map" id="topPoint">
@@ -67,11 +74,13 @@
             </div>
             <!-- SIDEBAR START -->
             <nav class="main-menu">
+            <div class="sidebar_wrapper">
+                <a class="btn-floating" id="close_sidebar"><i class="material-icons">arrow_left</i></a>
                 <div class="settings_wrapper">
                     <div class="step_option setting_option" id="step">
                         <a class="btn waves-light waves-effect step_btn tooltipped ">1</a>
-                        <a class="btn waves-light waves-effect step_btn tooltipped " href="drawnMap.html">2</a>
-                        <a class="btn waves-light waves-effect step_btn tooltipped " href="ready_page.html">3</a>
+                        <a id="2_step_btn" class="btn waves-light waves-effect step_btn tooltipped ">2</a>
+                        <a id="3_step_btn" class="btn waves-light waves-effect step_btn tooltipped ">3</a>
                     </div>
                     <div class="project_option setting_option" id="project">
 
@@ -108,7 +117,10 @@
                         
                     </div>
                     <div class="choose_map_option setting_option" id="choose_map">
+
                         <div id="gallery" class="map_gallery row" style="">
+                        <h4 class="project_title">Choose map</h4>
+                        <div class="divider"></div>
                             <div class="gallery_item col s3">
                                 <a href="#topPoint">
                                     <p class="centered">Australia</p><img class="img_item" src="svg/maps/australiaHigh.svg" width="200px" height="200px" alt="">
@@ -192,7 +204,8 @@
             pen_option
         </div>         -->
                 <div class="colorize_option setting_option" id="colorize">
-                    <h2 style="text-align: center; font-size: 23px;text-transform: uppercase;">Change Map background and stroke color:</h2>
+                    <h4 class="project_title">Color map</h4>
+                    <div class="divider"></div>
                     <table class="centered" style="width:100%">
                         <tr>
                             <th>Settings</th>
@@ -371,9 +384,10 @@
                     <!-- <button class="waves-effect waves-light btn" id="export">Save data and go next</button> -->
                 </div>
                 <div class="info_option setting_option" id="info">
-                    <h2>About project</h2>
+                    <h4 class="project_title">Project Info</h4>
                     <div class="divider"></div>
                 </div>
+        </div>
         </div>
         </nav>
         <div id="buttonWrapper">

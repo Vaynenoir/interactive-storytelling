@@ -1,42 +1,46 @@
-$color_1: #fff;
-$color_2: #088;
-$color_3: #0c8;
-$color_4: #004;
-$color_5: rgba(0, 0, 0, 0.5);
-$color_6: #ccf;
-$color_7: #000;
-$color_8: #ddd;
-$color_9: #023300;
-$color_10: #100;
-$color_11: #64b5f6;
-$color_12: #999;
-$color_13: #00796b;
-$color_14: #4db6ac;
+$color_1: #607d8b;
+$color_2: #00695c;
+$color_3: #000;
+$color_4: #fff;
+$color_5: #088;
+$color_6: #0c8;
+$color_7: #004;
+$color_8: rgba(0, 0, 0, 0.5);
+$color_9: #ccf;
+$color_10: #ddd;
+$color_11: #023300;
+$color_12: #100;
+$color_13: #64b5f6;
+$color_14: #999;
+$color_15: #00796b;
+$color_16: #4db6ac;
 $font_family_1: "Helvetica", sans-serif;
 $font_family_2: "Helvetica Neueu", "Helvetica", "Arial", sans-serif;
 $font_family_3: arial;
 $font_family_4: 'Titillium Web', sans-serif;
 $background_color_1: #eee;
 $background_color_2: transparent;
-$background_color_3: #fff;
-$background_color_4: #aaa;
-$background_color_5: rgba(255, 255, 255, 0.8);
-$background_color_6: rgba(255, 255, 255, 0.10);
-$background_color_7: #ddd;
-$background_color_8: #48b;
-$background_color_9: #F3D6E4;
-$background_color_10: #ffcf85;
-$background_color_11: #4db6ac;
-$background_color_12: #5fa2db;
-$background_color_13: #b2dfdb;
-$background_color_14: #ccc;
-$background_color_15: #000;
-$background_color_16: #fce4ec;
-$background_color_17: #ce93d8;
-$background_color_18: red;
-$background_color_19: #112333;
-$background_color_20: #666666;
-$background_color_21: #eee222;
+$background_color_3: #e0f2f1;
+$background_color_4: Transparent;
+$background_color_5: #fff;
+$background_color_6: #aaa;
+$background_color_7: rgba(255, 255, 255, 0.8);
+$background_color_8: rgba(255, 255, 255, 0.10);
+$background_color_9: #ddd;
+$background_color_10: #48b;
+$background_color_11: #F3D6E4;
+$background_color_12: #ffcf85;
+$background_color_13: #4db6ac;
+$background_color_14: #5fa2db;
+$background_color_15: #b2dfdb;
+$background_color_16: #ccc;
+$background_color_17: #000;
+$background_color_18: #fce4ec;
+$background_color_19: #ce93d8;
+$background_color_20: red;
+$background_color_21: #112333;
+$background_color_22: #666666;
+$background_color_23: #eee222;
 
 @import "//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css";
 @import "https://fonts.googleapis.com/css?family=Titillium+Web:300";
@@ -53,7 +57,7 @@ overflow:visible;
 body {
   background-color: $background_color_1;
   overflow: hidden;
-  color: $color_9;
+  color: $color_11;
   background: #f3e5f5;
   padding: 0;
   margin: 0;
@@ -74,6 +78,49 @@ body {
     margin-top: 20px;
   }
 }
+.dropdown-content.active {
+  background-color: $background_color_3;
+}
+.dropdown-content {
+  background-color: $background_color_3;
+  li {
+    a {
+      color: $color_1;
+      i {
+        color: $color_2;
+      }
+    }
+    &:hover {
+      background-color: $background_color_3;
+    }
+    &:first-child {
+      padding: 5%;
+    }
+  }
+}
+.sidebar_wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+#close_sidebar {
+  i {
+    color: $color_3;
+  }
+  position: absolute;
+  left: 2%;
+  top: 0%;
+  background-color: $background_color_4;
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+}
+.user-view {
+  display: flex;
+  justify-content: flex-start;
+}
 .container_map {
   width: 100% !important;
   max-width: 100%;
@@ -88,7 +135,7 @@ body {
 canvas {
   cursor: crosshair;
   margin: 0 0;
-  background-color: $background_color_3;
+  background-color: $background_color_5;
 }
 canvas.select {
   cursor: default !important;
@@ -104,7 +151,7 @@ canvas.select {
   position: relative;
 }
 .vectorlist-wrapper {
-  background-color: $background_color_4;
+  background-color: $background_color_6;
   border-left: 1px solid rgba(0, 0, 0, 0.25);
   font-family: $font_family_1;
   position: fixed;
@@ -116,7 +163,7 @@ canvas.select {
   &:after {
     height: 30px;
     content: ":";
-    color: $color_1;
+    color: $color_4;
     width: 5px;
     border-left: 1px dashed #eee;
     position: fixed;
@@ -124,7 +171,7 @@ canvas.select {
     top: 45%;
   }
   &:hover {
-    background-color: $background_color_5;
+    background-color: $background_color_7;
     box-shadow: -2px 0px 4px rgba(0, 0, 0, 0.15);
     z-index: 9999;
     right: 0px;
@@ -138,10 +185,10 @@ canvas.select {
     }
   }
   h3 {
-    background-color: $background_color_3;
+    background-color: $background_color_5;
     padding: 7px 5px;
     font-size: 0.65em;
-    color: $color_2;
+    color: $color_5;
     text-transform: uppercase;
     text-align: center;
     border-bottom: 2px solid #ddd;
@@ -156,14 +203,14 @@ canvas.select {
     padding: 5px 20px;
     font-size: 0.65em;
     text-transform: upper;
-    background-color: $background_color_6;
+    background-color: $background_color_8;
     -webkit-transition: all 0.3s 0.2s;
     -moz-transition: all 0.3s 0.2s;
     -o-transition: all 0.3s 0.2s;
     transition: all 0.3s 0.2s;
     &:hover {
-      background-color: $background_color_3;
-      color: $color_3;
+      background-color: $background_color_5;
+      color: $color_6;
       padding: 5px 35px 5px 5px;
       -webkit-transition: all 0.2s;
       -moz-transition: all 0.2s;
@@ -189,8 +236,8 @@ canvas.select {
   padding: 6px 10px;
   text-transform: uppercase;
   font-size: 0.8em;
-  color: $color_4;
-  background-color: $background_color_7;
+  color: $color_7;
+  background-color: $background_color_9;
   border: none;
   >span {
     display: inline-block;
@@ -199,14 +246,14 @@ canvas.select {
     line-height: 1em;
     padding: 1px 3px;
     font-size: 0.65em;
-    color: $color_5;
+    color: $color_8;
     border: 1px solid rgba(0, 0, 0, 0.2);
   }
   &:hover {
     &:not(.active) {
       cursor: pointer;
-      background-color: $background_color_3;
-      color: $color_7;
+      background-color: $background_color_5;
+      color: $color_3;
       -moz-transition: all 0.5s ease;
       -o-transition: all 0.5s ease;
       -webkit-transition: all 0.5s ease;
@@ -214,27 +261,27 @@ canvas.select {
     }
   }
   &:active {
-    background-color: $background_color_8;
-    color: $color_1;
+    background-color: $background_color_10;
+    color: $color_4;
   }
 }
 .tool.active {
   >span {
-    color: $color_6;
+    color: $color_9;
     border: 1px solid #ccf;
   }
-  background-color: $background_color_8;
-  color: $color_1;
+  background-color: $background_color_10;
+  color: $color_4;
   &:before {
     content: "using ";
-    color: $color_8;
+    color: $color_10;
   }
 }
 button {
   .tool {
     &:focus {
-      background-color: $background_color_8;
-      color: $color_1;
+      background-color: $background_color_10;
+      color: $color_4;
     }
   }
   &:focus {
@@ -250,7 +297,7 @@ button {
   }
 }
 html {
-  color: $color_9;
+  color: $color_11;
   background: #f3e5f5;
   padding: 0;
   margin: 0;
@@ -270,7 +317,7 @@ nav {
     margin: 0;
     padding: 0;
   }
-  background-color: $background_color_11;
+  background-color: $background_color_13;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -284,7 +331,7 @@ nav {
   i.material-icons {
     line-height: 41px;
     font-size: 30px;
-    color: $color_1;
+    color: $color_4;
   }
 }
 .centered_map {
@@ -292,7 +339,7 @@ nav {
   justify-content: center;
   position: relative;
   letter-spacing: 1px;
-  color: $color_10;
+  color: $color_12;
 }
 #container {
   height: 400px;
@@ -317,9 +364,9 @@ textarea {
 }
 .gallery_item {
   &:hover {
-    background-color: $background_color_9;
+    background-color: $background_color_11;
     border-radius: 12px;
-    transform: scale(1.05, 1.05);
+    transform: scale(1.01, 1.01);
     transition: 0.4s;
     -webkit-box-shadow: 0px 0px 74px 0px rgba(0, 0, 0, 0.75);
     -moz-box-shadow: 0px 0px 74px 0px rgba(0, 0, 0, 0.75);
@@ -327,7 +374,7 @@ textarea {
   }
 }
 .active_block {
-  background-color: $background_color_10;
+  background-color: $background_color_12;
   border-radius: 12px;
   transform: scale(1.1, 1.1);
   transition: 0.6s;
@@ -355,7 +402,7 @@ h1 {
   font-style: bold;
   text-align: center;
   font-size: 2.5rem;
-  color: $color_11;
+  color: $color_13;
   text-shadow: 3px 0px 9px rgba(69, 150, 150, 0.43);
 }
 .tap-target-wrapper.open {
@@ -428,8 +475,7 @@ nav.nav-extended {
 }
 .page-footer {
   padding-top: 0;
-  background-color: $background_color_11;
-  margin-top: 0;
+  background-color: $background_color_13;
 }
 .fa-2x {
   font-size: 2em;
@@ -444,7 +490,7 @@ nav.nav-extended {
   font-size: 20px;
 }
 .main-menu {
-  color: $color_7;
+  color: $color_3;
   background: #e0f2f1;
   border-right: 1px solid #e5e5e5;
   position: absolute;
@@ -473,7 +519,7 @@ nav.nav-extended {
       display: table;
       border-collapse: collapse;
       border-spacing: 0;
-      color: $color_12;
+      color: $color_14;
       font-family: $font_family_3;
       font-size: 14px;
       text-decoration: none;
@@ -483,8 +529,8 @@ nav.nav-extended {
     }
     &:hover {
       >a {
-        color: $color_1;
-        background-color: $background_color_12;
+        color: $color_4;
+        background-color: $background_color_14;
       }
     }
   }
@@ -525,8 +571,8 @@ nav.nav-extended {
         li {
           &:hover {
             a {
-              color: $color_1;
-              background-color: $background_color_12;
+              color: $color_4;
+              background-color: $background_color_14;
             }
           }
         }
@@ -545,8 +591,8 @@ a {
 nav.main-menu {
   li.active {
     >a {
-      color: $color_1;
-      background-color: $background_color_12;
+      color: $color_4;
+      background-color: $background_color_14;
     }
   }
 }
@@ -554,26 +600,26 @@ nav.main-menu {
   >li {
     >a {
       &:hover {
-        color: $color_1;
-        background-color: $background_color_12;
+        color: $color_4;
+        background-color: $background_color_14;
       }
       &:focus {
-        color: $color_1;
-        background-color: $background_color_12;
+        color: $color_4;
+        background-color: $background_color_14;
       }
     }
   }
   >.active {
     >a {
-      color: $color_1;
-      background-color: $background_color_12;
+      color: $color_4;
+      background-color: $background_color_14;
       &:hover {
-        color: $color_1;
-        background-color: $background_color_12;
+        color: $color_4;
+        background-color: $background_color_14;
       }
       &:focus {
-        color: $color_1;
-        background-color: $background_color_12;
+        color: $color_4;
+        background-color: $background_color_14;
       }
     }
   }
@@ -583,8 +629,8 @@ nav.main-menu {
     ul {
       li.active {
         a {
-          color: $color_1;
-          background-color: $background_color_12;
+          color: $color_4;
+          background-color: $background_color_14;
         }
       }
     }
@@ -601,7 +647,7 @@ nav.main-menu {
   justify-content: flex-start;
   align-items: center;
   height: 100%;
-  background-color: $background_color_13;
+  background-color: $background_color_15;
   border-left: 0;
 }
 .sidepanel {
@@ -610,7 +656,7 @@ nav.main-menu {
   top: 0;
   left: 70px;
   height: 100%;
-  background-color: $background_color_14;
+  background-color: $background_color_16;
 }
 .editor_button {
   width: 60px;
@@ -641,7 +687,7 @@ nav.main-menu {
   text-align: center;
 }
 .material-icons {
-  color: $color_13;
+  color: $color_15;
 }
 #menu {
   margin-right: 10px;
@@ -699,7 +745,7 @@ td {
     height: 30px !important;
     border-radius: 4px;
     outline: none;
-    color: $color_7;
+    color: $color_3;
   }
 }
 .map_settings_block {
@@ -712,7 +758,7 @@ td {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background-color: $background_color_15;
+  background-color: $background_color_17;
   border: 2px solid #000;
   margin: 0 auto;
 }
@@ -738,10 +784,10 @@ td {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  background-color: $background_color_16;
+  background-color: $background_color_18;
 }
 .content_block {
-  background-color: $background_color_17;
+  background-color: $background_color_19;
   width: 50%;
   border: 1px solid #ccc;
   height: 80px;
@@ -774,17 +820,17 @@ td {
   align-items: center;
 }
 #projectName {
-  color: $color_14;
+  color: $color_16;
 }
 .project_title {
   text-align: center;
 }
 .chip {
-  background-color: $background_color_13;
+  background-color: $background_color_15;
 }
 #projectDescription {
   font-style: italic;
-  color: $color_14;
+  color: $color_16;
   max-width: 738px;
   min-width: 738px;
 }
@@ -819,7 +865,7 @@ td {
   height: 60px;
   padding: 15%;
   &:hover {
-    background-color: $background_color_18;
+    background-color: $background_color_20;
   }
 }
 .step_btn {
@@ -839,97 +885,98 @@ i.active {
   background-size: 24px;
   background-position: center center;
   background-repeat: no-repeat;
-  color: $color_7;
-  background-color: $background_color_11;
+  color: $color_3;
+  background-color: $background_color_13;
 }
 .project {
   background-image: url("../svg/btn_icons/033-file.png");
   background-size: 24px;
   background-position: center center;
   background-repeat: no-repeat;
-  color: $color_1;
-  background-color: $background_color_11;
+  color: $color_4;
+  background-color: $background_color_13;
 }
 .choose_map {
   background-image: url("../svg/btn_icons/028-australia-map.png");
   background-size: 24px;
   background-position: center center;
   background-repeat: no-repeat;
-  color: $color_1;
-  background-color: $background_color_11;
+  color: $color_4;
+  background-color: $background_color_13;
 }
 .displacement {
   background-image: url("../svg/btn_icons/025-move-1.png");
   background-size: 24px;
   background-position: center center;
   background-repeat: no-repeat;
-  color: $color_1;
-  background-color: $background_color_11;
+  color: $color_4;
+  background-color: $background_color_13;
 }
 .pen {
   background-image: url("../svg/btn_icons/1007-itinerary.png");
   background-size: 24px;
   background-position: center center;
   background-repeat: no-repeat;
-  color: $color_1;
-  background-color: $background_color_11;
+  color: $color_4;
+  background-color: $background_color_13;
 }
 .colorize_map {
   background-image: url("../svg/btn_icons/021-paint-palette.png");
   background-size: 24px;
   background-position: center center;
   background-repeat: no-repeat;
-  color: $color_1;
-  background-color: $background_color_11;
+  color: $color_4;
+  background-color: $background_color_13;
 }
 .clear {
   background-image: url("../svg/btn_icons/014-dustbin.png");
   background-size: 24px;
   background-position: center center;
   background-repeat: no-repeat;
-  color: $color_1;
-  background-color: $background_color_11;
+  color: $color_4;
+  background-color: $background_color_13;
 }
 .redraw {
   background-image: url("../svg/btn_icons/019-paint.png");
   background-size: 24px;
   background-position: center center;
   background-repeat: no-repeat;
-  color: $color_1;
-  background-color: $background_color_11;
+  color: $color_4;
+  background-color: $background_color_13;
 }
 .next_step {
   background-image: url("../svg/btn_icons/009-arrows-3.png");
   background-size: 24px;
   background-position: center center;
   background-repeat: no-repeat;
-  color: $color_1;
-  background-color: $background_color_11;
+  color: $color_4;
+  background-color: $background_color_13;
 }
 .info {
   background-image: url("../svg/btn_icons/006-info.png");
   background-size: 24px;
   background-position: center center;
   background-repeat: no-repeat;
-  color: $color_1;
-  background-color: $background_color_11;
+  color: $color_4;
+  background-color: $background_color_13;
 }
 .step_option {
+  padding-top: 70%;
   display: none;
 }
 .project_option {
   display: none;
   h5 {
-    color: $color_7;
+    color: $color_3;
   }
 }
 p {
-  color: $color_7;
+  color: $color_3;
 }
 .choose_map_option {
   display: none;
   p {
-    color: $color_7;
+    color: $color_3;
   }
 }
 .displacement_option {
@@ -937,7 +984,7 @@ p {
   display: none;
 }
 .active {
-  background-color: $background_color_18;
+  background-color: $background_color_20;
 }
 .flex_container {
   display: flex;
@@ -946,21 +993,21 @@ p {
   align-items: center;
 }
 .pen_option {
-  background-color: $background_color_19;
+  background-color: $background_color_21;
   display: none;
 }
 .colorize_option {
   display: none;
 }
 .clearall_option {
-  background-color: $background_color_20;
+  background-color: $background_color_22;
   display: none;
 }
 .next_step_option {
-  background-color: $background_color_21;
+  background-color: $background_color_23;
   display: none;
 }
 .galanix_link {
-  color: $color_1;
+  color: $color_4;
   text-decoration: none;
 }

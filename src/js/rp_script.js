@@ -308,7 +308,8 @@ $(document).ready(function() {
 
             $(wholeSvgGroup).prepend(path1);
             svgRoot.append(wholeSvgGroup);
-
+            $(wholeSvgGroup).prepend(MapPathsGroup);
+            svgRoot.append(wholeSvgGroup);
             if (vis_count > 0) {
                 $(path1).fadeIn(900);
             } else {
