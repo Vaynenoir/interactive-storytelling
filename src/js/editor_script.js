@@ -798,6 +798,11 @@ $(document).ready(function() {
                 width: "0px",
                 overflow: "hidden"
             }, 100);
+        }else if(action == "clearall"){
+            $(".main-menu").animate({
+                width: "500px",
+                overflow: "visible"
+            }, 100);            
         } else if (action == "info") {
             $(".main-menu").animate({
                 width: "500px",
@@ -815,6 +820,11 @@ $(document).ready(function() {
         closeSideNav();
         $(".slide_btn.active").removeClass("active");
 
+    });
+    $("#cancel_clear").on("click", function(){
+        closeSideNav();
+        console.log("kek");
+        $(".slide_btn.active").removeClass("active");
     });
 
     function closeSideNav() {

@@ -18,6 +18,9 @@ body {
 .dropdown-content.active{
     background-color: #e0f2f1;
 }
+.account.active{
+    background-color: #e0f2f1;
+}
 .dropdown-content{
     background-color: #e0f2f1;    
 }
@@ -827,6 +830,19 @@ table p {
   align-items: flex-start;
   margin-top: 1%;
 }
+.approve_btns{
+    display: flex;
+    justify-content: space-around;
+    margin: 10% 0;
+}
+.approve_btn{
+    width: 40%;
+}
+.clear_warning{
+    text-align: center;
+    color: #f06292;
+    font-size: 16px;
+}
 .slide_btn {
 
     margin-top: 10%;
@@ -973,18 +989,15 @@ p {
     align-items: center;
 }
 .pen_option {
-    background-color: #112333;
     display: none;
 }
 .colorize_option {
     display: none;
 }
 .clearall_option {
-    background-color: #666666;
     display: none;
 }
 .next_step_option {
-    background-color: #eee222;
     display: none;
 }
 
